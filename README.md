@@ -12,10 +12,8 @@ docker-compose up -d
 ```
 
 ```bash
-go build bocchi/api
 go run bocchi/api
 ```
 ```bash
-go build bocchi/rpc/user
 go run bocchi/rpc/user
 ```
