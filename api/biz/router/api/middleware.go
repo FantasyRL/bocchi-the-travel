@@ -3,6 +3,7 @@
 package api
 
 import (
+	"bocchi/api/biz/mw/jwt"
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -57,8 +58,9 @@ func _loginMw() []app.HandlerFunc {
 }
 
 func _login0Mw() []app.HandlerFunc {
-	// your code...
-	return nil
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.LoginHandler,
+	}
 }
 
 func _registerMw() []app.HandlerFunc {
