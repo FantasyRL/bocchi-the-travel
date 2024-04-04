@@ -1,0 +1,50 @@
+version: '3'
+
+
+
+services:
+  mysql:
+    image: mysql:8.0.36
+    container_name: bocchi-the-travel
+    volumes:
+      - ./config/sql:/docker-entrypoint-initdb.d
+      - ./pkg/data/mysql:/var/lib/mysql
+    ports:
+      - "3366:3306"
+    environment:
+      - MYSQL_DATABASE=bocchi_db
+      - MYSQL_ROOT_PASSWORD=114514
+      - TZ=Asia/Shanghai
+    security_opt:
+      - seccomp:unconfined
+    restart: always
+    network_mode: bridge
+
+  redis:
+    image: redis:6.0.16
+    container_name: redis
+    ports:
+      - "6399:6379"
+    volumes:
+      - ./pkg/data/redis/data:/data
+      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./pkg/data/redis/logs:/logs
+    command:
+    - redis-server /usr/local/etc/redis/redis.conf
+    restart: always
+    network_mode: bridge
+
+
+  etcd:
+    image: bitnami/etcd:3.5
+    container_name: etcd
+    ports:
+      - "2379:2379"
+      - "2380:2380"
+    volumes:
+      - ./pkg/data/etcd/data:/bitnami/etcd-data
+    environment:
+      - TZ=Asia/Shanghai
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+    network_mode: bridge
