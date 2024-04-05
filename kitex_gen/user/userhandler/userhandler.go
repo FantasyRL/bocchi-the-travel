@@ -55,6 +55,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"GetMember": kitex.NewMethodInfo(
+		getMemberHandler,
+		newUserHandlerGetMemberArgs,
+		newUserHandlerGetMemberResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 }
 
 var (
@@ -229,6 +236,24 @@ func newUserHandlerSignatureResult() interface{} {
 	return user.NewUserHandlerSignatureResult()
 }
 
+func getMemberHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*user.UserHandlerGetMemberArgs)
+	realResult := result.(*user.UserHandlerGetMemberResult)
+	success, err := handler.(user.UserHandler).GetMember(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserHandlerGetMemberArgs() interface{} {
+	return user.NewUserHandlerGetMemberArgs()
+}
+
+func newUserHandlerGetMemberResult() interface{} {
+	return user.NewUserHandlerGetMemberResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -294,6 +319,16 @@ func (p *kClient) Signature(ctx context.Context, req *user.SignatureRequest) (r 
 	_args.Req = req
 	var _result user.UserHandlerSignatureResult
 	if err = p.c.Call(ctx, "Signature", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetMember(ctx context.Context, req *user.GetMemberRequest) (r *user.GetMemberResponse, err error) {
+	var _args user.UserHandlerGetMemberArgs
+	_args.Req = req
+	var _result user.UserHandlerGetMemberResult
+	if err = p.c.Call(ctx, "GetMember", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

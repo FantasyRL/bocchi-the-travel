@@ -26,22 +26,28 @@ const (
 	Enable2FAErrCode
 	Unable2FAErrCode
 	Verify2FAErrCode
+	MemberNotExistErrCode
+	MemberStatusDuplicateErrCode
+	NotFounderErrCode
 )
 
 const (
-	SuccessMsg                 = "Success"
-	ServerErrMsg               = "Service is unable to start successfully"
-	ParamErrMsg                = "Wrong Parameter has been given"
-	CharacterBeyondLimitErrMsg = "the number of character beyond the limit"
-	UserAlreadyExistErrMsg     = "User existed"
-	UserIsNotExistErrMsg       = "User is not exist"
-	PasswordIsNotVerifiedMsg   = "Username or password not verified"
-	AuthErrMsg                 = "It is not your account"
-	ReadFileErrMsg             = "Error when read file"
-	UploadFileErrMsg           = "Upload file error"
-	Enable2FAErrMsg            = "2fa verification have opened"
-	Unable2FAErrMsg            = "2fa verification have closed"
-	Verify2FAErrMsg            = "incorrect otp password"
+	SuccessMsg                  = "Success"
+	ServerErrMsg                = "Service is unable to start successfully"
+	ParamErrMsg                 = "Wrong Parameter has been given"
+	CharacterBeyondLimitErrMsg  = "the number of character beyond the limit"
+	UserAlreadyExistErrMsg      = "User existed"
+	UserIsNotExistErrMsg        = "User is not exist"
+	PasswordIsNotVerifiedMsg    = "Username or password not verified"
+	AuthErrMsg                  = "It is not your account"
+	ReadFileErrMsg              = "Error when read file"
+	UploadFileErrMsg            = "Upload file error"
+	Enable2FAErrMsg             = "2fa verification have opened"
+	Unable2FAErrMsg             = "2fa verification have closed"
+	Verify2FAErrMsg             = "incorrect otp password"
+	MemberNotExistErrMsg        = "member not apply or join this party"
+	MemberStatusDuplicateErrMsg = "member's status is not change"
+	NotFounderErrMsg            = "this user have no access to this party's applicants list"
 
 	WebSocketSuccessMsg             = "Connect to server success"
 	WebSocketLogoutSuccessMsg       = "logout success"
@@ -78,15 +84,18 @@ var (
 	ParamError                = NewErrNo(ParamErrCode, ParamErrMsg)
 	CharacterBeyondLimitError = NewErrNo(CharacterBeyondLimitErrCode, CharacterBeyondLimitErrMsg)
 
-	ExistUserError     = NewErrNo(ExistUserErrCode, UserAlreadyExistErrMsg)
-	NotExistUserError  = NewErrNo(NotExistUserErrCode, UserIsNotExistErrMsg)
-	PwdError           = NewErrNo(AuthFailedErrCode, PasswordIsNotVerifiedMsg)
-	AuthorizationError = NewErrNo(AuthFailedErrCode, AuthErrMsg)
-	UploadFileError    = NewErrNo(UploadFileErrCode, UploadFileErrMsg)
-	ReadFileError      = NewErrNo(ReadFileErrCode, ReadFileErrMsg)
-	Enable2FAError     = NewErrNo(Enable2FAErrCode, Enable2FAErrMsg)
-	Unable2FAError     = NewErrNo(Unable2FAErrCode, Unable2FAErrMsg)
-	Verify2FAError     = NewErrNo(Verify2FAErrCode, Verify2FAErrMsg)
+	ExistUserError             = NewErrNo(ExistUserErrCode, UserAlreadyExistErrMsg)
+	NotExistUserError          = NewErrNo(NotExistUserErrCode, UserIsNotExistErrMsg)
+	PwdError                   = NewErrNo(AuthFailedErrCode, PasswordIsNotVerifiedMsg)
+	AuthorizationError         = NewErrNo(AuthFailedErrCode, AuthErrMsg)
+	UploadFileError            = NewErrNo(UploadFileErrCode, UploadFileErrMsg)
+	ReadFileError              = NewErrNo(ReadFileErrCode, ReadFileErrMsg)
+	Enable2FAError             = NewErrNo(Enable2FAErrCode, Enable2FAErrMsg)
+	Unable2FAError             = NewErrNo(Unable2FAErrCode, Unable2FAErrMsg)
+	Verify2FAError             = NewErrNo(Verify2FAErrCode, Verify2FAErrMsg)
+	MemberNotExistError        = NewErrNo(MemberNotExistErrCode, MemberNotExistErrMsg)
+	MemberStatusDuplicateError = NewErrNo(MemberStatusDuplicateErrCode, MemberStatusDuplicateErrMsg)
+	NotFounderError            = NewErrNo(NotFounderErrCode, NotFounderErrMsg)
 
 	WebSocketSuccess             = NewErrNo(WebSocketSuccessCode, WebSocketSuccessMsg)
 	WebSocketLogoutSuccess       = NewErrNo(WebSocketLogoutSuccessCode, WebSocketLogoutSuccessMsg)

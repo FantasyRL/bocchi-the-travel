@@ -75,12 +75,12 @@ func QueryUserByID(userModel *User) (*User, error) {
 	return userResp, nil
 }
 
-func QueryUserByIDList(uidList []int64) ([]User, error) {
+func QueryUserByIDList(uidList []int64) (*[]User, error) {
 	userResp := new([]User)
 	if err := DB.Model(User{}).Where("id IN ?", uidList).Find(userResp).Error; err != nil {
 		return nil, err
 	}
-	return *userResp, nil
+	return userResp, nil
 }
 
 func PutSignature(ctx context.Context, userModel *User) error {

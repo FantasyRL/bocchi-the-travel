@@ -25,9 +25,9 @@ func Init() {
 			},
 		})
 	if err != nil {
-		klog.Fatal("mysql connect error")
+		klog.Fatal("mysql_party connect error:", err)
 	} else {
-		klog.Info("mysql connect access")
+		klog.Info("mysql_party connect access")
 	}
 
 	sqlDB, err := DBParty.DB()
@@ -44,9 +44,9 @@ func Init() {
 			},
 		})
 	if err != nil {
-		klog.Fatal("mysql:2 connect error")
+		klog.Fatal("mysql_member connect error:", err)
 	} else {
-		klog.Info("mysql:2 connect access")
+		klog.Info("mysql_member connect access")
 	}
 	sqlDB, err = DBMember.DB()
 	sqlDB.SetMaxIdleConns(constants.MaxIdleConns)

@@ -77,6 +77,15 @@ struct SignatureResponse{
     1: base.BaseResp base,
 }
 
+//party
+struct GetMemberRequest{
+    1:list<i64> member_id_list,
+}
+
+struct GetMemberResponse{
+    1:list<User> member_list,
+}
+
 service UserHandler {
     RegisterResponse Register(1: RegisterRequest req),
     LoginResponse Login(1: LoginRequest req),
@@ -85,4 +94,6 @@ service UserHandler {
 //    OTP2FAResp OTP2FA(1:OTP2FAReq req),
     Switch2FAResponse Switch2FA(1:Switch2FARequest req),
     SignatureResponse Signature(1:SignatureRequest req),
+
+    GetMemberResponse GetMember(1:GetMemberRequest req),
 }
