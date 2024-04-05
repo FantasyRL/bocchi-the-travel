@@ -12,14 +12,11 @@ import (
 )
 
 type User struct {
-	Id            int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
-	Name          string `thrift:"name,2" frugal:"2,default,string" json:"name"`
-	Email         string `thrift:"email,3" frugal:"3,default,string" json:"email"`
-	FollowCount   int64  `thrift:"follow_count,4" frugal:"4,default,i64" json:"follow_count"`
-	FollowerCount int64  `thrift:"follower_count,5" frugal:"5,default,i64" json:"follower_count"`
-	IsFollow      bool   `thrift:"is_follow,6" frugal:"6,default,bool" json:"is_follow"`
-	Avatar        string `thrift:"avatar,7" frugal:"7,default,string" json:"avatar"`
-	VideoCount    int64  `thrift:"video_count,8" frugal:"8,default,i64" json:"video_count"`
+	Id        int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	Name      string `thrift:"name,2" frugal:"2,default,string" json:"name"`
+	Email     string `thrift:"email,3" frugal:"3,default,string" json:"email"`
+	Avatar    string `thrift:"avatar,4" frugal:"4,default,string" json:"avatar"`
+	Signature string `thrift:"signature,5" frugal:"5,default,string" json:"signature"`
 }
 
 func NewUser() *User {
@@ -42,24 +39,12 @@ func (p *User) GetEmail() (v string) {
 	return p.Email
 }
 
-func (p *User) GetFollowCount() (v int64) {
-	return p.FollowCount
-}
-
-func (p *User) GetFollowerCount() (v int64) {
-	return p.FollowerCount
-}
-
-func (p *User) GetIsFollow() (v bool) {
-	return p.IsFollow
-}
-
 func (p *User) GetAvatar() (v string) {
 	return p.Avatar
 }
 
-func (p *User) GetVideoCount() (v int64) {
-	return p.VideoCount
+func (p *User) GetSignature() (v string) {
+	return p.Signature
 }
 func (p *User) SetId(val int64) {
 	p.Id = val
@@ -70,31 +55,19 @@ func (p *User) SetName(val string) {
 func (p *User) SetEmail(val string) {
 	p.Email = val
 }
-func (p *User) SetFollowCount(val int64) {
-	p.FollowCount = val
-}
-func (p *User) SetFollowerCount(val int64) {
-	p.FollowerCount = val
-}
-func (p *User) SetIsFollow(val bool) {
-	p.IsFollow = val
-}
 func (p *User) SetAvatar(val string) {
 	p.Avatar = val
 }
-func (p *User) SetVideoCount(val int64) {
-	p.VideoCount = val
+func (p *User) SetSignature(val string) {
+	p.Signature = val
 }
 
 var fieldIDToName_User = map[int16]string{
 	1: "id",
 	2: "name",
 	3: "email",
-	4: "follow_count",
-	5: "follower_count",
-	6: "is_follow",
-	7: "avatar",
-	8: "video_count",
+	4: "avatar",
+	5: "signature",
 }
 
 func (p *User) Read(iprot thrift.TProtocol) (err error) {
@@ -141,7 +114,7 @@ func (p *User) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 4:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField4(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -149,32 +122,8 @@ func (p *User) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 5:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField5(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 6:
-			if fieldTypeId == thrift.BOOL {
-				if err = p.ReadField6(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 7:
 			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField7(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 8:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField8(iprot); err != nil {
+				if err = p.ReadField5(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -238,33 +187,6 @@ func (p *User) ReadField3(iprot thrift.TProtocol) error {
 }
 func (p *User) ReadField4(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.FollowCount = v
-	}
-	return nil
-}
-func (p *User) ReadField5(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.FollowerCount = v
-	}
-	return nil
-}
-func (p *User) ReadField6(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadBool(); err != nil {
-		return err
-	} else {
-		p.IsFollow = v
-	}
-	return nil
-}
-func (p *User) ReadField7(iprot thrift.TProtocol) error {
-
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -272,12 +194,12 @@ func (p *User) ReadField7(iprot thrift.TProtocol) error {
 	}
 	return nil
 }
-func (p *User) ReadField8(iprot thrift.TProtocol) error {
+func (p *User) ReadField5(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.VideoCount = v
+		p.Signature = v
 	}
 	return nil
 }
@@ -306,18 +228,6 @@ func (p *User) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField5(oprot); err != nil {
 			fieldId = 5
-			goto WriteFieldError
-		}
-		if err = p.writeField6(oprot); err != nil {
-			fieldId = 6
-			goto WriteFieldError
-		}
-		if err = p.writeField7(oprot); err != nil {
-			fieldId = 7
-			goto WriteFieldError
-		}
-		if err = p.writeField8(oprot); err != nil {
-			fieldId = 8
 			goto WriteFieldError
 		}
 	}
@@ -390,10 +300,10 @@ WriteFieldEndError:
 }
 
 func (p *User) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("follow_count", thrift.I64, 4); err != nil {
+	if err = oprot.WriteFieldBegin("avatar", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.FollowCount); err != nil {
+	if err := oprot.WriteString(p.Avatar); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -407,10 +317,10 @@ WriteFieldEndError:
 }
 
 func (p *User) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("follower_count", thrift.I64, 5); err != nil {
+	if err = oprot.WriteFieldBegin("signature", thrift.STRING, 5); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.FollowerCount); err != nil {
+	if err := oprot.WriteString(p.Signature); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -421,57 +331,6 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
-}
-
-func (p *User) writeField6(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("is_follow", thrift.BOOL, 6); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteBool(p.IsFollow); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 6 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 6 end error: ", p), err)
-}
-
-func (p *User) writeField7(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("avatar", thrift.STRING, 7); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.Avatar); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 7 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 7 end error: ", p), err)
-}
-
-func (p *User) writeField8(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("video_count", thrift.I64, 8); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.VideoCount); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 8 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 8 end error: ", p), err)
 }
 
 func (p *User) String() string {
@@ -497,19 +356,10 @@ func (p *User) DeepEqual(ano *User) bool {
 	if !p.Field3DeepEqual(ano.Email) {
 		return false
 	}
-	if !p.Field4DeepEqual(ano.FollowCount) {
+	if !p.Field4DeepEqual(ano.Avatar) {
 		return false
 	}
-	if !p.Field5DeepEqual(ano.FollowerCount) {
-		return false
-	}
-	if !p.Field6DeepEqual(ano.IsFollow) {
-		return false
-	}
-	if !p.Field7DeepEqual(ano.Avatar) {
-		return false
-	}
-	if !p.Field8DeepEqual(ano.VideoCount) {
+	if !p.Field5DeepEqual(ano.Signature) {
 		return false
 	}
 	return true
@@ -536,37 +386,16 @@ func (p *User) Field3DeepEqual(src string) bool {
 	}
 	return true
 }
-func (p *User) Field4DeepEqual(src int64) bool {
-
-	if p.FollowCount != src {
-		return false
-	}
-	return true
-}
-func (p *User) Field5DeepEqual(src int64) bool {
-
-	if p.FollowerCount != src {
-		return false
-	}
-	return true
-}
-func (p *User) Field6DeepEqual(src bool) bool {
-
-	if p.IsFollow != src {
-		return false
-	}
-	return true
-}
-func (p *User) Field7DeepEqual(src string) bool {
+func (p *User) Field4DeepEqual(src string) bool {
 
 	if strings.Compare(p.Avatar, src) != 0 {
 		return false
 	}
 	return true
 }
-func (p *User) Field8DeepEqual(src int64) bool {
+func (p *User) Field5DeepEqual(src string) bool {
 
-	if p.VideoCount != src {
+	if strings.Compare(p.Signature, src) != 0 {
 		return false
 	}
 	return true
@@ -2929,6 +2758,394 @@ func (p *AvatarResponse) Field2DeepEqual(src *User) bool {
 	return true
 }
 
+type SignatureRequest struct {
+	UserId    int64  `thrift:"user_id,1" frugal:"1,default,i64" json:"user_id"`
+	Signature string `thrift:"signature,2" frugal:"2,default,string" json:"signature"`
+}
+
+func NewSignatureRequest() *SignatureRequest {
+	return &SignatureRequest{}
+}
+
+func (p *SignatureRequest) InitDefault() {
+	*p = SignatureRequest{}
+}
+
+func (p *SignatureRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *SignatureRequest) GetSignature() (v string) {
+	return p.Signature
+}
+func (p *SignatureRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *SignatureRequest) SetSignature(val string) {
+	p.Signature = val
+}
+
+var fieldIDToName_SignatureRequest = map[int16]string{
+	1: "user_id",
+	2: "signature",
+}
+
+func (p *SignatureRequest) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 2:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_SignatureRequest[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *SignatureRequest) ReadField1(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.UserId = v
+	}
+	return nil
+}
+func (p *SignatureRequest) ReadField2(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.Signature = v
+	}
+	return nil
+}
+
+func (p *SignatureRequest) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("SignatureRequest"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *SignatureRequest) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *SignatureRequest) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("signature", thrift.STRING, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Signature); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *SignatureRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SignatureRequest(%+v)", *p)
+
+}
+
+func (p *SignatureRequest) DeepEqual(ano *SignatureRequest) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.UserId) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Signature) {
+		return false
+	}
+	return true
+}
+
+func (p *SignatureRequest) Field1DeepEqual(src int64) bool {
+
+	if p.UserId != src {
+		return false
+	}
+	return true
+}
+func (p *SignatureRequest) Field2DeepEqual(src string) bool {
+
+	if strings.Compare(p.Signature, src) != 0 {
+		return false
+	}
+	return true
+}
+
+type SignatureResponse struct {
+	Base *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
+}
+
+func NewSignatureResponse() *SignatureResponse {
+	return &SignatureResponse{}
+}
+
+func (p *SignatureResponse) InitDefault() {
+	*p = SignatureResponse{}
+}
+
+var SignatureResponse_Base_DEFAULT *base.BaseResp
+
+func (p *SignatureResponse) GetBase() (v *base.BaseResp) {
+	if !p.IsSetBase() {
+		return SignatureResponse_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *SignatureResponse) SetBase(val *base.BaseResp) {
+	p.Base = val
+}
+
+var fieldIDToName_SignatureResponse = map[int16]string{
+	1: "base",
+}
+
+func (p *SignatureResponse) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *SignatureResponse) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_SignatureResponse[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *SignatureResponse) ReadField1(iprot thrift.TProtocol) error {
+	p.Base = base.NewBaseResp()
+	if err := p.Base.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *SignatureResponse) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("SignatureResponse"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *SignatureResponse) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("base", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Base.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *SignatureResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SignatureResponse(%+v)", *p)
+
+}
+
+func (p *SignatureResponse) DeepEqual(ano *SignatureResponse) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Base) {
+		return false
+	}
+	return true
+}
+
+func (p *SignatureResponse) Field1DeepEqual(src *base.BaseResp) bool {
+
+	if !p.Base.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
 type UserHandler interface {
 	Register(ctx context.Context, req *RegisterRequest) (r *RegisterResponse, err error)
 
@@ -2939,6 +3156,8 @@ type UserHandler interface {
 	Avatar(ctx context.Context, req *AvatarRequest) (r *AvatarResponse, err error)
 
 	Switch2FA(ctx context.Context, req *Switch2FARequest) (r *Switch2FAResponse, err error)
+
+	Signature(ctx context.Context, req *SignatureRequest) (r *SignatureResponse, err error)
 }
 
 type UserHandlerClient struct {
@@ -3012,6 +3231,15 @@ func (p *UserHandlerClient) Switch2FA(ctx context.Context, req *Switch2FARequest
 	}
 	return _result.GetSuccess(), nil
 }
+func (p *UserHandlerClient) Signature(ctx context.Context, req *SignatureRequest) (r *SignatureResponse, err error) {
+	var _args UserHandlerSignatureArgs
+	_args.Req = req
+	var _result UserHandlerSignatureResult
+	if err = p.Client_().Call(ctx, "Signature", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
 
 type UserHandlerProcessor struct {
 	processorMap map[string]thrift.TProcessorFunction
@@ -3038,6 +3266,7 @@ func NewUserHandlerProcessor(handler UserHandler) *UserHandlerProcessor {
 	self.AddToProcessorMap("Info", &userHandlerProcessorInfo{handler: handler})
 	self.AddToProcessorMap("Avatar", &userHandlerProcessorAvatar{handler: handler})
 	self.AddToProcessorMap("Switch2FA", &userHandlerProcessorSwitch2FA{handler: handler})
+	self.AddToProcessorMap("Signature", &userHandlerProcessorSignature{handler: handler})
 	return self
 }
 func (p *UserHandlerProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -3281,6 +3510,54 @@ func (p *userHandlerProcessorSwitch2FA) Process(ctx context.Context, seqId int32
 		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("Switch2FA", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type userHandlerProcessorSignature struct {
+	handler UserHandler
+}
+
+func (p *userHandlerProcessorSignature) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := UserHandlerSignatureArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("Signature", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := UserHandlerSignatureResult{}
+	var retval *SignatureResponse
+	if retval, err2 = p.handler.Signature(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing Signature: "+err2.Error())
+		oprot.WriteMessageBegin("Signature", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("Signature", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -4991,6 +5268,346 @@ func (p *UserHandlerSwitch2FAResult) DeepEqual(ano *UserHandlerSwitch2FAResult) 
 }
 
 func (p *UserHandlerSwitch2FAResult) Field0DeepEqual(src *Switch2FAResponse) bool {
+
+	if !p.Success.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type UserHandlerSignatureArgs struct {
+	Req *SignatureRequest `thrift:"req,1" frugal:"1,default,SignatureRequest" json:"req"`
+}
+
+func NewUserHandlerSignatureArgs() *UserHandlerSignatureArgs {
+	return &UserHandlerSignatureArgs{}
+}
+
+func (p *UserHandlerSignatureArgs) InitDefault() {
+	*p = UserHandlerSignatureArgs{}
+}
+
+var UserHandlerSignatureArgs_Req_DEFAULT *SignatureRequest
+
+func (p *UserHandlerSignatureArgs) GetReq() (v *SignatureRequest) {
+	if !p.IsSetReq() {
+		return UserHandlerSignatureArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *UserHandlerSignatureArgs) SetReq(val *SignatureRequest) {
+	p.Req = val
+}
+
+var fieldIDToName_UserHandlerSignatureArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *UserHandlerSignatureArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *UserHandlerSignatureArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_UserHandlerSignatureArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *UserHandlerSignatureArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = NewSignatureRequest()
+	if err := p.Req.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *UserHandlerSignatureArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("Signature_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *UserHandlerSignatureArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *UserHandlerSignatureArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UserHandlerSignatureArgs(%+v)", *p)
+
+}
+
+func (p *UserHandlerSignatureArgs) DeepEqual(ano *UserHandlerSignatureArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Req) {
+		return false
+	}
+	return true
+}
+
+func (p *UserHandlerSignatureArgs) Field1DeepEqual(src *SignatureRequest) bool {
+
+	if !p.Req.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type UserHandlerSignatureResult struct {
+	Success *SignatureResponse `thrift:"success,0,optional" frugal:"0,optional,SignatureResponse" json:"success,omitempty"`
+}
+
+func NewUserHandlerSignatureResult() *UserHandlerSignatureResult {
+	return &UserHandlerSignatureResult{}
+}
+
+func (p *UserHandlerSignatureResult) InitDefault() {
+	*p = UserHandlerSignatureResult{}
+}
+
+var UserHandlerSignatureResult_Success_DEFAULT *SignatureResponse
+
+func (p *UserHandlerSignatureResult) GetSuccess() (v *SignatureResponse) {
+	if !p.IsSetSuccess() {
+		return UserHandlerSignatureResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *UserHandlerSignatureResult) SetSuccess(x interface{}) {
+	p.Success = x.(*SignatureResponse)
+}
+
+var fieldIDToName_UserHandlerSignatureResult = map[int16]string{
+	0: "success",
+}
+
+func (p *UserHandlerSignatureResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *UserHandlerSignatureResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_UserHandlerSignatureResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *UserHandlerSignatureResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewSignatureResponse()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *UserHandlerSignatureResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("Signature_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *UserHandlerSignatureResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *UserHandlerSignatureResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UserHandlerSignatureResult(%+v)", *p)
+
+}
+
+func (p *UserHandlerSignatureResult) DeepEqual(ano *UserHandlerSignatureResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *UserHandlerSignatureResult) Field0DeepEqual(src *SignatureResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false

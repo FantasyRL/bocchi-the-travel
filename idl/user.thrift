@@ -6,11 +6,8 @@ struct User {
     1: i64 id,
     2: string name,
     3: string email,
-    4: i64 follow_count,
-    5: i64 follower_count,
-    6: bool is_follow,
-    7: string avatar,
-    8: i64 video_count,
+    4: string avatar,
+    5:string signature,
 }
 
 struct RegisterRequest {
@@ -70,11 +67,22 @@ struct AvatarResponse{
     1: base.BaseResp base,
     2: optional User user,
 }
+
+struct SignatureRequest{
+    1:i64 user_id,
+    2:string signature,
+}
+
+struct SignatureResponse{
+    1: base.BaseResp base,
+}
+
 service UserHandler {
-    RegisterResponse Register(1: RegisterRequest req)(api.post="/bibi/user/register/"),
-    LoginResponse Login(1: LoginRequest req)(api.post="/bibi/user/login/"),
-    InfoResponse Info(1: InfoRequest req)(api.get="/bibi/user/"),
-    AvatarResponse Avatar(1:AvatarRequest req)(api.put="/bibi/user/avatar/upload"),
-//    OTP2FAResp OTP2FA(1:OTP2FAReq req)(api.get="/bibi/user/2fa"),
-    Switch2FAResponse Switch2FA(1:Switch2FARequest req)(api.post="/bibi/user/switch2fa"),
+    RegisterResponse Register(1: RegisterRequest req),
+    LoginResponse Login(1: LoginRequest req),
+    InfoResponse Info(1: InfoRequest req),
+    AvatarResponse Avatar(1:AvatarRequest req),
+//    OTP2FAResp OTP2FA(1:OTP2FAReq req),
+    Switch2FAResponse Switch2FA(1:Switch2FARequest req),
+    SignatureResponse Signature(1:SignatureRequest req),
 }

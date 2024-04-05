@@ -16,6 +16,7 @@ type User struct {
 	Email     string
 	Password  string
 	Avatar    string
+	Signature string
 	Otp       string
 	Type2fa   int64
 	CreatedAt time.Time
@@ -80,4 +81,8 @@ func QueryUserByIDList(uidList []int64) ([]User, error) {
 		return nil, err
 	}
 	return *userResp, nil
+}
+
+func PutSignature(ctx context.Context, userModel *User) error {
+	return DB.WithContext(ctx).Where("id = ?", userModel.ID).Update("signature", userModel.Signature).Error
 }

@@ -241,3 +241,36 @@ func GetAccessToken(ctx context.Context, c *app.RequestContext) {
 
 	c.JSON(consts.StatusOK, resp)
 }
+
+// Signature .
+// @Summary signature
+// @Description revise signature
+// @Accept json/form
+// @Produce json
+// @Param signature query string true "signature"
+// @Param access-token header string false "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bibi/user/signature [POST]
+func Signature(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.SignatureRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.SignatureResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.UserSignature(ctx, &user.SignatureRequest{
+		UserId:    id,
+		Signature: req.Signature,
+	})
+
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+
+	c.JSON(consts.StatusOK, resp)
+}

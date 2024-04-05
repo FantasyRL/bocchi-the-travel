@@ -48,14 +48,11 @@ func SendRPCFailResp(c *app.RequestContext, err error) {
 
 func ConvertToAPIUser(kitexUser *user.User) *api.User {
 	return &api.User{
-		ID:            kitexUser.Id,
-		Name:          kitexUser.Name,
-		Email:         kitexUser.Email,
-		FollowCount:   kitexUser.FollowerCount,
-		FollowerCount: kitexUser.FollowerCount,
-		//IsFollow: kitexUser.IsFollow,
-		Avatar:     kitexUser.Avatar,
-		VideoCount: kitexUser.VideoCount,
+		ID:        kitexUser.Id,
+		Name:      kitexUser.Name,
+		Email:     kitexUser.Email,
+		Avatar:    kitexUser.Avatar,
+		Signature: kitexUser.Signature,
 	}
 }
 
@@ -63,9 +60,10 @@ func ToUserResp(_user interface{}) *api.User {
 	//这里使用了一个及其抽象的断言
 	p, _ := (_user).(*user.User)
 	return &api.User{
-		ID:     p.Id,
-		Name:   p.Name,
-		Email:  p.Email,
-		Avatar: p.Avatar,
+		ID:        p.Id,
+		Name:      p.Name,
+		Email:     p.Email,
+		Avatar:    p.Avatar,
+		Signature: p.Signature,
 	}
 }

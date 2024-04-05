@@ -1,0 +1,15 @@
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+
+#xpack.security.http.ssl:
+#  enabled: true
+#  keystore.path: /opt/elasticsearch-8.9.0/config/certs/http.p12
+#  truststore.path: /opt/elasticsearch-8.9.0/config/certs/http.p12
+#xpack.security.transport.ssl:
+#  enabled: true
+#  verification_mode: certificate
+#  keystore.path: /opt/elasticsearch-8.9.0/config/certs/elastic-certificates.p12
+#  truststore.path: /opt/elasticsearch-8.9.0/config/certs/elastic-certificates.p12

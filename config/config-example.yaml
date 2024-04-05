@@ -1,30 +1,57 @@
 server:
-  addr: 127.0.0.1:8000
+  jwt-secret: bocchi-the-rock
+  version: "debug"
+  name: bocchi
+
+etcd:
+  addr: 127.0.0.1:2379
+
 mysql:
-  host: 127.0.0.1
-  port: 3306
+  addr: 127.0.0.1:3366
   user: root
   password: 114514
-  dbname: bibi_db
+  database: bocchi_db
+
 redis:
-  addr: 127.0.0.1:6379
-service:
-  mode: debug
-  port: :8888
+  addr: 127.0.0.1:6399
+
 oss:
-  endpoint:
+  endpoint: https://oss-cn-beijing.aliyuncs.com
   accesskeyid:
   accesskeysecret:
   bucketname:
   main-directory:
-page:
-  page-size: 15
+
 rabbitmq:
-  port: 5672
-  name: guest
+  addr: 127.0.0.1:5672
+  user: guest
   password: guest
+
 email:
+  host: smtp.qq.com
+  port: 25
   sender:
   password:
-  from: bibi-demo<sender email>
-  subject: your OTP
+  from:
+  subject:
+
+elasticsearch:
+  addr: 127.0.0.1:9200
+  host: 127.0.0.1
+
+services:
+  api:
+    name: api
+    load-balance: false
+    addr:
+      - 127.0.0.1:10001
+  user:
+    name: user
+    load-balance: false
+    addr:
+      - 127.0.0.1:10002
+  party:
+    name: party
+    load-balance: false
+    addr:
+      - 127.0.0.1:10003

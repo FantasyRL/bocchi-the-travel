@@ -49,12 +49,18 @@ type email struct {
 	Subject  string
 }
 
+type elasticsearch struct {
+	Addr string
+	Host string
+}
+
 type config struct {
-	Server   server
-	MySQL    mySQL
-	Etcd     etcd
-	RabbitMQ rabbitMQ
-	Redis    redis
-	OSS      oss
-	Email    email
+	Server        server
+	MySQL         mySQL
+	Etcd          etcd
+	RabbitMQ      rabbitMQ
+	Redis         redis
+	OSS           oss
+	Email         email
+	ElasticSearch elasticsearch
 }
