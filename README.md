@@ -26,3 +26,10 @@ go run bocchi/api
 ```bash
 go run bocchi/rpc/user
 ```
+
+## 技术栈
+* api:hertz(thrift)
+* db:gorm
+* cache:redis
+* rpc:kitex(thrift)+etcd
+* log:elasticSearch+logrus+kibana
