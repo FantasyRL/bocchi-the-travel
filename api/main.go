@@ -10,6 +10,8 @@ import (
 	"bocchi/pkg/utils"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/kitex/pkg/klog"
+	"github.com/hertz-contrib/cors"
+	"time"
 )
 
 var listenAddr string
@@ -38,6 +40,15 @@ func main() {
 		server.WithMaxRequestBodySize(constants.MaxRequestBodySize), //最大字节数
 	)
 
+	h.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{config.Server.Cors},
+		AllowMethods:     []string{"PUT", "PATCH"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowWebSockets:  true,
+		MaxAge:           12 * time.Hour,
+	}))
 	//websocket
 	//NoHijackConnPool 将控制是否使用缓存池来获取/释放劫持连接。
 	//如果使用池，将提升内存资源分配的性能，但无法避免二次关闭连接导致的异常。
