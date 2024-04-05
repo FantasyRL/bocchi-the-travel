@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bocchi/api/biz/rpc"
 	"bocchi/config"
 	party "bocchi/kitex_gen/party/partyhandler"
 	"bocchi/pkg/constants"
@@ -31,10 +32,12 @@ var (
 
 func Init() {
 	config.Init(constants.PartyServiceName)
-	dal.Init()
 	InitEs()
 	klog.SetLevel(klog.LevelDebug)
 	klog.SetLogger(kitexlogrus.NewLogger(kitexlogrus.WithHook(EsHookLog())))
+
+	dal.Init()
+	rpc.InitUserRPC()
 }
 
 func main() {

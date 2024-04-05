@@ -4,6 +4,7 @@ type server struct {
 	Secret  []byte
 	Version string
 	Name    string
+	Cors    string
 }
 
 type service struct {

@@ -112,6 +112,7 @@ struct Party{
     8:string start_time,
     9:string end_time,
     10:i64 member_count,
+    11:i64 status,
 }
 
 struct CreatePartyRequest{
@@ -138,6 +139,7 @@ struct JoinPartyResponse{
 
 struct ApplyListRequest{
     1:i64 party_id,
+    2:i64 page_num,
 }
 
 struct ApplyListResponse{
@@ -157,6 +159,7 @@ struct PermitJoinResponse{
 
 struct GetPartyMembersRequest{
     1:i64 party_id,
+    2:i64 page_num,
 }
 
 struct GetPartyMembersResponse{
@@ -172,6 +175,7 @@ struct SearchPartyRequest{
     4:optional string city,
     5:optional i64 start_time_duration,
     6:optional i64 search_type,
+    7:i64 page_num,
 }
 
 struct SearchPartyResponse{
