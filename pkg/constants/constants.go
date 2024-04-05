@@ -4,11 +4,14 @@ import "time"
 
 const (
 	// service name
-	APIServiceName  = "api"
-	UserServiceName = "user"
+	APIServiceName   = "api"
+	UserServiceName  = "user"
+	PartyServiceName = "party"
 
 	// db table name
-	UserTableName = "user"
+	UserTableName   = "user"
+	PartyTableName  = "party"
+	MemberTableName = "member"
 
 	// limit
 	MaxConnections     = 1000
@@ -23,6 +26,9 @@ const (
 	MuxConnection  = 1
 	RPCTimeout     = 3 * time.Second
 	ConnectTimeout = 50 * time.Millisecond
+
+	//es
+	ElasticSearchIndexName = "bocchi"
 )
 
 const (

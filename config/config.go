@@ -7,14 +7,15 @@ import (
 )
 
 var (
-	OSS      *oss
-	Mysql    *mySQL
-	Redis    *redis
-	Etcd     *etcd
-	Server   *server
-	Service  *service
-	RabbitMQ *rabbitMQ
-	Sender   *email
+	OSS           *oss
+	Mysql         *mySQL
+	Redis         *redis
+	Etcd          *etcd
+	Server        *server
+	Service       *service
+	RabbitMQ      *rabbitMQ
+	Sender        *email
+	ElasticSearch *elasticsearch
 
 	runtimeViper = viper.New()
 )
@@ -50,6 +51,7 @@ func configMapping(serviceName string) {
 	Redis = &c.Redis
 	OSS = &c.OSS
 	Sender = &c.Email
+	ElasticSearch = &c.ElasticSearch
 
 	addrList := runtimeViper.GetStringSlice("services." + serviceName + ".addr")
 	Service = &service{

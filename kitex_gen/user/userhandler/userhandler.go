@@ -48,6 +48,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"Signature": kitex.NewMethodInfo(
+		signatureHandler,
+		newUserHandlerSignatureArgs,
+		newUserHandlerSignatureResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 }
 
 var (
@@ -204,6 +211,24 @@ func newUserHandlerSwitch2FAResult() interface{} {
 	return user.NewUserHandlerSwitch2FAResult()
 }
 
+func signatureHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*user.UserHandlerSignatureArgs)
+	realResult := result.(*user.UserHandlerSignatureResult)
+	success, err := handler.(user.UserHandler).Signature(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserHandlerSignatureArgs() interface{} {
+	return user.NewUserHandlerSignatureArgs()
+}
+
+func newUserHandlerSignatureResult() interface{} {
+	return user.NewUserHandlerSignatureResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -259,6 +284,16 @@ func (p *kClient) Switch2FA(ctx context.Context, req *user.Switch2FARequest) (r 
 	_args.Req = req
 	var _result user.UserHandlerSwitch2FAResult
 	if err = p.c.Call(ctx, "Switch2FA", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) Signature(ctx context.Context, req *user.SignatureRequest) (r *user.SignatureResponse, err error) {
+	var _args user.UserHandlerSignatureArgs
+	_args.Req = req
+	var _result user.UserHandlerSignatureResult
+	if err = p.c.Call(ctx, "Signature", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

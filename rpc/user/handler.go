@@ -116,3 +116,13 @@ func (s *UserHandlerImpl) Switch2FA(ctx context.Context, req *user.Switch2FARequ
 	}
 	return resp, nil
 }
+
+// Signature implements the UserHandlerImpl interface.
+func (s *UserHandlerImpl) Signature(ctx context.Context, req *user.SignatureRequest) (resp *user.SignatureResponse, err error) {
+	resp = new(user.SignatureResponse)
+
+	err = service.NewUserService(ctx).Signature(req)
+	resp.Base = pack.BuildBaseResp(err)
+
+	return resp, nil
+}

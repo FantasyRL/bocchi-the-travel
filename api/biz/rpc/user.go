@@ -86,3 +86,14 @@ func UserAvatar(ctx context.Context, req *user.AvatarRequest) (*user.AvatarRespo
 
 	return resp, nil
 }
+
+func UserSignature(ctx context.Context, req *user.SignatureRequest) (*user.SignatureResponse, error) {
+	//rpc client
+	resp, err := userClient.Signature(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+
+}

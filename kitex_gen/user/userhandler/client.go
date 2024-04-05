@@ -16,6 +16,7 @@ type Client interface {
 	Info(ctx context.Context, req *user.InfoRequest, callOptions ...callopt.Option) (r *user.InfoResponse, err error)
 	Avatar(ctx context.Context, req *user.AvatarRequest, callOptions ...callopt.Option) (r *user.AvatarResponse, err error)
 	Switch2FA(ctx context.Context, req *user.Switch2FARequest, callOptions ...callopt.Option) (r *user.Switch2FAResponse, err error)
+	Signature(ctx context.Context, req *user.SignatureRequest, callOptions ...callopt.Option) (r *user.SignatureResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -70,4 +71,9 @@ func (p *kUserHandlerClient) Avatar(ctx context.Context, req *user.AvatarRequest
 func (p *kUserHandlerClient) Switch2FA(ctx context.Context, req *user.Switch2FARequest, callOptions ...callopt.Option) (r *user.Switch2FAResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.Switch2FA(ctx, req)
+}
+
+func (p *kUserHandlerClient) Signature(ctx context.Context, req *user.SignatureRequest, callOptions ...callopt.Option) (r *user.SignatureResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.Signature(ctx, req)
 }

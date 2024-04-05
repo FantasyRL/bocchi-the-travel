@@ -18,14 +18,25 @@ func Register(r *server.Hertz) {
 
 	root := r.Group("/", rootMw()...)
 	{
-		_bibi := root.Group("/bibi", _bibiMw()...)
+		_bocchi := root.Group("/bocchi", _bocchiMw()...)
 		{
-			_access_token := _bibi.Group("/access_token", _access_tokenMw()...)
+			_access_token := _bocchi.Group("/access_token", _access_tokenMw()...)
 			_access_token.GET("/get", append(_getaccesstokenMw(), api.GetAccessToken)...)
 		}
 		{
-			_user := _bibi.Group("/user", _userMw()...)
+			_party := _bocchi.Group("/party", _partyMw()...)
+			_party.POST("/create", append(_createpartyMw(), api.CreateParty)...)
+			_party.GET("/members", append(_getpartymembersMw(), api.GetPartyMembers)...)
+			_party.POST("/search", append(_searchpartyMw(), api.SearchParty)...)
+			_party.GET("/apply", append(_joinpartyMw(), api.JoinParty)...)
+			_apply := _party.Group("/apply", _applyMw()...)
+			_apply.GET("/list", append(_applylistMw(), api.ApplyList)...)
+			_apply.GET("/permit", append(_permitjoinMw(), api.PermitJoin)...)
+		}
+		{
+			_user := _bocchi.Group("/user", _userMw()...)
 			_user.GET("/info", append(_infoMw(), api.Info)...)
+			_user.POST("/signature", append(_signatureMw(), api.Signature)...)
 			_user.POST("/switch2fa", append(_switch2faMw(), api.Switch2FA)...)
 			{
 				_avatar := _user.Group("/avatar", _avatarMw()...)

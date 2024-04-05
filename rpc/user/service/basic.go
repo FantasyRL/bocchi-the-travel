@@ -43,3 +43,11 @@ func (s *UserService) Info(req *user.InfoRequest) (*db.User, error) {
 	}
 	return db.QueryUserByID(userModel)
 }
+
+func (s *UserService) Signature(req *user.SignatureRequest) error {
+	userModel := &db.User{
+		ID:        req.UserId,
+		Signature: req.Signature,
+	}
+	return db.PutSignature(s.ctx, userModel)
+}

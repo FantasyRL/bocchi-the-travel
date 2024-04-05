@@ -38,8 +38,9 @@ func _infoMw() []app.HandlerFunc {
 }
 
 func _switch2faMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _avatarMw() []app.HandlerFunc {
@@ -48,8 +49,9 @@ func _avatarMw() []app.HandlerFunc {
 }
 
 func _avatar0Mw() []app.HandlerFunc {
-	// your code...
-	return nil
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _loginMw() []app.HandlerFunc {
@@ -69,6 +71,61 @@ func _registerMw() []app.HandlerFunc {
 }
 
 func _register0Mw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _signatureMw() []app.HandlerFunc {
 	// your code...
 	return nil
+}
+
+func _bocchiMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _partyMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _createpartyMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _getpartymembersMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _searchpartyMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _applyMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _joinpartyMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _applylistMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _permitjoinMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
 }

@@ -1,0 +1,164 @@
+info:
+  contact: {}
+paths:
+  /bibi/access_token/get:
+    get:
+      consumes:
+      - json/form
+      description: get available access-token by refresh-token
+      parameters:
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: get_access-token
+  /bibi/user/avatar/upload:
+    put:
+      consumes:
+      - json/form
+      description: revise user's avatar
+      parameters:
+      - description: 头像
+        in: formData
+        name: avatar_file
+        required: true
+        type: file
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: PutAvatar
+  /bibi/user/info:
+    get:
+      consumes:
+      - json/form
+      description: get user's info
+      parameters:
+      - description: 用户id
+        in: query
+        name: user_id
+        required: true
+        type: string
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Info
+  /bibi/user/login/:
+    post:
+      consumes:
+      - json/form
+      description: login to get your auth token
+      parameters:
+      - description: 用户名
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: 密码
+        in: query
+        name: password
+        required: true
+        type: string
+      - description: otp
+        in: query
+        name: otp
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Login
+  /bibi/user/register/:
+    post:
+      consumes:
+      - json/form
+      description: userRegister
+      parameters:
+      - description: 用户名
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: 邮箱
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: 密码
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Register
+  /bibi/user/signature:
+    post:
+      consumes:
+      - json/form
+      description: revise signature
+      parameters:
+      - description: signature
+        in: query
+        name: signature
+        required: true
+        type: string
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: signature
+  /bibi/user/switch2fa:
+    post:
+      consumes:
+      - json/form
+      description: switch on/off 2fa mode
+      parameters:
+      - description: 关闭:0;开启:1
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      - description: totp
+        in: query
+        name: totp
+        type: string
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: switch_2fa
+swagger: "2.0"
