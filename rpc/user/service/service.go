@@ -32,17 +32,18 @@ func NewAvatarService(ctx context.Context) *AvatarService {
 
 func BuildUserResp(dbUser *db.User) *user.User {
 	return &user.User{
-		Id:     dbUser.ID,
-		Name:   dbUser.UserName,
-		Email:  dbUser.Email,
-		Avatar: dbUser.Avatar,
+		Id:        dbUser.ID,
+		Name:      dbUser.UserName,
+		Email:     dbUser.Email,
+		Avatar:    dbUser.Avatar,
+		Signature: dbUser.Signature,
 	}
 }
 
 func BuildUsersResp(dbUsers *[]db.User) []*user.User {
-	var userResp []*user.User
-	for _, dbUser := range *dbUsers {
-		userResp = append(userResp, BuildUserResp(&dbUser))
+	userResp := make([]*user.User, len(*dbUsers))
+	for i, dbUser := range *dbUsers {
+		userResp[i] = BuildUserResp(&dbUser)
 	}
 	return userResp
 }

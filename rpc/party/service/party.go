@@ -2,13 +2,20 @@ package service
 
 import (
 	"bocchi/kitex_gen/party"
+	"bocchi/pkg/errno"
 	"bocchi/rpc/party/dal/db"
 	"time"
 )
 
-func (s *PartyService) CreateParty(req party.CreatePartyRequest) error {
-	st, _ := time.Parse("2006-01-02", req.StartTime)
-	et, _ := time.Parse("2006-01-02", req.EndTime)
+func (s *PartyService) CreateParty(req *party.CreatePartyRequest) error {
+	st, err := time.Parse("2006-01-02", req.StartTime)
+	if err != nil {
+		return errno.ParamError
+	}
+	et, err := time.Parse("2006-01-02", req.EndTime)
+	if err != nil {
+		return errno.ParamError
+	}
 	partyModel := &db.Party{
 		FounderId: req.FounderId,
 		Title:     req.Title,

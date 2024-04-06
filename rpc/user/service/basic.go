@@ -19,6 +19,7 @@ func (s *UserService) Register(req *user.RegisterRequest) (*db.User, error) {
 		Email:    req.Email,
 		Password: PwdDigest,
 	}
+
 	return db.Register(s.ctx, userModel)
 }
 
@@ -30,6 +31,9 @@ func (s *UserService) Login(req *user.LoginRequest) (*db.User, error) {
 	userResp, err := db.Login(s.ctx, userModel)
 	if err != nil {
 		return nil, err
+	}
+	if req.Otp == nil {
+		return nil, errno.Verify2FAError
 	}
 	if userResp.Type2fa == 1 && !otp2fa.CheckTotp(*req.Otp, userResp.Otp) {
 		return nil, errno.Verify2FAError

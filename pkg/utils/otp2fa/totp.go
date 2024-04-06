@@ -8,7 +8,7 @@ import (
 func GenerateTotp(email string) (*otp.Key, error) {
 	//totp:Time-Based One-Time Password
 	return totp.Generate(totp.GenerateOpts{
-		Issuer:      "bibi-demo",
+		Issuer:      "bocchi-the-travel",
 		AccountName: email,
 		Period:      300,
 		Digits:      otp.DigitsSix,

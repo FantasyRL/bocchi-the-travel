@@ -7,6 +7,13 @@ import (
 )
 
 func (s *PartyService) JoinParty(req *party.JoinPartyRequest) error {
+	founderId, err := db.GetFounderIdByPartyId(s.ctx, req.PartyId)
+	if err != nil {
+		return err
+	}
+	if founderId == req.MemberId {
+		return errno.FounderError
+	}
 	memberModel := &db.Member{
 		PartyId:  req.PartyId,
 		MemberId: req.MemberId,
