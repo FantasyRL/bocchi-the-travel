@@ -18,13 +18,86 @@ paths:
       summary: get_access-token
   /bocchi/party/apply:
     get:
+      consumes:
+      - json/form
+      description: apply to join the party
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
       responses: {}
+      summary: apply_party
   /bocchi/party/apply/list:
     get:
+      consumes:
+      - json/form
+      description: show party's applicants
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
       responses: {}
+      summary: apply_list
   /bocchi/party/apply/permit:
     get:
+      consumes:
+      - json/form
+      description: permit user to join the party
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 用户id
+        in: query
+        name: member_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
       responses: {}
+      summary: permit_join
   /bocchi/party/create:
     post:
       consumes:
@@ -71,16 +144,73 @@ paths:
         name: access-token
         required: true
         type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
       produces:
       - application/json
       responses: {}
       summary: create_party
   /bocchi/party/members:
     get:
+      consumes:
+      - json/form
+      description: get members who have join the party
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      produces:
+      - application/json
       responses: {}
+      summary: get_party_members
   /bocchi/party/search:
     post:
+      consumes:
+      - json/form
+      description: search party
+      parameters:
+      - description: 搜索内容
+        in: query
+        name: content
+        type: string
+      - description: 活动类型
+        in: query
+        name: party_type
+        type: string
+      - description: 活动省份
+        in: query
+        name: province
+        type: string
+      - description: 活动城市
+        in: query
+        name: city
+        type: string
+      - description: 几天后开始
+        in: query
+        name: start_time_duration
+        type: integer
+      - description: 搜索方式(0:默认;1:按开始时间;2:按活动已有人数)
+        in: query
+        name: search_type
+        type: integer
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      produces:
+      - application/json
       responses: {}
+      summary: search_party
   /bocchi/user/avatar/upload:
     put:
       consumes:
@@ -114,14 +244,6 @@ paths:
         in: query
         name: user_id
         required: true
-        type: string
-      - description: access-token
-        in: header
-        name: access-token
-        type: string
-      - description: refresh-token
-        in: header
-        name: refresh-token
         type: string
       produces:
       - application/json
