@@ -92,8 +92,6 @@ func Login(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param user_id query string true "用户id"
-// @Param access-token header string false "access-token"
-// @Param refresh-token header string false "refresh-token"
 // @router /bocchi/user/info [GET]
 func Info(ctx context.Context, c *app.RequestContext) {
 	var err error
