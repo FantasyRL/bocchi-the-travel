@@ -106,7 +106,7 @@ func InitEs() {
 	}
 	client, err := elastic.NewClient(cfg)
 	if err != nil {
-		panic(err)
+		klog.Fatal(err)
 	}
 	EsClient = client
 }
