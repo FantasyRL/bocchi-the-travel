@@ -1,7 +1,7 @@
 info:
   contact: {}
 paths:
-  /bibi/access_token/get:
+  /bocchi/access_token/get:
     get:
       consumes:
       - json/form
@@ -16,7 +16,72 @@ paths:
       - application/json
       responses: {}
       summary: get_access-token
-  /bibi/user/avatar/upload:
+  /bocchi/party/apply:
+    get:
+      responses: {}
+  /bocchi/party/apply/list:
+    get:
+      responses: {}
+  /bocchi/party/apply/permit:
+    get:
+      responses: {}
+  /bocchi/party/create:
+    post:
+      consumes:
+      - json/form
+      description: create party
+      parameters:
+      - description: 标题
+        in: query
+        name: title
+        required: true
+        type: string
+      - description: 介绍
+        in: query
+        name: content
+        required: true
+        type: string
+      - description: 类型
+        in: query
+        name: type
+        required: true
+        type: integer
+      - description: 活动省份
+        in: query
+        name: province
+        required: true
+        type: string
+      - description: 活动城市
+        in: query
+        name: city
+        required: true
+        type: string
+      - description: 开始时间(例:2006-01-02)
+        in: query
+        name: start_time
+        required: true
+        type: string
+      - description: 结束时间(例:2006-01-02)
+        in: query
+        name: end_time
+        required: true
+        type: string
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: create_party
+  /bocchi/party/members:
+    get:
+      responses: {}
+  /bocchi/party/search:
+    post:
+      responses: {}
+  /bocchi/user/avatar/upload:
     put:
       consumes:
       - json/form
@@ -39,7 +104,7 @@ paths:
       - application/json
       responses: {}
       summary: PutAvatar
-  /bibi/user/info:
+  /bocchi/user/info:
     get:
       consumes:
       - json/form
@@ -62,7 +127,7 @@ paths:
       - application/json
       responses: {}
       summary: Info
-  /bibi/user/login/:
+  /bocchi/user/login/:
     post:
       consumes:
       - json/form
@@ -86,7 +151,7 @@ paths:
       - application/json
       responses: {}
       summary: Login
-  /bibi/user/register/:
+  /bocchi/user/register/:
     post:
       consumes:
       - json/form
@@ -111,7 +176,7 @@ paths:
       - application/json
       responses: {}
       summary: Register
-  /bibi/user/signature:
+  /bocchi/user/signature:
     post:
       consumes:
       - json/form
@@ -134,7 +199,7 @@ paths:
       - application/json
       responses: {}
       summary: signature
-  /bibi/user/switch2fa:
+  /bocchi/user/switch2fa:
     post:
       consumes:
       - json/form

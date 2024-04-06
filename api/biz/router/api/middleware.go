@@ -71,14 +71,13 @@ func _registerMw() []app.HandlerFunc {
 }
 
 func _register0Mw() []app.HandlerFunc {
-	return []app.HandlerFunc{
-		jwt.JwtMiddleware.MiddlewareFunc(),
-	}
+	return nil
 }
 
 func _signatureMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _bocchiMw() []app.HandlerFunc {

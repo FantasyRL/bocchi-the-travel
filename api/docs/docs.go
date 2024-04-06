@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/bibi/access_token/get": {
+        "/bocchi/access_token/get": {
             "get": {
                 "description": "get available access-token by refresh-token",
                 "consumes": [
@@ -37,7 +37,103 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/bibi/user/avatar/upload": {
+        "/bocchi/party/apply": {
+            "get": {
+                "responses": {}
+            }
+        },
+        "/bocchi/party/apply/list": {
+            "get": {
+                "responses": {}
+            }
+        },
+        "/bocchi/party/apply/permit": {
+            "get": {
+                "responses": {}
+            }
+        },
+        "/bocchi/party/create": {
+            "post": {
+                "description": "create party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "create_party",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "标题",
+                        "name": "title",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "介绍",
+                        "name": "content",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "类型",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "活动省份",
+                        "name": "province",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "活动城市",
+                        "name": "city",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "开始时间(例:2006-01-02)",
+                        "name": "start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "结束时间(例:2006-01-02)",
+                        "name": "end_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/members": {
+            "get": {
+                "responses": {}
+            }
+        },
+        "/bocchi/party/search": {
+            "post": {
+                "responses": {}
+            }
+        },
+        "/bocchi/user/avatar/upload": {
             "put": {
                 "description": "revise user's avatar",
                 "consumes": [
@@ -71,7 +167,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/bibi/user/info": {
+        "/bocchi/user/info": {
             "get": {
                 "description": "get user's info",
                 "consumes": [
@@ -105,7 +201,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/bibi/user/login/": {
+        "/bocchi/user/login/": {
             "post": {
                 "description": "login to get your auth token",
                 "consumes": [
@@ -140,7 +236,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/bibi/user/register/": {
+        "/bocchi/user/register/": {
             "post": {
                 "description": "userRegister",
                 "consumes": [
@@ -176,7 +272,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/bibi/user/signature": {
+        "/bocchi/user/signature": {
             "post": {
                 "description": "revise signature",
                 "consumes": [
@@ -210,7 +306,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/bibi/user/switch2fa": {
+        "/bocchi/user/switch2fa": {
             "post": {
                 "description": "switch on/off 2fa mode",
                 "consumes": [

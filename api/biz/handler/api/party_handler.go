@@ -3,6 +3,9 @@
 package api
 
 import (
+	"bocchi/api/biz/rpc"
+	"bocchi/kitex_gen/party"
+	"bocchi/pkg/pack"
 	"context"
 
 	api "bocchi/api/biz/model/api"
@@ -11,6 +14,18 @@ import (
 )
 
 // CreateParty .
+// @Summary create_party
+// @Description create party
+// @Accept json/form
+// @Produce json
+// @Param title query string true "标题"
+// @Param content query string true "介绍"
+// @Param type query int true "类型"
+// @Param province query string true "活动省份"
+// @Param city query string true "活动城市"
+// @Param start_time query string true "开始时间(例:2006-01-02)"
+// @Param end_time query string true "结束时间(例:2006-01-02)"
+// @Param access-token header string true "access-token"
 // @router /bocchi/party/create [POST]
 func CreateParty(ctx context.Context, c *app.RequestContext) {
 	var err error
@@ -23,6 +38,24 @@ func CreateParty(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.CreatePartyResponse)
 
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.PartyCreate(ctx, &party.CreatePartyRequest{
+		FounderId: id,
+		Title:     req.Title,
+		Content:   req.Content,
+		Type:      req.Type,
+		Province:  req.Province,
+		City:      req.City,
+		StartTime: req.StartTime,
+		EndTime:   req.EndTime,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 	c.JSON(consts.StatusOK, resp)
 }
 
