@@ -2557,16 +2557,11 @@ func (p *AvatarResponse) String() string {
 }
 
 type SignatureRequest struct {
-	UserID    int64  `thrift:"user_id,1" form:"user_id" json:"user_id" query:"user_id"`
-	Signature string `thrift:"signature,2" form:"signature" json:"signature" query:"signature"`
+	Signature string `thrift:"signature,1" form:"signature" json:"signature" query:"signature"`
 }
 
 func NewSignatureRequest() *SignatureRequest {
 	return &SignatureRequest{}
-}
-
-func (p *SignatureRequest) GetUserID() (v int64) {
-	return p.UserID
 }
 
 func (p *SignatureRequest) GetSignature() (v string) {
@@ -2574,8 +2569,7 @@ func (p *SignatureRequest) GetSignature() (v string) {
 }
 
 var fieldIDToName_SignatureRequest = map[int16]string{
-	1: "user_id",
-	2: "signature",
+	1: "signature",
 }
 
 func (p *SignatureRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -2598,16 +2592,8 @@ func (p *SignatureRequest) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField1(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 2:
 			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField2(iprot); err != nil {
+				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -2644,15 +2630,6 @@ ReadStructEndError:
 
 func (p *SignatureRequest) ReadField1(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.UserID = v
-	}
-	return nil
-}
-func (p *SignatureRequest) ReadField2(iprot thrift.TProtocol) error {
-
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -2669,10 +2646,6 @@ func (p *SignatureRequest) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
-			goto WriteFieldError
-		}
-		if err = p.writeField2(oprot); err != nil {
-			fieldId = 2
 			goto WriteFieldError
 		}
 	}
@@ -2694,24 +2667,7 @@ WriteStructEndError:
 }
 
 func (p *SignatureRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.UserID); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
-}
-
-func (p *SignatureRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("signature", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("signature", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Signature); err != nil {
@@ -2722,9 +2678,9 @@ func (p *SignatureRequest) writeField2(oprot thrift.TProtocol) (err error) {
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
 func (p *SignatureRequest) String() string {

@@ -47,9 +47,13 @@ func Init() {
 			rpcResp, err := rpc.UserLogin(ctx, &user.LoginRequest{
 				Username: req.Username,
 				Password: req.Password,
+				Otp:      req.Otp,
 			})
 			if err != nil {
 				return nil, err
+			}
+			if rpcResp.Base.Code != errno.SuccessCode {
+				return nil, errno.NewErrNo(rpcResp.Base.Code, rpcResp.Base.Msg)
 			}
 
 			c.Set("user", rpcResp.User)
@@ -76,6 +80,9 @@ func Init() {
 
 			c.Set("access-token", token)
 			v0, _ := c.Get("r-uid")
+			if v0 == nil {
+				return
+			}
 
 			//refresh-token 添加
 			RTokenStr, _, _ := JwtRefreshMiddleware.TokenGenerator(v0.(int64))

@@ -23,7 +23,7 @@ import (
 // @Param username query string true "用户名"
 // @Param email query string true "邮箱"
 // @Param password query string true "密码"
-// @router /bibi/user/register/ [POST]
+// @router /bocchi/user/register/ [POST]
 func Register(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.RegisterRequest
@@ -62,7 +62,7 @@ func Register(ctx context.Context, c *app.RequestContext) {
 // @Param username query string true "用户名"
 // @Param password query string true "密码"
 // @Param otp query string false "otp"
-// @router /bibi/user/login/ [POST]
+// @router /bocchi/user/login/ [POST]
 func Login(ctx context.Context, c *app.RequestContext) {
 	resp := new(api.LoginResponse)
 
@@ -73,10 +73,15 @@ func Login(ctx context.Context, c *app.RequestContext) {
 	//hertz jwt(mw)
 	v2, _ := c.Get("access-token")
 	v3, _ := c.Get("refresh-token")
-	at := v2.(string)
-	rt := v3.(string)
-	resp.AccessToken = &at
-	resp.RefreshToken = &rt
+
+	if v2 != nil {
+		at := v2.(string)
+		resp.AccessToken = &at
+	}
+	if v3 != nil {
+		rt := v3.(string)
+		resp.RefreshToken = &rt
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -89,7 +94,7 @@ func Login(ctx context.Context, c *app.RequestContext) {
 // @Param user_id query string true "用户id"
 // @Param access-token header string false "access-token"
 // @Param refresh-token header string false "refresh-token"
-// @router /bibi/user/info [GET]
+// @router /bocchi/user/info [GET]
 func Info(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.InfoRequest
@@ -101,7 +106,9 @@ func Info(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.InfoResponse)
 
-	rpcResp, err := rpc.UserInfo(ctx, &user.InfoRequest{})
+	rpcResp, err := rpc.UserInfo(ctx, &user.InfoRequest{
+		UserId: req.UserID,
+	})
 	if err != nil {
 		pack.SendRPCFailResp(c, err)
 		return
@@ -125,7 +132,7 @@ func Info(ctx context.Context, c *app.RequestContext) {
 // @Param avatar_file formData file true "头像"
 // @Param access-token header string false "access-token"
 // @Param refresh-token header string false "refresh-token"
-// @router /bibi/user/avatar/upload [PUT]
+// @router /bocchi/user/avatar/upload [PUT]
 func Avatar(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.AvatarRequest
@@ -192,7 +199,7 @@ func Avatar(ctx context.Context, c *app.RequestContext) {
 // @Param totp query string false "totp"
 // @Param access-token header string false "access-token"
 // @Param refresh-token header string false "refresh-token"
-// @router /bibi/user/switch2fa [POST]
+// @router /bocchi/user/switch2fa [POST]
 func Switch2FA(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.Switch2FARequest
@@ -228,7 +235,7 @@ func Switch2FA(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param refresh-token header string true "refresh-token"
-// @router /bibi/access_token/get [GET]
+// @router /bocchi/access_token/get [GET]
 func GetAccessToken(ctx context.Context, c *app.RequestContext) {
 	resp := new(api.GetAccessTokenResponse)
 
@@ -250,7 +257,7 @@ func GetAccessToken(ctx context.Context, c *app.RequestContext) {
 // @Param signature query string true "signature"
 // @Param access-token header string false "access-token"
 // @Param refresh-token header string false "refresh-token"
-// @router /bibi/user/signature [POST]
+// @router /bocchi/user/signature [POST]
 func Signature(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.SignatureRequest
@@ -269,6 +276,10 @@ func Signature(ctx context.Context, c *app.RequestContext) {
 		UserId:    id,
 		Signature: req.Signature,
 	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
 
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 
