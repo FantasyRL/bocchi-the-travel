@@ -42,20 +42,20 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 	partysResp := new([]Party)
 	var count int64
 	if req.Content != nil {
-		DBParty.Where("content LIKE ?", "%"+*req.Content+"%")
+		DBParty.WithContext(ctx).Where("content LIKE ? OR title LIKE ?", "%"+*req.Content+"%", "%"+*req.Content+"%")
 	}
 	if req.PartyType != nil {
-		DBParty.Where("type = ?", *req.PartyType)
+		DBParty.WithContext(ctx).Where("type = ?", *req.PartyType)
 	}
 	if req.Province != nil {
-		DBParty.Where("province = ?", *req.Province)
+		DBParty.WithContext(ctx).Where("province = ?", *req.Province)
 	}
 	if req.Province != nil && req.City != nil {
-		DBParty.Where("city = ?", *req.City)
+		DBParty.WithContext(ctx).Where("city = ?", *req.City)
 	}
 	if req.StartTimeDuration != nil {
 		du := time.Now().Add(time.Hour * 24 * time.Duration(*req.StartTimeDuration))
-		DBParty.Where("start_time > ?", du)
+		DBParty.WithContext(ctx).Where("start_time > ?", du)
 	}
 	if req.SearchType != nil {
 		switch *req.SearchType {
@@ -68,9 +68,10 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 			//todo:热门(人多)(redis?)
 		}
 	}
-	err := DBParty.Count(&count).
+	err := DBParty.WithContext(ctx).Count(&count).
 		Limit(constants.PageSize).Offset((int(req.PageNum) - 1) * constants.PageSize).
 		Find(partysResp).Error
+
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, 0, nil
 	}
@@ -82,7 +83,7 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 
 func GetFounderIdByPartyId(ctx context.Context, partyId int64) (int64, error) {
 	partyResp := new(Party)
-	if err := DBParty.WithContext(ctx).Where("party_id = ?", partyId).First(partyResp).Error; err != nil {
+	if err := DBParty.WithContext(ctx).Where("id = ?", partyId).First(partyResp).Error; err != nil {
 		return -1, err
 	}
 	return partyResp.FounderId, nil
@@ -122,7 +123,8 @@ func ChangeMemberStatus(ctx context.Context, memberModel *Member) error {
 }
 
 func ISMemberExist(ctx context.Context, memberModel *Member) error {
-	err := DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ?", memberModel.PartyId, memberModel.MemberId).Error
+	memberResp := new(Member)
+	err := DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ?", memberModel.PartyId, memberModel.MemberId).First(memberResp).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return errno.MemberNotExistError
 	}
@@ -133,7 +135,8 @@ func ISMemberExist(ctx context.Context, memberModel *Member) error {
 }
 
 func CheckMemberStatus(ctx context.Context, memberModel *Member) error {
-	err := DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ? AND status = ?", memberModel.PartyId, memberModel.MemberId, memberModel.Status).Error
+	memberResp := new(Member)
+	err := DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ? AND status = ?", memberModel.PartyId, memberModel.MemberId, memberModel.Status).First(memberResp).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil
 	}

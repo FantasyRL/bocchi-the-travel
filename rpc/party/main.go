@@ -1,13 +1,13 @@
 package main
 
 import (
-	"bocchi/api/biz/rpc"
 	"bocchi/config"
 	party "bocchi/kitex_gen/party/partyhandler"
 	"bocchi/pkg/constants"
 	"bocchi/pkg/utils"
 	"bocchi/pkg/utils/eslogrus"
 	"bocchi/rpc/party/dal"
+	"bocchi/rpc/party/rpc"
 	"crypto/tls"
 	"fmt"
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -70,7 +70,7 @@ func main() {
 		server.WithServiceAddr(serviceAddr),
 		server.WithServerBasicInfo(
 			&rpcinfo.EndpointBasicInfo{
-				ServiceName: constants.UserServiceName,
+				ServiceName: constants.PartyServiceName,
 			}),
 		server.WithLimit(&limit.Option{
 			MaxConnections: constants.MaxConnections,

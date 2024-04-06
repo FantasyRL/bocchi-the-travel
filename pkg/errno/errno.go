@@ -29,6 +29,7 @@ const (
 	MemberNotExistErrCode
 	MemberStatusDuplicateErrCode
 	NotFounderErrCode
+	FounderErrCode
 )
 
 const (
@@ -48,6 +49,7 @@ const (
 	MemberNotExistErrMsg        = "member not apply or join this party"
 	MemberStatusDuplicateErrMsg = "member's status is not change"
 	NotFounderErrMsg            = "this user have no access to this party's applicants list"
+	FounderErrMsg               = "you can't join your party"
 
 	WebSocketSuccessMsg             = "Connect to server success"
 	WebSocketLogoutSuccessMsg       = "logout success"
@@ -96,6 +98,7 @@ var (
 	MemberNotExistError        = NewErrNo(MemberNotExistErrCode, MemberNotExistErrMsg)
 	MemberStatusDuplicateError = NewErrNo(MemberStatusDuplicateErrCode, MemberStatusDuplicateErrMsg)
 	NotFounderError            = NewErrNo(NotFounderErrCode, NotFounderErrMsg)
+	FounderError               = NewErrNo(FounderErrCode, FounderErrMsg)
 
 	WebSocketSuccess             = NewErrNo(WebSocketSuccessCode, WebSocketSuccessMsg)
 	WebSocketLogoutSuccess       = NewErrNo(WebSocketLogoutSuccessCode, WebSocketLogoutSuccessMsg)

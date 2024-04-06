@@ -27,6 +27,10 @@ go run bocchi/api
 go run bocchi/rpc/user
 ```
 
+```bash
+go run bocchi/rpc/party
+```
+
 ## 技术栈
 * api:hertz(thrift)
 * db:gorm

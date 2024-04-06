@@ -79,8 +79,7 @@ struct AvatarResponse{
 }
 
 struct SignatureRequest{
-    1:i64 user_id,
-    2:string signature,
+    1:string signature,
 }
 
 struct SignatureResponse{
