@@ -122,16 +122,16 @@ func ChangeMemberStatus(ctx context.Context, memberModel *Member) error {
 	return DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ?", memberModel.PartyId, memberModel.MemberId).Update("status", memberModel.Status).Error
 }
 
-func ISMemberExist(ctx context.Context, memberModel *Member) error {
+func ISMemberExist(ctx context.Context, memberModel *Member) (bool, error) {
 	memberResp := new(Member)
 	err := DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ?", memberModel.PartyId, memberModel.MemberId).First(memberResp).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return errno.MemberNotExistError
+		return false, errno.MemberNotExistError
 	}
 	if err != nil {
-		return err
+		return true, err
 	}
-	return nil
+	return true, nil
 }
 
 func CheckMemberStatus(ctx context.Context, memberModel *Member) error {

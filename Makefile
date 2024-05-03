@@ -11,8 +11,9 @@ PERFIX = "[Makefile]"
 
 .PHONY: env-up
 env-up:
-	#sh init.sh
+	sh init.sh
 	docker-compose up -d
+	go mod tidy
 
 .PHONY: env-down
 env-down:
@@ -32,15 +33,7 @@ $(SERVICES):
 		go run $(API_PATH) ; fi
 
 
-
-
-
 .PHONY: build-all
 build-all:
-	@for var in $(SERVICES); do \
-		echo "$(PERFIX) building $$var service"; \
-		make $$var; done
+	sh start.sh
 
-.PHONY: docker
-docker:
-	docker build -t bocchi .

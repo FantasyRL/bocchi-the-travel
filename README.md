@@ -2,25 +2,17 @@
 
 ![project.jpg](project.jpg)
 
-## slowly start
+## 本机裸启动
 
-(还未研究容器启动rpc，私密马赛)
 ```bash
 mv config/config-example.yaml config/config.yaml
 make env-up
+make build-all
 ```
 
-```bash
-make api
-```
+## 日志监测
+启动后在[kibana](http://127.0.0.1:5601/)中可查看日志
 
-```bash
-make user
-```
-
-```bash
-make party
-```
 
 ## 技术栈
 * api:hertz(thrift)

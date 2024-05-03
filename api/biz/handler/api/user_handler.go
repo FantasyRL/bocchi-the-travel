@@ -241,8 +241,10 @@ func GetAccessToken(ctx context.Context, c *app.RequestContext) {
 
 	//hertz jwt(mw)
 	v2, _ := c.Get("access-token")
-	at := v2.(string)
-	resp.AccessToken = &at
+	if v2 != nil {
+		at := v2.(string)
+		resp.AccessToken = &at
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }

@@ -12,7 +12,7 @@ import (
 )
 
 func (s *UserService) Switch2faType(req *user.Switch2FARequest) error {
-	userResp, err := db.QueryUserByID(&db.User{ID: req.UserId})
+	userResp, err := db.QueryUserByID(s.ctx, &db.User{ID: req.UserId})
 	if err != nil {
 		return err
 	}
@@ -31,7 +31,7 @@ func (s *UserService) Switch2faType(req *user.Switch2FARequest) error {
 			return err
 		}
 
-		if db.Update2FA(key.Secret(), req.UserId) != nil {
+		if db.Update2FA(s.ctx, key.Secret(), req.UserId) != nil {
 			return err
 		}
 
@@ -52,6 +52,6 @@ func (s *UserService) Switch2faType(req *user.Switch2FARequest) error {
 			return errno.Verify2FAError
 		}
 	}
-	return db.Update2FAType(req.ActionType, req.UserId)
+	return db.Update2FAType(s.ctx, req.ActionType, req.UserId)
 
 }
