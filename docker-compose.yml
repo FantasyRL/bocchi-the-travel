@@ -8,6 +8,16 @@ services:
   mysql:
     image: mysql:8.0.36
     container_name: bocchi-the-travel
+    deploy:
+      resources:
+#        最高
+        limits:
+          cpus: '0.50'
+          memory: 512M
+#          最低
+        reservations:
+          cpus: '0.25'
+          memory: 50M
     volumes:
       - ./config/sql:/docker-entrypoint-initdb.d
       - ./data/mysql:/var/lib/mysql
@@ -21,23 +31,31 @@ services:
     networks:
       - bocchi
 
-  redis:
-    image: redis:6.0.16
-    container_name: redis
-    ports:
-      - "6399:6379"
-    volumes:
-      - ./data/redis/data:/data
-      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./data/redis/logs:/logs
-    restart: always
-    networks:
-      - bocchi
+#  redis:
+#    image: redis:6.0.16
+#    container_name: redis
+#    ports:
+#      - "6399:6379"
+#    volumes:
+#      - ./data/redis/data:/data
+#      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+#      - ./data/redis/logs:/logs
+#    restart: always
+#    networks:
+#      - bocchi
 
 
   etcd:
     image: bitnami/etcd:3.5
     container_name: etcd
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     ports:
       - "2379:2379"
       - "2380:2380"
@@ -53,11 +71,20 @@ services:
   elasticsearch:
     image: elasticsearch:8.12.2
     container_name: elasticsearch
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     environment:
       xpack.security.enabled: "false"
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m" # 加大内存设置
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m" # 加大内存设置
       discovery.type: single-node
       TZ: Asia/Shanghai
+
     ulimits:
       memlock:
         soft: -1
@@ -75,6 +102,14 @@ services:
   kibana:
     image: kibana:8.12.2
     container_name: kibana
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     environment:
       - XPACK_GRAPH_ENABLED=true
       - TIMELION_ENABLED=true
