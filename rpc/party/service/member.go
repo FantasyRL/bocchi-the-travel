@@ -18,10 +18,12 @@ func (s *PartyService) JoinParty(req *party.JoinPartyRequest) error {
 		PartyId:  req.PartyId,
 		MemberId: req.MemberId,
 	}
-	if err := db.ISMemberExist(s.ctx, memberModel); err != nil {
-		return err
+	ok, err := db.ISMemberExist(s.ctx, memberModel)
+	if !ok {
+		return db.ApplyToParty(s.ctx, memberModel)
 	}
-	return db.ApplyToParty(s.ctx, memberModel)
+	return err
+
 }
 
 func (s *PartyService) ApplyList(req *party.ApplyListRequest) (*[]db.Member, int64, error) {

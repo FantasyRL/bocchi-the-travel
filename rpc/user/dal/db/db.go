@@ -27,11 +27,11 @@ type User struct {
 func Register(ctx context.Context, userModel *User) (*User, error) {
 	userResp := new(User)
 	//WithContext(ctx)是将一个context.Context对象和数据库连接绑定，以实现在数据库操作中使用context.Context上下文传递。
-	if err := DB.Where("user_name = ? OR email = ?", userModel.UserName, userModel.Email).First(&userResp).Error; err == nil {
+	if err := DB.WithContext(ctx).Where("user_name = ? OR email = ?", userModel.UserName, userModel.Email).First(&userResp).Error; err == nil {
 		return nil, errno.ExistUserError
 	}
 
-	if err := DB.Create(userModel).Error; err != nil {
+	if err := DB.WithContext(ctx).Create(userModel).Error; err != nil {
 		return nil, err
 	}
 	return userModel, nil
@@ -51,38 +51,41 @@ func Login(ctx context.Context, userModel *User) (*User, error) {
 	return userResp, nil
 }
 
-func Update2FAType(type2fa int64, uid int64) error {
-	return DB.Model(User{}).Where("id = ?", uid).Update("type2fa", type2fa).Error
+func Update2FAType(ctx context.Context, type2fa int64, uid int64) error {
+	return DB.WithContext(ctx).Where("id = ?", uid).Update("type2fa", type2fa).Error
 }
 
-func Update2FA(totp string, uid int64) error {
-	return DB.Model(User{}).Where("id = ?", uid).Update("otp", totp).Error
+func Update2FA(ctx context.Context, totp string, uid int64) error {
+	return DB.WithContext(ctx).Where("id = ?", uid).Update("otp", totp).Error
 }
 
 func PutAvatar(ctx context.Context, userModel *User) (*User, error) {
 	userResp := new(User)
-	if err := DB.Model(User{}).Where("id = ?", userModel.ID).Update("avatar", userModel.Avatar).First(userResp).Error; err != nil {
+	if err := DB.WithContext(ctx).Where("id = ?", userModel.ID).Update("avatar", userModel.Avatar).Error; err != nil {
+		return nil, err
+	}
+	if err := DB.WithContext(ctx).Where("id = ?", userModel.ID).First(userResp).Error; err != nil {
 		return nil, err
 	}
 	return userResp, nil
 }
 
-func QueryUserByID(userModel *User) (*User, error) {
+func QueryUserByID(ctx context.Context, userModel *User) (*User, error) {
 	userResp := new(User)
-	if err := DB.Model(User{}).Where("id = ?", userModel.ID).First(&userResp).Error; err != nil {
+	if err := DB.WithContext(ctx).Where("id = ?", userModel.ID).First(&userResp).Error; err != nil {
 		return nil, err
 	}
 	return userResp, nil
 }
 
-func QueryUserByIDList(uidList []int64) (*[]User, error) {
+func QueryUserByIDList(ctx context.Context, uidList []int64) (*[]User, error) {
 	userResp := new([]User)
-	if err := DB.Model(User{}).Where("id IN ?", uidList).Find(userResp).Error; err != nil {
+	if err := DB.WithContext(ctx).Where("id IN ?", uidList).Find(userResp).Error; err != nil {
 		return nil, err
 	}
 	return userResp, nil
 }
 
 func PutSignature(ctx context.Context, userModel *User) error {
-	return DB.Where("id = ?", userModel.ID).Updates(User{Signature: userModel.Signature}).Error
+	return DB.WithContext(ctx).Where("id = ?", userModel.ID).Updates(User{Signature: userModel.Signature}).Error
 }

@@ -23,8 +23,9 @@ func _access_tokenMw() []app.HandlerFunc {
 }
 
 func _getaccesstokenMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	return []app.HandlerFunc{
+		jwt.JwtRefreshMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _userMw() []app.HandlerFunc {

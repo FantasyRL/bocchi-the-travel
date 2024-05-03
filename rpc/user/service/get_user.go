@@ -6,5 +6,5 @@ import (
 )
 
 func (s *UserService) GetMember(req *user.GetMemberRequest) (*[]db.User, error) {
-	return db.QueryUserByIDList(req.MemberIdList)
+	return db.QueryUserByIDList(s.ctx, req.MemberIdList)
 }
