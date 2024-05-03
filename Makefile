@@ -3,17 +3,14 @@ CONFIG_PATH = $(DIR)/config
 IDL_PATH = $(DIR)/idl
 API_PATH = $(DIR)/api
 RPC = $(DIR)/rpc
-OUTPUT_PATH = $(DIR)/output
 API=api
-SHELL=/bin/bash
 
-PERFIX = "[Makefile]"
 
 .PHONY: env-up
 env-up:
 	sh init.sh
-	docker-compose up -d
 	go mod tidy
+	docker-compose up -d
 
 .PHONY: env-down
 env-down:
