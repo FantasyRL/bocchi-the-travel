@@ -1,9 +1,12 @@
 .touxiang {
   opacity: 1; /* 设置透明度为0.5 */
   position: relative;
-  top: 30px;
-  left: 30px;
-  zoom: 100%;
+  top: 50px;
+  left: 10%;
+  zoom: 160%;
+
+  margin-left: auto; /* 设置元素在其容器的左侧位置 */
+  margin-right: auto; /* 设置元素在其容器的右侧位置 */
 }
 .ant-page-header.ant-page-header-ghost.css-dev-only-do-not-override-16pw25h {
   width: 100%;
@@ -11,7 +14,31 @@
 
 body,
 html {
-  overflow-x: hidden;
-  overflow-y: auto;
-  overflow：hidden;
+  /*  overflow-x: hidden; */
+  /* overflow-y: auto; */
+  /* overflow: hidden; */
+  /* overflow-y: auto; */
+}
+
+.ab1 {
+  height: 150px;
+}
+
+.name {
+  opacity: 1;
+  position: relative;
+  top: 10px;
+  left: 35%;
+  color: #000000; /* 设置字体颜色 */
+  font-size: 30px; /* 设置字体大小 */
+  font-weight: bold; /* 设置字体粗细 */
+  font-family: 'Arial', sans-serif; /* 设置字体样式 */
+  line-height: 1.5; /* 设置行高 */
+
+  margin-right: auto; /* 设置元素在其容器的右侧位置 */
+}
+
+.ab2 {
+  top: 200px;
+  position: relative;
 }
