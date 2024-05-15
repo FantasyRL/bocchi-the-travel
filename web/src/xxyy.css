@@ -1,0 +1,17 @@
+.touxiang {
+  opacity: 1; /* 设置透明度为0.5 */
+  position: relative;
+  top: 30px;
+  left: 30px;
+  zoom: 100%;
+}
+.ant-page-header.ant-page-header-ghost.css-dev-only-do-not-override-16pw25h {
+  width: 100%;
+}
+
+body,
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow：hidden;
+}
