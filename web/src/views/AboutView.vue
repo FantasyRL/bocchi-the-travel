@@ -27,7 +27,9 @@ const counter = useCounterStore()
       </div>
       <!-- 头像 end -->
 
-      <div class="name">我的名字</div>
+      <div class="name">
+        <text>我的名字</text>
+      </div>
 
 
     </div>

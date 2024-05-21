@@ -10,9 +10,9 @@ const counter = useCounterStore()
 
 
 
-  <div>Count: {{ counter.count }}</div>
 
-  <button @click="counter.increment">+1</button>
+
+
 
 
   <RouterLink to="/">主页 </RouterLink>
@@ -20,4 +20,9 @@ const counter = useCounterStore()
 
 
   <RouterView />
+  <div class="toolbox">
+    <Text>Debug box</Text>
+    <button @click="counter.increment">counter +1</button>
+    <div class="counter">Count: {{ counter.count }}</div>
+  </div>
 </template>
