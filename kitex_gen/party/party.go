@@ -4,744 +4,11 @@ package party
 
 import (
 	"bocchi/kitex_gen/base"
-	"bocchi/kitex_gen/user"
 	"context"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"
 	"strings"
 )
-
-type Party struct {
-	Id          int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
-	FounderId   int64  `thrift:"founder_id,2" frugal:"2,default,i64" json:"founder_id"`
-	Title       string `thrift:"title,3" frugal:"3,default,string" json:"title"`
-	Content     string `thrift:"content,4" frugal:"4,default,string" json:"content"`
-	Type        int64  `thrift:"type,5" frugal:"5,default,i64" json:"type"`
-	Province    string `thrift:"province,6" frugal:"6,default,string" json:"province"`
-	City        string `thrift:"city,7" frugal:"7,default,string" json:"city"`
-	StartTime   string `thrift:"start_time,8" frugal:"8,default,string" json:"start_time"`
-	EndTime     string `thrift:"end_time,9" frugal:"9,default,string" json:"end_time"`
-	MemberCount int64  `thrift:"member_count,10" frugal:"10,default,i64" json:"member_count"`
-	Status      int64  `thrift:"status,11" frugal:"11,default,i64" json:"status"`
-}
-
-func NewParty() *Party {
-	return &Party{}
-}
-
-func (p *Party) InitDefault() {
-	*p = Party{}
-}
-
-func (p *Party) GetId() (v int64) {
-	return p.Id
-}
-
-func (p *Party) GetFounderId() (v int64) {
-	return p.FounderId
-}
-
-func (p *Party) GetTitle() (v string) {
-	return p.Title
-}
-
-func (p *Party) GetContent() (v string) {
-	return p.Content
-}
-
-func (p *Party) GetType() (v int64) {
-	return p.Type
-}
-
-func (p *Party) GetProvince() (v string) {
-	return p.Province
-}
-
-func (p *Party) GetCity() (v string) {
-	return p.City
-}
-
-func (p *Party) GetStartTime() (v string) {
-	return p.StartTime
-}
-
-func (p *Party) GetEndTime() (v string) {
-	return p.EndTime
-}
-
-func (p *Party) GetMemberCount() (v int64) {
-	return p.MemberCount
-}
-
-func (p *Party) GetStatus() (v int64) {
-	return p.Status
-}
-func (p *Party) SetId(val int64) {
-	p.Id = val
-}
-func (p *Party) SetFounderId(val int64) {
-	p.FounderId = val
-}
-func (p *Party) SetTitle(val string) {
-	p.Title = val
-}
-func (p *Party) SetContent(val string) {
-	p.Content = val
-}
-func (p *Party) SetType(val int64) {
-	p.Type = val
-}
-func (p *Party) SetProvince(val string) {
-	p.Province = val
-}
-func (p *Party) SetCity(val string) {
-	p.City = val
-}
-func (p *Party) SetStartTime(val string) {
-	p.StartTime = val
-}
-func (p *Party) SetEndTime(val string) {
-	p.EndTime = val
-}
-func (p *Party) SetMemberCount(val int64) {
-	p.MemberCount = val
-}
-func (p *Party) SetStatus(val int64) {
-	p.Status = val
-}
-
-var fieldIDToName_Party = map[int16]string{
-	1:  "id",
-	2:  "founder_id",
-	3:  "title",
-	4:  "content",
-	5:  "type",
-	6:  "province",
-	7:  "city",
-	8:  "start_time",
-	9:  "end_time",
-	10: "member_count",
-	11: "status",
-}
-
-func (p *Party) Read(iprot thrift.TProtocol) (err error) {
-
-	var fieldTypeId thrift.TType
-	var fieldId int16
-
-	if _, err = iprot.ReadStructBegin(); err != nil {
-		goto ReadStructBeginError
-	}
-
-	for {
-		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
-		if err != nil {
-			goto ReadFieldBeginError
-		}
-		if fieldTypeId == thrift.STOP {
-			break
-		}
-
-		switch fieldId {
-		case 1:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField1(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 2:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField2(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 3:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField3(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 4:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField4(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 5:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField5(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 6:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField6(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 7:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField7(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 8:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField8(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 9:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField9(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 10:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField10(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 11:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField11(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		default:
-			if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		}
-		if err = iprot.ReadFieldEnd(); err != nil {
-			goto ReadFieldEndError
-		}
-	}
-	if err = iprot.ReadStructEnd(); err != nil {
-		goto ReadStructEndError
-	}
-
-	return nil
-ReadStructBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
-ReadFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
-ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_Party[fieldId]), err)
-SkipFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
-
-ReadFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
-ReadStructEndError:
-	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-}
-
-func (p *Party) ReadField1(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.Id = v
-	}
-	return nil
-}
-func (p *Party) ReadField2(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.FounderId = v
-	}
-	return nil
-}
-func (p *Party) ReadField3(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadString(); err != nil {
-		return err
-	} else {
-		p.Title = v
-	}
-	return nil
-}
-func (p *Party) ReadField4(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadString(); err != nil {
-		return err
-	} else {
-		p.Content = v
-	}
-	return nil
-}
-func (p *Party) ReadField5(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.Type = v
-	}
-	return nil
-}
-func (p *Party) ReadField6(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadString(); err != nil {
-		return err
-	} else {
-		p.Province = v
-	}
-	return nil
-}
-func (p *Party) ReadField7(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadString(); err != nil {
-		return err
-	} else {
-		p.City = v
-	}
-	return nil
-}
-func (p *Party) ReadField8(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadString(); err != nil {
-		return err
-	} else {
-		p.StartTime = v
-	}
-	return nil
-}
-func (p *Party) ReadField9(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadString(); err != nil {
-		return err
-	} else {
-		p.EndTime = v
-	}
-	return nil
-}
-func (p *Party) ReadField10(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.MemberCount = v
-	}
-	return nil
-}
-func (p *Party) ReadField11(iprot thrift.TProtocol) error {
-
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.Status = v
-	}
-	return nil
-}
-
-func (p *Party) Write(oprot thrift.TProtocol) (err error) {
-	var fieldId int16
-	if err = oprot.WriteStructBegin("Party"); err != nil {
-		goto WriteStructBeginError
-	}
-	if p != nil {
-		if err = p.writeField1(oprot); err != nil {
-			fieldId = 1
-			goto WriteFieldError
-		}
-		if err = p.writeField2(oprot); err != nil {
-			fieldId = 2
-			goto WriteFieldError
-		}
-		if err = p.writeField3(oprot); err != nil {
-			fieldId = 3
-			goto WriteFieldError
-		}
-		if err = p.writeField4(oprot); err != nil {
-			fieldId = 4
-			goto WriteFieldError
-		}
-		if err = p.writeField5(oprot); err != nil {
-			fieldId = 5
-			goto WriteFieldError
-		}
-		if err = p.writeField6(oprot); err != nil {
-			fieldId = 6
-			goto WriteFieldError
-		}
-		if err = p.writeField7(oprot); err != nil {
-			fieldId = 7
-			goto WriteFieldError
-		}
-		if err = p.writeField8(oprot); err != nil {
-			fieldId = 8
-			goto WriteFieldError
-		}
-		if err = p.writeField9(oprot); err != nil {
-			fieldId = 9
-			goto WriteFieldError
-		}
-		if err = p.writeField10(oprot); err != nil {
-			fieldId = 10
-			goto WriteFieldError
-		}
-		if err = p.writeField11(oprot); err != nil {
-			fieldId = 11
-			goto WriteFieldError
-		}
-	}
-	if err = oprot.WriteFieldStop(); err != nil {
-		goto WriteFieldStopError
-	}
-	if err = oprot.WriteStructEnd(); err != nil {
-		goto WriteStructEndError
-	}
-	return nil
-WriteStructBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
-WriteFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
-WriteFieldStopError:
-	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
-WriteStructEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
-}
-
-func (p *Party) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("id", thrift.I64, 1); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.Id); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
-}
-
-func (p *Party) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("founder_id", thrift.I64, 2); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.FounderId); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
-}
-
-func (p *Party) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("title", thrift.STRING, 3); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.Title); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
-}
-
-func (p *Party) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("content", thrift.STRING, 4); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.Content); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
-}
-
-func (p *Party) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("type", thrift.I64, 5); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.Type); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
-}
-
-func (p *Party) writeField6(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("province", thrift.STRING, 6); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.Province); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 6 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 6 end error: ", p), err)
-}
-
-func (p *Party) writeField7(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("city", thrift.STRING, 7); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.City); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 7 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 7 end error: ", p), err)
-}
-
-func (p *Party) writeField8(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("start_time", thrift.STRING, 8); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.StartTime); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 8 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 8 end error: ", p), err)
-}
-
-func (p *Party) writeField9(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("end_time", thrift.STRING, 9); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.EndTime); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 9 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 9 end error: ", p), err)
-}
-
-func (p *Party) writeField10(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("member_count", thrift.I64, 10); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.MemberCount); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 10 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 10 end error: ", p), err)
-}
-
-func (p *Party) writeField11(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("status", thrift.I64, 11); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.Status); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 11 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 11 end error: ", p), err)
-}
-
-func (p *Party) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("Party(%+v)", *p)
-
-}
-
-func (p *Party) DeepEqual(ano *Party) bool {
-	if p == ano {
-		return true
-	} else if p == nil || ano == nil {
-		return false
-	}
-	if !p.Field1DeepEqual(ano.Id) {
-		return false
-	}
-	if !p.Field2DeepEqual(ano.FounderId) {
-		return false
-	}
-	if !p.Field3DeepEqual(ano.Title) {
-		return false
-	}
-	if !p.Field4DeepEqual(ano.Content) {
-		return false
-	}
-	if !p.Field5DeepEqual(ano.Type) {
-		return false
-	}
-	if !p.Field6DeepEqual(ano.Province) {
-		return false
-	}
-	if !p.Field7DeepEqual(ano.City) {
-		return false
-	}
-	if !p.Field8DeepEqual(ano.StartTime) {
-		return false
-	}
-	if !p.Field9DeepEqual(ano.EndTime) {
-		return false
-	}
-	if !p.Field10DeepEqual(ano.MemberCount) {
-		return false
-	}
-	if !p.Field11DeepEqual(ano.Status) {
-		return false
-	}
-	return true
-}
-
-func (p *Party) Field1DeepEqual(src int64) bool {
-
-	if p.Id != src {
-		return false
-	}
-	return true
-}
-func (p *Party) Field2DeepEqual(src int64) bool {
-
-	if p.FounderId != src {
-		return false
-	}
-	return true
-}
-func (p *Party) Field3DeepEqual(src string) bool {
-
-	if strings.Compare(p.Title, src) != 0 {
-		return false
-	}
-	return true
-}
-func (p *Party) Field4DeepEqual(src string) bool {
-
-	if strings.Compare(p.Content, src) != 0 {
-		return false
-	}
-	return true
-}
-func (p *Party) Field5DeepEqual(src int64) bool {
-
-	if p.Type != src {
-		return false
-	}
-	return true
-}
-func (p *Party) Field6DeepEqual(src string) bool {
-
-	if strings.Compare(p.Province, src) != 0 {
-		return false
-	}
-	return true
-}
-func (p *Party) Field7DeepEqual(src string) bool {
-
-	if strings.Compare(p.City, src) != 0 {
-		return false
-	}
-	return true
-}
-func (p *Party) Field8DeepEqual(src string) bool {
-
-	if strings.Compare(p.StartTime, src) != 0 {
-		return false
-	}
-	return true
-}
-func (p *Party) Field9DeepEqual(src string) bool {
-
-	if strings.Compare(p.EndTime, src) != 0 {
-		return false
-	}
-	return true
-}
-func (p *Party) Field10DeepEqual(src int64) bool {
-
-	if p.MemberCount != src {
-		return false
-	}
-	return true
-}
-func (p *Party) Field11DeepEqual(src int64) bool {
-
-	if p.Status != src {
-		return false
-	}
-	return true
-}
 
 type CreatePartyRequest struct {
 	FounderId int64  `thrift:"founder_id,1" frugal:"1,default,i64" json:"founder_id"`
@@ -2140,7 +1407,7 @@ func (p *ApplyListRequest) Field3DeepEqual(src int64) bool {
 type ApplyListResponse struct {
 	Base           *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
 	ApplicantCount *int64         `thrift:"applicant_count,2,optional" frugal:"2,optional,i64" json:"applicant_count,omitempty"`
-	ApplicantList  []*user.User   `thrift:"applicant_list,3,optional" frugal:"3,optional,list<user.User>" json:"applicant_list,omitempty"`
+	ApplicantList  []*base.User   `thrift:"applicant_list,3,optional" frugal:"3,optional,list<base.User>" json:"applicant_list,omitempty"`
 }
 
 func NewApplyListResponse() *ApplyListResponse {
@@ -2169,9 +1436,9 @@ func (p *ApplyListResponse) GetApplicantCount() (v int64) {
 	return *p.ApplicantCount
 }
 
-var ApplyListResponse_ApplicantList_DEFAULT []*user.User
+var ApplyListResponse_ApplicantList_DEFAULT []*base.User
 
-func (p *ApplyListResponse) GetApplicantList() (v []*user.User) {
+func (p *ApplyListResponse) GetApplicantList() (v []*base.User) {
 	if !p.IsSetApplicantList() {
 		return ApplyListResponse_ApplicantList_DEFAULT
 	}
@@ -2183,7 +1450,7 @@ func (p *ApplyListResponse) SetBase(val *base.BaseResp) {
 func (p *ApplyListResponse) SetApplicantCount(val *int64) {
 	p.ApplicantCount = val
 }
-func (p *ApplyListResponse) SetApplicantList(val []*user.User) {
+func (p *ApplyListResponse) SetApplicantList(val []*base.User) {
 	p.ApplicantList = val
 }
 
@@ -2298,9 +1565,9 @@ func (p *ApplyListResponse) ReadField3(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.ApplicantList = make([]*user.User, 0, size)
+	p.ApplicantList = make([]*base.User, 0, size)
 	for i := 0; i < size; i++ {
-		_elem := user.NewUser()
+		_elem := base.NewUser()
 		if err := _elem.Read(iprot); err != nil {
 			return err
 		}
@@ -2457,7 +1724,7 @@ func (p *ApplyListResponse) Field2DeepEqual(src *int64) bool {
 	}
 	return true
 }
-func (p *ApplyListResponse) Field3DeepEqual(src []*user.User) bool {
+func (p *ApplyListResponse) Field3DeepEqual(src []*base.User) bool {
 
 	if len(p.ApplicantList) != len(src) {
 		return false
@@ -3138,7 +2405,7 @@ func (p *GetPartyMembersRequest) Field2DeepEqual(src int64) bool {
 type GetPartyMembersResponse struct {
 	Base        *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
 	MemberCount *int64         `thrift:"member_count,2,optional" frugal:"2,optional,i64" json:"member_count,omitempty"`
-	MemberList  []*user.User   `thrift:"member_list,3,optional" frugal:"3,optional,list<user.User>" json:"member_list,omitempty"`
+	MemberList  []*base.User   `thrift:"member_list,3,optional" frugal:"3,optional,list<base.User>" json:"member_list,omitempty"`
 }
 
 func NewGetPartyMembersResponse() *GetPartyMembersResponse {
@@ -3167,9 +2434,9 @@ func (p *GetPartyMembersResponse) GetMemberCount() (v int64) {
 	return *p.MemberCount
 }
 
-var GetPartyMembersResponse_MemberList_DEFAULT []*user.User
+var GetPartyMembersResponse_MemberList_DEFAULT []*base.User
 
-func (p *GetPartyMembersResponse) GetMemberList() (v []*user.User) {
+func (p *GetPartyMembersResponse) GetMemberList() (v []*base.User) {
 	if !p.IsSetMemberList() {
 		return GetPartyMembersResponse_MemberList_DEFAULT
 	}
@@ -3181,7 +2448,7 @@ func (p *GetPartyMembersResponse) SetBase(val *base.BaseResp) {
 func (p *GetPartyMembersResponse) SetMemberCount(val *int64) {
 	p.MemberCount = val
 }
-func (p *GetPartyMembersResponse) SetMemberList(val []*user.User) {
+func (p *GetPartyMembersResponse) SetMemberList(val []*base.User) {
 	p.MemberList = val
 }
 
@@ -3296,9 +2563,9 @@ func (p *GetPartyMembersResponse) ReadField3(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.MemberList = make([]*user.User, 0, size)
+	p.MemberList = make([]*base.User, 0, size)
 	for i := 0; i < size; i++ {
-		_elem := user.NewUser()
+		_elem := base.NewUser()
 		if err := _elem.Read(iprot); err != nil {
 			return err
 		}
@@ -3455,7 +2722,7 @@ func (p *GetPartyMembersResponse) Field2DeepEqual(src *int64) bool {
 	}
 	return true
 }
-func (p *GetPartyMembersResponse) Field3DeepEqual(src []*user.User) bool {
+func (p *GetPartyMembersResponse) Field3DeepEqual(src []*base.User) bool {
 
 	if len(p.MemberList) != len(src) {
 		return false
@@ -4072,7 +3339,7 @@ func (p *SearchPartyRequest) Field7DeepEqual(src int64) bool {
 type SearchPartyResponse struct {
 	Base       *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
 	PartyCount *int64         `thrift:"party_count,2,optional" frugal:"2,optional,i64" json:"party_count,omitempty"`
-	PartyList  []*Party       `thrift:"party_list,3,optional" frugal:"3,optional,list<Party>" json:"party_list,omitempty"`
+	PartyList  []*base.Party  `thrift:"party_list,3,optional" frugal:"3,optional,list<base.Party>" json:"party_list,omitempty"`
 }
 
 func NewSearchPartyResponse() *SearchPartyResponse {
@@ -4101,9 +3368,9 @@ func (p *SearchPartyResponse) GetPartyCount() (v int64) {
 	return *p.PartyCount
 }
 
-var SearchPartyResponse_PartyList_DEFAULT []*Party
+var SearchPartyResponse_PartyList_DEFAULT []*base.Party
 
-func (p *SearchPartyResponse) GetPartyList() (v []*Party) {
+func (p *SearchPartyResponse) GetPartyList() (v []*base.Party) {
 	if !p.IsSetPartyList() {
 		return SearchPartyResponse_PartyList_DEFAULT
 	}
@@ -4115,7 +3382,7 @@ func (p *SearchPartyResponse) SetBase(val *base.BaseResp) {
 func (p *SearchPartyResponse) SetPartyCount(val *int64) {
 	p.PartyCount = val
 }
-func (p *SearchPartyResponse) SetPartyList(val []*Party) {
+func (p *SearchPartyResponse) SetPartyList(val []*base.Party) {
 	p.PartyList = val
 }
 
@@ -4230,9 +3497,9 @@ func (p *SearchPartyResponse) ReadField3(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.PartyList = make([]*Party, 0, size)
+	p.PartyList = make([]*base.Party, 0, size)
 	for i := 0; i < size; i++ {
-		_elem := NewParty()
+		_elem := base.NewParty()
 		if err := _elem.Read(iprot); err != nil {
 			return err
 		}
@@ -4389,7 +3656,7 @@ func (p *SearchPartyResponse) Field2DeepEqual(src *int64) bool {
 	}
 	return true
 }
-func (p *SearchPartyResponse) Field3DeepEqual(src []*Party) bool {
+func (p *SearchPartyResponse) Field3DeepEqual(src []*base.Party) bool {
 
 	if len(p.PartyList) != len(src) {
 		return false

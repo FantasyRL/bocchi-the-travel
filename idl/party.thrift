@@ -1,21 +1,7 @@
 namespace go party
 
 include"base.thrift"
-include"user.thrift"
 
-struct Party{
-    1: i64 id,
-    2: i64 founder_id,
-    3: string title,
-    4: string content,
-    5: i64 type,
-    6: string province,
-    7: string city,
-    8:string start_time,
-    9:string end_time,
-    10:i64 member_count,
-    11:i64 status,
-}
 
 struct CreatePartyRequest{
     1:i64 founder_id,
@@ -50,7 +36,7 @@ struct ApplyListRequest{
 struct ApplyListResponse{
     1:base.BaseResp base,
     2:optional i64 applicant_count,
-    3:optional list<user.User> applicant_list,
+    3:optional list<base.User> applicant_list,
 }
 
 struct PermitJoinRequest{
@@ -71,7 +57,7 @@ struct GetPartyMembersRequest{
 struct GetPartyMembersResponse{
     1:base.BaseResp base,
     2:optional i64 member_count,
-    3:optional list<user.User> member_list,
+    3:optional list<base.User> member_list,
 }
 
 struct SearchPartyRequest{
@@ -87,8 +73,10 @@ struct SearchPartyRequest{
 struct SearchPartyResponse{
     1:base.BaseResp base,
     2:optional i64 party_count,
-    3:optional list<Party> party_list,
+    3:optional list<base.Party> party_list,
 }
+
+
 
 service PartyHandler{
     CreatePartyResponse CreateParty(1:CreatePartyRequest req)(api.post="/bocchi/party/create"),
@@ -97,5 +85,4 @@ service PartyHandler{
     PermitJoinResponse PermitJoin(1:PermitJoinRequest req)(api.get="/bocchi/party/apply/permit"),
     GetPartyMembersResponse GetPartyMembers(1:GetPartyMembersRequest req)(api.get="/bocchi/party/members"),
     SearchPartyResponse SearchParty(1:SearchPartyRequest req)(api.post="/bocchi/party/search"),
-
 }

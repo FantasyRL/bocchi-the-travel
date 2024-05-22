@@ -4,14 +4,16 @@ import "time"
 
 const (
 	// service name
-	APIServiceName   = "api"
-	UserServiceName  = "user"
-	PartyServiceName = "party"
+	APIServiceName       = "api"
+	UserServiceName      = "user"
+	PartyServiceName     = "party"
+	ItineraryServiceName = "itinerary"
 
 	// db table name
-	UserTableName   = "user"
-	PartyTableName  = "party"
-	MemberTableName = "member"
+	UserTableName      = "user"
+	PartyTableName     = "party"
+	MemberTableName    = "member"
+	ItineraryTableName = "itinerary"
 
 	// limit
 	MaxConnections     = 1000

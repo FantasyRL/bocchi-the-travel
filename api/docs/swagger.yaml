@@ -152,6 +152,135 @@ paths:
       - application/json
       responses: {}
       summary: create_party
+  /bocchi/party/itinerary/create:
+    post:
+      consumes:
+      - json/form
+      description: create itinerary for party
+      parameters:
+      - description: 标题
+        in: query
+        name: title
+        required: true
+        type: string
+      - description: 类型 1:route;2:activity;3:accommodation;4:eat;5:other
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 坐标 1时不需要
+        in: query
+        name: rectangle
+        type: string
+      - description: 路线 1时需要
+        in: query
+        name: route_json
+        type: string
+      - description: 备注
+        in: query
+        name: remark
+        type: string
+      - description: 计划起始时间(例:2006-01-02 15:40)
+        in: query
+        name: schedule_start_time
+        required: true
+        type: string
+      - description: 计划结束时间(例:2006-01-02 16:40)
+        in: query
+        name: schedule_end_time
+        required: true
+        type: string
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: create_itinerary
+  /bocchi/party/itinerary/merge:
+    get:
+      consumes:
+      - json/form
+      description: merge itinerary into party
+      parameters:
+      - description: 行程id
+        in: query
+        name: itinerary_id
+        required: true
+        type: array
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: merge_itinerary
+  /bocchi/party/itinerary/sequence/change:
+    post:
+      consumes:
+      - json/form
+      description: show party's itineraries order by sequence
+      parameters:
+      - description: 行程id列表
+        in: query
+        name: itinerary_id_list
+        required: true
+        type: array
+      - description: 对应行程的顺序列表
+        in: query
+        name: sequence_list
+        required: true
+        type: array
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: show_party_itinerary
+  /bocchi/party/itinerary/show:
+    get:
+      consumes:
+      - json/form
+      description: show party's itineraries order by sequence
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: show_party_itinerary
   /bocchi/party/members:
     get:
       consumes:

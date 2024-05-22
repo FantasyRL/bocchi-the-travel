@@ -39,3 +39,4 @@ hz_update.sh
 kitex_update.sh
 /config/config.yaml
 */output
+*.vscode

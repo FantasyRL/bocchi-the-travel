@@ -1,4 +1,5 @@
 namespace go api
+
 include"base.thrift"
 
 //user
@@ -112,6 +113,7 @@ struct Party{
     9:string end_time,
     10:i64 member_count,
     11:i64 status,
+    12:string rectangle,
 }
 
 struct CreatePartyRequest{
@@ -183,6 +185,7 @@ struct SearchPartyResponse{
     3:optional list<Party> party_list,
 }
 
+
 service PartyHandler{
     CreatePartyResponse CreateParty(1:CreatePartyRequest req)(api.post="/bocchi/party/create"),
     JoinPartyResponse JoinParty(1:JoinPartyRequest req)(api.get="/bocchi/party/apply"),
@@ -190,5 +193,70 @@ service PartyHandler{
     PermitJoinResponse PermitJoin(1:PermitJoinRequest req)(api.get="/bocchi/party/apply/permit"),
     GetPartyMembersResponse GetPartyMembers(1:GetPartyMembersRequest req)(api.get="/bocchi/party/members"),
     SearchPartyResponse SearchParty(1:SearchPartyRequest req)(api.post="/bocchi/party/search"),
+}
 
+//itinerary
+struct Itinerary{
+    1:i64 id,
+    2:string title,
+    3:i64 founder_id,
+    4:i64 action_type,
+    5:optional string rectangle,
+    6:optional string route_json,
+    7:optional string remark,
+    8:i64 sequence,
+    9:string schedule_start_time,
+    10:string schedule_end_time,
+    11:i64 party_id,
+    12:i64 is_merged,
+}
+
+struct CreateItineraryRequest{
+    1:string title,
+    2:i64 action_type,
+    3:optional string rectangle,
+    4:optional string route_json,
+    5:optional string remark,
+    6:string schedule_start_time,
+    7:string schedule_end_time,
+    8:i64 party_id,
+}
+
+struct CreateItineraryResponse{
+    1:base.BaseResp base,
+}
+
+struct ShowPartyItineraryRequest{
+    1:i64 party_id,
+}
+
+struct ShowPartyItineraryResponse{
+    1:base.BaseResp base,
+    2:optional i64 count,
+    3:optional list<Itinerary> itineraries,
+}
+
+struct ChangeSequenceRequest{
+    1:list<i64> itinerary_id_list,
+    2:list<i64> sequense_list,
+}
+
+struct ChangeSequenceResponse{
+    1:base.BaseResp base,
+}
+
+struct MergeItineraryRequest{
+    1:i64 party_id,
+    2:i64 itinerary_id,
+}
+
+struct MergeItineraryResponse{
+    1:base.BaseResp base,
+}
+
+service ItineraryHandler{
+    CreateItineraryResponse CreateItinerary(1:CreateItineraryRequest req)(api.post="/bocchi/party/itinerary/create"),
+    ShowPartyItineraryResponse ShowPartyItinerary(1:ShowPartyItineraryRequest req)(api.get="/bocchi/party/itinerary/show"),
+    ChangeSequenceResponse ChangeSequence(1:ChangeSequenceRequest req)(api.post="/bocchi/party/itinerary/sequence/change"),
+    MergeItineraryResponse MergeItinerary(1:MergeItineraryRequest req)(api.get="/bocchi/party/itinerary/merge"),
 }

@@ -55,3 +55,8 @@ services:
     load-balance: false
     addr:
       - 127.0.0.1:10003
+  itinerary:
+    name: itinerary
+    load-balance: false
+    addr:
+      - 127.0.0.1:10004

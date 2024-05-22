@@ -25,8 +25,9 @@ CREATE TABLE `party`(
     `title` varchar(255) NOT NULL COMMENT '活动标题',
     `content` varchar(255) NOT NULL COMMENT '活动介绍',
     `type` bigint NOT NULL COMMENT '活动类型',
-    `province` varchar(10) NOT NULL COMMENT '活动省份',
-    `city` varchar(10) NOT NULL  COMMENT '活动城市',
+    `province` varchar(255) NOT NULL COMMENT '活动省份',
+    `city` varchar(255) NOT NULL COMMENT '活动城市',
+    `rectangle` varchar(255) NOT NULL COMMENT 'rectangle',
     `start_time` varchar(20) NOT NULL COMMENT '开始时间',
     `end_time` varchar(20) NOT NULL COMMENT '结束时间',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
@@ -53,3 +54,26 @@ CREATE TABLE `member`(
             references `party`(id)
             on delete cascade
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='成员表';
+
+CREATE TABLE `itinerary`(
+    `id` bigint NOT NULL AUTO_INCREMENT,
+    `title` varchar(255) NOT NULL COMMENT '标题',
+    `founder_id` bigint NOT NULL COMMENT '创建者id',
+    `party_id` bigint NOT NULL COMMENT '活动id',
+    `is_merged` bigint NOT NULL DEFAULT 0 COMMENT 'is_merged',
+    `action_type` bigint NOT NULL COMMENT '类型',
+    `rectangle` varchar(255) NULL DEFAULT NULL COMMENT 'rectangle',
+    `route_json` varchar(2000) NULL DEFAULT NULL COMMENT 'route_json',
+    `remark` varchar(255) NULL DEFAULT NULL COMMENT '备注',
+    `schedule_start_time` varchar(20) NOT NULL COMMENT '开始时间',
+    `schedule_end_time` varchar(20) NOT NULL COMMENT '结束时间',
+    `sequence` bigint NOT NULL COMMENT 'sequence',
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
+    `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+    `deleted_at` timestamp NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    constraint `itinerary_party_id`
+        foreign key (`party_id`)
+            references `party`(id)
+            on delete cascade
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='行程表';
