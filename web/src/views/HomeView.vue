@@ -20,18 +20,18 @@ import { PlusOutlined } from "@ant-design/icons-vue";
         @search="onSearch"
       />
     </div>
-
-    <a-carousel arrows dots-class="slick-dots slick-thumb">
-      <template #customPaging="props">
-        <a>
-          <img :src="getImgUrl(props.i)" alt="" />
-        </a>
-      </template>
-      <div v-for="item in 5" :key="item">
-        <img :src="getImgUrl(item - 1)" alt="" />
-      </div>
-    </a-carousel>
-
+    <div class="pubu">
+      <a-carousel arrows dots-class="slick-dots slick-thumb">
+        <template #customPaging="props">
+          <a>
+            <img :src="getImgUrl(props.i)" alt="" />
+          </a>
+        </template>
+        <div v-for="item in 5" :key="item">
+          <img :src="getImgUrl(item - 1)" alt="" />
+        </div>
+      </a-carousel>
+    </div>
     <a-divider orientation="left">发现世界</a-divider>
 
     <div class="image-grid">
@@ -103,6 +103,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.pubu {
+  min-width: 50%;
+}
 .searchbar {
   display: flex;
   justify-content: center;
