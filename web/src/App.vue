@@ -15,13 +15,14 @@ const counter = useCounterStore()
 
 
 
-  <RouterLink to="/">主页 </RouterLink>
-  <RouterLink to="/about">个人界面</RouterLink>
+
 
 
   <RouterView />
   <div class="toolbox">
     <Text>Debug box</Text>
+    <RouterLink to="/">主页 </RouterLink>
+    <RouterLink to="/about">个人界面</RouterLink>
     <button @click="counter.increment">counter +1</button>
     <div class="counter">Count: {{ counter.count }}</div>
   </div>

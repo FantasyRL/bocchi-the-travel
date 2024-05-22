@@ -1,53 +1,39 @@
 <script setup>
 import { UserOutlined } from '@ant-design/icons-vue';
-import { useCounterStore } from '@/stores/counter'
-const counter = useCounterStore()
+/* import { useCounterStore } from '@/stores/counter' */
+/* const counter = useCounterStore() */
 </script>
 
 <template>
   <a-page-header style="border: 1px solid rgb(235, 237, 240)" title="个人界面" sub-title="副标题"
     @back="() => $router.go(-1)" />
-  <button @click="counter.increment">+1</button>
 
+  <!-- info -->
   <div class="info">
 
-
-    <div class="ab1">
-      <!-- 头像 start -->
-      <div class="touxiang">
-        <a-space direction="vertical" :size="32">
-          <a-space :size="16">
-            <a-avatar :size="64" src="https://xiey.work/640.jpg">
-              <template #icon>
-                <UserOutlined />
-              </template>
-            </a-avatar>
-          </a-space>
-        </a-space>
+    <!-- 头像 start -->
+    <div class="touxiang">
+      <div class="testdiv6">
+        <img src="//xiey.work/640.jpg" class="touxiangimg rounded-image" alt="头像">
+        <div><text class="name">用户名1111111111111111111</text></div>
       </div>
-      <!-- 头像 end -->
-
-      <div class="name">
-        <text>我的名字</text>
-      </div>
-
-
     </div>
+    <!-- 头像 end -->
+    <!-- 社交账号 -->
+    <div class="shejiao">
+      <text>社交账号</text>
+      <text>社交账号</text>
+      <text>社交账号</text>
+      <text>社交账号</text>
+    </div>
+    <!-- 社交账号 end -->
 
 
     <!-- 个人信息 start -->
-    <div class="ab2">
-
+    <!--   <div class="ab2">
       <a-empty />
-    </div>
+    </div> -->
     <!-- 个人信息 end -->
-
-
-
-
-
-
-
 
   </div>
   <!-- info end -->
