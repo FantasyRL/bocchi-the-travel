@@ -1,28 +1,31 @@
-# .github/workflows/buildAndDeploy.yml
-
-# 自动发布
-# https://github.com/marketplace/actions/deploy-to-github-pages
-
-name: Build and Deploy
+name: Deploy Vue App to GitHub Pages
 
 on:
   push:
     branches:
-      - PR
+      - PR  # 设置触发部署的分支
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+    runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
 
-      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
-        run: |
-          npm install
-          npm run build
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.1
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2  # 检出代码
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'  # 使用 Node.js 版本 14
+
+    - name: Install dependencies and build
+      run: |
+        cd web
+        npm install
+        npm run build  # 构建项目
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.2
+      with:
+        branch: gh-pages  # 部署到 gh-pages 分支
+        folder: web/dist  # 构建输出的目录
