@@ -21,6 +21,7 @@ type Party struct {
 	StartTime time.Time
 	EndTime   time.Time
 	Status    int64
+	Rectangle string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`

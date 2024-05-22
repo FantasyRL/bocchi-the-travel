@@ -2,12 +2,12 @@
 
 ![project.jpg](project.jpg)
 
-## 本机裸启动
+## 本机裸启动(port:10001)
 
 ```bash
 mv config/config-example.yaml config/config.yaml
 make env-up
-make build-all
+make start-all
 ```
 
 ## 日志监测
@@ -20,3 +20,6 @@ make build-all
 * cache:redis
 * rpc:kitex(thrift)+etcd
 * log:elasticSearch+logrus+kibana
+
+## Page
+https://pr.xiey.work/

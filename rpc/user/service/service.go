@@ -1,7 +1,7 @@
 package service
 
 import (
-	"bocchi/kitex_gen/user"
+	"bocchi/kitex_gen/base"
 	aliyunoss "bocchi/pkg/utils/oss"
 	"bocchi/rpc/user/dal/db"
 	"context"
@@ -30,8 +30,8 @@ func NewAvatarService(ctx context.Context) *AvatarService {
 	return &AvatarService{ctx: ctx, bucket: bucket}
 }
 
-func BuildUserResp(dbUser *db.User) *user.User {
-	return &user.User{
+func BuildUserResp(dbUser *db.User) *base.User {
+	return &base.User{
 		Id:        dbUser.ID,
 		Name:      dbUser.UserName,
 		Email:     dbUser.Email,
@@ -40,8 +40,8 @@ func BuildUserResp(dbUser *db.User) *user.User {
 	}
 }
 
-func BuildUsersResp(dbUsers *[]db.User) []*user.User {
-	userResp := make([]*user.User, len(*dbUsers))
+func BuildUsersResp(dbUsers *[]db.User) []*base.User {
+	userResp := make([]*base.User, len(*dbUsers))
 	for i, dbUser := range *dbUsers {
 		userResp[i] = BuildUserResp(&dbUser)
 	}
