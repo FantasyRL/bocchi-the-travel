@@ -20,6 +20,7 @@ import { PlusOutlined } from "@ant-design/icons-vue";
         @search="onSearch"
       />
     </div>
+
     <div class="pubu">
       <a-carousel arrows dots-class="slick-dots slick-thumb">
         <template #customPaging="props">
@@ -32,6 +33,7 @@ import { PlusOutlined } from "@ant-design/icons-vue";
         </div>
       </a-carousel>
     </div>
+
     <a-divider orientation="left">发现世界</a-divider>
 
     <div class="image-grid">
@@ -44,9 +46,20 @@ import { PlusOutlined } from "@ant-design/icons-vue";
         </a-card-meta>
       </a-card>
 
-      <div v-for="item in 7" :key="item">
-        <img :src="getImgUrl(item - 1)" alt="" />
+      <div v-for="item in 6" :key="item">
+        <a-card hoverable style="width: 240px">
+          <template #cover>
+            <img :src="getImgUrl(item - 1)" alt="example" />
+          </template>
+          <a-card-meta title="Europe Street beat">
+            <template #description>www.instagram.com</template>
+          </a-card-meta>
+        </a-card>
       </div>
+
+      <!--   <div v-for="item in 6" :key="item">
+        <img :src="getImgUrl(item - 1)" alt="" />
+      </div> -->
     </div>
 
     <a-float-button tooltip="创建行程" herf="/create">
