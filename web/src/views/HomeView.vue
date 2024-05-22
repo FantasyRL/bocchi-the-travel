@@ -35,8 +35,8 @@ import { PlusOutlined } from "@ant-design/icons-vue";
     </div>
 
     <a-divider orientation="left">发现世界</a-divider>
-
-    <div class="image-grid">
+    
+    <!-- <div class="image-grid">
       <a-card hoverable style="width: 240px">
         <template #cover>
           <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
@@ -44,8 +44,9 @@ import { PlusOutlined } from "@ant-design/icons-vue";
         <a-card-meta title="Europe Street beat">
           <template #description>www.instagram.com</template>
         </a-card-meta>
-      </a-card>
-
+      </a-card> -->
+    
+      <DIV class="card1">
       <div v-for="item in 6" :key="item">
         <a-card hoverable style="width: 240px">
           <template #cover>
@@ -55,13 +56,14 @@ import { PlusOutlined } from "@ant-design/icons-vue";
             <template #description>www.instagram.com</template>
           </a-card-meta>
         </a-card>
-      </div>
-
+      
+      <!-- </div> -->
+    </DIV>
       <!--   <div v-for="item in 6" :key="item">
         <img :src="getImgUrl(item - 1)" alt="" />
       </div> -->
     </div>
-
+ 
     <a-float-button tooltip="创建行程" herf="/create">
       <template #icon>
         <PlusOutlined />
@@ -116,9 +118,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.pubu {
-  min-width: 50%;
-}
+
 .searchbar {
   display: flex;
   justify-content: center;
