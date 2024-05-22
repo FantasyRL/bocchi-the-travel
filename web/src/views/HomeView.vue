@@ -1,16 +1,27 @@
+<script setup>
+import { ref } from 'vue';
+const current = ref(1);
+import { PlusOutlined } from '@ant-design/icons-vue';
+</script>
 
 <template>
-  <div class="home">
-    <a-input-search
-        class="custom-search"
-        placeholder="input search text"
-        enterButton="Search"
-        size="large"
-        v-model="searchText"
-        @search="onSearch"
-    />
 
-    <h3>情绪推荐</h3>
+  <a-config-provider :getPopupContainer="getPopupContainer">
+    <app />
+  </a-config-provider>
+
+  <div class="home">
+
+    <div class="searchbar">
+      <a-input-search
+          class="custom-search"
+          placeholder="请输入搜索内容"
+          enterButton="搜索"
+          size="large"
+          v-model="searchText"
+          @search="onSearch"
+      />
+    </div>
 
     <a-carousel arrows dots-class="slick-dots slick-thumb">
       <template #customPaging="props">
@@ -23,13 +34,41 @@
       </div>
     </a-carousel>
 
-    <h4>发现世界></h4>
+    <a-divider orientation="left">发现世界</a-divider>
 
     <div class="image-grid">
-      <div v-for="item in images" :key="item.id">
-        <img :src="item.url" :alt="item.description" />
+      <a-card hoverable style="width: 240px">
+        <template #cover>
+          <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
+        </template>
+        <a-card-meta title="Europe Street beat">
+          <template #description>www.instagram.com</template>
+        </a-card-meta>
+      </a-card>
+
+      <div v-for="item in 7" :key="item">
+        <img :src="getImgUrl(item - 1)"  alt=""/>
       </div>
     </div>
+
+    <a-float-button tooltip="创建行程" herf="/create">
+      <template #icon>
+        <PlusOutlined />
+      </template>
+    </a-float-button>
+
+    <a-back-top />
+
+    <div class="page-switcher">
+      <a-pagination v-model:current="current" :total="item in images">
+        <template #itemRender="{ type, originalElement }">
+          <a v-if="type === 'prev'">前一页</a>
+          <a v-else-if="type === 'next'">后一页</a>
+          <component :is="originalElement" v-else></component>
+        </template>
+      </a-pagination>
+    </div>
+
   </div>
 </template>
 
@@ -55,13 +94,29 @@ export default defineComponent({
     },
     getImgUrl(i) {
       return `${baseUrl}background${i + 1}.webp`;
+    },
+    getPopupContainer(el, dialogContext) {
+      if (dialogContext) {
+        return dialogContext.getDialogWrap();
+      } else {
+        return document.body;
+      }
     }
   }
 });
 </script>
 
 <style scoped>
-.custom-search {
+
+.searchbar {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.page-switcher {
+  display: flex;
+  justify-content: center;
   margin-top: 10px;
 }
 
@@ -78,24 +133,6 @@ export default defineComponent({
   object-fit: cover;
 }
 
-h3 {
-  text-align: center;
-  font-size: 30px;
-  color: #3b3b48;
-  opacity: v-bind(0.8);
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-h4 {
-  text-align: left;
-  font-size: 25px;
-  color: #3b3b48;
-  opacity: v-bind(0.8);
-  margin-top: 15px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-}
-
 :deep(.slick-dots) {
   position: relative;
   height: auto;
@@ -104,7 +141,7 @@ h4 {
   border: 5px solid #fff;
   display: block;
   margin: auto;
-  max-width: 80%;
+  max-width: 95%;
 }
 :deep(.slick-arrow) {
   display: none !important;
