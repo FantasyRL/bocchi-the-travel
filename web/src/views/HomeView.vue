@@ -1,36 +1,34 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 const current = ref(1);
-import { PlusOutlined } from '@ant-design/icons-vue';
+import { PlusOutlined } from "@ant-design/icons-vue";
 </script>
 
 <template>
-
   <a-config-provider :getPopupContainer="getPopupContainer">
     <app />
   </a-config-provider>
 
   <div class="home">
-
     <div class="searchbar">
       <a-input-search
-          class="custom-search"
-          placeholder="请输入搜索内容"
-          enterButton="搜索"
-          size="large"
-          v-model="searchText"
-          @search="onSearch"
+        class="custom-search"
+        placeholder="请输入搜索内容"
+        enterButton="搜索"
+        size="large"
+        v-model="searchText"
+        @search="onSearch"
       />
     </div>
 
     <a-carousel arrows dots-class="slick-dots slick-thumb">
       <template #customPaging="props">
         <a>
-          <img :src="getImgUrl(props.i)"  alt=""/>
+          <img :src="getImgUrl(props.i)" alt="" />
         </a>
       </template>
       <div v-for="item in 5" :key="item">
-        <img :src="getImgUrl(item - 1)"  alt=""/>
+        <img :src="getImgUrl(item - 1)" alt="" />
       </div>
     </a-carousel>
 
@@ -47,7 +45,7 @@ import { PlusOutlined } from '@ant-design/icons-vue';
       </a-card>
 
       <div v-for="item in 7" :key="item">
-        <img :src="getImgUrl(item - 1)"  alt=""/>
+        <img :src="getImgUrl(item - 1)" alt="" />
       </div>
     </div>
 
@@ -68,29 +66,27 @@ import { PlusOutlined } from '@ant-design/icons-vue';
         </template>
       </a-pagination>
     </div>
-
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-const baseUrl =
-    'https://severj.top/img/';
+const baseUrl = "https://severj.top/img/";
 export default defineComponent({
   data() {
     return {
-      searchText: '',
+      searchText: "",
       images: [
-        { id: 1, url: 'https://severj.top/img/background1.webp', description: 'Image 1' },
-        { id: 2, url: 'https://severj.top/img/background2.webp', description: 'Image 2' },
+        { id: 1, url: "https://severj.top/img/background1.webp", description: "Image 1" },
+        { id: 2, url: "https://severj.top/img/background2.webp", description: "Image 2" }
         // Add more images as needed...
-      ],
-    }
+      ]
+    };
   },
   methods: {
     onSearch(value) {
-      console.log('Search:', value);
+      console.log("Search:", value);
     },
     getImgUrl(i) {
       return `${baseUrl}background${i + 1}.webp`;
@@ -107,7 +103,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 .searchbar {
   display: flex;
   justify-content: center;
@@ -127,6 +122,7 @@ export default defineComponent({
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 10px;
 }
+
 .image-grid img {
   max-width: 100%;
   max-height: 200px;
@@ -137,28 +133,34 @@ export default defineComponent({
   position: relative;
   height: auto;
 }
+
 :deep(.slick-slide img) {
   border: 5px solid #fff;
   display: block;
   margin: auto;
   max-width: 95%;
 }
+
 :deep(.slick-arrow) {
   display: none !important;
 }
+
 :deep(.slick-thumb) {
   bottom: 0;
 }
+
 :deep(.slick-thumb li) {
   width: 60px;
   height: 45px;
 }
+
 :deep(.slick-thumb li img) {
   width: 100%;
   height: 100%;
   filter: grayscale(100%);
   display: block;
 }
+
 :deep .slick-thumb li.slick-active img {
   filter: grayscale(0%);
 }
