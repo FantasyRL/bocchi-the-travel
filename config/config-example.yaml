@@ -4,7 +4,7 @@ server:
   name: bocchi
   cors: "https://bocchi-the-travel.com"
 etcd:
-  addr: 127.0.0.1:2379
+  addr: 127.0.0.1:2389
 
 mysql:
   addr: 127.0.0.1:3366
@@ -55,3 +55,8 @@ services:
     load-balance: false
     addr:
       - 127.0.0.1:10003
+  itinerary:
+    name: itinerary
+    load-balance: false
+    addr:
+      - 127.0.0.1:10004

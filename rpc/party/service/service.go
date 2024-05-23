@@ -1,7 +1,7 @@
 package service
 
 import (
-	"bocchi/kitex_gen/party"
+	"bocchi/kitex_gen/base"
 	"bocchi/rpc/party/dal/db"
 	"context"
 )
@@ -16,9 +16,9 @@ func NewPartyService(ctx context.Context) *PartyService {
 	}
 }
 
-func BuildPartyResp(dbParty *db.Party) *party.Party {
+func BuildPartyResp(dbParty *db.Party) *base.Party {
 	_, memberCount, _ := db.GetMemberListByStatus(context.TODO(), dbParty.Id, 0, 1)
-	return &party.Party{
+	return &base.Party{
 		Id:          dbParty.Id,
 		FounderId:   dbParty.FounderId,
 		Title:       dbParty.Title,
@@ -30,11 +30,12 @@ func BuildPartyResp(dbParty *db.Party) *party.Party {
 		EndTime:     dbParty.EndTime.Format("2006-01-02"),
 		MemberCount: memberCount,
 		Status:      dbParty.Status,
+		Rectangle:   dbParty.Rectangle,
 	}
 }
 
-func BuildPartiesResp(dbParties *[]db.Party) []*party.Party {
-	partiesResp := make([]*party.Party, len(*dbParties))
+func BuildPartiesResp(dbParties *[]db.Party) []*base.Party {
+	partiesResp := make([]*base.Party, len(*dbParties))
 	for i, dbParty := range *dbParties {
 		partiesResp[i] = BuildPartyResp(&dbParty)
 	}

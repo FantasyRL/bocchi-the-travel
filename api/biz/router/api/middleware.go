@@ -129,3 +129,36 @@ func _permitjoinMw() []app.HandlerFunc {
 		jwt.JwtMiddleware.MiddlewareFunc(),
 	}
 }
+
+func _itineraryMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _createitineraryMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _mergeitineraryMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _showpartyitineraryMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _sequenceMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _changesequenceMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}

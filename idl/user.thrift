@@ -2,13 +2,7 @@ namespace go user
 
 include "base.thrift"
 
-struct User {
-    1: i64 id,
-    2: string name,
-    3: string email,
-    4: string avatar,
-    5:string signature,
-}
+
 
 struct RegisterRequest {
     1: string username,
@@ -47,7 +41,7 @@ struct LoginRequest {
 
 struct LoginResponse {
     1: base.BaseResp base,
-    2: optional User user,
+    2: optional base.User user,
 }
 
 struct InfoRequest {
@@ -56,7 +50,7 @@ struct InfoRequest {
 
 struct InfoResponse {
     1: base.BaseResp base,
-    2: optional User user,
+    2: optional base.User user,
 }
 
 struct AvatarRequest{
@@ -65,7 +59,7 @@ struct AvatarRequest{
 }
 struct AvatarResponse{
     1: base.BaseResp base,
-    2: optional User user,
+    2: optional base.User user,
 }
 
 struct SignatureRequest{
@@ -83,7 +77,7 @@ struct GetMemberRequest{
 }
 
 struct GetMemberResponse{
-    1:list<User> member_list,
+    1:list<base.User> member_list,
 }
 
 service UserHandler {

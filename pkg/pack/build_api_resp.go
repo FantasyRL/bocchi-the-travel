@@ -4,8 +4,6 @@ import (
 	"bocchi/api/biz/model/api"
 	base2 "bocchi/api/biz/model/base"
 	"bocchi/kitex_gen/base"
-	"bocchi/kitex_gen/party"
-	"bocchi/kitex_gen/user"
 	"bocchi/pkg/errno"
 	"errors"
 	"github.com/cloudwego/hertz/pkg/app"
@@ -49,7 +47,7 @@ func SendRPCFailResp(c *app.RequestContext, err error) {
 	})
 }
 
-func ConvertToAPIUser(kitexUser *user.User) *api.User {
+func ConvertToAPIUser(kitexUser *base.User) *api.User {
 	return &api.User{
 		ID:        kitexUser.Id,
 		Name:      kitexUser.Name,
@@ -59,7 +57,7 @@ func ConvertToAPIUser(kitexUser *user.User) *api.User {
 	}
 }
 
-func ConvertToAPIUsers(kitexUsers []*user.User) []*api.User {
+func ConvertToAPIUsers(kitexUsers []*base.User) []*api.User {
 	usersResp := make([]*api.User, len(kitexUsers))
 	for i, kitexUser := range kitexUsers {
 		usersResp[i] = ConvertToAPIUser(kitexUser)
@@ -67,7 +65,7 @@ func ConvertToAPIUsers(kitexUsers []*user.User) []*api.User {
 	return usersResp
 }
 
-func ConvertToAPIParty(kitexParty *party.Party) *api.Party {
+func ConvertToAPIParty(kitexParty *base.Party) *api.Party {
 	return &api.Party{
 		ID:          kitexParty.Id,
 		FounderID:   kitexParty.FounderId,
@@ -80,10 +78,11 @@ func ConvertToAPIParty(kitexParty *party.Party) *api.Party {
 		EndTime:     kitexParty.EndTime,
 		MemberCount: kitexParty.MemberCount,
 		Status:      kitexParty.Status,
+		Rectangle:   kitexParty.Rectangle,
 	}
 }
 
-func ConvertToAPIParties(kitexParties []*party.Party) []*api.Party {
+func ConvertToAPIParties(kitexParties []*base.Party) []*api.Party {
 	partiesResp := make([]*api.Party, len(kitexParties))
 	for i, kitexParty := range kitexParties {
 		partiesResp[i] = ConvertToAPIParty(kitexParty)
@@ -91,9 +90,34 @@ func ConvertToAPIParties(kitexParties []*party.Party) []*api.Party {
 	return partiesResp
 }
 
+func ConvertToAPIItinerary(kitexItinerary *base.Itinerary) *api.Itinerary {
+	return &api.Itinerary{
+		ID:                kitexItinerary.Id,
+		Title:             kitexItinerary.Title,
+		FounderID:         kitexItinerary.FounderId,
+		ActionType:        kitexItinerary.ActionType,
+		Rectangle:         kitexItinerary.Rectangle,
+		RouteJSON:         kitexItinerary.RouteJson,
+		Remark:            kitexItinerary.Remark,
+		Sequence:          kitexItinerary.Sequence,
+		ScheduleStartTime: kitexItinerary.ScheduleStartTime,
+		ScheduleEndTime:   kitexItinerary.ScheduleEndTime,
+		PartyID:           kitexItinerary.PartyId,
+		IsMerged:          kitexItinerary.IsMerged,
+	}
+}
+
+func ConvertToAPIItineraries(kitexItineraries []*base.Itinerary) []*api.Itinerary {
+	ItinerariesResp := make([]*api.Itinerary, len(kitexItineraries))
+	for i, kitexItinerary := range kitexItineraries {
+		ItinerariesResp[i] = ConvertToAPIItinerary(kitexItinerary)
+	}
+	return ItinerariesResp
+}
+
 func ToUserResp(_user interface{}) *api.User {
 	//这里使用了一个及其抽象的断言
-	p, _ := (_user).(*user.User)
+	p, _ := (_user).(*base.User)
 	if p == nil {
 		return nil
 	}

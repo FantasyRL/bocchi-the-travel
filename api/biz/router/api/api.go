@@ -32,6 +32,16 @@ func Register(r *server.Hertz) {
 			_apply := _party.Group("/apply", _applyMw()...)
 			_apply.GET("/list", append(_applylistMw(), api.ApplyList)...)
 			_apply.GET("/permit", append(_permitjoinMw(), api.PermitJoin)...)
+			{
+				_itinerary := _party.Group("/itinerary", _itineraryMw()...)
+				_itinerary.POST("/create", append(_createitineraryMw(), api.CreateItinerary)...)
+				_itinerary.GET("/merge", append(_mergeitineraryMw(), api.MergeItinerary)...)
+				_itinerary.GET("/show", append(_showpartyitineraryMw(), api.ShowPartyItinerary)...)
+				{
+					_sequence := _itinerary.Group("/sequence", _sequenceMw()...)
+					_sequence.POST("/change", append(_changesequenceMw(), api.ChangeSequence)...)
+				}
+			}
 		}
 		{
 			_user := _bocchi.Group("/user", _userMw()...)

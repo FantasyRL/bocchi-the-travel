@@ -233,6 +233,193 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bocchi/party/itinerary/create": {
+            "post": {
+                "description": "create itinerary for party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "create_itinerary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "标题",
+                        "name": "title",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "类型 1:route;2:activity;3:accommodation;4:eat;5:other",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "坐标 1时不需要",
+                        "name": "rectangle",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "路线 1时需要",
+                        "name": "route_json",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "备注",
+                        "name": "remark",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "计划起始时间(例:2006-01-02 15:40)",
+                        "name": "schedule_start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "计划结束时间(例:2006-01-02 16:40)",
+                        "name": "schedule_end_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/merge": {
+            "get": {
+                "description": "merge itinerary into party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "merge_itinerary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "行程id",
+                        "name": "itinerary_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/sequence/change": {
+            "post": {
+                "description": "show party's itineraries order by sequence",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "change_itinerary_sequence",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "description": "行程id列表",
+                        "name": "itinerary_id_list",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "description": "对应行程的顺序列表",
+                        "name": "sequence_list",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/show": {
+            "get": {
+                "description": "show party's itineraries order by sequence",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "show_party_itinerary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/party/members": {
             "get": {
                 "description": "get members who have join the party",
