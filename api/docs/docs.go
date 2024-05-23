@@ -326,7 +326,7 @@ const docTemplate = `{
                 "summary": "merge_itinerary",
                 "parameters": [
                     {
-                        "type": "array",
+                        "type": "integer",
                         "description": "行程id",
                         "name": "itinerary_id",
                         "in": "query",
@@ -365,7 +365,7 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
-                "summary": "show_party_itinerary",
+                "summary": "change_itinerary_sequence",
                 "parameters": [
                     {
                         "type": "array",

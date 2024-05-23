@@ -1,7 +1,6 @@
 package main
 
 import (
-	party "/home/fanr/projects/SOSD/bocchi-the-travel/kitex_gen/party"
 	party "bocchi/kitex_gen/party"
 	"bocchi/kitex_gen/user"
 	"bocchi/pkg/pack"
@@ -103,10 +102,4 @@ func (s *PartyHandlerImpl) SearchParty(ctx context.Context, req *party.SearchPar
 	resp.PartyCount = &count
 	resp.PartyList = service.BuildPartiesResp(parties)
 	return resp, nil
-}
-
-// MergeItinerary implements the PartyHandlerImpl interface.
-func (s *PartyHandlerImpl) MergeItinerary(ctx context.Context, req *party.MergeItineraryRequest) (resp *party.MergeItineraryResponse, err error) {
-	// TODO: Your code here...
-	return
 }

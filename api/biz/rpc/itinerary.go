@@ -20,7 +20,7 @@ func InitItineraryRPC() {
 	}
 
 	c, err := itineraryhandler.NewClient(
-		constants.PartyServiceName,
+		constants.ItineraryServiceName,
 		client.WithMuxConnection(constants.MuxConnection),
 		client.WithRPCTimeout(constants.RPCTimeout),
 		client.WithConnectTimeout(constants.ConnectTimeout),

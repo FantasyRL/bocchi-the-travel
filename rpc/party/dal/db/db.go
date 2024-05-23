@@ -40,7 +40,7 @@ func GetPartyById(ctx context.Context, partyId int64) (*Party, error) {
 }
 
 func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]Party, int64, error) {
-	partysResp := new([]Party)
+	partiesResp := new([]Party)
 	var count int64
 	if req.Content != nil {
 		DBParty.WithContext(ctx).Where("content LIKE ? OR title LIKE ?", "%"+*req.Content+"%", "%"+*req.Content+"%")
@@ -71,7 +71,7 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 	}
 	err := DBParty.WithContext(ctx).Count(&count).
 		Limit(constants.PageSize).Offset((int(req.PageNum) - 1) * constants.PageSize).
-		Find(partysResp).Error
+		Find(partiesResp).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, 0, nil
@@ -79,7 +79,7 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 	if err != nil {
 		return nil, 0, err
 	}
-	return partysResp, count, nil
+	return partiesResp, count, nil
 }
 
 func GetFounderIdByPartyId(ctx context.Context, partyId int64) (int64, error) {
