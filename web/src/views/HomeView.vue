@@ -135,6 +135,7 @@ export default defineComponent({
 .ant-card-cover img{
   height: 200px; /* 保持图片的宽高比 */
   object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
+  
 }
  .card1{
   margin: auto;
@@ -142,10 +143,11 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
   
 } 
 
-.ant-card.css-dev-only-do-not-override-16pw25h.ant-card-bordered.ant-card-hoverable{
+.ant-card{
   margin-bottom: 20px;
   margin-right: 10px;
   margin-left: 10px; /* 设置左右边距 */
