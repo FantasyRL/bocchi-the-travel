@@ -9,5 +9,9 @@ sleep 2s
 printf "\n"
 
 (go run ./rpc/party) &
+sleep 2s
+printf "\n"
+
+(go run ./rpc/itinerary) &
 
 wait

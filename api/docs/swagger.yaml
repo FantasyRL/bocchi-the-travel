@@ -218,7 +218,7 @@ paths:
         in: query
         name: itinerary_id
         required: true
-        type: array
+        type: integer
       - description: 活动id
         in: query
         name: party_id
@@ -265,7 +265,7 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: show_party_itinerary
+      summary: change_itinerary_sequence
   /bocchi/party/itinerary/show:
     get:
       consumes:

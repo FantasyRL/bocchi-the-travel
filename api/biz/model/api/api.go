@@ -7903,7 +7903,7 @@ func (p *ShowPartyItineraryResponse) String() string {
 
 type ChangeSequenceRequest struct {
 	ItineraryIDList []int64 `thrift:"itinerary_id_list,1" form:"itinerary_id_list" json:"itinerary_id_list" query:"itinerary_id_list"`
-	SequenseList    []int64 `thrift:"sequense_list,2" form:"sequense_list" json:"sequense_list" query:"sequense_list"`
+	SequenceList    []int64 `thrift:"sequence_list,2" form:"sequence_list" json:"sequence_list" query:"sequence_list"`
 }
 
 func NewChangeSequenceRequest() *ChangeSequenceRequest {
@@ -7914,13 +7914,13 @@ func (p *ChangeSequenceRequest) GetItineraryIDList() (v []int64) {
 	return p.ItineraryIDList
 }
 
-func (p *ChangeSequenceRequest) GetSequenseList() (v []int64) {
-	return p.SequenseList
+func (p *ChangeSequenceRequest) GetSequenceList() (v []int64) {
+	return p.SequenceList
 }
 
 var fieldIDToName_ChangeSequenceRequest = map[int16]string{
 	1: "itinerary_id_list",
-	2: "sequense_list",
+	2: "sequence_list",
 }
 
 func (p *ChangeSequenceRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -8014,7 +8014,7 @@ func (p *ChangeSequenceRequest) ReadField2(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.SequenseList = make([]int64, 0, size)
+	p.SequenceList = make([]int64, 0, size)
 	for i := 0; i < size; i++ {
 
 		var _elem int64
@@ -8024,7 +8024,7 @@ func (p *ChangeSequenceRequest) ReadField2(iprot thrift.TProtocol) error {
 			_elem = v
 		}
 
-		p.SequenseList = append(p.SequenseList, _elem)
+		p.SequenceList = append(p.SequenceList, _elem)
 	}
 	if err := iprot.ReadListEnd(); err != nil {
 		return err
@@ -8090,13 +8090,13 @@ WriteFieldEndError:
 }
 
 func (p *ChangeSequenceRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("sequense_list", thrift.LIST, 2); err != nil {
+	if err = oprot.WriteFieldBegin("sequence_list", thrift.LIST, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteListBegin(thrift.I64, len(p.SequenseList)); err != nil {
+	if err := oprot.WriteListBegin(thrift.I64, len(p.SequenceList)); err != nil {
 		return err
 	}
-	for _, v := range p.SequenseList {
+	for _, v := range p.SequenceList {
 		if err := oprot.WriteI64(v); err != nil {
 			return err
 		}

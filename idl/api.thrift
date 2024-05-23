@@ -238,7 +238,7 @@ struct ShowPartyItineraryResponse{
 
 struct ChangeSequenceRequest{
     1:list<i64> itinerary_id_list,
-    2:list<i64> sequense_list,
+    2:list<i64> sequence_list,
 }
 
 struct ChangeSequenceResponse{

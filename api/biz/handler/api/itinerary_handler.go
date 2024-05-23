@@ -5,8 +5,10 @@ package api
 import (
 	"bocchi/api/biz/rpc"
 	"bocchi/kitex_gen/itinerary"
+	"bocchi/pkg/errno"
 	"bocchi/pkg/pack"
 	"context"
+	"fmt"
 
 	api "bocchi/api/biz/model/api"
 	"github.com/cloudwego/hertz/pkg/app"
@@ -42,6 +44,12 @@ func CreateItinerary(ctx context.Context, c *app.RequestContext) {
 
 	v, _ := c.Get("current_user_id")
 	id, _ := v.(int64)
+
+	if (req.ActionType == 1 && req.Rectangle != nil) || (req.ActionType != 1 && req.Rectangle == nil) {
+		resp.Base = pack.ConvertToAPIBaseResp(pack.BuildBaseResp(errno.ParamError))
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
 
 	rpcResp, err := rpc.ItineraryCreate(ctx, &itinerary.CreateItineraryRequest{
 		FounderId:         id,
@@ -93,7 +101,7 @@ func ShowPartyItinerary(ctx context.Context, c *app.RequestContext) {
 }
 
 // ChangeSequence .
-// @Summary show_party_itinerary
+// @Summary change_itinerary_sequence
 // @Description show party's itineraries order by sequence
 // @Accept json/form
 // @Produce json
@@ -116,9 +124,10 @@ func ChangeSequence(ctx context.Context, c *app.RequestContext) {
 	v, _ := c.Get("current_user_id")
 	id, _ := v.(int64)
 
+	fmt.Println(req)
 	rpcResp, err := rpc.ItinerarySequenceChange(ctx, &itinerary.ChangeSequenceRequest{
 		ItineraryIdList: req.ItineraryIDList,
-		SequenceList:    req.SequenseList,
+		SequenceList:    req.SequenceList,
 		UserId:          id,
 	})
 	if err != nil {
@@ -134,7 +143,7 @@ func ChangeSequence(ctx context.Context, c *app.RequestContext) {
 // @Description merge itinerary into party
 // @Accept json/form
 // @Produce json
-// @Param itinerary_id query array true "行程id"
+// @Param itinerary_id query int true "行程id"
 // @Param party_id query int true "活动id"
 // @Param access-token header string true "access-token"
 // @Param refresh-token header string false "refresh-token"
