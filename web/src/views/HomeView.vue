@@ -12,9 +12,10 @@ import {RouterLink} from "vue-router";
       <a-input-search
           class="custom-search"
           placeholder="请输入搜索内容"
-          enterButton="搜索"
+          enterButton=""
           size="large"
           v-model="searchText"
+          :bordered="false"
           @search="onSearch"
       />
     </div>
@@ -38,7 +39,7 @@ import {RouterLink} from "vue-router";
 
     <div class="card1">
       <div v-for="id in 8" :key="id">
-        <router-link :to="getDetailUrl(id)">
+        <router-link :to="getDetailUrl(id)" @click="startLoading">
           <a-card hoverable style="width: 240px">
             <template #cover>
               <img :src="getImgUrl(id)" alt="example" />
@@ -62,7 +63,7 @@ import {RouterLink} from "vue-router";
     <a-back-top />
 
     <div class="page-switcher">
-      <a-pagination v-model:current="current" :total="item in images">
+      <a-pagination v-model:current="current" :total="id in images">
         <template #itemRender="{ type, originalElement }">
           <a v-if="type === 'prev'">前一页</a>
           <a v-else-if="type === 'next'">后一页</a>
@@ -75,6 +76,7 @@ import {RouterLink} from "vue-router";
 
 <script>
 import { defineComponent } from "vue";
+import {useStore} from "vuex";
 
 const baseUrl = "https://severj.top/img/";
 export default defineComponent({
@@ -103,6 +105,9 @@ export default defineComponent({
     },
     getDescription(i) {
       return `description${i}`;
+    },
+    startLoading() {
+      useStore().commit('setLoading', true);
     }
   }
 });
@@ -114,6 +119,8 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   margin: 24px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 .page-switcher {

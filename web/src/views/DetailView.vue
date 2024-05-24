@@ -1,13 +1,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex'
 
 let id = ref(null);
 const route = useRoute();
 const baseUrl = "https://severj.top/img/";
 
-onMounted(() => {
+onMounted(async () => {
   id.value = route.params.id;
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  useStore().commit('setLoading', false);
 });
 
 const getImgUrl = (i) => {
@@ -18,6 +21,18 @@ const getName = (i) => {
 };
 const getDescription = (i) => {
   return `description${i}`;
+};
+const getStar = (i) => {
+  return i;
+};
+const getTags = (i,j) => {
+  return i+j;
+};
+const getTagsLink = (i) => {
+  return `${baseUrl}background${i}.webp`;
+};
+const getTagsSum = (i) => {
+  return i;
 };
 </script>
 
@@ -36,7 +51,14 @@ const getDescription = (i) => {
       <div class="details">
         <h2>{{getName(Number(id))}}</h2>
         <p>简介: {{getDescription(Number(id))}}</p>
-
+        <p>评分：<a-rate :value="getStar(4.5)" allow-half disabled /></p>
+        <p>标签：
+          <a v-for="i in getTagsSum(3)" :key="i">
+            <a-tag>
+              <a :href="getTagsLink(Number(i))">{{ getTags(Number(id),i) }}</a>
+            </a-tag>
+          </a>
+        </p>
       </div>
     </div>
   </div>
