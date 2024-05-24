@@ -9,6 +9,7 @@ import (
 	"bocchi/pkg/pack"
 	"context"
 	"path/filepath"
+	"strings"
 
 	api "bocchi/api/biz/model/api"
 	"github.com/cloudwego/hertz/pkg/app"
@@ -34,6 +35,10 @@ func Register(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(api.RegisterResponse)
+
+	if len(req.Username) < 4 || len(req.Username) > 30 || !strings.ContainsAny(req.Username, "* /`'=|&") {
+		resp.Base = pack.ConvertToAPIBaseResp(pack.BuildBaseResp(errno.ParamError))
+	}
 
 	rpcResp, err := rpc.UserRegister(ctx, &user.RegisterRequest{
 		Username: req.Username,
