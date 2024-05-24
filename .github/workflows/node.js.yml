@@ -3,7 +3,7 @@ name: Deploy Vue App to GitHub Pages
 on:
   push:
     branches:
-      - PR  # 设置触发部署的分支
+      - main  # 设置触发部署的分支
 
 jobs:
   build-and-deploy:
