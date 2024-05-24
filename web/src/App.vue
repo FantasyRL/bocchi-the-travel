@@ -1,11 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-</script>
-
-<script>
 import { computed } from 'vue';
 import { useStore } from 'vuex'
 import { Menu } from "ant-design-vue";
+</script>
+
+<script>
+
 export default {
   components: {
     "a-menu": Menu,
@@ -19,6 +20,7 @@ export default {
   //不知道有没有用的左右页面切换
   data() {
     return {
+
       startX: 0,
       login: 1,
       resgister:1,
@@ -84,7 +86,7 @@ export default {
 </script>
 
 <template>
-  <a-spin size="large" v-if="isLoading" />
+<!--   <a-spin size="large" /> -->
 
   <header class="header">
     <div class="menu-container">
