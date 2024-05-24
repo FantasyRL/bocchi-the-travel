@@ -9,7 +9,6 @@ export default {
     "a-menu": Menu,
     "a-menu-item": Menu.Item
   },
-
   //不知道有没有用的左右页面切换
   data() {
     return {

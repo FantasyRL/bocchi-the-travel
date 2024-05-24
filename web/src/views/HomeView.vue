@@ -25,11 +25,11 @@ import {RouterLink} from "vue-router";
       <a-carousel arrows dots-class="slick-dots slick-thumb">
         <template #customPaging="props">
           <a>
-            <img :src="getImgUrl(props.i)" alt="" />
+            <img :src="getImgUrl(props.i+1)" alt="" />
           </a>
         </template>
-        <div v-for="item in 5" :key="item">
-          <img :src="getImgUrl(item - 1)" alt="" />
+        <div v-for="id in 5" :key="id">
+          <img :src="getImgUrl(id)" alt=""  style="border-radius: 15px;margin-bottom: 10px"/>
         </div>
       </a-carousel>
     </div>
@@ -37,14 +37,14 @@ import {RouterLink} from "vue-router";
     <a-divider orientation="center" class="separate">发现世界</a-divider>
 
     <div class="card1">
-      <div v-for="item in 6" :key="item">
-        <router-link :to="getDetailUrl(item - 1)">
+      <div v-for="id in 8" :key="id">
+        <router-link :to="getDetailUrl(id)">
           <a-card hoverable style="width: 240px">
             <template #cover>
-              <img :src="getImgUrl(item - 1)" alt="example" />
+              <img :src="getImgUrl(id)" alt="example" />
             </template>
-            <a-card-meta title="Europe Street beat">
-              <template #description>www.instagram.com</template>
+            <a-card-meta :title="getName(id)">
+              <template #description>{{getDescription(id)}}</template>
             </a-card-meta>
           </a-card>
         </router-link>
@@ -93,10 +93,16 @@ export default defineComponent({
       console.log("Search:", value);
     },
     getImgUrl(i) {
-      return `${baseUrl}background${i + 1}.webp`;
+      return `${baseUrl}background${i}.webp`;
     },
     getDetailUrl(i) {
-      return `${baseUrl}background${i + 1}.webp`;
+      return `/detail/${i}`;
+    },
+    getName(i) {
+      return `name${i}`;
+    },
+    getDescription(i) {
+      return `description${i}`;
     }
   }
 });
@@ -107,7 +113,7 @@ export default defineComponent({
 .searchbar {
   display: flex;
   justify-content: center;
-  margin: 20px;
+  margin: 24px;
 }
 
 .page-switcher {
