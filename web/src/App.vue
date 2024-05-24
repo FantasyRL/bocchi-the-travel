@@ -8,6 +8,43 @@ export default {
   components: {
     "a-menu": Menu,
     "a-menu-item": Menu.Item
+  },
+
+  //不知道有没有用的左右页面切换
+  data() {
+    return {
+      startX: 0,
+      endX: 0
+    };
+  },
+  mounted() {
+    window.addEventListener('touchstart', this.touchStart);
+    window.addEventListener('touchend', this.touchEnd);
+  },
+  beforeUnmount() {
+    window.removeEventListener('touchstart', this.touchStart);
+    window.removeEventListener('touchend', this.touchEnd);
+  },
+  methods: {
+    touchStart(e) {
+      this.startX = e.touches[0].clientX;
+    },
+    touchEnd(e) {
+      this.endX = e.changedTouches[0].clientX;
+      this.handleSwipe();
+    },
+    handleSwipe() {
+      const diffX = this.startX - this.endX;
+      if (Math.abs(diffX) > 100) { // 阈值可以根据需要调整
+        if (diffX > 0) {
+          // 向左滑动
+          this.$router.push('/explore');
+        } else {
+          // 向右滑动
+          this.$router.push('/about');
+        }
+      }
+    }
   }
 };
 </script>

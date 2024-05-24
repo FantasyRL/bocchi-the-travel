@@ -57,8 +57,8 @@ services:
           cpus: '0.25'
           memory: 20M
     ports:
-      - "2379:2379"
-      - "2380:2380"
+      - "2389:2379"
+      - "2390:2380"
     volumes:
       - ./pkg/data/etcd/data:/bitnami/etcd-data
     environment:

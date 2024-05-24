@@ -113,3 +113,39 @@ html {
   margin: auto;
   text-align: center;
 }
+.carousel {
+  min-width: 20%;
+  max-width: 100%;
+  margin: auto; /* 水平居中 */
+}
+.carousel img {
+  width: 421px;
+  height: auto; /* 保持图片的宽高比 */
+  object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
+  border-radius: 10px; /* 圆角 */
+  margin-bottom: 10px; /* 图片之间的间距 */
+}
+
+.ant-card-cover img{
+  width: auto;
+  height: 200px; /* 保持图片的宽高比 */
+  object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
+}
+.card1{
+  margin: auto;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card1 a {
+  text-decoration: none;
+}
+
+.ant-card{
+  margin-bottom: 20px;
+  margin-right: 8px;
+  margin-left: 8px; /* 设置左右边距 */
+  position: relative;
+}

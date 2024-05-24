@@ -2,26 +2,26 @@
 import { ref } from "vue";
 const current = ref(1);
 import { PlusOutlined } from "@ant-design/icons-vue";
+import {RouterLink} from "vue-router";
 </script>
 
 <template>
-  <a-config-provider :getPopupContainer="getPopupContainer">
-    <app />
-  </a-config-provider>
-
   <div class="home">
+
     <div class="searchbar">
       <a-input-search
-        class="custom-search"
-        placeholder="请输入搜索内容"
-        enterButton="搜索"
-        size="large"
-        v-model="searchText"
-        @search="onSearch"
+          class="custom-search"
+          placeholder="请输入搜索内容"
+          enterButton="搜索"
+          size="large"
+          v-model="searchText"
+          @search="onSearch"
       />
     </div>
 
-    <div class="pubu">
+    <a-divider orientation="center" class="separate">每日推荐</a-divider>
+
+    <div class="carousel">
       <a-carousel arrows dots-class="slick-dots slick-thumb">
         <template #customPaging="props">
           <a>
@@ -34,41 +34,30 @@ import { PlusOutlined } from "@ant-design/icons-vue";
       </a-carousel>
     </div>
 
-    <a-divider orientation="left">发现世界</a-divider>
-    
-    <!-- <div class="image-grid">
-      <a-card hoverable style="width: 240px">
-        <template #cover>
-          <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
-        </template>
-        <a-card-meta title="Europe Street beat">
-          <template #description>www.instagram.com</template>
-        </a-card-meta>
-      </a-card> -->
-    
-      <DIV class="card1">
+    <a-divider orientation="center" class="separate">发现世界</a-divider>
+
+    <div class="card1">
       <div v-for="item in 6" :key="item">
-        <a-card hoverable style="width: 240px">
-          <template #cover>
-            <img :src="getImgUrl(item - 1)" alt="example" />
-          </template>
-          <a-card-meta title="Europe Street beat">
-            <template #description>www.instagram.com</template>
-          </a-card-meta>
-        </a-card>
-      
-      <!-- </div> -->
-    </DIV>
-      <!--   <div v-for="item in 6" :key="item">
-        <img :src="getImgUrl(item - 1)" alt="" />
-      </div> -->
+        <router-link :to="getDetailUrl(item - 1)">
+          <a-card hoverable style="width: 240px">
+            <template #cover>
+              <img :src="getImgUrl(item - 1)" alt="example" />
+            </template>
+            <a-card-meta title="Europe Street beat">
+              <template #description>www.instagram.com</template>
+            </a-card-meta>
+          </a-card>
+        </router-link>
+      </div>
     </div>
- 
-    <a-float-button tooltip="创建行程" herf="/create">
-      <template #icon>
-        <PlusOutlined />
-      </template>
-    </a-float-button>
+
+    <router-link to="/create">
+      <a-float-button tooltip="创建行程" herf="/create">
+        <template #icon>
+          <PlusOutlined />
+        </template>
+      </a-float-button>
+    </router-link>
 
     <a-back-top />
 
@@ -106,53 +95,14 @@ export default defineComponent({
     getImgUrl(i) {
       return `${baseUrl}background${i + 1}.webp`;
     },
-    getPopupContainer(el, dialogContext) {
-      if (dialogContext) {
-        return dialogContext.getDialogWrap();
-      } else {
-        return document.body;
-      }
+    getDetailUrl(i) {
+      return `${baseUrl}background${i + 1}.webp`;
     }
   }
 });
 </script>
 
 <style scoped>
-.pubu {
-  min-width: 20%;
-  max-width: 90%;
-  margin: auto; /* 水平居中 */
-
-}
-.pubu img {
-  width: 421px;
-  height: auto; /* 保持图片的宽高比 */
-  object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
-  border-radius: 10px; /* 圆角 */
-  margin-bottom: 10px; /* 图片之间的间距 */
-}
-
-.ant-card-cover img{
-  height: 200px; /* 保持图片的宽高比 */
-  object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
-  
-}
- .card1{
-  margin: auto;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  
-} 
-
-.ant-card{
-  margin-bottom: 20px;
-  margin-right: 10px;
-  margin-left: 10px; /* 设置左右边距 */
-  position: relative;
-}
 
 .searchbar {
   display: flex;
@@ -166,18 +116,15 @@ export default defineComponent({
   margin-top: 10px;
 }
 
-.image-grid {
-  margin-left: 10px;
-  margin-right: 10px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
-}
-
 .image-grid img {
   max-width: 100%;
   max-height: 200px;
   object-fit: cover;
+}
+
+.separate {
+  margin-top: 24px;
+  font-size: 18px;
 }
 
 :deep(.slick-dots) {
