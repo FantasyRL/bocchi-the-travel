@@ -204,9 +204,6 @@ export default {
 
 
   <div class="toolbox">
-  <Text>Debug box</Text>
-  <RouterLink to="/">主页 </RouterLink>
-  <RouterLink to="/about">个人界面</RouterLink>
   access_token:
   <text>{{ access_token }}</text>
 </div>
