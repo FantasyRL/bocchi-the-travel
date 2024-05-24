@@ -1,3 +1,15 @@
+/*全局菜单*/
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* 头像 */
 .touxiang {
   /* background-color: #f0f0f0; */
