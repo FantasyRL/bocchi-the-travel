@@ -17,7 +17,7 @@ type Client interface {
 	Avatar(ctx context.Context, req *user.AvatarRequest, callOptions ...callopt.Option) (r *user.AvatarResponse, err error)
 	Switch2FA(ctx context.Context, req *user.Switch2FARequest, callOptions ...callopt.Option) (r *user.Switch2FAResponse, err error)
 	Signature(ctx context.Context, req *user.SignatureRequest, callOptions ...callopt.Option) (r *user.SignatureResponse, err error)
-	GetMember(ctx context.Context, req *user.GetMemberRequest, callOptions ...callopt.Option) (r *user.GetMemberResponse, err error)
+	GetUserList(ctx context.Context, req *user.GetUsersRequest, callOptions ...callopt.Option) (r *user.GetUsersResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -79,7 +79,7 @@ func (p *kUserHandlerClient) Signature(ctx context.Context, req *user.SignatureR
 	return p.kClient.Signature(ctx, req)
 }
 
-func (p *kUserHandlerClient) GetMember(ctx context.Context, req *user.GetMemberRequest, callOptions ...callopt.Option) (r *user.GetMemberResponse, err error) {
+func (p *kUserHandlerClient) GetUserList(ctx context.Context, req *user.GetUsersRequest, callOptions ...callopt.Option) (r *user.GetUsersResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetMember(ctx, req)
+	return p.kClient.GetUserList(ctx, req)
 }

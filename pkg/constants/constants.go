@@ -4,16 +4,18 @@ import "time"
 
 const (
 	// service name
-	APIServiceName       = "api"
-	UserServiceName      = "user"
-	PartyServiceName     = "party"
-	ItineraryServiceName = "itinerary"
+	APIServiceName         = "api"
+	UserServiceName        = "user"
+	PartyServiceName       = "party"
+	ItineraryServiceName   = "itinerary"
+	InteractionServiceName = "interaction"
 
 	// db table name
 	UserTableName      = "user"
 	PartyTableName     = "party"
 	MemberTableName    = "member"
 	ItineraryTableName = "itinerary"
+	CommentTableName   = "comment"
 
 	// limit
 	MaxConnections     = 1000
@@ -37,4 +39,12 @@ const (
 	// page
 	PageNum  = 1
 	PageSize = 10
+
+	//redis
+	CommentSuffix = ":comment"
+
+	PoiExpTime     = time.Hour * 1 //到期自动移除k-v
+	CommentExpTime = time.Minute * 10
+
+	PoiCommentCountZset = "poi_comment_counts"
 )

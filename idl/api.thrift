@@ -260,3 +260,46 @@ service ItineraryHandler{
     ChangeSequenceResponse ChangeSequence(1:ChangeSequenceRequest req)(api.post="/bocchi/party/itinerary/sequence/change"),
     MergeItineraryResponse MergeItinerary(1:MergeItineraryRequest req)(api.get="/bocchi/party/itinerary/merge"),
 }
+
+//comment
+struct Comment {
+    1: i64 id,
+    2: i64 poi_id,
+    4: User user,
+    5: string content,
+    6: string publish_time,
+}
+
+struct CommentCreateRequest{
+    1:required i64 poi_id,
+    2:string content,
+}
+
+struct CommentCreateResponse{
+    1:base.BaseResp base,
+}
+
+struct CommentDeleteRequest{
+    1:i64 id,
+}
+
+struct CommentDeleteResponse{
+    1:base.BaseResp base,
+}
+
+struct CommentListRequest{
+    1:i64 poi_id,
+    2:i64 page_num,
+}
+
+struct CommentListResponse{
+    1:base.BaseResp base,
+    2:optional i64 comment_count,
+    3:optional list<Comment> comment_list,
+}
+
+service InteractionHandler{
+    CommentCreateResponse CommentCreate(1:CommentCreateRequest req)(api.post="/bocchi/poi/comment/create"),
+    CommentDeleteResponse CommentDelete(1:CommentDeleteRequest req)(api.get="/bocchi/poi/comment/delete"),
+    CommentListResponse CommentList(1:CommentListRequest req)(api.get="/bocchi/poi/comment/list"),
+}

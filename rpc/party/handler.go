@@ -40,8 +40,8 @@ func (s *PartyHandlerImpl) ApplyList(ctx context.Context, req *party.ApplyListRe
 	for _, member := range *members {
 		memberIdList = append(memberIdList, member.MemberId)
 	}
-	rpcResp, err := rpc.UserGetMembers(ctx, &user.GetMemberRequest{
-		MemberIdList: memberIdList,
+	rpcResp, err := rpc.UserGetMembers(ctx, &user.GetUsersRequest{
+		UserIdList: memberIdList,
 	})
 	if err != nil {
 		resp.Base = pack.BuildBaseResp(err)
@@ -49,7 +49,7 @@ func (s *PartyHandlerImpl) ApplyList(ctx context.Context, req *party.ApplyListRe
 	}
 	resp.Base = pack.BuildBaseResp(nil)
 	resp.ApplicantCount = &count
-	resp.ApplicantList = rpcResp.MemberList
+	resp.ApplicantList = rpcResp.UserList
 
 	return resp, nil
 }
@@ -76,8 +76,8 @@ func (s *PartyHandlerImpl) GetPartyMembers(ctx context.Context, req *party.GetPa
 	for _, member := range *members {
 		memberIdList = append(memberIdList, member.MemberId)
 	}
-	rpcResp, err := rpc.UserGetMembers(ctx, &user.GetMemberRequest{
-		MemberIdList: memberIdList,
+	rpcResp, err := rpc.UserGetMembers(ctx, &user.GetUsersRequest{
+		UserIdList: memberIdList,
 	})
 	if err != nil {
 		resp.Base = pack.BuildBaseResp(err)
@@ -86,7 +86,7 @@ func (s *PartyHandlerImpl) GetPartyMembers(ctx context.Context, req *party.GetPa
 
 	resp.Base = pack.BuildBaseResp(nil)
 	resp.MemberCount = &count
-	resp.MemberList = rpcResp.MemberList
+	resp.MemberList = rpcResp.UserList
 	return
 }
 

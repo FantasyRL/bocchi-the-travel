@@ -52,3 +52,12 @@ struct Party{
     12:string rectangle,
     13:list<Itinerary> itineraries,
 }
+
+struct Comment {
+    1: i64 id,
+    2: i64 poi_id,
+    4: User user,
+    5: string content,
+    6: string publish_time,
+}
+

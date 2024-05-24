@@ -340,6 +340,77 @@ paths:
       - application/json
       responses: {}
       summary: search_party
+  /bocchi/poi/comment/create:
+    post:
+      consumes:
+      - json/form
+      description: comment poi
+      parameters:
+      - description: poi_id
+        in: query
+        name: poi_id
+        required: true
+        type: integer
+      - description: 正文
+        in: query
+        name: content
+        required: true
+        type: string
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: comment_create
+  /bocchi/poi/comment/delete:
+    get:
+      consumes:
+      - json/form
+      description: delete your comment
+      parameters:
+      - description: 评论id
+        in: query
+        name: comment_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: comment_delete
+  /bocchi/poi/comment/list:
+    get:
+      consumes:
+      - json/form
+      description: show poi's comments
+      parameters:
+      - description: poi_id
+        in: query
+        name: poi_id
+        required: true
+        type: integer
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: comment_list
   /bocchi/user/avatar/upload:
     put:
       consumes:

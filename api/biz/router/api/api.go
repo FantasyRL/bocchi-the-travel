@@ -44,6 +44,15 @@ func Register(r *server.Hertz) {
 			}
 		}
 		{
+			_poi := _bocchi.Group("/poi", _poiMw()...)
+			{
+				_comment := _poi.Group("/comment", _commentMw()...)
+				_comment.POST("/create", append(_commentcreateMw(), api.CommentCreate)...)
+				_comment.GET("/delete", append(_commentdeleteMw(), api.CommentDelete)...)
+				_comment.GET("/list", append(_commentlistMw(), api.CommentList)...)
+			}
+		}
+		{
 			_user := _bocchi.Group("/user", _userMw()...)
 			_user.GET("/info", append(_infoMw(), api.Info)...)
 			_user.POST("/signature", append(_signatureMw(), api.Signature)...)

@@ -36,7 +36,7 @@ $(SERVICES):
 start-all:
 	sh start.sh
 
-KSERVICES := user party itinerary
+KSERVICES := user party itinerary interaction
 .PHONY: kgen
 kgen:
 	@for kservice in $(KSERVICES); do \
