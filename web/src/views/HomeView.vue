@@ -19,7 +19,7 @@ export default defineComponent({
     return {
       total: 10, // 假设的总数，实际应从后端获取
       current: 2, // 当前页码，默认为1
-      
+
       searchText: "",
       images: [
         { id: 1, url: "https://severj.top/img/background1.webp", description: "Image 1" },
@@ -29,7 +29,7 @@ export default defineComponent({
     };
   },
   props: {
- 
+
   },
   methods: {
     onSearch(value) {
@@ -80,7 +80,7 @@ export default defineComponent({
 
     <div class="card1">
       <div v-for="id in 8" :key="id">
-        <router-link :to="getDetailUrl(id)" >
+        <router-link :to="getDetailUrl(id)">
           <a-card hoverable style="width: 240px">
             <template #cover>
               <img :src="getImgUrl(id)" alt="example" />
