@@ -162,3 +162,30 @@ func _changesequenceMw() []app.HandlerFunc {
 		jwt.JwtMiddleware.MiddlewareFunc(),
 	}
 }
+
+func _poiMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _commentMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _commentcreateMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _commentdeleteMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _commentlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

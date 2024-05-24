@@ -496,6 +496,110 @@
                 "responses": {}
             }
         },
+        "/bocchi/poi/comment/create": {
+            "post": {
+                "description": "comment poi",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "comment_create",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "poi_id",
+                        "name": "poi_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "正文",
+                        "name": "content",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/poi/comment/delete": {
+            "get": {
+                "description": "delete your comment",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "comment_delete",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "评论id",
+                        "name": "comment_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/poi/comment/list": {
+            "get": {
+                "description": "show poi's comments",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "comment_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "poi_id",
+                        "name": "poi_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/user/avatar/upload": {
             "put": {
                 "description": "revise user's avatar",

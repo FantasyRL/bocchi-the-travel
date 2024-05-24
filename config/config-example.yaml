@@ -60,3 +60,8 @@ services:
     load-balance: false
     addr:
       - 127.0.0.1:10004
+  interaction:
+    name: interaction
+    load-balance: false
+    addr:
+      - 127.0.0.1:10005

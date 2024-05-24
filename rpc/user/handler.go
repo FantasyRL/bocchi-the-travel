@@ -127,13 +127,14 @@ func (s *UserHandlerImpl) Signature(ctx context.Context, req *user.SignatureRequ
 	return resp, nil
 }
 
-// GetMember implements the UserHandlerImpl interface.
-func (s *UserHandlerImpl) GetMember(ctx context.Context, req *user.GetMemberRequest) (resp *user.GetMemberResponse, err error) {
-	resp = new(user.GetMemberResponse)
-	memberResp, err := service.NewUserService(ctx).GetMember(req)
+// GetUserList implements the UserHandlerImpl interface.
+func (s *UserHandlerImpl) GetUserList(ctx context.Context, req *user.GetUsersRequest) (resp *user.GetUsersResponse, err error) {
+	resp = new(user.GetUsersResponse)
+	userResp, err := service.NewUserService(ctx).GetUser(req)
+	resp.Base = pack.BuildBaseResp(err)
 	if err != nil {
-		return nil, err
+		return resp, nil
 	}
-	resp.MemberList = service.BuildUsersResp(memberResp)
+	resp.UserList = service.BuildUsersResp(userResp)
 	return resp, nil
 }

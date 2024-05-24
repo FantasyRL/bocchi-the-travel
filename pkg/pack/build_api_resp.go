@@ -115,6 +115,24 @@ func ConvertToAPIItineraries(kitexItineraries []*base.Itinerary) []*api.Itinerar
 	return ItinerariesResp
 }
 
+func ConvertToAPIComment(kitexComment *base.Comment) *api.Comment {
+	return &api.Comment{
+		ID:          kitexComment.Id,
+		PoiID:       kitexComment.PoiId,
+		User:        ConvertToAPIUser(kitexComment.User),
+		Content:     kitexComment.Content,
+		PublishTime: kitexComment.PublishTime,
+	}
+}
+
+func ConvertToAPIComments(kitexComments []*base.Comment) []*api.Comment {
+	commentsResp := make([]*api.Comment, len(kitexComments))
+	for i, v := range kitexComments {
+		commentsResp[i] = ConvertToAPIComment(v)
+	}
+	return commentsResp
+}
+
 func ToUserResp(_user interface{}) *api.User {
 	//这里使用了一个及其抽象的断言
 	p, _ := (_user).(*base.User)

@@ -78,3 +78,14 @@ CREATE TABLE `itinerary`(
             references `party`(id)
             on delete cascade
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='行程表';
+
+CREATE TABLE `comment`(
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '评论id' ,
+    `poi_id` bigint NOT NULL COMMENT '被评论poi_id',
+    `uid` bigint NOT NULL COMMENT '评论用户',
+    `content` varchar(2048) NOT NULL COMMENT '评论内容',
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT '评论时间',
+    `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+    `deleted_at` timestamp NULL DEFAULT NULL,
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
