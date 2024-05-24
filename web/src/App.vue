@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios';
 import { RouterLink, RouterView } from "vue-router";
 import { computed } from 'vue';
 import { useStore } from 'vuex'
@@ -20,18 +21,22 @@ export default {
   //不知道有没有用的左右页面切换
   data() {
     return {
+      msg: '', // 用于显示登录结果的变量
+      username: '',
+      password: '',
+      email: '',
       startX: 0,
       login: 1,
-      resgister:1,
-      overlay:1,
+      resgister: 1,
+      overlay: 1,
       endX: 0,
-      info: true, // 假设info是登录状态的变量
+      info: 0, // 假设info是登录状态的变量
     };
   },
   mounted() {
     window.addEventListener('touchstart', this.touchStart);
     window.addEventListener('touchend', this.touchEnd);
-    /* 获取登录状态 */
+
     this.getinfo();
   },
   beforeUnmount() {
@@ -39,28 +44,61 @@ export default {
     window.removeEventListener('touchend', this.touchEnd);
   },
   methods: {
+    loginto() { // 登录函数，需要根据后端接口进行调整
+      axios.post('http://127.0.0.1:10001/bocchi/user/login/?username=' + this.username + "&password=" + this.password + '&' + 'otp')
+        .then((response) => {
+          console.log('结果:', response.data);
+          this.msg = response.data.base.msg;
+          if (response.data.base.code == 10000) {
+            console.log('登录成功');
+            this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
+            this.getinfo(); // 更新登录状态
+          }
+        })
+    },
+    registerto() {
+      axios.post('http://127.0.0.1:10001/bocchi/user/register/?username=' + this.username + "&email" + this.email + "&password=" + this.password)
+        .then((response) => {
+          console.log('结果:', response.data);
+          this.msg = response.data.base.msg;
+          if (response.data.base.code == "10008") {
+            console.log(response.data.base.msg);
+          }
+        })
+        .catch((error) => {
+          console.error('Error', error);
+        });
+    },
     getinfo() {
       /* 获取登录状态 */
-      if (this.info==true) {
+      if (this.info == 1) {
         console.log("已登录");
-        this.login = 0; // 登录状态，0表示已登录，1表示未登录
-        this.resgister = 0; // 注册状态，0表示已注册，1表示未注册
-        this.overlay = 0; // 注册状态，0表示已注册，1表示未注册
+        this.login = 0;
+        this.resgister = 0;
+        this.overlay = 0;
       } else {
         console.log("未登录");
-        this.login = 1; // 登录状态，0表示已登录，1表示未登录
-        this.resgister = 1; // 注册状态，0表示已注册，1表示未注册
+        this.login = 1;
+        this.resgister = 1;
         this.overlay = 1;
       }
     },
+    /* 显示注册页面 */
     userresgister() {
       this.login = 0;
       this.resgister = 1;
     },
+    /* 显示登录页面 */
     userlogin() {
       this.login = 1;
       this.resgister = 0;
     },
+    debuggerlogin(){
+      this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
+      this.getinfo(); // 更新登录状态
+    },
+
+    /* 左右滑动 */
     touchStart(e) {
       this.startX = e.touches[0].clientX;
     },
@@ -85,7 +123,7 @@ export default {
 </script>
 
 <template>
-<!--   <a-spin size="large" /> -->
+  <!--   <a-spin size="large" /> -->
 
   <header class="header">
     <div class="menu-container">
@@ -108,18 +146,19 @@ export default {
   <div v-show="resgister" class="resgister-container">
     <div class="resgister">
       <div class="container">
-        <form>
+        <div class="form">
           <div class="head">
             <span>注册</span>
             <p>输入你的名字和密码才能用哦</p>
+            <text>{{ msg }}</text>
           </div>
           <div class="inputs">
-            <input type="text" placeholder="用户名">
-            <input type="email" placeholder="邮箱">
-            <input type="password" placeholder="密码">
+            <input type="text" placeholder="用户名" v-model="username">
+            <input type="email" placeholder="邮箱" v-model="email">
+            <input type="password" placeholder="密码" v-model="password">
           </div>
-          <button>注册</button>
-        </form>
+          <button @click="registerto">注册</button>
+        </div>
         <div class="form-footer">
           <p>已经有了一个账号? <button @click="userlogin" style="border: none;cursor: pointer;background-color: transparent;"><a
                 href style="pointer-events: none;">登录</a></button></p>
@@ -131,21 +170,27 @@ export default {
   <div v-show="login" class="login-container">
     <div class="login">
       <div class="container">
-        <form>
+        <div class="form">
           <div class="head">
             <span>登录</span>
             <p>输入你的名字和密码才能用哦</p>
+            <text>{{ msg }}</text>
           </div>
           <div class="inputs">
-            <input type="text" placeholder="用户名" >
-            <input type="email" placeholder="邮箱">
-            <input type="password" placeholder="密码">
+            <input type="text" placeholder="用户名" v-model="username">
+            <input type="password" placeholder="密码" v-model="password">
+            <div class="bad">
+            </div>
+
           </div>
-          <button>登录</button>
-        </form>
+          <button @click="loginto">登录</button>
+          <button @click="debuggerlogin">开发者登录</button>
+
+        </div>
         <div class="form-footer">
-          <p>想注册一个账号? <button @click="userresgister" style="border: none;cursor: pointer;background-color: transparent;"><a
-                href style="pointer-events: none;">注册</a></button></p>
+          <p>想注册一个账号? <button @click="userresgister"
+              style="border: none;cursor: pointer;background-color: transparent;"><a href
+                style="pointer-events: none;">注册</a></button></p>
         </div>
       </div>
     </div>
@@ -163,6 +208,11 @@ export default {
 
 
 <style>
+.bad {
+  background-color: #F1F7FE;
+  height: 40px;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -189,7 +239,7 @@ export default {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-} 
+}
 
 .login {
   position: fixed;
@@ -211,7 +261,7 @@ export default {
   overflow: hidden;
 }
 
-form {
+.form {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -220,24 +270,24 @@ form {
   text-align: center;
 }
 
-form .head {
+.form .head {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-form .head span {
+.form .head span {
   font-size: 1.6rem;
   font-weight: bolder;
   color: black;
 }
 
-form .head p {
+.form .head p {
   font-size: 1.1rem;
   color: #7C6666;
 }
 
-form .inputs {
+.form .inputs {
   overflow: hidden;
   background-color: #fff;
   width: 100%;
@@ -247,7 +297,7 @@ form .inputs {
   outline: 0;
 }
 
-form .inputs input {
+.form .inputs input {
   border: none;
   outline: none;
   padding: 8px 15px;
@@ -258,7 +308,7 @@ form .inputs input {
   font-weight: 200;
 }
 
-form button {
+.form button {
   background-color: #4287ef;
   color: white;
   width: 100%;
@@ -274,7 +324,7 @@ form button {
   transition: all 1s ease-in-out;
 }
 
-form button:hover {
+.form button:hover {
   background-color: #005ce6;
 }
 
