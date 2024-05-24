@@ -67,8 +67,8 @@ export default {
 
   <RouterView />
 
-  <!--  <div class="overlay"></div> -->
-  <!--   <div class="login">
+   <div class="overlay"></div>
+    <div class="login">
     <div class="container">
       <form>
         <div class="head">
@@ -87,7 +87,7 @@ export default {
       </div>
 
     </div>
-  </div> -->
+  </div>
 
   <!--<div class="toolbox">
   <Text>Debug box</Text>
