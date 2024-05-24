@@ -34,7 +34,7 @@ export default {
   methods: {
     getinfo() {
       /* 获取登录状态 */
-      if (this.info==false) {
+      if (this.info==true) {
         console.log("已登录");
         this.login = 0; // 登录状态，0表示已登录，1表示未登录
         this.resgister = 0; // 注册状态，0表示已注册，1表示未注册
