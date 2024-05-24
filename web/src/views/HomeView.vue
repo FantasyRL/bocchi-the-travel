@@ -38,14 +38,16 @@ import {RouterLink} from "vue-router";
 
     <div class="card1">
       <div v-for="item in 6" :key="item">
-        <a-card hoverable style="width: 240px">
-          <template #cover>
-            <img :src="getImgUrl(item - 1)" alt="example" />
-          </template>
-          <a-card-meta title="Europe Street beat">
-            <template #description>www.instagram.com</template>
-          </a-card-meta>
-        </a-card>
+        <router-link :to="getDetailUrl(item - 1)">
+          <a-card hoverable style="width: 240px">
+            <template #cover>
+              <img :src="getImgUrl(item - 1)" alt="example" />
+            </template>
+            <a-card-meta title="Europe Street beat">
+              <template #description>www.instagram.com</template>
+            </a-card-meta>
+          </a-card>
+        </router-link>
       </div>
     </div>
 
@@ -91,6 +93,9 @@ export default defineComponent({
       console.log("Search:", value);
     },
     getImgUrl(i) {
+      return `${baseUrl}background${i + 1}.webp`;
+    },
+    getDetailUrl(i) {
       return `${baseUrl}background${i + 1}.webp`;
     }
   }

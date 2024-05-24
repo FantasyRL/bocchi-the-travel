@@ -137,7 +137,10 @@ html {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
 
+.card1 a {
+  text-decoration: none;
 }
 
 .ant-card.css-dev-only-do-not-override-16pw25h.ant-card-bordered.ant-card-hoverable{
