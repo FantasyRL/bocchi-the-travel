@@ -1,6 +1,6 @@
 <script setup>
 import {RouterLink} from "vue-router";
-
+import { PlusOutlined } from "@ant-design/icons-vue";
 import { ref } from "vue";
 const current = ref(1);
 
