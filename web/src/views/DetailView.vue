@@ -1,17 +1,28 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined } from '@ant-design/icons-vue';
+import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex'
-
-let id = ref(null);
-const route = useRoute();
-const baseUrl = "https://severj.top/img/";
+import { useRoute } from "vue-router";
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 onMounted(async () => {
-  id.value = route.params.id;
   await new Promise(resolve => setTimeout(resolve, 2000));
   useStore().commit('setLoading', false);
 });
+
+const baseUrl = "https://severj.top/img/";
+const id = useRoute().params.id;
+const likes = getLikes(Number(id));
+const dislikes = getDislikes(Number(id));
+const action = ref('');
+
+const like = () => {
+  likes.value++;
+  dislikes.value--;
+  action.value = 'liked';
+};
 
 const getImgUrl = (i) => {
   return `${baseUrl}background${i}.webp`;
@@ -33,6 +44,11 @@ const getTagsLink = (i) => {
 };
 const getTagsSum = (i) => {
   return i;
+};
+const dislike = () => {
+  likes.value--;
+  dislikes.value++;
+  action.value = 'disliked';
 };
 </script>
 
@@ -61,8 +77,72 @@ const getTagsSum = (i) => {
         </p>
       </div>
     </div>
+
+    <a-divider orientation="center" class="separate">相关评论</a-divider>
+
+    <div class="comments">
+        <a-comment>
+          <template #actions>
+      <span key="comment-basic-like">
+        <a-tooltip title="Like">
+          <template v-if="action === 'liked'">
+            <LikeFilled @click="like" />
+          </template>
+          <template v-else>
+            <LikeOutlined @click="like" />
+          </template>
+        </a-tooltip>
+        <span style="padding-left: 8px; cursor: auto">
+          {{ likes }}
+        </span>
+      </span>
+            <span key="comment-basic-dislike">
+        <a-tooltip title="Dislike">
+          <template v-if="action === 'disliked'">
+            <DislikeFilled @click="dislike" />
+          </template>
+          <template v-else>
+            <DislikeOutlined @click="dislike" />
+          </template>
+        </a-tooltip>
+        <span style="padding-left: 8px; cursor: auto">
+          {{ dislikes }}
+        </span>
+      </span>
+          </template>
+          <template #author><a>Severj</a></template>
+          <template #avatar>
+            <a-avatar src="https://severj.top/img/icon/logo.png" alt="Severj" />
+          </template>
+          <template #content>
+            <p>
+              We supply a series of design principles, practical patterns and high quality design
+              resources (Sketch and Axure), to help people create their product prototypes beautifully and
+              efficiently.
+            </p>
+          </template>
+          <template #datetime>
+            <a-tooltip :title="dayjs().format('YYYY-MM-DD HH:mm:ss')">
+              <span>{{ dayjs().fromNow() }}</span>
+            </a-tooltip>
+          </template>
+        </a-comment>
+    </div>
+
+    <a-divider orientation="center" class="separate">相关行程</a-divider>
+
   </div>
 </template>
+
+<script>
+const getLikes = (i) => {
+  return i;
+};
+const getDislikes = (i) => {
+  return i;
+};
+
+</script>
 
 <style scoped>
 .content {
@@ -79,11 +159,20 @@ const getTagsSum = (i) => {
   object-fit: cover;
   object-position: center;
   border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .details {
   margin-left: 20px;
   margin-top: 25px;
+}
+
+.comments {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.separate {
+  margin-top: 30px;
 }
 </style>
