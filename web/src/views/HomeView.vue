@@ -1,8 +1,10 @@
 <script setup>
+import {RouterLink} from "vue-router";
+
 import { ref } from "vue";
 const current = ref(1);
-import { PlusOutlined } from "@ant-design/icons-vue";
-import {RouterLink} from "vue-router";
+
+
 </script>
 
 <template>
@@ -172,7 +174,7 @@ export default defineComponent({
   display: block;
 }
 
-:deep .slick-thumb li.slick-active img {
+:deep(.slick-thumb li.slick-active) img {
   filter: grayscale(0%);
 }
 </style>
