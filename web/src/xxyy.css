@@ -64,9 +64,9 @@ html {
 /* Toolbox */
 .toolbox {
   position: fixed; /* 使toolbox固定在浏览器窗口的某个位置 */
-  right: 10px; /* 距离右侧10像素 */
+  left: 10px; /* 距离右侧10像素 */
   bottom: 10px; /* 距离底部10像素 */
-  z-index: 1000; /* 确保toolbox在其他内容之上 */
+  z-index: 1009; /* 确保toolbox在其他内容之上 */
   background-color: #f0f0f0; /* 背景颜色 */
   border: 1px solid #ddd; /* 边框 */
   border-radius: 3px; /* 边框圆角 */
@@ -77,7 +77,12 @@ html {
 
   transition: opacity 0.3s; /* 过渡效果 */
 }
-
+.toolbox text{
+ width: 200px;
+  white-space: nowrap; /* 阻止文本换行 */
+  overflow: hidden; /* 隐藏超出容器的文本 */
+  text-overflow: ellipsis; /* 当文本超出容器时显示省略号 */
+}
 .toolbox button {
   display: block; /* 使按钮竖直排列 */
   margin: 5px; /* 按钮之间的间隔 */

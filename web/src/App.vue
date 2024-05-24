@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { RouterLink, RouterView } from "vue-router";
 import { computed } from 'vue';
 import { useStore } from 'vuex'
@@ -21,6 +22,7 @@ export default {
   //不知道有没有用的左右页面切换
   data() {
     return {
+      access_token: '', 
       msg: '', // 用于显示登录结果的变量
       username: '',
       password: '',
@@ -38,6 +40,7 @@ export default {
     window.addEventListener('touchend', this.touchEnd);
 
     this.getinfo();
+    this.access_token = Cookies.get('access_token');
   },
   beforeUnmount() {
     window.removeEventListener('touchstart', this.touchStart);
@@ -51,6 +54,8 @@ export default {
           this.msg = response.data.base.msg;
           if (response.data.base.code == 10000) {
             console.log('登录成功');
+            this.cookiesSet = Cookies.set('access_token',response.data.access_token, { expires: 7 });
+            this.cookiesSet = Cookies.set('refresh_token',response.data.refresh_token, { expires: 7 });
             this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
             this.getinfo(); // 更新登录状态
           }
@@ -71,7 +76,7 @@ export default {
     },
     getinfo() {
       /* 获取登录状态 */
-      if (this.info == 1) {
+      if (this.info == 1||this.access_token!= null) {
         console.log("已登录");
         this.login = 0;
         this.resgister = 0;
@@ -136,6 +141,7 @@ export default {
         </a-menu-item>
         <a-menu-item key="about">
           <router-link to="/about" active-class="active-link"> 我的 </router-link>
+          
         </a-menu-item>
       </a-menu>
     </div>
@@ -197,13 +203,13 @@ export default {
   </div>
 
 
-  <!--<div class="toolbox">
+  <div class="toolbox">
   <Text>Debug box</Text>
   <RouterLink to="/">主页 </RouterLink>
   <RouterLink to="/about">个人界面</RouterLink>
-  <button @click="counter.increment">counter +1</button>
-  <div class="counter">Count: {{ counter.count }}</div>
-</div>-->
+  access_token:
+  <text>{{ access_token }}</text>
+</div>
 </template>
 
 
