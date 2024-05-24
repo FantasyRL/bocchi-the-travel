@@ -20,7 +20,6 @@ export default {
   //不知道有没有用的左右页面切换
   data() {
     return {
-
       startX: 0,
       login: 1,
       resgister:1,
@@ -115,7 +114,7 @@ export default {
             <p>输入你的名字和密码才能用哦</p>
           </div>
           <div class="inputs">
-            <input type="text" placeholder="用户名" v-model="username">
+            <input type="text" placeholder="用户名">
             <input type="email" placeholder="邮箱">
             <input type="password" placeholder="密码">
           </div>
@@ -138,7 +137,7 @@ export default {
             <p>输入你的名字和密码才能用哦</p>
           </div>
           <div class="inputs">
-            <input type="text" placeholder="用户名" v-model="username">
+            <input type="text" placeholder="用户名" >
             <input type="email" placeholder="邮箱">
             <input type="password" placeholder="密码">
           </div>
