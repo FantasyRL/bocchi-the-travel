@@ -1,3 +1,15 @@
+/*全局菜单*/
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* 头像 */
 .touxiang {
   /* background-color: #f0f0f0; */
@@ -119,10 +131,10 @@ html {
   margin: auto; /* 水平居中 */
 }
 .carousel img {
-  width: 421px;
-  height: auto; /* 保持图片的宽高比 */
+  width: 450px;
+  height: 300px; /* 保持图片的宽高比 */
   object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
-  border-radius: 10px; /* 圆角 */
+  border-radius: 8px; /* 圆角 */
   margin-bottom: 10px; /* 图片之间的间距 */
 }
 

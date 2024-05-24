@@ -3,13 +3,19 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex'
 import { Menu } from "ant-design-vue";
 export default {
   components: {
     "a-menu": Menu,
     "a-menu-item": Menu.Item
   },
-
+  setup() {
+    const store = useStore();
+    const isLoading = computed(() => store.state.isLoading);
+    return { isLoading };
+  },
   //不知道有没有用的左右页面切换
   data() {
     return {
@@ -78,18 +84,22 @@ export default {
 </script>
 
 <template>
-  <header>
-    <a-menu mode="horizontal">
-      <a-menu-item key="explore">
-        <router-link to="/explore" active-class="active-link"> 探索 </router-link>
-      </a-menu-item>
-      <a-menu-item key="home">
-        <router-link to="/" active-class="active-link"> 主页 </router-link>
-      </a-menu-item>
-      <a-menu-item key="about">
-        <router-link to="/about" active-class="active-link"> 我的 </router-link>
-      </a-menu-item>
-    </a-menu>
+  <a-spin size="large" v-if="isLoading" />
+
+  <header class="header">
+    <div class="menu-container">
+      <a-menu mode="horizontal">
+        <a-menu-item key="explore">
+          <router-link to="/explore" active-class="active-link"> 探索 </router-link>
+        </a-menu-item>
+        <a-menu-item key="home">
+          <router-link to="/" active-class="active-link"> 主页 </router-link>
+        </a-menu-item>
+        <a-menu-item key="about">
+          <router-link to="/about" active-class="active-link"> 我的 </router-link>
+        </a-menu-item>
+      </a-menu>
+    </div>
   </header>
 
   <RouterView />
