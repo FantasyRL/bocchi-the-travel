@@ -1,16 +1,16 @@
 <script setup>
 import { LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined } from '@ant-design/icons-vue';
-import { onMounted, ref } from 'vue';
+ import { onMounted, ref } from 'vue'; 
 import { useStore } from 'vuex'
 import { useRoute } from "vue-router";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-onMounted(async () => {
+/* onMounted(async () => {
   await new Promise(resolve => setTimeout(resolve, 2000));
   useStore().commit('setLoading', false);
-});
+}); */
 
 const baseUrl = "https://severj.top/img/";
 const id = useRoute().params.id;
