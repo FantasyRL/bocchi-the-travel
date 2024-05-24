@@ -41,6 +41,14 @@ export default {
 
     this.getinfo();
     this.access_token = Cookies.get('access_token');
+    if (this.access_token) { // 如果access_token存在，则认为用户已经登录，更新info的值
+      this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
+      this.getinfo(); // 更新登录状态
+    } else {
+      this.info = 0; // 如果没有access_token，则认为用户未登录，将info设置为0表示未登录状态
+      this.getinfo(); // 更新登录状态
+    }
+    
   },
   beforeUnmount() {
     window.removeEventListener('touchstart', this.touchStart);
@@ -56,8 +64,11 @@ export default {
             console.log('登录成功');
             this.cookiesSet = Cookies.set('access_token',response.data.access_token, { expires: 7 });
             this.cookiesSet = Cookies.set('refresh_token',response.data.refresh_token, { expires: 7 });
+            this.cookiesSet = Cookies.set('id',response.data.user.id, { expires: 7 });
+
             this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
             this.getinfo(); // 更新登录状态
+            window.location.reload();
           }
         })
     },
@@ -76,7 +87,7 @@ export default {
     },
     getinfo() {
       /* 获取登录状态 */
-      if (this.info == 1||this.access_token!= null) {
+      if (this.info == 1) {
         console.log("已登录");
         this.login = 0;
         this.resgister = 0;
