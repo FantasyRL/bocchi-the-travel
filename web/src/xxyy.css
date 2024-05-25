@@ -77,8 +77,8 @@ html {
 
   transition: opacity 0.3s; /* 过渡效果 */
 }
-.toolbox text{
- width: 200px;
+.toolbox text {
+  width: 200px;
   white-space: nowrap; /* 阻止文本换行 */
   overflow: hidden; /* 隐藏超出容器的文本 */
   text-overflow: ellipsis; /* 当文本超出容器时显示省略号 */
@@ -136,12 +136,12 @@ html {
   margin-bottom: 10px; /* 图片之间的间距 */
 }
 
-.ant-card-cover img{
+.ant-card-cover img {
   width: auto;
   height: 200px; /* 保持图片的宽高比 */
   object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
 }
-.card1{
+.card1 {
   margin: auto;
   position: relative;
   display: flex;
@@ -153,7 +153,7 @@ html {
   text-decoration: none;
 }
 
-.ant-card{
+.ant-card {
   margin-bottom: 20px;
   margin-right: 8px;
   margin-left: 8px; /* 设置左右边距 */
