@@ -1,3 +1,15 @@
+/*全局菜单*/
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* 头像 */
 .touxiang {
   /* background-color: #f0f0f0; */
@@ -52,9 +64,9 @@ html {
 /* Toolbox */
 .toolbox {
   position: fixed; /* 使toolbox固定在浏览器窗口的某个位置 */
-  right: 10px; /* 距离右侧10像素 */
+  left: 10px; /* 距离右侧10像素 */
   bottom: 10px; /* 距离底部10像素 */
-  z-index: 1000; /* 确保toolbox在其他内容之上 */
+  z-index: 1009; /* 确保toolbox在其他内容之上 */
   background-color: #f0f0f0; /* 背景颜色 */
   border: 1px solid #ddd; /* 边框 */
   border-radius: 3px; /* 边框圆角 */
@@ -65,7 +77,12 @@ html {
 
   transition: opacity 0.3s; /* 过渡效果 */
 }
-
+.toolbox text{
+ width: 200px;
+  white-space: nowrap; /* 阻止文本换行 */
+  overflow: hidden; /* 隐藏超出容器的文本 */
+  text-overflow: ellipsis; /* 当文本超出容器时显示省略号 */
+}
 .toolbox button {
   display: block; /* 使按钮竖直排列 */
   margin: 5px; /* 按钮之间的间隔 */
@@ -113,17 +130,16 @@ html {
   margin: auto;
   text-align: center;
 }
-.pubu {
+.carousel {
   min-width: 20%;
-  max-width: 90%;
+  max-width: 100%;
   margin: auto; /* 水平居中 */
-
 }
-.pubu img {
-  width: 421px;
-  height: auto; /* 保持图片的宽高比 */
+.carousel img {
+  width: 450px;
+  height: 300px; /* 保持图片的宽高比 */
   object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
-  border-radius: 10px; /* 圆角 */
+  border-radius: 8px; /* 圆角 */
   margin-bottom: 10px; /* 图片之间的间距 */
 }
 
@@ -132,18 +148,21 @@ html {
   height: 200px; /* 保持图片的宽高比 */
   object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
 }
- .card1{
+.card1{
   margin: auto;
   position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  
-} 
+}
 
-.ant-card.css-dev-only-do-not-override-16pw25h.ant-card-bordered.ant-card-hoverable{
+.card1 a {
+  text-decoration: none;
+}
+
+.ant-card{
   margin-bottom: 20px;
-  margin-right: 10px;
-  margin-left: 10px; /* 设置左右边距 */
+  margin-right: 8px;
+  margin-left: 8px; /* 设置左右边距 */
   position: relative;
 }
