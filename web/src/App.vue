@@ -296,6 +296,7 @@ export default {
   z-index: 1005;
   left: 50%;
   top: 50%;
+  width: 300px;
   transform: translate(-50%, -50%);
   background-color: #fff;
   border-radius: 10px;
