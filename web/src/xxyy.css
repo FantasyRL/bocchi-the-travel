@@ -122,14 +122,7 @@ html {
   width: auto;
 }
 /* 社交账号 */
-.shejiao {
-  background-color: #f0f0f0;
-  position: relative;
-  height: 50px;
-  width: 50%;
-  margin: auto;
-  text-align: center;
-}
+
 .carousel {
   min-width: 20%;
   max-width: 100%;

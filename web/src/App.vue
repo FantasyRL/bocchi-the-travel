@@ -22,8 +22,8 @@ export default {
   //不知道有没有用的左右页面切换
   data() {
     return {
-      access_token: '', 
-      msg: '', // 用于显示登录结果的变量
+      access_token: '',
+      msg: '', 
       username: '',
       password: '',
       email: '',
@@ -32,15 +32,21 @@ export default {
       resgister: 1,
       overlay: 1,
       endX: 0,
-      info: 0, // 假设info是登录状态的变量
+      info: 0, // 登录状态
     };
   },
   mounted() {
+
+
     window.addEventListener('touchstart', this.touchStart);
+
     window.addEventListener('touchend', this.touchEnd);
 
     this.getinfo();
+
     this.access_token = Cookies.get('access_token');
+
+
     if (this.access_token) { // 如果access_token存在，则认为用户已经登录，更新info的值
       this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
       this.getinfo(); // 更新登录状态
@@ -48,13 +54,21 @@ export default {
       this.info = 0; // 如果没有access_token，则认为用户未登录，将info设置为0表示未登录状态
       this.getinfo(); // 更新登录状态
     }
-    
+
+
+
   },
   beforeUnmount() {
+
+
     window.removeEventListener('touchstart', this.touchStart);
     window.removeEventListener('touchend', this.touchEnd);
+
+
   },
   methods: {
+
+
     loginto() { // 登录函数，需要根据后端接口进行调整
       axios.post('http://127.0.0.1:10001/bocchi/user/login/?username=' + this.username + "&password=" + this.password + '&' + 'otp')
         .then((response) => {
@@ -62,18 +76,21 @@ export default {
           this.msg = response.data.base.msg;
           if (response.data.base.code == 10000) {
             console.log('登录成功');
-            this.cookiesSet = Cookies.set('access_token',response.data.access_token, { expires: 7 });
-            this.cookiesSet = Cookies.set('refresh_token',response.data.refresh_token, { expires: 7 });
-            this.cookiesSet = Cookies.set('id',response.data.user.id, { expires: 7 });
+            this.cookiesSet = Cookies.set('access_token', response.data.access_token, { expires: 1 });
+            this.cookiesSet = Cookies.set('refresh_token', response.data.refresh_token, { expires: 7 });
+            this.cookiesSet = Cookies.set('id', response.data.user.id, { expires: 1 });
 
-            this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
+            
             this.getinfo(); // 更新登录状态
             window.location.reload();
           }
         })
     },
+
+
+
     registerto() {
-      axios.post('http://127.0.0.1:10001/bocchi/user/register/?username=' + this.username + "&email" + this.email + "&password=" + this.password)
+      axios.post('http://127.0.0.1:10001/bocchi/user/register/?username=' + this.username + "&email=" + this.email + "&password=" + this.password)
         .then((response) => {
           console.log('结果:', response.data);
           this.msg = response.data.base.msg;
@@ -85,6 +102,10 @@ export default {
           console.error('Error', error);
         });
     },
+
+
+
+
     getinfo() {
       /* 获取登录状态 */
       if (this.info == 1) {
@@ -99,6 +120,10 @@ export default {
         this.overlay = 1;
       }
     },
+
+
+
+
     /* 显示注册页面 */
     userresgister() {
       this.login = 0;
@@ -109,10 +134,13 @@ export default {
       this.login = 1;
       this.resgister = 0;
     },
-    debuggerlogin(){
+    debuggerlogin() {
       this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
       this.getinfo(); // 更新登录状态
     },
+
+
+
 
     /* 左右滑动 */
     touchStart(e) {
@@ -134,6 +162,11 @@ export default {
         }
       }
     }
+
+
+
+
+
   }
 };
 </script>
@@ -152,7 +185,7 @@ export default {
         </a-menu-item>
         <a-menu-item key="about">
           <router-link to="/about" active-class="active-link"> 我的 </router-link>
-          
+
         </a-menu-item>
       </a-menu>
     </div>
@@ -168,6 +201,7 @@ export default {
             <span>注册</span>
             <p>输入你的名字和密码才能用哦</p>
             <text>{{ msg }}</text>
+           
           </div>
           <div class="inputs">
             <input type="text" placeholder="用户名" v-model="username">
@@ -215,9 +249,9 @@ export default {
 
 
   <div class="toolbox">
-  access_token:
-  <text>{{ access_token }}</text>
-</div>
+    access_token:
+    <text>{{ access_token }}</text>
+  </div>
 </template>
 
 
