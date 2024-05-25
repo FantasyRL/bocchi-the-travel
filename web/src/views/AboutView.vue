@@ -23,9 +23,9 @@ export default {
     };
   },
   methods: {
-    settings(){
-      this.setshow =! this.setshow
-      this.setcount++ // 假设返回的数据中有一个名为name的字段，表示用户名。
+    settings() {
+      this.setshow = !this.setshow;
+      this.setcount++; // 假设返回的数据中有一个名为name的字段，表示用户名。
     },
     PutAvatar() {
       this.access_token = Cookies.get("access_token");
@@ -46,7 +46,6 @@ export default {
         });
     },
 
-    
     logout() {
       // 退出登录的函数，如果有的话。
       Cookies.remove("id"); // 删除id的cookie。
@@ -89,16 +88,15 @@ export default {
   computed: {},
   watch: {
     setcount(newsetcount, oldsetcount) {
-            if (1) {
-                console.log("变化前的值：", oldsetcount, "变化后的值：", newsetcount);
-            }
-            if (newsetcount%2==1) {
-              this.setname ="设置"
-            }
-            if (newsetcount%2!=1) {
-              this.setname ="关闭"
-            }
-        },
+      console.log("变化前的值：", oldsetcount, "变化后的值：", newsetcount);
+
+      if (newsetcount % 2 == 1) {
+        this.setname = "设置";
+      }
+      if (newsetcount % 2 != 1) {
+        this.setname = "关闭";
+      }
+    }
   },
   props: {},
   emits: {},
@@ -135,7 +133,7 @@ export default {
           ></path>
         </g>
       </svg>
-      <span class="lable">{{ setname}}</span>
+      <span class="lable">{{ setname }}</span>
     </button>
   </div>
 
@@ -163,29 +161,27 @@ export default {
     <!-- end -->
   </div>
   <!-- info end -->
-  <!--   <div>
-    <form @submit.prevent="uploadAvatar">
-      <input type="file" ref="fileInput" />
-      <button type="submit" @click="PutAvatar">上传头像</button>
-    </form>
-  </div>
-  <button @click="PutAvatar">修改头像</button> -->
+  <div></div>
+
   <transition name="fade">
-<div class="set" v-show="setshow">
-  设置界面
-  <mdui-menu>
-  <mdui-menu-item>Item 1</mdui-menu-item>
-  <mdui-menu-item>Item 2</mdui-menu-item>
-</mdui-menu>
-  <button @click="logout">退出登陆</button>
-</div>
-</transition>
+    <div class="set" v-show="setshow">
+      设置界面
+      <mdui-menu>
+        <mdui-menu-item>
+          <form @submit.prevent="PutAvatar">
+            <input type="file" ref="fileInput" />
+          </form>
+          
+        </mdui-menu-item>
+        <mdui-menu-item><button @click="PutAvatar">修改头像</button></mdui-menu-item>
+        <mdui-menu-item @click="logout">退出登陆</mdui-menu-item>
+      </mdui-menu>
+    </div>
+  </transition>
 </template>
 
 <style scoped>
-
-.set{
- 
+.set {
   position: fixed;
   top: 20%;
   margin-left: 10%;
@@ -202,8 +198,7 @@ export default {
   z-index: 1000; /* 确保设置界面在其它内容之上 */
 }
 .fade-enter {
-  
-  transition: opacity .5s;
+  transition: opacity 0.5s;
 }
 
 .fade-enter-active {
@@ -211,7 +206,7 @@ export default {
 }
 
 .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity 0.5s;
 }
 
 .fade-leave-to {
@@ -223,8 +218,8 @@ export default {
 .fade-enter, .fade-leave-to
   opacity: 0;
 } */
-.settings{
-  position:fixed;
+.settings {
+  position: fixed;
   right: 10px;
   top: 70px;
 }
