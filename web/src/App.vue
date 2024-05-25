@@ -5,6 +5,7 @@ import { RouterLink, RouterView } from "vue-router";
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { Menu } from "ant-design-vue";
+
 </script>
 
 <script>
@@ -48,7 +49,7 @@ export default {
       this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
       this.getinfo(); // 更新登录状态
     } else {
-      this.info = 1; // 如果没有access_token，则认为用户未登录，将info设置为0表示未登录状态
+      this.info = 0; // 如果没有access_token，则认为用户未登录，将info设置为0表示未登录状态
       this.getinfo(); // 更新登录状态
     }
   },
@@ -57,6 +58,9 @@ export default {
     window.removeEventListener("touchend", this.touchEnd);
   },
   methods: {
+    info1(){
+      
+    },
     loginto() {
       // 登录函数，需要根据后端接口进行调整
       axios
@@ -71,6 +75,7 @@ export default {
         .then((response) => {
           console.log("结果:", response.data);
           this.msg = response.data.base.msg;
+          
           if (response.data.base.code == 10000) {
             console.log("登录成功");
             this.cookiesSet = Cookies.set("access_token", response.data.access_token, {
@@ -247,11 +252,11 @@ export default {
       </div>
     </div>
   </div>
-
-  <div class="toolbox">
+ 
+<!--   <div class="toolbox">
     access_token:
     <text>{{ access_token }}</text>
-  </div>
+  </div> -->
 </template>
 
 <style>

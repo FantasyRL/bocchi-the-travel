@@ -173,6 +173,10 @@ export default {
   <transition name="fade">
 <div class="set" v-show="setshow">
   设置界面
+  <mdui-menu>
+  <mdui-menu-item>Item 1</mdui-menu-item>
+  <mdui-menu-item>Item 2</mdui-menu-item>
+</mdui-menu>
   <button @click="logout">退出登陆</button>
 </div>
 </transition>
