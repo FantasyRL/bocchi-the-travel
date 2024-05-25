@@ -44,6 +44,9 @@ const getTagsLink = (i) => {
 const getTagsSum = (i) => {
   return i;
 };
+const getRelativeID = (i) => {
+  return i;
+};
 const dislike = () => {
   likes.value--;
   dislikes.value++;
@@ -135,6 +138,19 @@ const handleClose = () => {
 
     <a-divider orientation="center" class="separate">相关行程</a-divider>
 
+    <div style="padding: 20px" class="relative">
+      <div v-for="i in 5" :key="i">
+        <a-row>
+          <a-card class="relative-card" :title="getName(getRelativeID(i))" :bordered="false">
+            <a-row>
+              <a-col class="inner-img"><img :src="getImgUrl(Number(getRelativeID(i)))" alt="" /></a-col>
+              <a-col style="margin-left: 20px"><p>{{ getDescription(Number(getRelativeID(i))) }}</p></a-col>
+            </a-row>
+          </a-card>
+        </a-row>
+      </div>
+    </div>
+
     <router-link to="/create">
       <a-float-button tooltip="加入行程" herf="/create/id">
         <template #icon>
@@ -199,6 +215,7 @@ const getDislikes = (i) => {
 
 .separate {
   margin-top: 30px;
+  font-size: 18px;
 }
 
 .alert {
@@ -209,5 +226,17 @@ const getDislikes = (i) => {
   z-index: 1000; /* 确保它在其他元素之上 */
   padding: 10px;
   border-radius: 8px;
+}
+
+.inner-img img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+}
+.relative-card {
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 </style>
