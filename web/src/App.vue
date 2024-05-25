@@ -283,10 +283,9 @@ export default {
   position: fixed;
   z-index: 1000;
   left: 50%;
-  top: 45%;
+  top: 50%;
   transform: translate(-50%, -50%);
   width: 300px;
-  height: 300px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -296,13 +295,13 @@ export default {
   position: fixed;
   z-index: 1005;
   left: 50%;
-  top: 45%;
-  transform: translate(-50%, -50%);
+  top: 50%;
   width: 300px;
-  height: 300px;
+  transform: translate(-50%, -50%);
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   
 }
 
 .container {
