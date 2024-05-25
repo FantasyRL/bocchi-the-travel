@@ -98,7 +98,7 @@ export default defineComponent({
     <router-link to="/create">
       <a-float-button tooltip="创建行程" herf="/create">
         <template #icon>
-          <PlusOutlined />
+          <PlusOutlined/>
         </template>
       </a-float-button>
     </router-link>
