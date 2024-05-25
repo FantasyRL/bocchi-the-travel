@@ -1,8 +1,7 @@
 <script setup>
-import { LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined } from '@ant-design/icons-vue';
- import { onMounted, ref } from 'vue'; 
-import { useStore } from 'vuex'
-import { useRoute } from "vue-router";
+import {LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined, PlusOutlined} from '@ant-design/icons-vue';
+ import {ref } from 'vue';
+import {RouterLink, useRoute} from "vue-router";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
@@ -49,6 +48,11 @@ const dislike = () => {
   likes.value--;
   dislikes.value++;
   action.value = 'disliked';
+};
+
+const visible = ref(true);
+const handleClose = () => {
+  visible.value = false;
 };
 </script>
 
@@ -131,6 +135,27 @@ const dislike = () => {
 
     <a-divider orientation="center" class="separate">相关行程</a-divider>
 
+    <router-link to="/create">
+      <a-float-button tooltip="加入行程" herf="/create/id">
+        <template #icon>
+          <PlusOutlined />
+        </template>
+      </a-float-button>
+    </router-link>
+
+    <a-alert
+        class="alert"
+        v-if="visible"
+        message="成功！"
+        description="已加入行程"
+        type="success"
+        show-icon
+        closable
+        banner
+        :after-close="handleClose"
+    />
+
+    <a-back-top />
   </div>
 </template>
 
@@ -174,5 +199,15 @@ const getDislikes = (i) => {
 
 .separate {
   margin-top: 30px;
+}
+
+.alert {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 1000; /* 确保它在其他元素之上 */
+  padding: 10px;
+  border-radius: 8px;
 }
 </style>

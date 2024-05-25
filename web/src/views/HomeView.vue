@@ -67,11 +67,13 @@ export default defineComponent({
       <a-carousel arrows dots-class="slick-dots slick-thumb">
         <template #customPaging="props">
           <a>
-            <img :src="getImgUrl(props.i + 1)" alt="" />
+              <img :src="getImgUrl(props.i + 1)" alt="" />
           </a>
         </template>
         <div v-for="id in 5" :key="id">
-          <img :src="getImgUrl(id)" alt="" style="border-radius: 15px;margin-bottom: 10px" />
+          <router-link :to="getDetailUrl(id)">
+            <img :src="getImgUrl(id)" alt="" style="border-radius: 15px;margin-bottom: 10px" />
+          </router-link>
         </div>
       </a-carousel>
     </div>
