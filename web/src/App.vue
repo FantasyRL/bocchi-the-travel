@@ -5,7 +5,6 @@ import { RouterLink, RouterView } from "vue-router";
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { Menu } from "ant-design-vue";
-
 </script>
 
 <script>
@@ -22,6 +21,7 @@ export default {
   //不知道有没有用的左右页面切换
   data() {
     return {
+      url: "",
       access_token: "",
       msg: "",
       username: "",
@@ -58,14 +58,13 @@ export default {
     window.removeEventListener("touchend", this.touchEnd);
   },
   methods: {
-    info1(){
-      
-    },
+    info1() {},
     loginto() {
       // 登录函数，需要根据后端接口进行调整
       axios
         .post(
-          "http://127.0.0.1:10001/bocchi/user/login/?username=" +
+          this.url +
+            "/bocchi/user/login/?username=" +
             this.username +
             "&password=" +
             this.password +
@@ -75,7 +74,7 @@ export default {
         .then((response) => {
           console.log("结果:", response.data);
           this.msg = response.data.base.msg;
-          
+
           if (response.data.base.code == 10000) {
             console.log("登录成功");
             this.cookiesSet = Cookies.set("access_token", response.data.access_token, {
@@ -95,7 +94,8 @@ export default {
     registerto() {
       axios
         .post(
-          "http://127.0.0.1:10001/bocchi/user/register/?username=" +
+          this.url +
+            "/bocchi/user/register/?username=" +
             this.username +
             "&email=" +
             this.email +
@@ -252,8 +252,8 @@ export default {
       </div>
     </div>
   </div>
- 
-<!--   <div class="toolbox">
+
+  <!--   <div class="toolbox">
     access_token:
     <text>{{ access_token }}</text>
   </div> -->
@@ -301,7 +301,6 @@ export default {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   
 }
 
 .container {
