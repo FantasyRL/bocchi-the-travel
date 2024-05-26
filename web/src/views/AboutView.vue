@@ -20,7 +20,8 @@ export default {
       signature: "这个人很懒，什么都没写。",
       access_token: "",
       refresh_token: "",
-      avatarFile: null
+      avatarFile: null,
+      url: "http://127.0.0.1:10001"
     };
   },
   methods: {
@@ -36,7 +37,7 @@ export default {
       let formData = new FormData();
       formData.append("avatar", this.avatarFile);
       axios
-        .put("/bocchi/user/avatar/upload", formData, {
+        .put(this.url + "/bocchi/user/avatar/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data", // 设置请求头，告诉服务器这是一个multipart/form-data请求，因为我们要上传文件。
             "access-token": this.access_token, // 假设返回的数据中有一个名为access_token的字段，表示访问令牌。
@@ -56,7 +57,7 @@ export default {
     },
     refreshtoken() {
       axios
-        .get("/bocchi/access_token/get", {
+        .get(this.url + "/bocchi/access_token/get", {
           headers: {
             "refresh-token": this.refresh_token,
             Accept: "*/*"
@@ -84,7 +85,7 @@ export default {
     },
     init() {
       axios
-        .get("/bocchi/user/info?user_id=" + this.id)
+        .get(this.url + "/bocchi/user/info?user_id=" + this.id)
         .then((res) => {
           console.log(res);
           this.name = res.data.user.name;
@@ -130,10 +131,6 @@ export default {
 };
 </script>
 <template>
-  <link
-    href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    rel="stylesheet"
-  />
   <a-page-header
     style="border: 1px solid rgb(235, 237, 240)"
     title="个人中心"
