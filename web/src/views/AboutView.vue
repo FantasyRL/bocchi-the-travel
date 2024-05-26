@@ -21,7 +21,7 @@ export default {
       access_token: "",
       refresh_token: "",
       avatarFile: null,
-      url: "http://127.0.0.1:10001"
+      url: ""
     };
   },
   methods: {
