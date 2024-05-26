@@ -189,3 +189,9 @@ func _commentlistMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _verifyaccesstokenMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}

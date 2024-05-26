@@ -41,13 +41,16 @@ func main() {
 	)
 
 	h.Use(cors.New(cors.Config{
-		AllowAllOrigins:  true,
-		AllowMethods:     []string{"PUT", "PATCH"},
-		AllowHeaders:     []string{"Origin"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		AllowWebSockets:  true,
-		MaxAge:           24 * time.Hour,
+		AllowAllOrigins:        true,
+		AllowMethods:           []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
+		AllowHeaders:           []string{"Origin", "Content-Length", "Content-Type"},
+		ExposeHeaders:          []string{"Content-Length"},
+		AllowCredentials:       true,
+		AllowWebSockets:        true,
+		AllowFiles:             true,
+		AllowBrowserExtensions: true,
+		AllowWildcard:          true,
+		MaxAge:                 24 * time.Hour,
 	}))
 	//websocket
 	//NoHijackConnPool 将控制是否使用缓存池来获取/释放劫持连接。

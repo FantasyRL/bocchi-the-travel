@@ -26,6 +26,27 @@
                 "responses": {}
             }
         },
+        "/bocchi/access_token/verify": {
+            "get": {
+                "description": "verify access-token if it is expired or not",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "verify_access-token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/party/apply": {
             "get": {
                 "description": "apply to join the party",

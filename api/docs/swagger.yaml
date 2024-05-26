@@ -16,6 +16,20 @@ paths:
       - application/json
       responses: {}
       summary: get_access-token
+  /bocchi/access_token/verify:
+    get:
+      consumes:
+      - json/form
+      description: verify access-token if it is expired or not
+      parameters:
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: verify_access-token
   /bocchi/party/apply:
     get:
       consumes:

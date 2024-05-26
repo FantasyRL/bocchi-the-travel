@@ -290,3 +290,26 @@ func Signature(ctx context.Context, c *app.RequestContext) {
 
 	c.JSON(consts.StatusOK, resp)
 }
+
+// VerifyAccessToken .
+// @Summary verify_access-token
+// @Description verify access-token if it is expired or not
+// @Accept json/form
+// @Produce json
+// @Param access-token header string false "access-token"
+// @router /bocchi/access_token/verify [GET]
+func VerifyAccessToken(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.VerifyAccessTokenRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.VerifyAccessTokenResponse)
+
+	c.Get("current_user_id")
+	resp.Base = pack.ConvertToAPIBaseResp(pack.BuildBaseResp(nil))
+	c.JSON(consts.StatusOK, resp)
+}

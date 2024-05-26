@@ -65,6 +65,13 @@ struct GetAccessTokenResponse{
     2:optional string access_token,
 }
 
+struct VerifyAccessTokenRequest{
+
+}
+
+struct VerifyAccessTokenResponse{
+    1:base.BaseResp base,
+}
 
 struct InfoResponse {
     1: base.BaseResp base,
@@ -96,7 +103,7 @@ service UserHandler {
     Switch2FAResponse Switch2FA(1:Switch2FARequest req)(api.post="/bocchi/user/switch2fa"),
     GetAccessTokenResponse GetAccessToken(1:GetAccessTokenRequest req)(api.get="/bocchi/access_token/get"),
     SignatureResponse Signature(1:SignatureRequest req)(api.post="/bocchi/user/signature"),
-
+    VerifyAccessTokenResponse VerifyAccessToken(1:VerifyAccessTokenRequest req)(api.get="/bocchi/access_token/verify"),
 }
 
 //party
