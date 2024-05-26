@@ -22,6 +22,7 @@ func Register(r *server.Hertz) {
 		{
 			_access_token := _bocchi.Group("/access_token", _access_tokenMw()...)
 			_access_token.GET("/get", append(_getaccesstokenMw(), api.GetAccessToken)...)
+			_access_token.GET("/verify", append(_verifyaccesstokenMw(), api.VerifyAccessToken)...)
 		}
 		{
 			_party := _bocchi.Group("/party", _partyMw()...)
