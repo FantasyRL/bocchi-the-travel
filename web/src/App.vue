@@ -49,7 +49,7 @@ export default {
       this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
       this.getinfo(); // 更新登录状态
     } else {
-      this.info = 0; // 如果没有access_token，则认为用户未登录，将info设置为0表示未登录状态
+      this.info = 1; // 如果没有access_token，则认为用户未登录，将info设置为0表示未登录状态
       this.getinfo(); // 更新登录状态
     }
   },

@@ -131,89 +131,148 @@ export default {
 };
 </script>
 <template>
-  <a-page-header
-    style="border: 1px solid rgb(235, 237, 240)"
-    title="个人中心"
-    sub-title="副标题"
-    @back="() => $router.go(-1)"
-  />
-  <div class="settings">
-    <button class="button" @click="settings">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        viewBox="0 0 20 20"
-        height="20"
-        fill="none"
-        class="svg-icon"
-      >
-        <g stroke-width="1.5" stroke-linecap="round" stroke="#5d41de">
-          <circle r="2.5" cy="10" cx="10"></circle>
-          <path
-            fill-rule="evenodd"
-            d="m8.39079 2.80235c.53842-1.51424 2.67991-1.51424 3.21831-.00001.3392.95358 1.4284 1.40477 2.3425.97027 1.4514-.68995 2.9657.82427 2.2758 2.27575-.4345.91407.0166 2.00334.9702 2.34248 1.5143.53842 1.5143 2.67996 0 3.21836-.9536.3391-1.4047 1.4284-.9702 2.3425.6899 1.4514-.8244 2.9656-2.2758 2.2757-.9141-.4345-2.0033.0167-2.3425.9703-.5384 1.5142-2.67989 1.5142-3.21831 0-.33914-.9536-1.4284-1.4048-2.34247-.9703-1.45148.6899-2.96571-.8243-2.27575-2.2757.43449-.9141-.01669-2.0034-.97028-2.3425-1.51422-.5384-1.51422-2.67994.00001-3.21836.95358-.33914 1.40476-1.42841.97027-2.34248-.68996-1.45148.82427-2.9657 2.27575-2.27575.91407.4345 2.00333-.01669 2.34247-.97026z"
-            clip-rule="evenodd"
-          ></path>
-        </g>
-      </svg>
-      <span class="lable">{{ setname }}</span>
-    </button>
-  </div>
+  <div class="about">
+    <a-page-header
+      style="border: 1px solid rgb(235, 237, 240)"
+      title="个人中心"
+      sub-title="副标题"
+      @back="() => $router.go(-1)"
+    />
+    <div class="settings">
+      <button class="button" @click="settings">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          viewBox="0 0 20 20"
+          height="20"
+          fill="none"
+          class="svg-icon"
+        >
+          <g stroke-width="1.5" stroke-linecap="round" stroke="#5d41de">
+            <circle r="2.5" cy="10" cx="10"></circle>
+            <path
+              fill-rule="evenodd"
+              d="m8.39079 2.80235c.53842-1.51424 2.67991-1.51424 3.21831-.00001.3392.95358 1.4284 1.40477 2.3425.97027 1.4514-.68995 2.9657.82427 2.2758 2.27575-.4345.91407.0166 2.00334.9702 2.34248 1.5143.53842 1.5143 2.67996 0 3.21836-.9536.3391-1.4047 1.4284-.9702 2.3425.6899 1.4514-.8244 2.9656-2.2758 2.2757-.9141-.4345-2.0033.0167-2.3425.9703-.5384 1.5142-2.67989 1.5142-3.21831 0-.33914-.9536-1.4284-1.4048-2.34247-.9703-1.45148.6899-2.96571-.8243-2.27575-2.2757.43449-.9141-.01669-2.0034-.97028-2.3425-1.51422-.5384-1.51422-2.67994.00001-3.21836.95358-.33914 1.40476-1.42841.97027-2.34248-.68996-1.45148.82427-2.9657 2.27575-2.27575.91407.4345 2.00333-.01669 2.34247-.97026z"
+              clip-rule="evenodd"
+            ></path>
+          </g>
+        </svg>
+        <span class="lable">{{ setname }}</span>
+      </button>
+    </div>
 
-  <div class="info">
-    <div class="touxiang">
-      <div class="testdiv6">
-        <img :src="avatar" class="touxiangimg rounded-image" />
+    <div class="info">
+      <div class="touxiang">
         <div>
-          <text class="name">{{ name }}</text>
+          <img :src="avatar" class="touxiangimg rounded-image" />
+          <div>
+            <text class="name">{{ name }}</text>
+          </div>
         </div>
+      </div>
+
+      <div class="shejiao">
+        <text>uid:{{ id }}</text>
+        <text>邮箱:{{ mail }}</text>
+        <text>签名:{{ signature }}</text>
       </div>
     </div>
 
-    <div class="shejiao">
-      <text>uid:{{ id }}</text>
-      <text>邮箱:{{ mail }}</text>
-      <text>签名:{{ signature }}</text>
+    <div>
+      <form @submit.prevent="uploadAvatar">
+        <input type="file" ref="avatarInput" @change="onFileChange" />
+        <button type="submit" @click="putavatar">上传头像</button>
+      </form>
     </div>
-  </div>
 
-  <div>
-    <form @submit.prevent="uploadAvatar">
-      <input type="file" ref="avatarInput" @change="onFileChange" />
-      <button type="submit" @click="putavatar">上传头像</button>
-    </form>
+    <transition name="fade">
+      <div class="set" v-show="setshow">
+        <mdui-list :blur="true">
+          <mdui-list-item>设置界面</mdui-list-item>
+          <mdui-list-item @click="refreshtoken">刷新令牌</mdui-list-item>
+          <mdui-list-item @click="logout">退出登陆</mdui-list-item>
+        </mdui-list>
+      </div>
+    </transition>
+    <div class="setpage-flur" v-show="setshow"></div>
   </div>
-
-  <transition name="fade">
-    <div class="set" v-show="setshow">
-      设置界面
-      <mdui-menu>
-        <mdui-menu-item><button @click="refreshtoken">刷新令牌</button></mdui-menu-item>
-        <mdui-menu-item @click="logout">退出登陆</mdui-menu-item>
-      </mdui-menu>
-    </div>
-  </transition>
+  <div class="bg"></div>
 </template>
 
 <style scoped>
+.about {
+  z-index: 5;
+  position: relative;
+}
+.bg {
+  background-image: url("https://saas.bk-cdn.com/t/f1e16078-bb12-419d-ad3f-be967f268d40/u/f0896296-9cb3-4e7a-bfaa-44a0c8c681f0/1715359885684/117612906_p0%20%281%29.jpg");
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
+.info {
+  z-index: 0;
+}
+.touxiang {
+  z-index: inherit;
+}
+.shejiao {
+  /* 社交账号 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: 000000;
+  position: relative;
+  height: auto;
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  z-index: 5;
+}
+
 .set {
   position: fixed;
-  top: 20%;
-  margin-left: 10%;
+  top: 150px;
+  right: 20px;
   height: 60%;
-  background-color: #c8c0f0;
-  width: 80%;
+
+  width: 150px;
   border-radius: 15px;
   align-items: center;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 30px 20px 10px 20px; /* 上下左右内边距 */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
-  z-index: 1000; /* 确保设置界面在其它内容之上 */
+  padding: 3px 3px 3px 3px; /* 上下左右内边距 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+  z-index: 1060; /* 确保设置界面在其它内容之上 */
 }
+
+.setpage-flur {
+  opacity: 1;
+  position: fixed;
+  top: 150px;
+  right: 20px;
+  height: 60%;
+  width: 150px;
+  z-index: 1050;
+  backdrop-filter: saturate(100%) blur(10px);
+  background: inherit;
+}
+mdui-list-item {
+  opacity: 1;
+}
+
 .fade-enter {
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
 
 .fade-enter-active {
@@ -221,7 +280,7 @@ export default {
 }
 
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
 
 .fade-leave-to {
@@ -238,18 +297,7 @@ export default {
   right: 10px;
   top: 70px;
 }
-.shejiao {
-  /* 社交账号 */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f0f0f0;
-  position: relative;
-  height: auto;
-  width: 90%;
-  margin: auto;
-  text-align: center;
-}
+
 .button {
   display: flex;
   justify-content: center;
