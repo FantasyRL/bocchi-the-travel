@@ -44,7 +44,6 @@ text.name {
 }
 body,
 html {
-  height: 100%;
   /*  overflow-x: hidden; */
   /* overflow-y: auto; */
   /* overflow: hidden; */
@@ -153,8 +152,7 @@ html {
   text-decoration: none;
 }
 
-
-.ant-card{
+.ant-card {
   margin-bottom: 20px;
   margin-right: 8px;
   margin-left: 8px; /* 设置左右边距 */

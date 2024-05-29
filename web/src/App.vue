@@ -18,7 +18,6 @@ export default {
     const isLoading = computed(() => store.state.isLoading);
     return { isLoading };
   },
-  //不知道有没有用的左右页面切换
   data() {
     return {
       url: "",
@@ -27,6 +26,8 @@ export default {
       username: "",
       password: "",
       email: "",
+      emailRegex:
+        /^(([^<>()[$$\\.,;:\s@"]+(\.[^<>()[$$\\.,;:\s@"]+)*)|(".+"))@(($$[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$$)|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       startX: 0,
       login: 1,
       resgister: 1,
@@ -36,10 +37,10 @@ export default {
     };
   },
   mounted() {
-    window.addEventListener("touchstart", this.touchStart);
+    /*     window.addEventListener("touchstart", this.touchStart);
 
     window.addEventListener("touchend", this.touchEnd);
-
+ */
     this.getinfo();
 
     this.access_token = Cookies.get("access_token");
@@ -54,8 +55,8 @@ export default {
     }
   },
   beforeUnmount() {
-    window.removeEventListener("touchstart", this.touchStart);
-    window.removeEventListener("touchend", this.touchEnd);
+    /*   window.removeEventListener("touchstart", this.touchStart);
+    window.removeEventListener("touchend", this.touchEnd); */
   },
   methods: {
     info1() {},
@@ -92,26 +93,32 @@ export default {
     },
 
     registerto() {
-      axios
-        .post(
-          this.url +
-            "/bocchi/user/register/?username=" +
-            this.username +
-            "&email=" +
-            this.email +
-            "&password=" +
-            this.password
-        )
-        .then((response) => {
-          console.log("结果:", response.data);
-          this.msg = response.data.base.msg;
-          if (response.data.base.code == "10008") {
-            console.log(response.data.base.msg);
-          }
-        })
-        .catch((error) => {
-          console.error("Error", error);
-        });
+      if (this.emailRegex.test(this.email)) {
+        console.log("电子邮件格式正确");
+        axios
+          .post(
+            this.url +
+              "/bocchi/user/register/?username=" +
+              this.username +
+              "&email=" +
+              this.email +
+              "&password=" +
+              this.password
+          )
+          .then((response) => {
+            console.log("结果:", response.data);
+            this.msg = response.data.base.msg;
+            if (response.data.base.code == "10008") {
+              console.log(response.data.base.msg);
+            }
+          })
+          .catch((error) => {
+            console.error("Error", error);
+          });
+      } else {
+        console.log("电子邮件格式错误");
+        this.msg = "电子邮件格式错误";
+      }
     },
 
     getinfo() {
@@ -142,10 +149,10 @@ export default {
     debuggerlogin() {
       this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
       this.getinfo(); // 更新登录状态
-    },
+    }
 
     /* 左右滑动 */
-    touchStart(e) {
+    /*     touchStart(e) {
       this.startX = e.touches[0].clientX;
     },
     touchEnd(e) {
@@ -164,7 +171,7 @@ export default {
           this.$router.push("/about");
         }
       }
-    }
+    } */
   }
 };
 </script>
@@ -260,6 +267,10 @@ export default {
 </template>
 
 <style>
+.menu-container {
+  width: 100%;
+  background-color: #fff;
+}
 .bad {
   background-color: #f1f7fe;
   height: 40px;
