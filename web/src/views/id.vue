@@ -1,18 +1,17 @@
 <script setup>
-import { stringType } from "ant-design-vue/es/_util/type";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { RouterLink, useRoute } from "vue-router";
 </script>
 
 <script>
 export default {
   data() {
     return {
-      userid: "",
       setname: "设置",
       setcount: 3,
       setshow: 0,
-      id: 1,
+      id2: 1,
       name: "未登录",
       avatar: "./src/assets/ava.png",
       mail: "",
@@ -89,23 +88,16 @@ export default {
     },
     init() {
       axios
-        .get(this.url + "/bocchi/user/info?user_id=" + this.id)
+        .get(this.url + "/bocchi/user/info?user_id=" + this.id2)
         .then((res) => {
           console.log(res);
-          if (res.data.base.code == "10000") {
-            console.log("获取信息成功");
-            this.name = res.data.user.name;
-            this.avatar = res.data.user.avatar;
-            this.mail = res.data.user.email;
-            this.signature = res.data.user.signature;
-          }
-          if (res.data.base.code == "10007") {
-            console.log("不存在");
-            this.name = "该用户不存在";
-          }
+          this.name = res.data.user.name;
+          this.avatar = res.data.user.avatar;
+          this.mail = res.data.user.email;
+          this.signature = res.data.user.signature;
           console.log(this.avatar);
           if (this.avatar === "") {
-            this.avatar = "//xiey.work/640.jpg";
+            this.avatar = "./src/assets/ava.png";
           }
           if (this.signature === "") {
             this.signature = "这个人很懒，什么都没写。";
@@ -117,15 +109,10 @@ export default {
     }
   },
   mounted() {
-    this.id = Cookies.get("id");
+    this.id2 = useRoute().params.id;
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
-
-    if (String(this.$route.params.id) == "undefined") {
-      this.id = Cookies.get("id");
-      this.init();
-    } else {
-      this.id = Number(this.$route.params.id);
+    if (this.id2) {
       this.init();
     }
   },
@@ -151,7 +138,7 @@ export default {
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
       title="个人中心"
-      sub-title="1"
+      sub-title="id.vue"
       @back="() => $router.go(-1)"
     />
     <div class="settings">
@@ -188,8 +175,7 @@ export default {
       </div>
 
       <div class="shejiao">
-        {{ String($route.params.id) }}
-        <text>uid:{{ id }}</text>
+        <text>uid:{{ id2 }}</text>
         <text>邮箱:{{ mail }}</text>
         <text>签名:{{ signature }}</text>
       </div>
@@ -207,7 +193,7 @@ export default {
       </div>
     </transition>
     <div class="setpage-flur" v-show="setshow"></div>
-    <div class="avatarpage" v-show="0">
+    <div class="avatarpage" v-show="1">
       <form @submit.prevent="uploadAvatar">
         <input type="file" ref="avatarInput" @change="onFileChange" />
         <button type="submit" @click="putavatar">上传头像</button>
