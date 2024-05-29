@@ -33,10 +33,11 @@ struct CommentCreateRequest{
 
 struct CommentCreateResponse{
     1:base.BaseResp base,
+    2:optional i64 comment_id,
 }
 
 struct CommentDeleteRequest{
-    1:i64 id,
+    1:i64 comment_id,
     2:i64 user_id,
 }
 

@@ -41,6 +41,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"GetPartyInfo": kitex.NewMethodInfo(
+		getPartyInfoHandler,
+		newPartyHandlerGetPartyInfoArgs,
+		newPartyHandlerGetPartyInfoResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"GetPartyMembers": kitex.NewMethodInfo(
 		getPartyMembersHandler,
 		newPartyHandlerGetPartyMembersArgs,
@@ -193,6 +200,24 @@ func newPartyHandlerPermitJoinResult() interface{} {
 	return party.NewPartyHandlerPermitJoinResult()
 }
 
+func getPartyInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*party.PartyHandlerGetPartyInfoArgs)
+	realResult := result.(*party.PartyHandlerGetPartyInfoResult)
+	success, err := handler.(party.PartyHandler).GetPartyInfo(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPartyHandlerGetPartyInfoArgs() interface{} {
+	return party.NewPartyHandlerGetPartyInfoArgs()
+}
+
+func newPartyHandlerGetPartyInfoResult() interface{} {
+	return party.NewPartyHandlerGetPartyInfoResult()
+}
+
 func getPartyMembersHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*party.PartyHandlerGetPartyMembersArgs)
 	realResult := result.(*party.PartyHandlerGetPartyMembersResult)
@@ -274,6 +299,16 @@ func (p *kClient) PermitJoin(ctx context.Context, req *party.PermitJoinRequest) 
 	_args.Req = req
 	var _result party.PartyHandlerPermitJoinResult
 	if err = p.c.Call(ctx, "PermitJoin", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetPartyInfo(ctx context.Context, req *party.GetPartyInfoRequest) (r *party.GetPartyInfoResponse, err error) {
+	var _args party.PartyHandlerGetPartyInfoArgs
+	_args.Req = req
+	var _result party.PartyHandlerGetPartyInfoResult
+	if err = p.c.Call(ctx, "GetPartyInfo", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

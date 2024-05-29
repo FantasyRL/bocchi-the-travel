@@ -295,7 +295,8 @@ func (p *CommentCreateRequest) Field3DeepEqual(src int64) bool {
 }
 
 type CommentCreateResponse struct {
-	Base *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
+	Base      *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
+	CommentId *int64         `thrift:"comment_id,2,optional" frugal:"2,optional,i64" json:"comment_id,omitempty"`
 }
 
 func NewCommentCreateResponse() *CommentCreateResponse {
@@ -314,16 +315,33 @@ func (p *CommentCreateResponse) GetBase() (v *base.BaseResp) {
 	}
 	return p.Base
 }
+
+var CommentCreateResponse_CommentId_DEFAULT int64
+
+func (p *CommentCreateResponse) GetCommentId() (v int64) {
+	if !p.IsSetCommentId() {
+		return CommentCreateResponse_CommentId_DEFAULT
+	}
+	return *p.CommentId
+}
 func (p *CommentCreateResponse) SetBase(val *base.BaseResp) {
 	p.Base = val
+}
+func (p *CommentCreateResponse) SetCommentId(val *int64) {
+	p.CommentId = val
 }
 
 var fieldIDToName_CommentCreateResponse = map[int16]string{
 	1: "base",
+	2: "comment_id",
 }
 
 func (p *CommentCreateResponse) IsSetBase() bool {
 	return p.Base != nil
+}
+
+func (p *CommentCreateResponse) IsSetCommentId() bool {
+	return p.CommentId != nil
 }
 
 func (p *CommentCreateResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -348,6 +366,14 @@ func (p *CommentCreateResponse) Read(iprot thrift.TProtocol) (err error) {
 		case 1:
 			if fieldTypeId == thrift.STRUCT {
 				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -389,6 +415,15 @@ func (p *CommentCreateResponse) ReadField1(iprot thrift.TProtocol) error {
 	}
 	return nil
 }
+func (p *CommentCreateResponse) ReadField2(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.CommentId = &v
+	}
+	return nil
+}
 
 func (p *CommentCreateResponse) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
@@ -398,6 +433,10 @@ func (p *CommentCreateResponse) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
 			goto WriteFieldError
 		}
 	}
@@ -435,6 +474,25 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
+func (p *CommentCreateResponse) writeField2(oprot thrift.TProtocol) (err error) {
+	if p.IsSetCommentId() {
+		if err = oprot.WriteFieldBegin("comment_id", thrift.I64, 2); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteI64(*p.CommentId); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
 func (p *CommentCreateResponse) String() string {
 	if p == nil {
 		return "<nil>"
@@ -452,6 +510,9 @@ func (p *CommentCreateResponse) DeepEqual(ano *CommentCreateResponse) bool {
 	if !p.Field1DeepEqual(ano.Base) {
 		return false
 	}
+	if !p.Field2DeepEqual(ano.CommentId) {
+		return false
+	}
 	return true
 }
 
@@ -462,10 +523,22 @@ func (p *CommentCreateResponse) Field1DeepEqual(src *base.BaseResp) bool {
 	}
 	return true
 }
+func (p *CommentCreateResponse) Field2DeepEqual(src *int64) bool {
+
+	if p.CommentId == src {
+		return true
+	} else if p.CommentId == nil || src == nil {
+		return false
+	}
+	if *p.CommentId != *src {
+		return false
+	}
+	return true
+}
 
 type CommentDeleteRequest struct {
-	Id     int64 `thrift:"id,1" frugal:"1,default,i64" json:"id"`
-	UserId int64 `thrift:"user_id,2" frugal:"2,default,i64" json:"user_id"`
+	CommentId int64 `thrift:"comment_id,1" frugal:"1,default,i64" json:"comment_id"`
+	UserId    int64 `thrift:"user_id,2" frugal:"2,default,i64" json:"user_id"`
 }
 
 func NewCommentDeleteRequest() *CommentDeleteRequest {
@@ -476,22 +549,22 @@ func (p *CommentDeleteRequest) InitDefault() {
 	*p = CommentDeleteRequest{}
 }
 
-func (p *CommentDeleteRequest) GetId() (v int64) {
-	return p.Id
+func (p *CommentDeleteRequest) GetCommentId() (v int64) {
+	return p.CommentId
 }
 
 func (p *CommentDeleteRequest) GetUserId() (v int64) {
 	return p.UserId
 }
-func (p *CommentDeleteRequest) SetId(val int64) {
-	p.Id = val
+func (p *CommentDeleteRequest) SetCommentId(val int64) {
+	p.CommentId = val
 }
 func (p *CommentDeleteRequest) SetUserId(val int64) {
 	p.UserId = val
 }
 
 var fieldIDToName_CommentDeleteRequest = map[int16]string{
-	1: "id",
+	1: "comment_id",
 	2: "user_id",
 }
 
@@ -564,7 +637,7 @@ func (p *CommentDeleteRequest) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
-		p.Id = v
+		p.CommentId = v
 	}
 	return nil
 }
@@ -611,10 +684,10 @@ WriteStructEndError:
 }
 
 func (p *CommentDeleteRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("id", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("comment_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.Id); err != nil {
+	if err := oprot.WriteI64(p.CommentId); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -658,7 +731,7 @@ func (p *CommentDeleteRequest) DeepEqual(ano *CommentDeleteRequest) bool {
 	} else if p == nil || ano == nil {
 		return false
 	}
-	if !p.Field1DeepEqual(ano.Id) {
+	if !p.Field1DeepEqual(ano.CommentId) {
 		return false
 	}
 	if !p.Field2DeepEqual(ano.UserId) {
@@ -669,7 +742,7 @@ func (p *CommentDeleteRequest) DeepEqual(ano *CommentDeleteRequest) bool {
 
 func (p *CommentDeleteRequest) Field1DeepEqual(src int64) bool {
 
-	if p.Id != src {
+	if p.CommentId != src {
 		return false
 	}
 	return true

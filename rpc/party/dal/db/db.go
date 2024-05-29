@@ -27,8 +27,12 @@ type Party struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
-func CreateParty(ctx context.Context, partyModel *Party) error {
-	return DBParty.WithContext(ctx).Create(partyModel).Error
+func CreateParty(ctx context.Context, partyModel *Party) (*Party, error) {
+	partyResp := new(Party)
+	if err := DBParty.WithContext(ctx).Create(partyModel).First(partyResp).Error; err != nil {
+		return nil, err
+	}
+	return partyResp, nil
 }
 
 func GetPartyById(ctx context.Context, partyId int64) (*Party, error) {

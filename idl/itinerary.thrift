@@ -15,6 +15,16 @@ struct CreateItineraryRequest{
 
 struct CreateItineraryResponse{
     1:base.BaseResp base,
+    2:optional base.Itinerary itinerary,
+}
+
+struct GetItineraryInfoRequest{
+    1:i64 itinerary_id,
+}
+
+struct GetItineraryInfoResponse{
+    1:base.BaseResp base,
+    2:optional base.Itinerary itinerary,
 }
 
 struct ShowPartyItineraryRequest{
@@ -52,6 +62,7 @@ struct MergeItineraryResponse{
 
 service ItineraryHandler{
     CreateItineraryResponse CreateItinerary(1:CreateItineraryRequest req)(api.post="/bocchi/party/itinerary/create"),
+    GetItineraryInfoResponse GetItineraryInfo(1:GetItineraryInfoRequest req)(api.get="/bocchi/party/itinerary/info"),
     ShowPartyItineraryResponse ShowPartyItinerary(1:ShowPartyItineraryRequest req)(api.get="/bocchi/party/itinerary/show"),
     ChangeSequenceResponse ChangeSequence(1:ChangeSequenceRequest req)(api.post="/bocchi/party/itinerary/sequence/change"),
     MergeItineraryResponse MergeItinerary(1:MergeItineraryRequest req)(api.get="/bocchi/party/itinerary/merge"),

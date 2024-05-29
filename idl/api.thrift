@@ -135,6 +135,16 @@ struct CreatePartyRequest{
 
 struct CreatePartyResponse{
     1:base.BaseResp base,
+    2:optional Party party,
+}
+
+struct GetPartyInfoRequest{
+    1:i64 party_id,
+}
+
+struct GetPartyInfoResponse{
+    1:base.BaseResp base,
+    2:optional Party party,
 }
 
 struct JoinPartyRequest{
@@ -198,6 +208,7 @@ service PartyHandler{
     JoinPartyResponse JoinParty(1:JoinPartyRequest req)(api.get="/bocchi/party/apply"),
     ApplyListResponse ApplyList(1:ApplyListRequest req)(api.get="/bocchi/party/apply/list"),
     PermitJoinResponse PermitJoin(1:PermitJoinRequest req)(api.get="/bocchi/party/apply/permit"),
+    GetPartyInfoResponse GetPartyInfo(1:GetPartyInfoRequest req)(api.get="/bocchi/party/info"),
     GetPartyMembersResponse GetPartyMembers(1:GetPartyMembersRequest req)(api.get="/bocchi/party/members"),
     SearchPartyResponse SearchParty(1:SearchPartyRequest req)(api.post="/bocchi/party/search"),
 }
@@ -231,7 +242,18 @@ struct CreateItineraryRequest{
 
 struct CreateItineraryResponse{
     1:base.BaseResp base,
+    2:optional Itinerary itinerary,
 }
+
+struct GetItineraryInfoRequest{
+    1:i64 itinerary_id,
+}
+
+struct GetItineraryInfoResponse{
+    1:base.BaseResp base,
+    2:optional Itinerary itinerary,
+}
+
 
 struct ShowPartyItineraryRequest{
     1:i64 party_id,
@@ -263,6 +285,7 @@ struct MergeItineraryResponse{
 
 service ItineraryHandler{
     CreateItineraryResponse CreateItinerary(1:CreateItineraryRequest req)(api.post="/bocchi/party/itinerary/create"),
+    GetItineraryInfoResponse GetItineraryInfo(1:GetItineraryInfoRequest req)(api.get="/bocchi/party/itinerary/info"),
     ShowPartyItineraryResponse ShowPartyItinerary(1:ShowPartyItineraryRequest req)(api.get="/bocchi/party/itinerary/show"),
     ChangeSequenceResponse ChangeSequence(1:ChangeSequenceRequest req)(api.post="/bocchi/party/itinerary/sequence/change"),
     MergeItineraryResponse MergeItinerary(1:MergeItineraryRequest req)(api.get="/bocchi/party/itinerary/merge"),
@@ -284,10 +307,11 @@ struct CommentCreateRequest{
 
 struct CommentCreateResponse{
     1:base.BaseResp base,
+    2:optional i64 comment_id,
 }
 
 struct CommentDeleteRequest{
-    1:i64 id,
+    1:i64 comment_id,
 }
 
 struct CommentDeleteResponse{

@@ -195,3 +195,13 @@ func _verifyaccesstokenMw() []app.HandlerFunc {
 		jwt.JwtMiddleware.MiddlewareFunc(),
 	}
 }
+
+func _getpartyinfoMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getitineraryinfoMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

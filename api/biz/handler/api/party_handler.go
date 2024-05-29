@@ -58,6 +58,11 @@ func CreateParty(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.Party = pack.ConvertToAPIParty(rpcResp.Party)
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -266,5 +271,39 @@ func SearchParty(ctx context.Context, c *app.RequestContext) {
 	}
 	resp.PartyCount = rpcResp.PartyCount
 	resp.PartyList = pack.ConvertToAPIParties(rpcResp.PartyList)
+	c.JSON(consts.StatusOK, resp)
+}
+
+// GetPartyInfo .
+// @Summary get_party_info
+// @Description get party info by id
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @router /bocchi/party/info [GET]
+func GetPartyInfo(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.GetPartyInfoRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.GetPartyInfoResponse)
+
+	rpcResp, err := rpc.GetPartyInfo(ctx, &party.GetPartyInfoRequest{
+		PartyId: req.PartyID,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.Party = pack.ConvertToAPIParty(rpcResp.Party)
 	c.JSON(consts.StatusOK, resp)
 }

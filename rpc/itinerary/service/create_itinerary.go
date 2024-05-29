@@ -5,7 +5,7 @@ import (
 	"bocchi/rpc/itinerary/dal/db"
 )
 
-func (s *ItineraryService) CreateItinerary(req *itinerary.CreateItineraryRequest) error {
+func (s *ItineraryService) CreateItinerary(req *itinerary.CreateItineraryRequest) (*db.Itinerary, error) {
 	itineraryModel := &db.Itinerary{
 		Title:             req.Title,
 		FounderId:         req.FounderId,

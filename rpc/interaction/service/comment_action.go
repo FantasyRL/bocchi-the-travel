@@ -57,7 +57,7 @@ func (s *InteractionService) CommentCreate(req *interaction.CommentCreateRequest
 func (s *InteractionService) CommentDelete(req *interaction.CommentDeleteRequest, uid int64) error {
 	var eg errgroup.Group
 	var commentModel = &base.Comment{
-		Id: req.Id,
+		Id: req.CommentId,
 		User: &base.User{
 			Id: uid,
 		},

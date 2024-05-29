@@ -12,6 +12,7 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	CreateItinerary(ctx context.Context, req *itinerary.CreateItineraryRequest, callOptions ...callopt.Option) (r *itinerary.CreateItineraryResponse, err error)
+	GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest, callOptions ...callopt.Option) (r *itinerary.GetItineraryInfoResponse, err error)
 	ShowPartyItinerary(ctx context.Context, req *itinerary.ShowPartyItineraryRequest, callOptions ...callopt.Option) (r *itinerary.ShowPartyItineraryResponse, err error)
 	ChangeSequence(ctx context.Context, req *itinerary.ChangeSequenceRequest, callOptions ...callopt.Option) (r *itinerary.ChangeSequenceResponse, err error)
 	MergeItinerary(ctx context.Context, req *itinerary.MergeItineraryRequest, callOptions ...callopt.Option) (r *itinerary.MergeItineraryResponse, err error)
@@ -49,6 +50,11 @@ type kItineraryHandlerClient struct {
 func (p *kItineraryHandlerClient) CreateItinerary(ctx context.Context, req *itinerary.CreateItineraryRequest, callOptions ...callopt.Option) (r *itinerary.CreateItineraryResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CreateItinerary(ctx, req)
+}
+
+func (p *kItineraryHandlerClient) GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest, callOptions ...callopt.Option) (r *itinerary.GetItineraryInfoResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetItineraryInfo(ctx, req)
 }
 
 func (p *kItineraryHandlerClient) ShowPartyItinerary(ctx context.Context, req *itinerary.ShowPartyItineraryRequest, callOptions ...callopt.Option) (r *itinerary.ShowPartyItineraryResponse, err error) {

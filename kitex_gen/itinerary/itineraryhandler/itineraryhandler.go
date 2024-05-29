@@ -20,6 +20,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"GetItineraryInfo": kitex.NewMethodInfo(
+		getItineraryInfoHandler,
+		newItineraryHandlerGetItineraryInfoArgs,
+		newItineraryHandlerGetItineraryInfoResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"ShowPartyItinerary": kitex.NewMethodInfo(
 		showPartyItineraryHandler,
 		newItineraryHandlerShowPartyItineraryArgs,
@@ -125,6 +132,24 @@ func newItineraryHandlerCreateItineraryResult() interface{} {
 	return itinerary.NewItineraryHandlerCreateItineraryResult()
 }
 
+func getItineraryInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*itinerary.ItineraryHandlerGetItineraryInfoArgs)
+	realResult := result.(*itinerary.ItineraryHandlerGetItineraryInfoResult)
+	success, err := handler.(itinerary.ItineraryHandler).GetItineraryInfo(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newItineraryHandlerGetItineraryInfoArgs() interface{} {
+	return itinerary.NewItineraryHandlerGetItineraryInfoArgs()
+}
+
+func newItineraryHandlerGetItineraryInfoResult() interface{} {
+	return itinerary.NewItineraryHandlerGetItineraryInfoResult()
+}
+
 func showPartyItineraryHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*itinerary.ItineraryHandlerShowPartyItineraryArgs)
 	realResult := result.(*itinerary.ItineraryHandlerShowPartyItineraryResult)
@@ -194,6 +219,16 @@ func (p *kClient) CreateItinerary(ctx context.Context, req *itinerary.CreateItin
 	_args.Req = req
 	var _result itinerary.ItineraryHandlerCreateItineraryResult
 	if err = p.c.Call(ctx, "CreateItinerary", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest) (r *itinerary.GetItineraryInfoResponse, err error) {
+	var _args itinerary.ItineraryHandlerGetItineraryInfoArgs
+	_args.Req = req
+	var _result itinerary.ItineraryHandlerGetItineraryInfoResult
+	if err = p.c.Call(ctx, "GetItineraryInfo", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
