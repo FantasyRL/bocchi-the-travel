@@ -149,7 +149,7 @@ export default {
 <template>
   <div class="about">
     <a-page-header
-      style="border: 1px solid rgb(235, 237, 240)"
+      style="border: 1px solid rgb(235, 237, 240); background-color: #fff"
       title="个人中心"
       sub-title="1"
       @back="() => $router.go(-1)"
@@ -188,7 +188,6 @@ export default {
       </div>
 
       <div class="shejiao">
-        {{ String($route.params.id) }}
         <text>uid:{{ id }}</text>
         <text>邮箱:{{ mail }}</text>
         <text>签名:{{ signature }}</text>
@@ -253,7 +252,7 @@ export default {
   background-size: cover;
   background-position: center;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
   opacity: 0.35;
 }
 .info {

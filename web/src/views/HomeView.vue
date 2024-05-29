@@ -1,12 +1,9 @@
 <script setup>
-
 import { RouterLink } from "vue-router";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { ref } from "vue";
 
 const current = ref(1);
-
-
 </script>
 
 <script>
@@ -28,9 +25,7 @@ export default defineComponent({
       ]
     };
   },
-  props: {
-
-  },
+  props: {},
   methods: {
     onSearch(value) {
       console.log("Search:", value);
@@ -46,7 +41,7 @@ export default defineComponent({
     },
     getDescription(i) {
       return `description${i}`;
-    },
+    }
     /* startLoading() {
       useStore().commit('setLoading', true);
     } */
@@ -55,10 +50,16 @@ export default defineComponent({
 </script>
 <template>
   <div class="home">
-
     <div class="searchbar">
-      <a-input-search class="custom-search" placeholder="请输入搜索内容" enterButton="" size="large" v-model="searchText"
-        :bordered="false" @search="onSearch" />
+      <a-input-search
+        class="custom-search"
+        placeholder="请输入搜索内容"
+        enterButton=""
+        size="large"
+        v-model="searchText"
+        :bordered="false"
+        @search="onSearch"
+      />
     </div>
 
     <a-divider orientation="center" class="separate">每日推荐</a-divider>
@@ -67,12 +68,12 @@ export default defineComponent({
       <a-carousel arrows dots-class="slick-dots slick-thumb">
         <template #customPaging="props">
           <a>
-              <img :src="getImgUrl(props.i + 1)" alt="" />
+            <img :src="getImgUrl(props.i + 1)" alt="" />
           </a>
         </template>
         <div v-for="id in 5" :key="id">
           <router-link :to="getDetailUrl(id)">
-            <img :src="getImgUrl(id)" alt="" style="border-radius: 15px;margin-bottom: 10px" />
+            <img :src="getImgUrl(id)" alt="" style="border-radius: 15px; margin-bottom: 10px" />
           </router-link>
         </div>
       </a-carousel>
@@ -98,7 +99,7 @@ export default defineComponent({
     <router-link to="/create">
       <a-float-button tooltip="创建行程" herf="/create">
         <template #icon>
-          <PlusOutlined/>
+          <PlusOutlined />
         </template>
       </a-float-button>
     </router-link>
@@ -107,7 +108,6 @@ export default defineComponent({
 
     <div class="page-switcher">
       <a-pagination :current="current" :total="total">
-
         <template #itemRender="{ type, originalElement }">
           <a v-if="type === 'prev'">前一页</a>
           <a v-else-if="type === 'next'">后一页</a>
@@ -118,9 +118,10 @@ export default defineComponent({
   </div>
 </template>
 
-
-
 <style scoped>
+.ant-float-btn-body {
+  zoom: 200%;
+}
 .searchbar {
   display: flex;
   justify-content: center;

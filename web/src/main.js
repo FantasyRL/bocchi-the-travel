@@ -1,4 +1,4 @@
-import './assets/main.css'
+
 import './xxyy.css'
 import 'ant-design-vue/dist/reset.css';
 import { createPinia } from 'pinia'
@@ -11,7 +11,8 @@ import store from './stores';
 import 'mdui/mdui.css';
 import 'mdui';
 
-
+import { setColorScheme } from 'mdui/functions/setColorScheme.js';
+setColorScheme('#ffffff');
 
 
 
