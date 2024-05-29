@@ -254,6 +254,11 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bocchi/party/info": {
+            "get": {
+                "responses": {}
+            }
+        },
         "/bocchi/party/itinerary/create": {
             "post": {
                 "description": "create itinerary for party",
@@ -332,6 +337,11 @@ const docTemplate = `{
                         "in": "header"
                     }
                 ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/info": {
+            "get": {
                 "responses": {}
             }
         },

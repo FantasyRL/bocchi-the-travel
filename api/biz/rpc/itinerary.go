@@ -46,6 +46,16 @@ func ItineraryCreate(ctx context.Context, req *itinerary.CreateItineraryRequest)
 	return resp, nil
 }
 
+func GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest) (*itinerary.GetItineraryInfoResponse, error) {
+	//rpc client
+	resp, err := itineraryClient.GetItineraryInfo(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
 func ItineraryShow(ctx context.Context, req *itinerary.ShowPartyItineraryRequest) (*itinerary.ShowPartyItineraryResponse, error) {
 	//rpc client
 	resp, err := itineraryClient.ShowPartyItinerary(ctx, req)

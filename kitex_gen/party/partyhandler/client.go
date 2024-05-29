@@ -15,6 +15,7 @@ type Client interface {
 	JoinParty(ctx context.Context, req *party.JoinPartyRequest, callOptions ...callopt.Option) (r *party.JoinPartyResponse, err error)
 	ApplyList(ctx context.Context, req *party.ApplyListRequest, callOptions ...callopt.Option) (r *party.ApplyListResponse, err error)
 	PermitJoin(ctx context.Context, req *party.PermitJoinRequest, callOptions ...callopt.Option) (r *party.PermitJoinResponse, err error)
+	GetPartyInfo(ctx context.Context, req *party.GetPartyInfoRequest, callOptions ...callopt.Option) (r *party.GetPartyInfoResponse, err error)
 	GetPartyMembers(ctx context.Context, req *party.GetPartyMembersRequest, callOptions ...callopt.Option) (r *party.GetPartyMembersResponse, err error)
 	SearchParty(ctx context.Context, req *party.SearchPartyRequest, callOptions ...callopt.Option) (r *party.SearchPartyResponse, err error)
 }
@@ -66,6 +67,11 @@ func (p *kPartyHandlerClient) ApplyList(ctx context.Context, req *party.ApplyLis
 func (p *kPartyHandlerClient) PermitJoin(ctx context.Context, req *party.PermitJoinRequest, callOptions ...callopt.Option) (r *party.PermitJoinResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.PermitJoin(ctx, req)
+}
+
+func (p *kPartyHandlerClient) GetPartyInfo(ctx context.Context, req *party.GetPartyInfoRequest, callOptions ...callopt.Option) (r *party.GetPartyInfoResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetPartyInfo(ctx, req)
 }
 
 func (p *kPartyHandlerClient) GetPartyMembers(ctx context.Context, req *party.GetPartyMembersRequest, callOptions ...callopt.Option) (r *party.GetPartyMembersResponse, err error) {

@@ -7,14 +7,14 @@ import (
 	"time"
 )
 
-func (s *PartyService) CreateParty(req *party.CreatePartyRequest) error {
+func (s *PartyService) CreateParty(req *party.CreatePartyRequest) (*db.Party, error) {
 	st, err := time.Parse("2006-01-02", req.StartTime)
 	if err != nil {
-		return errno.ParamError
+		return nil, errno.ParamError
 	}
 	et, err := time.Parse("2006-01-02", req.EndTime)
 	if err != nil {
-		return errno.ParamError
+		return nil, errno.ParamError
 	}
 	partyModel := &db.Party{
 		FounderId: req.FounderId,
@@ -31,4 +31,8 @@ func (s *PartyService) CreateParty(req *party.CreatePartyRequest) error {
 
 func (s *PartyService) SearchParty(req *party.SearchPartyRequest) (*[]db.Party, int64, error) {
 	return db.GetPartyByMultiple(s.ctx, req)
+}
+
+func (s *PartyService) GetPartyInfo(req *party.GetPartyInfoRequest) (*db.Party, error) {
+	return db.GetPartyById(s.ctx, req.PartyId)
 }

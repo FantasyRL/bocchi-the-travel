@@ -69,8 +69,8 @@ func CommentDelete(ctx context.Context, c *app.RequestContext) {
 	v, _ := c.Get("current_user_id")
 	id := v.(int64)
 	rpcResp, err := rpc.CommentDelete(ctx, &interaction.CommentDeleteRequest{
-		Id:     req.ID,
-		UserId: id,
+		CommentId: req.CommentID,
+		UserId:    id,
 	})
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 	c.JSON(consts.StatusOK, resp)

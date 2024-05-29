@@ -46,6 +46,16 @@ func PartyCreate(ctx context.Context, req *party.CreatePartyRequest) (*party.Cre
 	return resp, nil
 }
 
+func GetPartyInfo(ctx context.Context, req *party.GetPartyInfoRequest) (*party.GetPartyInfoResponse, error) {
+	//rpc client
+	resp, err := partyClient.GetPartyInfo(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
 func PartyJoin(ctx context.Context, req *party.JoinPartyRequest) (*party.JoinPartyResponse, error) {
 	//rpc client
 	resp, err := partyClient.JoinParty(ctx, req)

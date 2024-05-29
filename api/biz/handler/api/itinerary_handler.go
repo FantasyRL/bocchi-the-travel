@@ -67,6 +67,11 @@ func CreateItinerary(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.Itinerary = pack.ConvertToAPIItinerary(rpcResp.Itinerary)
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -173,5 +178,39 @@ func MergeItinerary(ctx context.Context, c *app.RequestContext) {
 	}
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 
+	c.JSON(consts.StatusOK, resp)
+}
+
+// GetItineraryInfo .
+// @Summary get_itinerary
+// @Description get itinerary by id
+// @Accept json/form
+// @Produce json
+// @Param itinerary_id query int true "id"
+// @router /bocchi/party/itinerary/info [GET]
+func GetItineraryInfo(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.GetItineraryInfoRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.GetItineraryInfoResponse)
+
+	rpcResp, err := rpc.GetItineraryInfo(ctx, &itinerary.GetItineraryInfoRequest{
+		ItineraryId: req.ItineraryID,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.Itinerary = pack.ConvertToAPIItinerary(rpcResp.Itinerary)
 	c.JSON(consts.StatusOK, resp)
 }

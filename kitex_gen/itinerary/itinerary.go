@@ -677,7 +677,8 @@ func (p *CreateItineraryRequest) Field9DeepEqual(src int64) bool {
 }
 
 type CreateItineraryResponse struct {
-	Base *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
+	Base      *base.BaseResp  `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
+	Itinerary *base.Itinerary `thrift:"itinerary,2,optional" frugal:"2,optional,base.Itinerary" json:"itinerary,omitempty"`
 }
 
 func NewCreateItineraryResponse() *CreateItineraryResponse {
@@ -696,16 +697,33 @@ func (p *CreateItineraryResponse) GetBase() (v *base.BaseResp) {
 	}
 	return p.Base
 }
+
+var CreateItineraryResponse_Itinerary_DEFAULT *base.Itinerary
+
+func (p *CreateItineraryResponse) GetItinerary() (v *base.Itinerary) {
+	if !p.IsSetItinerary() {
+		return CreateItineraryResponse_Itinerary_DEFAULT
+	}
+	return p.Itinerary
+}
 func (p *CreateItineraryResponse) SetBase(val *base.BaseResp) {
 	p.Base = val
+}
+func (p *CreateItineraryResponse) SetItinerary(val *base.Itinerary) {
+	p.Itinerary = val
 }
 
 var fieldIDToName_CreateItineraryResponse = map[int16]string{
 	1: "base",
+	2: "itinerary",
 }
 
 func (p *CreateItineraryResponse) IsSetBase() bool {
 	return p.Base != nil
+}
+
+func (p *CreateItineraryResponse) IsSetItinerary() bool {
+	return p.Itinerary != nil
 }
 
 func (p *CreateItineraryResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -730,6 +748,14 @@ func (p *CreateItineraryResponse) Read(iprot thrift.TProtocol) (err error) {
 		case 1:
 			if fieldTypeId == thrift.STRUCT {
 				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 2:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -771,6 +797,13 @@ func (p *CreateItineraryResponse) ReadField1(iprot thrift.TProtocol) error {
 	}
 	return nil
 }
+func (p *CreateItineraryResponse) ReadField2(iprot thrift.TProtocol) error {
+	p.Itinerary = base.NewItinerary()
+	if err := p.Itinerary.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
 
 func (p *CreateItineraryResponse) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
@@ -780,6 +813,10 @@ func (p *CreateItineraryResponse) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
 			goto WriteFieldError
 		}
 	}
@@ -817,6 +854,25 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
+func (p *CreateItineraryResponse) writeField2(oprot thrift.TProtocol) (err error) {
+	if p.IsSetItinerary() {
+		if err = oprot.WriteFieldBegin("itinerary", thrift.STRUCT, 2); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Itinerary.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
 func (p *CreateItineraryResponse) String() string {
 	if p == nil {
 		return "<nil>"
@@ -834,12 +890,419 @@ func (p *CreateItineraryResponse) DeepEqual(ano *CreateItineraryResponse) bool {
 	if !p.Field1DeepEqual(ano.Base) {
 		return false
 	}
+	if !p.Field2DeepEqual(ano.Itinerary) {
+		return false
+	}
 	return true
 }
 
 func (p *CreateItineraryResponse) Field1DeepEqual(src *base.BaseResp) bool {
 
 	if !p.Base.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+func (p *CreateItineraryResponse) Field2DeepEqual(src *base.Itinerary) bool {
+
+	if !p.Itinerary.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type GetItineraryInfoRequest struct {
+	ItineraryId int64 `thrift:"itinerary_id,1" frugal:"1,default,i64" json:"itinerary_id"`
+}
+
+func NewGetItineraryInfoRequest() *GetItineraryInfoRequest {
+	return &GetItineraryInfoRequest{}
+}
+
+func (p *GetItineraryInfoRequest) InitDefault() {
+	*p = GetItineraryInfoRequest{}
+}
+
+func (p *GetItineraryInfoRequest) GetItineraryId() (v int64) {
+	return p.ItineraryId
+}
+func (p *GetItineraryInfoRequest) SetItineraryId(val int64) {
+	p.ItineraryId = val
+}
+
+var fieldIDToName_GetItineraryInfoRequest = map[int16]string{
+	1: "itinerary_id",
+}
+
+func (p *GetItineraryInfoRequest) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetItineraryInfoRequest[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *GetItineraryInfoRequest) ReadField1(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.ItineraryId = v
+	}
+	return nil
+}
+
+func (p *GetItineraryInfoRequest) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetItineraryInfoRequest"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *GetItineraryInfoRequest) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("itinerary_id", thrift.I64, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.ItineraryId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *GetItineraryInfoRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetItineraryInfoRequest(%+v)", *p)
+
+}
+
+func (p *GetItineraryInfoRequest) DeepEqual(ano *GetItineraryInfoRequest) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.ItineraryId) {
+		return false
+	}
+	return true
+}
+
+func (p *GetItineraryInfoRequest) Field1DeepEqual(src int64) bool {
+
+	if p.ItineraryId != src {
+		return false
+	}
+	return true
+}
+
+type GetItineraryInfoResponse struct {
+	Base      *base.BaseResp  `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
+	Itinerary *base.Itinerary `thrift:"itinerary,2,optional" frugal:"2,optional,base.Itinerary" json:"itinerary,omitempty"`
+}
+
+func NewGetItineraryInfoResponse() *GetItineraryInfoResponse {
+	return &GetItineraryInfoResponse{}
+}
+
+func (p *GetItineraryInfoResponse) InitDefault() {
+	*p = GetItineraryInfoResponse{}
+}
+
+var GetItineraryInfoResponse_Base_DEFAULT *base.BaseResp
+
+func (p *GetItineraryInfoResponse) GetBase() (v *base.BaseResp) {
+	if !p.IsSetBase() {
+		return GetItineraryInfoResponse_Base_DEFAULT
+	}
+	return p.Base
+}
+
+var GetItineraryInfoResponse_Itinerary_DEFAULT *base.Itinerary
+
+func (p *GetItineraryInfoResponse) GetItinerary() (v *base.Itinerary) {
+	if !p.IsSetItinerary() {
+		return GetItineraryInfoResponse_Itinerary_DEFAULT
+	}
+	return p.Itinerary
+}
+func (p *GetItineraryInfoResponse) SetBase(val *base.BaseResp) {
+	p.Base = val
+}
+func (p *GetItineraryInfoResponse) SetItinerary(val *base.Itinerary) {
+	p.Itinerary = val
+}
+
+var fieldIDToName_GetItineraryInfoResponse = map[int16]string{
+	1: "base",
+	2: "itinerary",
+}
+
+func (p *GetItineraryInfoResponse) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *GetItineraryInfoResponse) IsSetItinerary() bool {
+	return p.Itinerary != nil
+}
+
+func (p *GetItineraryInfoResponse) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 2:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetItineraryInfoResponse[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *GetItineraryInfoResponse) ReadField1(iprot thrift.TProtocol) error {
+	p.Base = base.NewBaseResp()
+	if err := p.Base.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+func (p *GetItineraryInfoResponse) ReadField2(iprot thrift.TProtocol) error {
+	p.Itinerary = base.NewItinerary()
+	if err := p.Itinerary.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *GetItineraryInfoResponse) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetItineraryInfoResponse"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *GetItineraryInfoResponse) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("base", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Base.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *GetItineraryInfoResponse) writeField2(oprot thrift.TProtocol) (err error) {
+	if p.IsSetItinerary() {
+		if err = oprot.WriteFieldBegin("itinerary", thrift.STRUCT, 2); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Itinerary.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *GetItineraryInfoResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetItineraryInfoResponse(%+v)", *p)
+
+}
+
+func (p *GetItineraryInfoResponse) DeepEqual(ano *GetItineraryInfoResponse) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Base) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Itinerary) {
+		return false
+	}
+	return true
+}
+
+func (p *GetItineraryInfoResponse) Field1DeepEqual(src *base.BaseResp) bool {
+
+	if !p.Base.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+func (p *GetItineraryInfoResponse) Field2DeepEqual(src *base.Itinerary) bool {
+
+	if !p.Itinerary.DeepEqual(src) {
 		return false
 	}
 	return true
@@ -2288,6 +2751,8 @@ func (p *MergeItineraryResponse) Field1DeepEqual(src *base.BaseResp) bool {
 type ItineraryHandler interface {
 	CreateItinerary(ctx context.Context, req *CreateItineraryRequest) (r *CreateItineraryResponse, err error)
 
+	GetItineraryInfo(ctx context.Context, req *GetItineraryInfoRequest) (r *GetItineraryInfoResponse, err error)
+
 	ShowPartyItinerary(ctx context.Context, req *ShowPartyItineraryRequest) (r *ShowPartyItineraryResponse, err error)
 
 	ChangeSequence(ctx context.Context, req *ChangeSequenceRequest) (r *ChangeSequenceResponse, err error)
@@ -2326,6 +2791,15 @@ func (p *ItineraryHandlerClient) CreateItinerary(ctx context.Context, req *Creat
 	_args.Req = req
 	var _result ItineraryHandlerCreateItineraryResult
 	if err = p.Client_().Call(ctx, "CreateItinerary", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+func (p *ItineraryHandlerClient) GetItineraryInfo(ctx context.Context, req *GetItineraryInfoRequest) (r *GetItineraryInfoResponse, err error) {
+	var _args ItineraryHandlerGetItineraryInfoArgs
+	_args.Req = req
+	var _result ItineraryHandlerGetItineraryInfoResult
+	if err = p.Client_().Call(ctx, "GetItineraryInfo", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -2379,6 +2853,7 @@ func (p *ItineraryHandlerProcessor) ProcessorMap() map[string]thrift.TProcessorF
 func NewItineraryHandlerProcessor(handler ItineraryHandler) *ItineraryHandlerProcessor {
 	self := &ItineraryHandlerProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
 	self.AddToProcessorMap("CreateItinerary", &itineraryHandlerProcessorCreateItinerary{handler: handler})
+	self.AddToProcessorMap("GetItineraryInfo", &itineraryHandlerProcessorGetItineraryInfo{handler: handler})
 	self.AddToProcessorMap("ShowPartyItinerary", &itineraryHandlerProcessorShowPartyItinerary{handler: handler})
 	self.AddToProcessorMap("ChangeSequence", &itineraryHandlerProcessorChangeSequence{handler: handler})
 	self.AddToProcessorMap("MergeItinerary", &itineraryHandlerProcessorMergeItinerary{handler: handler})
@@ -2433,6 +2908,54 @@ func (p *itineraryHandlerProcessorCreateItinerary) Process(ctx context.Context, 
 		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("CreateItinerary", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type itineraryHandlerProcessorGetItineraryInfo struct {
+	handler ItineraryHandler
+}
+
+func (p *itineraryHandlerProcessorGetItineraryInfo) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := ItineraryHandlerGetItineraryInfoArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("GetItineraryInfo", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := ItineraryHandlerGetItineraryInfoResult{}
+	var retval *GetItineraryInfoResponse
+	if retval, err2 = p.handler.GetItineraryInfo(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetItineraryInfo: "+err2.Error())
+		oprot.WriteMessageBegin("GetItineraryInfo", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("GetItineraryInfo", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -2927,6 +3450,346 @@ func (p *ItineraryHandlerCreateItineraryResult) DeepEqual(ano *ItineraryHandlerC
 }
 
 func (p *ItineraryHandlerCreateItineraryResult) Field0DeepEqual(src *CreateItineraryResponse) bool {
+
+	if !p.Success.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type ItineraryHandlerGetItineraryInfoArgs struct {
+	Req *GetItineraryInfoRequest `thrift:"req,1" frugal:"1,default,GetItineraryInfoRequest" json:"req"`
+}
+
+func NewItineraryHandlerGetItineraryInfoArgs() *ItineraryHandlerGetItineraryInfoArgs {
+	return &ItineraryHandlerGetItineraryInfoArgs{}
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) InitDefault() {
+	*p = ItineraryHandlerGetItineraryInfoArgs{}
+}
+
+var ItineraryHandlerGetItineraryInfoArgs_Req_DEFAULT *GetItineraryInfoRequest
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) GetReq() (v *GetItineraryInfoRequest) {
+	if !p.IsSetReq() {
+		return ItineraryHandlerGetItineraryInfoArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *ItineraryHandlerGetItineraryInfoArgs) SetReq(val *GetItineraryInfoRequest) {
+	p.Req = val
+}
+
+var fieldIDToName_ItineraryHandlerGetItineraryInfoArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ItineraryHandlerGetItineraryInfoArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = NewGetItineraryInfoRequest()
+	if err := p.Req.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetItineraryInfo_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ItineraryHandlerGetItineraryInfoArgs(%+v)", *p)
+
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) DeepEqual(ano *ItineraryHandlerGetItineraryInfoArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Req) {
+		return false
+	}
+	return true
+}
+
+func (p *ItineraryHandlerGetItineraryInfoArgs) Field1DeepEqual(src *GetItineraryInfoRequest) bool {
+
+	if !p.Req.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type ItineraryHandlerGetItineraryInfoResult struct {
+	Success *GetItineraryInfoResponse `thrift:"success,0,optional" frugal:"0,optional,GetItineraryInfoResponse" json:"success,omitempty"`
+}
+
+func NewItineraryHandlerGetItineraryInfoResult() *ItineraryHandlerGetItineraryInfoResult {
+	return &ItineraryHandlerGetItineraryInfoResult{}
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) InitDefault() {
+	*p = ItineraryHandlerGetItineraryInfoResult{}
+}
+
+var ItineraryHandlerGetItineraryInfoResult_Success_DEFAULT *GetItineraryInfoResponse
+
+func (p *ItineraryHandlerGetItineraryInfoResult) GetSuccess() (v *GetItineraryInfoResponse) {
+	if !p.IsSetSuccess() {
+		return ItineraryHandlerGetItineraryInfoResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *ItineraryHandlerGetItineraryInfoResult) SetSuccess(x interface{}) {
+	p.Success = x.(*GetItineraryInfoResponse)
+}
+
+var fieldIDToName_ItineraryHandlerGetItineraryInfoResult = map[int16]string{
+	0: "success",
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ItineraryHandlerGetItineraryInfoResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewGetItineraryInfoResponse()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetItineraryInfo_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ItineraryHandlerGetItineraryInfoResult(%+v)", *p)
+
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) DeepEqual(ano *ItineraryHandlerGetItineraryInfoResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *ItineraryHandlerGetItineraryInfoResult) Field0DeepEqual(src *GetItineraryInfoResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false

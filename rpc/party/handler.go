@@ -15,8 +15,12 @@ type PartyHandlerImpl struct{}
 // CreateParty implements the PartyHandlerImpl interface.
 func (s *PartyHandlerImpl) CreateParty(ctx context.Context, req *party.CreatePartyRequest) (resp *party.CreatePartyResponse, err error) {
 	resp = new(party.CreatePartyResponse)
-	err = service.NewPartyService(ctx).CreateParty(req)
+	partyResp, err := service.NewPartyService(ctx).CreateParty(req)
 	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.Party = service.BuildPartyResp(partyResp)
 	return resp, nil
 }
 
@@ -101,5 +105,17 @@ func (s *PartyHandlerImpl) SearchParty(ctx context.Context, req *party.SearchPar
 	}
 	resp.PartyCount = &count
 	resp.PartyList = service.BuildPartiesResp(parties)
+	return resp, nil
+}
+
+// GetPartyInfo implements the PartyHandlerImpl interface.
+func (s *PartyHandlerImpl) GetPartyInfo(ctx context.Context, req *party.GetPartyInfoRequest) (resp *party.GetPartyInfoResponse, err error) {
+	resp = new(party.GetPartyInfoResponse)
+	partyResp, err := service.NewPartyService(ctx).GetPartyInfo(req)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.Party = service.BuildPartyResp(partyResp)
 	return resp, nil
 }

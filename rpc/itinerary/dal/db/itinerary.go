@@ -28,8 +28,12 @@ type Itinerary struct {
 	DeletedAt         gorm.DeletedAt `gorm:"index"`
 }
 
-func CreateItinerary(ctx context.Context, itineraryModel *Itinerary) error {
-	return DB.WithContext(ctx).Create(itineraryModel).Error
+func CreateItinerary(ctx context.Context, itineraryModel *Itinerary) (*Itinerary, error) {
+	itineraryResp := new(Itinerary)
+	if err := DB.WithContext(ctx).Create(itineraryModel).First(itineraryResp).Error; err != nil {
+		return nil, err
+	}
+	return itineraryResp, nil
 }
 
 func ShowPartyItinerary(ctx context.Context, partyId int64) (*[]Itinerary, int64, error) {
@@ -68,4 +72,12 @@ func ChangeItineraryStatus(ctx context.Context, partyId int64, itineraryId int64
 		return errno.ParamError
 	}
 	return DB.WithContext(ctx).Model(itineraryResp).Update("is_merged", status).Error
+}
+
+func GetItineraryById(ctx context.Context, itineraryId int64) (*Itinerary, error) {
+	itineraryResp := new(Itinerary)
+	if err := DB.WithContext(ctx).Where("id = ?", itineraryId).First(itineraryResp).Error; err != nil {
+		return nil, err
+	}
+	return itineraryResp, nil
 }
