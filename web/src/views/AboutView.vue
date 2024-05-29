@@ -149,7 +149,7 @@ export default {
 <template>
   <div class="about">
     <a-page-header
-      style="border: 1px solid rgb(235, 237, 240)"
+      style="border: 1px solid rgb(235, 237, 240); background-color: #fff"
       title="个人中心"
       sub-title="1"
       @back="() => $router.go(-1)"
