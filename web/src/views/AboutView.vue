@@ -14,17 +14,22 @@ export default {
       setcount: 3,
       setshow: 0,
       id: 1,
-      name: "用户名",
-      avatar: "//xiey.work/640.jpg",
+      name: "未登录",
+      avatar: "./src/assets/ava.png",
       mail: "",
       signature: "这个人很懒，什么都没写。",
       access_token: "",
       refresh_token: "",
       avatarFile: null,
-      url: ""
+      url: "",
+      showavatarpage: 0
     };
   },
   methods: {
+    modavatarpage() {
+      this.showavatarpage = !this.showavatarpage;
+      console.log(this.showavatarpage);
+    },
     onFileChange(e) {
       this.avatarFile = e.target.files[0];
     },
@@ -162,7 +167,7 @@ export default {
     </div>
 
     <div class="info">
-      <div class="touxiang">
+      <div class="touxiang" @click="modavatarpage">
         <div>
           <img :src="avatar" class="touxiangimg rounded-image" />
           <div>
@@ -178,28 +183,46 @@ export default {
       </div>
     </div>
 
-    <div>
-      <form @submit.prevent="uploadAvatar">
-        <input type="file" ref="avatarInput" @change="onFileChange" />
-        <button type="submit" @click="putavatar">上传头像</button>
-      </form>
-    </div>
+    <div></div>
 
     <transition name="fade">
-      <div class="set" v-show="setshow">
+      <div class="setpage" v-show="setshow">
         <mdui-list :blur="true">
-          <mdui-list-item>设置界面</mdui-list-item>
+          <text>设置界面</text>
           <mdui-list-item @click="refreshtoken">刷新令牌</mdui-list-item>
           <mdui-list-item @click="logout">退出登陆</mdui-list-item>
         </mdui-list>
       </div>
     </transition>
     <div class="setpage-flur" v-show="setshow"></div>
+    <div class="avatarpage" v-show="1">
+      <form @submit.prevent="uploadAvatar">
+        <input type="file" ref="avatarInput" @change="onFileChange" />
+        <button type="submit" @click="putavatar">上传头像</button>
+      </form>
+    </div>
   </div>
   <div class="bg"></div>
 </template>
 
 <style scoped>
+.avatarpage {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%; /* 你可以根据需要设置宽度 */
+  position: absolute;
+  top: 50%;
+  transform: translate(50%, 50%);
+  background-color: #5d41de;
+}
+.avatarpage form {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%; /* 你可以根据需要设置宽度 */
+  position: absolute;
+  top: 50%;
+  transform: translate(20%, 50%);
+}
 .about {
   z-index: 5;
   position: relative;
@@ -239,7 +262,7 @@ export default {
   z-index: 5;
 }
 
-.set {
+.setpage {
   position: fixed;
   top: 150px;
   right: 20px;
@@ -267,10 +290,14 @@ export default {
   backdrop-filter: saturate(100%) blur(10px);
   background: inherit;
 }
-mdui-list-item {
-  opacity: 1;
+.setpage text {
+  position: relative;
+  left: 22.5px;
+  font-weight: bold;
 }
-
+.setpage mdui-list-item {
+  margin-left: 5px;
+}
 .fade-enter {
   transition: opacity 0.2s;
 }
