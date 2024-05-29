@@ -1,6 +1,6 @@
 <script setup>
 import {LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined, PlusOutlined} from '@ant-design/icons-vue';
- import {ref } from 'vue';
+import {ref } from 'vue';
 import {RouterLink, useRoute} from "vue-router";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -124,7 +124,7 @@ const handleClose = () => {
           <template #content>
             <p>
               We supply a series of design principles, practical patterns and high quality design
-              resources (Sketch and Axure), to help people create their product prototypes beautifully and
+              resources, to help people create their product prototypes beautifully and
               efficiently.
             </p>
           </template>

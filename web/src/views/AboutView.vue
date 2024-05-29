@@ -201,6 +201,10 @@ export default {
         <button type="submit" @click="putavatar">上传头像</button>
       </form>
     </div>
+
+    <a-divider orientation="center" class="separate">我的行程</a-divider>
+
+
   </div>
   <div class="bg"></div>
 </template>
@@ -363,5 +367,9 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+.separate {
+  margin-top: 30px;
+  font-size: 18px;
 }
 </style>

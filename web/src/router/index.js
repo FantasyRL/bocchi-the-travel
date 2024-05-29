@@ -28,7 +28,22 @@ const router = createRouter({
       path: '/detail/:id',
       name: 'detail',
       component: () => import('../views/DetailView.vue'),
-    }
+    },
+    {
+      path: '/finish/:id',
+      name: 'finish',
+      component: () => import('../views/finish.vue'),
+    },
+    {
+      path: '/travels/:id',
+      name: 'travels',
+      component: () => import('../views/travels.vue'),
+    },
+    {
+      path: '/about/:id',
+      name: 'about-others',
+      component: () => import('../views/AboutView.vue')
+    },
   ]
 })
 
