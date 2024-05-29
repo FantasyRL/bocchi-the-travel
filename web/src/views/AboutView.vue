@@ -14,7 +14,7 @@ export default {
       setshow: 0,
       id: 1,
       name: "未登录",
-      avatar: "./src/assets/ava.png",
+      avatar: "//xiey.work/ava.png",
       mail: "",
       signature: "这个人很懒，什么都没写。",
       access_token: "",
@@ -105,7 +105,7 @@ export default {
           }
           console.log(this.avatar);
           if (this.avatar === "") {
-            this.avatar = "//xiey.work/640.jpg";
+            this.avatar = "//xiey.work/ava.png";
           }
           if (this.signature === "") {
             this.signature = "这个人很懒，什么都没写。";
