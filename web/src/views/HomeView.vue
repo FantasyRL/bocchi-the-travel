@@ -84,7 +84,7 @@ export default defineComponent({
     <div class="card1">
       <div v-for="id in 8" :key="id">
         <router-link :to="getDetailUrl(id)">
-          <a-card hoverable style="width: 240px">
+          <a-card hoverable style="width: 210px">
             <template #cover>
               <img :src="getImgUrl(id)" alt="example" />
             </template>
@@ -119,9 +119,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.ant-float-btn-body {
-  zoom: 200%;
-}
 .searchbar {
   display: flex;
   justify-content: center;
