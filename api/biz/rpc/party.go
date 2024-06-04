@@ -105,3 +105,13 @@ func PartySearch(ctx context.Context, req *party.SearchPartyRequest) (*party.Sea
 	}
 	return resp, nil
 }
+
+func GetMyParties(ctx context.Context, req *party.GetMyPartiesRequest) (*party.GetMyPartiesResponse, error) {
+	//rpc client
+	resp, err := partyClient.GetMyParties(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}

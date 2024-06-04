@@ -256,6 +256,23 @@ const docTemplate = `{
         },
         "/bocchi/party/info": {
             "get": {
+                "description": "get party info by id",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_party_info",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -342,6 +359,23 @@ const docTemplate = `{
         },
         "/bocchi/party/itinerary/info": {
             "get": {
+                "description": "get itinerary by id",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_itinerary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "itinerary_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -475,6 +509,41 @@ const docTemplate = `{
                         "name": "page_num",
                         "in": "query",
                         "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/party/my": {
+            "get": {
+                "description": "get members who have join the party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_party_members",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
                     }
                 ],
                 "responses": {}

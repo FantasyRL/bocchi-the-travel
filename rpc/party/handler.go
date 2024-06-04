@@ -119,3 +119,17 @@ func (s *PartyHandlerImpl) GetPartyInfo(ctx context.Context, req *party.GetParty
 	resp.Party = service.BuildPartyResp(partyResp)
 	return resp, nil
 }
+
+// GetMyParties implements the PartyHandlerImpl interface.
+func (s *PartyHandlerImpl) GetMyParties(ctx context.Context, req *party.GetMyPartiesRequest) (resp *party.GetMyPartiesResponse, err error) {
+	resp = new(party.GetMyPartiesResponse)
+
+	parties, count, err := service.NewPartyService(ctx).GetMyParties(req)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.PartyCount = &count
+	resp.PartyList = service.BuildPartiesResp(parties)
+	return resp, nil
+}

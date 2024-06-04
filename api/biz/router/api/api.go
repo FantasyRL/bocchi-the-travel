@@ -45,6 +45,10 @@ func Register(r *server.Hertz) {
 					_sequence.POST("/change", append(_changesequenceMw(), api.ChangeSequence)...)
 				}
 			}
+			{
+				_party0 := _party.Group("/party", _party0Mw()...)
+				_party0.GET("/my", append(_getmypartiesMw(), api.GetMyParties)...)
+			}
 		}
 		{
 			_poi := _bocchi.Group("/poi", _poiMw()...)

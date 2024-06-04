@@ -307,3 +307,44 @@ func GetPartyInfo(ctx context.Context, c *app.RequestContext) {
 	resp.Party = pack.ConvertToAPIParty(rpcResp.Party)
 	c.JSON(consts.StatusOK, resp)
 }
+
+// GetMyParties .
+// @Summary get_party_members
+// @Description get members who have join the party
+// @Accept json/form
+// @Produce json
+// @Param page_num query int true "页码"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bocchi/party/party/my [GET]
+func GetMyParties(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.GetMyPartiesRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.GetMyPartiesResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.GetMyParties(ctx, &party.GetMyPartiesRequest{
+		UserId:  id,
+		PageNum: req.PageNum,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.PartyCount = rpcResp.PartyCount
+	resp.PartyList = pack.ConvertToAPIParties(rpcResp.PartyList)
+	c.JSON(consts.StatusOK, resp)
+}
