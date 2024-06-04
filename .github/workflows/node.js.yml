@@ -25,11 +25,16 @@ jobs:
         path: /web/node_modules
         key: ${{runner.OS}}-${{hashFiles('**/web/package-lock.json')}}
           
-    - name: Install dependencies and build
+    - name: 安装依赖
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         cd web
         npm install
-        npm run build  # 构建项目
+
+    - name: Deploy Blog
+      run: | 
+        cd web
+        npm run build
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.2
