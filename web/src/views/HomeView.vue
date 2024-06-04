@@ -84,7 +84,7 @@ export default defineComponent({
     <div class="card1">
       <div v-for="id in 8" :key="id">
         <router-link :to="getDetailUrl(id)">
-          <a-card hoverable style="width: 240px">
+          <a-card hoverable style="width: 210px">
             <template #cover>
               <img :src="getImgUrl(id)" alt="example" />
             </template>
@@ -121,6 +121,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
+
 /* .custom-button .anticon {
   font-size: 30px;
   position: fixed;
@@ -135,6 +136,7 @@ export default defineComponent({
   width: 75px;
   height: 75px;
 } */
+
 .searchbar {
   display: flex;
   justify-content: center;
