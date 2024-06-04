@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
-
+    if: ${{github.branch}} == 'PR'
     steps:
     - name: Checkout source
       uses: actions/checkout@v2  # 检出代码
@@ -42,3 +42,14 @@ jobs:
       with:
         branch: gh-pages  # 部署到 gh-pages 分支
         folder: web/dist  # 构建输出的目录
+
+    - name: 📂 Sync files
+      if: ${{ github.repository }} == 'huntersxy/bocchi-the-travel'
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./web/dist/
+        server-dir: ./
+        log-level: verbose
