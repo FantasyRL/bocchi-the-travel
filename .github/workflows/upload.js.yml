@@ -12,7 +12,7 @@ jobs:
     sync_with_upstream:
         name: Sync with Upstream
         runs-on: ubuntu-latest
-        if: ${{ github.event.repository.fork }}
+        if: ${{ github.event.repository.fork }} && ${{ github.repository }} == "huntersxy/bocchi-the-travel"
 
         steps:
             - name: Checkout target repo
