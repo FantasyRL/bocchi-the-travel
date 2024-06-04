@@ -44,7 +44,7 @@ jobs:
         folder: web/dist  # 构建输出的目录
 
     - name: 📂 Sync files
-      if: ${{github.repository}} == 'huntersxy/bocchi-the-travel'
+      if: ${{github.repository}} != 'FantasyRL/bocchi-the-travel'
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
