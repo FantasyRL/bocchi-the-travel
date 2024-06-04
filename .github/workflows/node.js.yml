@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
+    if: github.event_name != 'pull_request'
 
     steps:
     - name: Checkout source
