@@ -212,6 +212,7 @@ func _party0Mw() []app.HandlerFunc {
 }
 
 func _getmypartiesMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
 }
