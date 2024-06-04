@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
-    if: ${{github.branch}} == 'PR'
+    if: ${{github.repository}} != 'FantasyRL/bocchi-the-travel'
     steps:
     - name: Checkout source
       uses: actions/checkout@v2  # 检出代码
