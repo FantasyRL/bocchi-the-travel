@@ -168,7 +168,19 @@ paths:
       summary: create_party
   /bocchi/party/info:
     get:
+      consumes:
+      - json/form
+      description: get party info by id
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      produces:
+      - application/json
       responses: {}
+      summary: get_party_info
   /bocchi/party/itinerary/create:
     post:
       consumes:
@@ -227,7 +239,19 @@ paths:
       summary: create_itinerary
   /bocchi/party/itinerary/info:
     get:
+      consumes:
+      - json/form
+      description: get itinerary by id
+      parameters:
+      - description: id
+        in: query
+        name: itinerary_id
+        required: true
+        type: integer
+      produces:
+      - application/json
       responses: {}
+      summary: get_itinerary
   /bocchi/party/itinerary/merge:
     get:
       consumes:
@@ -317,6 +341,30 @@ paths:
         name: page_num
         required: true
         type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: get_party_members
+  /bocchi/party/party/my:
+    get:
+      consumes:
+      - json/form
+      description: get members who have join the party
+      parameters:
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
       produces:
       - application/json
       responses: {}

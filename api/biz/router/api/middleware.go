@@ -205,3 +205,13 @@ func _getitineraryinfoMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _party0Mw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getmypartiesMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

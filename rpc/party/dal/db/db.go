@@ -94,6 +94,39 @@ func GetFounderIdByPartyId(ctx context.Context, partyId int64) (int64, error) {
 	return partyResp.FounderId, nil
 }
 
+func GetPartiesById(ctx context.Context, memberId int64, pageNum int64) (*[]Party, int64, error) {
+	partyIdResp := new([]Member)
+	var count int64
+	err := DBMember.WithContext(ctx).Where("member_id = ?", memberId).Order("status DESC").
+		Count(&count).Limit(constants.PageSize).Offset((int(pageNum) - 1) * constants.PageSize).
+		Find(partyIdResp).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, 0, nil
+	}
+	if err != nil {
+		return nil, 0, err
+	}
+	partyIdList := make([]int64, count)
+	for i, member := range *partyIdResp {
+		partyIdList[i] = member.PartyId
+	}
+
+	partiesResp := make([]Party, 0)
+	partiesResp1 := new([]Party)
+	partiesResp2 := new([]Party)
+	err = DBParty.WithContext(ctx).Where("id IN ? and status = 0", partyIdList).Order("start_time ASC").
+		Find(partiesResp1).Error
+	err = DBParty.WithContext(ctx).Where("id IN ? and status = 1", partyIdList).Order("end_time DESC").
+		Find(partiesResp2).Error
+	for _, p := range *partiesResp1 {
+		partiesResp = append(partiesResp, p)
+	}
+	for _, p := range *partiesResp2 {
+		partiesResp = append(partiesResp, p)
+	}
+	return &partiesResp, count, nil
+}
+
 type Member struct {
 	Id        int64
 	PartyId   int64

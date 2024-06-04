@@ -36,3 +36,7 @@ func (s *PartyService) SearchParty(req *party.SearchPartyRequest) (*[]db.Party, 
 func (s *PartyService) GetPartyInfo(req *party.GetPartyInfoRequest) (*db.Party, error) {
 	return db.GetPartyById(s.ctx, req.PartyId)
 }
+
+func (s *PartyService) GetMyParties(req *party.GetMyPartiesRequest) (*[]db.Party, int64, error) {
+	return db.GetPartiesById(s.ctx, req.UserId, req.PageNum)
+}

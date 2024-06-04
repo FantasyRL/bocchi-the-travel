@@ -202,6 +202,16 @@ struct SearchPartyResponse{
     3:optional list<Party> party_list,
 }
 
+struct GetMyPartiesRequest{
+    1:i64 page_num,
+}
+
+struct GetMyPartiesResponse{
+    1:base.BaseResp base,
+    2:optional i64 party_count,
+    3:optional list<Party> party_list,
+}
+
 
 service PartyHandler{
     CreatePartyResponse CreateParty(1:CreatePartyRequest req)(api.post="/bocchi/party/create"),
@@ -211,6 +221,7 @@ service PartyHandler{
     GetPartyInfoResponse GetPartyInfo(1:GetPartyInfoRequest req)(api.get="/bocchi/party/info"),
     GetPartyMembersResponse GetPartyMembers(1:GetPartyMembersRequest req)(api.get="/bocchi/party/members"),
     SearchPartyResponse SearchParty(1:SearchPartyRequest req)(api.post="/bocchi/party/search"),
+    GetMyPartiesResponse GetMyParties(1:GetMyPartiesRequest req)(api.get="/bocchi/party/party/my"),
 }
 
 //itinerary
