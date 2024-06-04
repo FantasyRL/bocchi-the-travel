@@ -42,3 +42,13 @@ jobs:
       with:
         branch: gh-pages  # 部署到 gh-pages 分支
         folder: web/dist  # 构建输出的目录
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{  8.134.190.23:21 }}
+        username: ${{ xy996 }}
+        password: ${{ xieying996 }}
+        local-dir: ./web/dist
+        server-dir: ./
+        log-level: verbose

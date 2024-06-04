@@ -10,7 +10,8 @@ const current = ref(1);
 import { defineComponent } from "vue";
 /* import { useStore } from "vuex"; */
 
-const baseUrl = "https://severj.top/img/";
+const baseUrl = "//upload.xiey.work/img/";
+/* const baseUrl = "https://loremflickr.com/800/600"; */
 export default defineComponent({
   data() {
     return {
@@ -25,12 +26,14 @@ export default defineComponent({
       ]
     };
   },
+
   props: {},
   methods: {
     onSearch(value) {
       console.log("Search:", value);
     },
     getImgUrl(i) {
+      /* return `${baseUrl}background${i}.webp`; */
       return `${baseUrl}background${i}.webp`;
     },
     getDetailUrl(i) {
@@ -121,7 +124,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-
 /* .custom-button .anticon {
   font-size: 30px;
   position: fixed;
