@@ -16,6 +16,7 @@
     "ant-design-vue": "^4.2.1",
     "axios": "^1.7.2",
     "dayjs": "^1.11.11",
+    "element-plus": "^2.7.4",
     "font-awesome": "^4.7.0",
     "js-cookie": "^3.0.5",
     "mdui": "^2.1.1",
@@ -30,8 +31,12 @@
     "@vue/eslint-config-prettier": "^9.0.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
+    "file-loader": "^6.2.0",
     "prettier": "^3.2.5",
     "sass": "^1.77.2",
+    "unplugin-auto-import": "^0.17.6",
+    "unplugin-vue-components": "^0.27.0",
+    "url-loader": "^4.1.1",
     "vite": "^5.2.8",
     "vite-plugin-vue-devtools": "^7.0.25"
   }
