@@ -96,15 +96,17 @@ export default defineComponent({
       </div>
     </div>
 
-    <router-link to="/create">
-      <a-float-button tooltip="创建行程" herf="/create">
+    <!--     <router-link to="/create">
+      <a-float-button tooltip="创建行程" herf="/create" class="custom-button">
         <template #icon>
-          <PlusOutlined />
+          <div class="icon-1">
+            <PlusOutlined />
+          </div>
         </template>
       </a-float-button>
     </router-link>
-
-    <a-back-top />
+ -->
+    <!-- <a-back-top /> -->
 
     <div class="page-switcher">
       <a-pagination :current="current" :total="total">
@@ -119,6 +121,22 @@ export default defineComponent({
 </template>
 
 <style scoped>
+
+/* .custom-button .anticon {
+  font-size: 30px;
+  position: fixed;
+  bottom: 122.5px;
+  right: 42.5px;
+}
+.custom-button {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  zoom: 1;
+  width: 75px;
+  height: 75px;
+} */
+
 .searchbar {
   display: flex;
   justify-content: center;
