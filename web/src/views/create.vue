@@ -12,7 +12,7 @@ import { RouterLink } from "vue-router";
   </div>
   <div class="travelscard">
     <a-card title="已创建的行程" style="width: 90%">
-      <template #extra><router-link to="/travels/1">查看详细</router-link></template>
+      <template #extra><router-link to="/alltravels/">查看详细</router-link></template>
       <p>这里塞一个显示已经创建的行程信息</p>
     </a-card>
   </div>
