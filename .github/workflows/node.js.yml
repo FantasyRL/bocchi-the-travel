@@ -17,7 +17,14 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '20'  # 使用 Node.js 版本 14
-
+      
+    - name: 缓存 VUE
+      uses: actions/cache@v3
+      id: cache
+      with:
+        path: /web/node_modules
+        key: ${{runner.OS}}-${{hashFiles('**/web/package-lock.json')}}
+          
     - name: Install dependencies and build
       run: |
         cd web
