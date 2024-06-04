@@ -55,3 +55,4 @@ jobs:
         local-dir: ./web/dist/
         server-dir: ./
         log-level: verbose
+        ref: ${{ github.event_ref }}
