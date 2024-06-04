@@ -128,8 +128,8 @@ html {
   margin: auto; /* 水平居中 */
 }
 .carousel img {
-  width: 450px;
-  height: 300px; /* 保持图片的宽高比 */
+  width: 50vh;
+  height: 31vh; /* 保持图片的宽高比 */
   object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
   border-radius: 8px; /* 圆角 */
   margin-bottom: 10px; /* 图片之间的间距 */
