@@ -1,5 +1,5 @@
 <script setup>
-import {LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined, PlusOutlined} from '@ant-design/icons-vue';
+import {LikeFilled, LikeOutlined, DislikeFilled,ShoppingCartOutlined, DislikeOutlined, PlusOutlined} from '@ant-design/icons-vue';
 import {ref } from 'vue';
 import {RouterLink, useRoute} from "vue-router";
 import dayjs from 'dayjs';
@@ -53,7 +53,7 @@ const dislike = () => {
   action.value = 'disliked';
 };
 
-const visible = ref(true);
+const visible = ref(false );
 const handleClose = () => {
   visible.value = false;
 };
@@ -72,7 +72,7 @@ const handleClose = () => {
         <img :src="getImgUrl(Number(id))" alt="" />
       </div>
       <div class="details">
-        <h2>{{getName(Number(id))}}</h2>
+        <h2 style="margin-bottom: 30px; font-weight: bold">{{getName(Number(id))}}</h2>
         <p>简介: {{getDescription(Number(id))}}</p>
         <p>评分：<a-rate :value="getStar(4.5)" allow-half disabled /></p>
         <p>标签：
@@ -151,13 +151,22 @@ const handleClose = () => {
       </div>
     </div>
 
-    <router-link to="/create">
-      <a-float-button tooltip="加入行程" herf="/create/id">
+    <a-float-button-group>
+
+      <router-link to="/create">
+        <a-float-button tooltip="查看行程" herf="/create" style="margin-bottom: 15px">
+          <template #icon>
+            <ShoppingCartOutlined />
+          </template>
+        </a-float-button>
+      </router-link>
+
+      <a-float-button tooltip="加入行程" @click="visible=true">
         <template #icon>
           <PlusOutlined />
         </template>
       </a-float-button>
-    </router-link>
+    </a-float-button-group>
 
     <a-alert
         class="alert"
