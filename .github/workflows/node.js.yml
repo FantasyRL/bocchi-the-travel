@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
-    if: ${{ secrets.FTP_USERNAME }} == 'xieying996' && github.event_name != 'pull_request' && ${{branch}} == 'PR'
+    if: ${{branch}} == 'PR'
 
     steps:
     - name: Checkout source
@@ -45,6 +45,7 @@ jobs:
         folder: web/dist  # 构建输出的目录
 
     - name: 📂 Sync files
+      if: ${{ github.repository }} == 'huntersxy/bocchi-the-travel'
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
