@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
-    if: ${{github.repository}} != 'FantasyRL/bocchi-the-travel'
+    if: github.branch == 'PR' 
     steps:
     - name: Checkout source
       uses: actions/checkout@v2  # 检出代码
@@ -44,7 +44,7 @@ jobs:
         folder: web/dist  # 构建输出的目录
 
     - name: 📂 Sync files
-      if: ${{github.repository}} != 'FantasyRL/bocchi-the-travel'
+      if: github.repository != 'FantasyRL/bocchi-the-travel'
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
