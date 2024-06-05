@@ -254,7 +254,7 @@ export default {
               border-radius: 20px 20px 0 0;
               object-fit: cover;
               width: 100%;
-              height: 250px;
+              max-height: 250px;
             "
           />
           <form @submit.prevent="uploadAvatar">
