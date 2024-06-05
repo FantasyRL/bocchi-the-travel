@@ -307,7 +307,7 @@ export default {
   position: fixed;
 
   gap: 10px;
-  width: 60%;
+  width: 90%;
   height: auto;
   top: 50%;
   left: 50%;
