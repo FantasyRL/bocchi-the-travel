@@ -2172,6 +2172,437 @@ func (p *MergeItineraryResponse) field1Length() int {
 	return l
 }
 
+func (p *GetMyItinerariesRequest) FastRead(buf []byte) (int, error) {
+	var err error
+	var offset int
+	var l int
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	_, l, err = bthrift.Binary.ReadStructBegin(buf)
+	offset += l
+	if err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, l, err = bthrift.Binary.ReadFieldBegin(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField1(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField2(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+			offset += l
+			if err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		l, err = bthrift.Binary.ReadFieldEnd(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	l, err = bthrift.Binary.ReadStructEnd(buf[offset:])
+	offset += l
+	if err != nil {
+		goto ReadStructEndError
+	}
+
+	return offset, nil
+ReadStructBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetMyItinerariesRequest[fieldId]), err)
+SkipFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+ReadFieldEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *GetMyItinerariesRequest) FastReadField1(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
+		p.UserId = v
+
+	}
+	return offset, nil
+}
+
+func (p *GetMyItinerariesRequest) FastReadField2(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
+		p.PartyId = v
+
+	}
+	return offset, nil
+}
+
+// for compatibility
+func (p *GetMyItinerariesRequest) FastWrite(buf []byte) int {
+	return 0
+}
+
+func (p *GetMyItinerariesRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetMyItinerariesRequest")
+	if p != nil {
+		offset += p.fastWriteField1(buf[offset:], binaryWriter)
+		offset += p.fastWriteField2(buf[offset:], binaryWriter)
+	}
+	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
+	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
+	return offset
+}
+
+func (p *GetMyItinerariesRequest) BLength() int {
+	l := 0
+	l += bthrift.Binary.StructBeginLength("GetMyItinerariesRequest")
+	if p != nil {
+		l += p.field1Length()
+		l += p.field2Length()
+	}
+	l += bthrift.Binary.FieldStopLength()
+	l += bthrift.Binary.StructEndLength()
+	return l
+}
+
+func (p *GetMyItinerariesRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "user_id", thrift.I64, 1)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.UserId)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
+func (p *GetMyItinerariesRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "party_id", thrift.I64, 2)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.PartyId)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
+func (p *GetMyItinerariesRequest) field1Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("user_id", thrift.I64, 1)
+	l += bthrift.Binary.I64Length(p.UserId)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *GetMyItinerariesRequest) field2Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("party_id", thrift.I64, 2)
+	l += bthrift.Binary.I64Length(p.PartyId)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *GetMyItinerariesResponse) FastRead(buf []byte) (int, error) {
+	var err error
+	var offset int
+	var l int
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	_, l, err = bthrift.Binary.ReadStructBegin(buf)
+	offset += l
+	if err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, l, err = bthrift.Binary.ReadFieldBegin(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				l, err = p.FastReadField1(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField2(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 3:
+			if fieldTypeId == thrift.LIST {
+				l, err = p.FastReadField3(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+			offset += l
+			if err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		l, err = bthrift.Binary.ReadFieldEnd(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	l, err = bthrift.Binary.ReadStructEnd(buf[offset:])
+	offset += l
+	if err != nil {
+		goto ReadStructEndError
+	}
+
+	return offset, nil
+ReadStructBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetMyItinerariesResponse[fieldId]), err)
+SkipFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+ReadFieldEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *GetMyItinerariesResponse) FastReadField1(buf []byte) (int, error) {
+	offset := 0
+
+	tmp := base.NewBaseResp()
+	if l, err := tmp.FastRead(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+	}
+	p.Base = tmp
+	return offset, nil
+}
+
+func (p *GetMyItinerariesResponse) FastReadField2(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+		p.ItienraryCount = &v
+
+	}
+	return offset, nil
+}
+
+func (p *GetMyItinerariesResponse) FastReadField3(buf []byte) (int, error) {
+	offset := 0
+
+	_, size, l, err := bthrift.Binary.ReadListBegin(buf[offset:])
+	offset += l
+	if err != nil {
+		return offset, err
+	}
+	p.ItineraryList = make([]*base.Itinerary, 0, size)
+	for i := 0; i < size; i++ {
+		_elem := base.NewItinerary()
+		if l, err := _elem.FastRead(buf[offset:]); err != nil {
+			return offset, err
+		} else {
+			offset += l
+		}
+
+		p.ItineraryList = append(p.ItineraryList, _elem)
+	}
+	if l, err := bthrift.Binary.ReadListEnd(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+	}
+	return offset, nil
+}
+
+// for compatibility
+func (p *GetMyItinerariesResponse) FastWrite(buf []byte) int {
+	return 0
+}
+
+func (p *GetMyItinerariesResponse) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetMyItinerariesResponse")
+	if p != nil {
+		offset += p.fastWriteField2(buf[offset:], binaryWriter)
+		offset += p.fastWriteField1(buf[offset:], binaryWriter)
+		offset += p.fastWriteField3(buf[offset:], binaryWriter)
+	}
+	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
+	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
+	return offset
+}
+
+func (p *GetMyItinerariesResponse) BLength() int {
+	l := 0
+	l += bthrift.Binary.StructBeginLength("GetMyItinerariesResponse")
+	if p != nil {
+		l += p.field1Length()
+		l += p.field2Length()
+		l += p.field3Length()
+	}
+	l += bthrift.Binary.FieldStopLength()
+	l += bthrift.Binary.StructEndLength()
+	return l
+}
+
+func (p *GetMyItinerariesResponse) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "base", thrift.STRUCT, 1)
+	offset += p.Base.FastWriteNocopy(buf[offset:], binaryWriter)
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
+func (p *GetMyItinerariesResponse) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	if p.IsSetItienraryCount() {
+		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "itienrary_count", thrift.I64, 2)
+		offset += bthrift.Binary.WriteI64(buf[offset:], *p.ItienraryCount)
+
+		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	}
+	return offset
+}
+
+func (p *GetMyItinerariesResponse) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	if p.IsSetItineraryList() {
+		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "itinerary_list", thrift.LIST, 3)
+		listBeginOffset := offset
+		offset += bthrift.Binary.ListBeginLength(thrift.STRUCT, 0)
+		var length int
+		for _, v := range p.ItineraryList {
+			length++
+			offset += v.FastWriteNocopy(buf[offset:], binaryWriter)
+		}
+		bthrift.Binary.WriteListBegin(buf[listBeginOffset:], thrift.STRUCT, length)
+		offset += bthrift.Binary.WriteListEnd(buf[offset:])
+		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	}
+	return offset
+}
+
+func (p *GetMyItinerariesResponse) field1Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("base", thrift.STRUCT, 1)
+	l += p.Base.BLength()
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *GetMyItinerariesResponse) field2Length() int {
+	l := 0
+	if p.IsSetItienraryCount() {
+		l += bthrift.Binary.FieldBeginLength("itienrary_count", thrift.I64, 2)
+		l += bthrift.Binary.I64Length(*p.ItienraryCount)
+
+		l += bthrift.Binary.FieldEndLength()
+	}
+	return l
+}
+
+func (p *GetMyItinerariesResponse) field3Length() int {
+	l := 0
+	if p.IsSetItineraryList() {
+		l += bthrift.Binary.FieldBeginLength("itinerary_list", thrift.LIST, 3)
+		l += bthrift.Binary.ListBeginLength(thrift.STRUCT, len(p.ItineraryList))
+		for _, v := range p.ItineraryList {
+			l += v.BLength()
+		}
+		l += bthrift.Binary.ListEndLength()
+		l += bthrift.Binary.FieldEndLength()
+	}
+	return l
+}
+
 func (p *ItineraryHandlerCreateItineraryArgs) FastRead(buf []byte) (int, error) {
 	var err error
 	var offset int
@@ -3462,6 +3893,264 @@ func (p *ItineraryHandlerMergeItineraryResult) field0Length() int {
 	return l
 }
 
+func (p *ItineraryHandlerGetMyItinerariesArgs) FastRead(buf []byte) (int, error) {
+	var err error
+	var offset int
+	var l int
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	_, l, err = bthrift.Binary.ReadStructBegin(buf)
+	offset += l
+	if err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, l, err = bthrift.Binary.ReadFieldBegin(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				l, err = p.FastReadField1(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+			offset += l
+			if err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		l, err = bthrift.Binary.ReadFieldEnd(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	l, err = bthrift.Binary.ReadStructEnd(buf[offset:])
+	offset += l
+	if err != nil {
+		goto ReadStructEndError
+	}
+
+	return offset, nil
+ReadStructBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ItineraryHandlerGetMyItinerariesArgs[fieldId]), err)
+SkipFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+ReadFieldEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ItineraryHandlerGetMyItinerariesArgs) FastReadField1(buf []byte) (int, error) {
+	offset := 0
+
+	tmp := NewGetMyItinerariesRequest()
+	if l, err := tmp.FastRead(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+	}
+	p.Req = tmp
+	return offset, nil
+}
+
+// for compatibility
+func (p *ItineraryHandlerGetMyItinerariesArgs) FastWrite(buf []byte) int {
+	return 0
+}
+
+func (p *ItineraryHandlerGetMyItinerariesArgs) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetMyItineraries_args")
+	if p != nil {
+		offset += p.fastWriteField1(buf[offset:], binaryWriter)
+	}
+	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
+	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
+	return offset
+}
+
+func (p *ItineraryHandlerGetMyItinerariesArgs) BLength() int {
+	l := 0
+	l += bthrift.Binary.StructBeginLength("GetMyItineraries_args")
+	if p != nil {
+		l += p.field1Length()
+	}
+	l += bthrift.Binary.FieldStopLength()
+	l += bthrift.Binary.StructEndLength()
+	return l
+}
+
+func (p *ItineraryHandlerGetMyItinerariesArgs) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "req", thrift.STRUCT, 1)
+	offset += p.Req.FastWriteNocopy(buf[offset:], binaryWriter)
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
+func (p *ItineraryHandlerGetMyItinerariesArgs) field1Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("req", thrift.STRUCT, 1)
+	l += p.Req.BLength()
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *ItineraryHandlerGetMyItinerariesResult) FastRead(buf []byte) (int, error) {
+	var err error
+	var offset int
+	var l int
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	_, l, err = bthrift.Binary.ReadStructBegin(buf)
+	offset += l
+	if err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, l, err = bthrift.Binary.ReadFieldBegin(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				l, err = p.FastReadField0(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+			offset += l
+			if err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		l, err = bthrift.Binary.ReadFieldEnd(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	l, err = bthrift.Binary.ReadStructEnd(buf[offset:])
+	offset += l
+	if err != nil {
+		goto ReadStructEndError
+	}
+
+	return offset, nil
+ReadStructBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ItineraryHandlerGetMyItinerariesResult[fieldId]), err)
+SkipFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+ReadFieldEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *ItineraryHandlerGetMyItinerariesResult) FastReadField0(buf []byte) (int, error) {
+	offset := 0
+
+	tmp := NewGetMyItinerariesResponse()
+	if l, err := tmp.FastRead(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+	}
+	p.Success = tmp
+	return offset, nil
+}
+
+// for compatibility
+func (p *ItineraryHandlerGetMyItinerariesResult) FastWrite(buf []byte) int {
+	return 0
+}
+
+func (p *ItineraryHandlerGetMyItinerariesResult) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetMyItineraries_result")
+	if p != nil {
+		offset += p.fastWriteField0(buf[offset:], binaryWriter)
+	}
+	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
+	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
+	return offset
+}
+
+func (p *ItineraryHandlerGetMyItinerariesResult) BLength() int {
+	l := 0
+	l += bthrift.Binary.StructBeginLength("GetMyItineraries_result")
+	if p != nil {
+		l += p.field0Length()
+	}
+	l += bthrift.Binary.FieldStopLength()
+	l += bthrift.Binary.StructEndLength()
+	return l
+}
+
+func (p *ItineraryHandlerGetMyItinerariesResult) fastWriteField0(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	if p.IsSetSuccess() {
+		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "success", thrift.STRUCT, 0)
+		offset += p.Success.FastWriteNocopy(buf[offset:], binaryWriter)
+		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	}
+	return offset
+}
+
+func (p *ItineraryHandlerGetMyItinerariesResult) field0Length() int {
+	l := 0
+	if p.IsSetSuccess() {
+		l += bthrift.Binary.FieldBeginLength("success", thrift.STRUCT, 0)
+		l += p.Success.BLength()
+		l += bthrift.Binary.FieldEndLength()
+	}
+	return l
+}
+
 func (p *ItineraryHandlerCreateItineraryArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
@@ -3499,5 +4188,13 @@ func (p *ItineraryHandlerMergeItineraryArgs) GetFirstArgument() interface{} {
 }
 
 func (p *ItineraryHandlerMergeItineraryResult) GetResult() interface{} {
+	return p.Success
+}
+
+func (p *ItineraryHandlerGetMyItinerariesArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+func (p *ItineraryHandlerGetMyItinerariesResult) GetResult() interface{} {
 	return p.Success
 }

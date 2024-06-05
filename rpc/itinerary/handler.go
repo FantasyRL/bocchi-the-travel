@@ -62,3 +62,16 @@ func (s *ItineraryHandlerImpl) GetItineraryInfo(ctx context.Context, req *itiner
 	resp.Itinerary = service.BuildItineraryResp(itineraryResp)
 	return resp, nil
 }
+
+// GetMyItineraries implements the ItineraryHandlerImpl interface.
+func (s *ItineraryHandlerImpl) GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest) (resp *itinerary.GetMyItinerariesResponse, err error) {
+	resp = new(itinerary.GetMyItinerariesResponse)
+	itineraries, count, err := service.NewItineraryService(ctx).GetMyItineraries(req)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.ItienraryCount = &count
+	resp.ItineraryList = service.BuildItinerariesResp(itineraries)
+	return resp, nil
+}

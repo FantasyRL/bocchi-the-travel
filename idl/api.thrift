@@ -294,12 +294,24 @@ struct MergeItineraryResponse{
     1:base.BaseResp base,
 }
 
+struct GetMyItinerariesRequest{
+    1:i64 party_id,
+
+}
+
+struct GetMyItinerariesResponse{
+    1:base.BaseResp base,
+    2:optional i64 itienrary_count,
+    3:optional list<Itinerary> itinerary_list,
+}
+
 service ItineraryHandler{
     CreateItineraryResponse CreateItinerary(1:CreateItineraryRequest req)(api.post="/bocchi/party/itinerary/create"),
     GetItineraryInfoResponse GetItineraryInfo(1:GetItineraryInfoRequest req)(api.get="/bocchi/party/itinerary/info"),
     ShowPartyItineraryResponse ShowPartyItinerary(1:ShowPartyItineraryRequest req)(api.get="/bocchi/party/itinerary/show"),
     ChangeSequenceResponse ChangeSequence(1:ChangeSequenceRequest req)(api.post="/bocchi/party/itinerary/sequence/change"),
     MergeItineraryResponse MergeItinerary(1:MergeItineraryRequest req)(api.get="/bocchi/party/itinerary/merge"),
+    GetMyItinerariesResponse GetMyItineraries(1:GetMyItinerariesRequest req)(api.get="/bocchi/party/itinerary/my"),
 }
 
 //comment

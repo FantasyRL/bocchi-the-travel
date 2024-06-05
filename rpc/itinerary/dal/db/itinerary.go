@@ -81,3 +81,15 @@ func GetItineraryById(ctx context.Context, itineraryId int64) (*Itinerary, error
 	}
 	return itineraryResp, nil
 }
+
+func GetItinerariesByUidAndPartyId(ctx context.Context, userId int64, partyId int64) (*[]Itinerary, int64, error) {
+	itinerariesResp := new([]Itinerary)
+	var count int64
+	if err := DB.WithContext(ctx).Where("founder_id = ? AND party_id = ?", userId, partyId).Order("is_merged ASC").Count(&count).Find(itinerariesResp).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, 0, nil
+		}
+		return nil, 0, err
+	}
+	return itinerariesResp, count, nil
+}

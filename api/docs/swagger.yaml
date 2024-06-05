@@ -132,7 +132,7 @@ paths:
         in: query
         name: type
         required: true
-        type: integer
+        type: string
       - description: 活动省份
         in: query
         name: province
@@ -281,6 +281,9 @@ paths:
       - application/json
       responses: {}
       summary: merge_itinerary
+  /bocchi/party/itinerary/my:
+    get:
+      responses: {}
   /bocchi/party/itinerary/sequence/change:
     post:
       consumes:

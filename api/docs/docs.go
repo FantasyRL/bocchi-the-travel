@@ -203,7 +203,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "类型",
                         "name": "type",
                         "in": "query",
@@ -418,6 +418,11 @@ const docTemplate = `{
                         "in": "header"
                     }
                 ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/my": {
+            "get": {
                 "responses": {}
             }
         },

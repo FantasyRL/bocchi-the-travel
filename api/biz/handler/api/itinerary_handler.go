@@ -214,3 +214,37 @@ func GetItineraryInfo(ctx context.Context, c *app.RequestContext) {
 	resp.Itinerary = pack.ConvertToAPIItinerary(rpcResp.Itinerary)
 	c.JSON(consts.StatusOK, resp)
 }
+
+// GetMyItineraries .
+// @router /bocchi/party/itinerary/my [GET]
+func GetMyItineraries(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.GetMyItinerariesRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.GetMyItinerariesResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.GetMyItineraries(ctx, &itinerary.GetMyItinerariesRequest{
+		UserId:  id,
+		PartyId: req.PartyID,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.ItienraryCount = rpcResp.ItienraryCount
+	resp.ItineraryList = pack.ConvertToAPIItineraries(rpcResp.ItineraryList)
+	c.JSON(consts.StatusOK, resp)
+}

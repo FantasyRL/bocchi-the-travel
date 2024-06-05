@@ -216,3 +216,9 @@ func _getmypartiesMw() []app.HandlerFunc {
 		jwt.JwtMiddleware.MiddlewareFunc(),
 	}
 }
+
+func _getmyitinerariesMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}

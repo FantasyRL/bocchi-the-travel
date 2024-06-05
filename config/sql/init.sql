@@ -24,7 +24,7 @@ CREATE TABLE `party`(
     `founder_id` bigint NOT NULL COMMENT '创建者id',
     `title` varchar(255) NOT NULL COMMENT '活动标题',
     `content` varchar(255) NOT NULL COMMENT '活动介绍',
-    `type` bigint NOT NULL COMMENT '活动类型',
+    `type` varchar(255) NOT NULL COMMENT '活动类型',
     `province` varchar(255) NOT NULL COMMENT '活动省份',
     `city` varchar(255) NOT NULL COMMENT '活动城市',
     `rectangle` varchar(255) NOT NULL COMMENT 'rectangle',

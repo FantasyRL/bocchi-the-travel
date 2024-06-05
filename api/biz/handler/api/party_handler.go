@@ -21,7 +21,7 @@ import (
 // @Produce json
 // @Param title query string true "标题"
 // @Param content query string true "介绍"
-// @Param type query int true "类型"
+// @Param type query string true "类型"
 // @Param province query string true "活动省份"
 // @Param city query string true "活动城市"
 // @Param start_time query string true "开始时间(例:2006-01-02)"
