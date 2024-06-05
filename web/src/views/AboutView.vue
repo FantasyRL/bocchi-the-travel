@@ -215,6 +215,39 @@ export default {
 
     <a-divider orientation="center" class="separate">我的行程</a-divider>
   </div>
+
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
   <div class="bg"></div>
 </template>
 
@@ -260,6 +293,8 @@ export default {
 }
 .touxiang {
   z-index: inherit;
+  display: grid;
+  justify-items: center;
 }
 .shejiao {
   /* 社交账号 */
