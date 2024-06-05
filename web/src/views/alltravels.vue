@@ -105,7 +105,7 @@ export default {
         <br />
         <el-button @click="nono">查看申请</el-button>
         <el-button @click="nono">查看成员</el-button>
-        <el-button @click="nono(item.id)">结束行程</el-button>
+        <el-button @click="nono(item.id)">删除这个活动</el-button>
         <template #footer>Status: {{ item.status }}</template>
       </el-card>
       <br />
