@@ -1,19 +1,17 @@
 <script setup>
-
 import { RouterLink } from "vue-router";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { ref } from "vue";
 
 const current = ref(1);
-
-
 </script>
 
 <script>
 import { defineComponent } from "vue";
 /* import { useStore } from "vuex"; */
 
-const baseUrl = "https://severj.top/img/";
+const baseUrl = "//upload.xiey.work/img/";
+/* const baseUrl = "https://loremflickr.com/800/600"; */
 export default defineComponent({
   data() {
     return {
@@ -28,14 +26,14 @@ export default defineComponent({
       ]
     };
   },
-  props: {
 
-  },
+  props: {},
   methods: {
     onSearch(value) {
       console.log("Search:", value);
     },
     getImgUrl(i) {
+      /* return `${baseUrl}background${i}.webp`; */
       return `${baseUrl}background${i}.webp`;
     },
     getDetailUrl(i) {
@@ -46,7 +44,7 @@ export default defineComponent({
     },
     getDescription(i) {
       return `description${i}`;
-    },
+    }
     /* startLoading() {
       useStore().commit('setLoading', true);
     } */
@@ -55,10 +53,16 @@ export default defineComponent({
 </script>
 <template>
   <div class="home">
-
     <div class="searchbar">
-      <a-input-search class="custom-search" placeholder="请输入搜索内容" enterButton="" size="large" v-model="searchText"
-        :bordered="false" @search="onSearch" />
+      <a-input-search
+        class="custom-search"
+        placeholder="请输入搜索内容"
+        enterButton=""
+        size="large"
+        v-model="searchText"
+        :bordered="false"
+        @search="onSearch"
+      />
     </div>
 
     <a-divider orientation="center" class="separate">每日推荐</a-divider>
@@ -71,7 +75,9 @@ export default defineComponent({
           </a>
         </template>
         <div v-for="id in 5" :key="id">
-          <img :src="getImgUrl(id)" alt="" style="border-radius: 15px;margin-bottom: 10px" />
+          <router-link :to="getDetailUrl(id)">
+            <img :src="getImgUrl(id)" alt="" style="border-radius: 15px; margin-bottom: 10px" />
+          </router-link>
         </div>
       </a-carousel>
     </div>
@@ -81,7 +87,7 @@ export default defineComponent({
     <div class="card1">
       <div v-for="id in 8" :key="id">
         <router-link :to="getDetailUrl(id)">
-          <a-card hoverable style="width: 240px">
+          <a-card hoverable style="width: 210px">
             <template #cover>
               <img :src="getImgUrl(id)" alt="example" />
             </template>
@@ -93,19 +99,20 @@ export default defineComponent({
       </div>
     </div>
 
-    <router-link to="/create">
-      <a-float-button tooltip="创建行程" herf="/create">
+    <!--     <router-link to="/create">
+      <a-float-button tooltip="创建行程" herf="/create" class="custom-button">
         <template #icon>
-          <PlusOutlined />
+          <div class="icon-1">
+            <PlusOutlined />
+          </div>
         </template>
       </a-float-button>
     </router-link>
-
-    <a-back-top />
+ -->
+    <!-- <a-back-top /> -->
 
     <div class="page-switcher">
       <a-pagination :current="current" :total="total">
-
         <template #itemRender="{ type, originalElement }">
           <a v-if="type === 'prev'">前一页</a>
           <a v-else-if="type === 'next'">后一页</a>
@@ -116,9 +123,22 @@ export default defineComponent({
   </div>
 </template>
 
-
-
 <style scoped>
+/* .custom-button .anticon {
+  font-size: 30px;
+  position: fixed;
+  bottom: 122.5px;
+  right: 42.5px;
+}
+.custom-button {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  zoom: 1;
+  width: 75px;
+  height: 75px;
+} */
+
 .searchbar {
   display: flex;
   justify-content: center;

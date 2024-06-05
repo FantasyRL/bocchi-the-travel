@@ -3,12 +3,11 @@ name: Deploy Vue App to GitHub Pages
 on:
   push:
     branches:
-      - main  # 设置触发部署的分支
+      - PR  # 设置触发部署的分支
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
-
     steps:
     - name: Checkout source
       uses: actions/checkout@v2  # 检出代码
@@ -17,15 +16,39 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '20'  # 使用 Node.js 版本 14
-
-    - name: Install dependencies and build
+      
+    - name: 缓存 VUE
+      uses: actions/cache@v3
+      id: cache
+      with:
+        path: 
+          ./web/node_modules
+        key: ${{runner.OS}}-${{hashFiles('**/web/package-lock.json')}}
+          
+    - name: 安装依赖
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         cd web
         npm install
-        npm run build  # 构建项目
+
+    - name: Deploy Blog
+      run: | 
+        cd web
+        npm run build
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.2
       with:
         branch: gh-pages  # 部署到 gh-pages 分支
         folder: web/dist  # 构建输出的目录
+
+    - name: 📂 Sync files
+      if: github.repository != 'FantasyRL/bocchi-the-travel'
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./web/dist/
+        server-dir: ./
+        log-level: verbose

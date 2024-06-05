@@ -1,8 +1,7 @@
 <script setup>
-import { LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined } from '@ant-design/icons-vue';
- import { onMounted, ref } from 'vue'; 
-import { useStore } from 'vuex'
-import { useRoute } from "vue-router";
+import {LikeFilled, LikeOutlined, DislikeFilled,ShoppingCartOutlined, DislikeOutlined, PlusOutlined} from '@ant-design/icons-vue';
+import {ref } from 'vue';
+import {RouterLink, useRoute} from "vue-router";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
@@ -45,10 +44,18 @@ const getTagsLink = (i) => {
 const getTagsSum = (i) => {
   return i;
 };
+const getRelativeID = (i) => {
+  return i;
+};
 const dislike = () => {
   likes.value--;
   dislikes.value++;
   action.value = 'disliked';
+};
+
+const visible = ref(false );
+const handleClose = () => {
+  visible.value = false;
 };
 </script>
 
@@ -65,7 +72,7 @@ const dislike = () => {
         <img :src="getImgUrl(Number(id))" alt="" />
       </div>
       <div class="details">
-        <h2>{{getName(Number(id))}}</h2>
+        <h2 style="margin-bottom: 30px; font-weight: bold">{{getName(Number(id))}}</h2>
         <p>简介: {{getDescription(Number(id))}}</p>
         <p>评分：<a-rate :value="getStar(4.5)" allow-half disabled /></p>
         <p>标签：
@@ -117,7 +124,7 @@ const dislike = () => {
           <template #content>
             <p>
               We supply a series of design principles, practical patterns and high quality design
-              resources (Sketch and Axure), to help people create their product prototypes beautifully and
+              resources, to help people create their product prototypes beautifully and
               efficiently.
             </p>
           </template>
@@ -131,6 +138,49 @@ const dislike = () => {
 
     <a-divider orientation="center" class="separate">相关行程</a-divider>
 
+    <div style="padding: 20px" class="relative">
+      <div v-for="i in 5" :key="i">
+        <a-row>
+          <a-card class="relative-card" :title="getName(getRelativeID(i))" :bordered="false">
+            <a-row>
+              <a-col class="inner-img"><img :src="getImgUrl(Number(getRelativeID(i)))" alt="" /></a-col>
+              <a-col style="margin-left: 20px"><p>{{ getDescription(Number(getRelativeID(i))) }}</p></a-col>
+            </a-row>
+          </a-card>
+        </a-row>
+      </div>
+    </div>
+
+    <a-float-button-group>
+
+      <router-link to="/create">
+        <a-float-button tooltip="查看行程" herf="/create" style="margin-bottom: 15px">
+          <template #icon>
+            <ShoppingCartOutlined />
+          </template>
+        </a-float-button>
+      </router-link>
+
+      <a-float-button tooltip="加入行程" @click="visible=true">
+        <template #icon>
+          <PlusOutlined />
+        </template>
+      </a-float-button>
+    </a-float-button-group>
+
+    <a-alert
+        class="alert"
+        v-if="visible"
+        message="成功！"
+        description="已加入行程"
+        type="success"
+        show-icon
+        closable
+        banner
+        :after-close="handleClose"
+    />
+
+    <a-back-top />
   </div>
 </template>
 
@@ -174,5 +224,28 @@ const getDislikes = (i) => {
 
 .separate {
   margin-top: 30px;
+  font-size: 18px;
+}
+
+.alert {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 1000; /* 确保它在其他元素之上 */
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.inner-img img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+}
+.relative-card {
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 </style>
