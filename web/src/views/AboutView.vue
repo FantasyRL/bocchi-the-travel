@@ -21,7 +21,9 @@ export default {
       refresh_token: "",
       avatarFile: null,
       url: "",
-      showavatarpage: 0
+      showavatarpage: 0,
+      previewImage: null,
+      file: null
     };
   },
   methods: {
@@ -30,26 +32,46 @@ export default {
       console.log(this.showavatarpage);
     },
     onFileChange(e) {
-      this.avatarFile = e.target.files[0];
+      const file = e.target.files[0];
+      this.file = file; // 保存文件对象，以便稍后上传。
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.previewImage = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
     },
-    putavatar() {
-      if (!this.avatarFile) {
-        alert("请选择一个文件");
+    putavatar(previewImage) {
+      // 如果没有选择文件，则改变warm的值
+      if (!previewImage) {
+        this.warm = 1;
         return;
       }
 
-      let formData = new FormData();
-      formData.append("avatar", this.avatarFile);
+      var currentTime = new Date();
+      var seconds = currentTime.getSeconds();
+
+      console.log(seconds);
       axios
-        .put(this.url + "/bocchi/user/avatar/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data", // 设置请求头，告诉服务器这是一个multipart/form-data请求，因为我们要上传文件。
-            "access-token": this.access_token, // 假设返回的数据中有一个名为access_token的字段，表示访问令牌。
-            Accept: "*/*" // 设置接收任意类型的响应。
+        .put(
+          this.url + "/bocchi/user/avatar/upload",
+          {
+            avatar_file: previewImage
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data", // 设置请求头，告诉服务器这是一个multipart/form-data请求，因为我们要上传文件。
+              "access-token": this.access_token, // 假设返回的数据中有一个名为access_token的字段，表示访问令牌。
+              Accept: "*/*" // 设置接收任意类型的响应。
+            }
           }
-        })
+        )
         .then((res) => {
           console.log(res);
+          this.avatar = res.data.user.avatar + "?" + seconds;
+          this.modavatarpage();
+          this.warm = 1;
         })
         .catch((err) => {
           console.error(err);
@@ -132,7 +154,7 @@ export default {
   components: {},
   computed: {},
   watch: {
-    setcount(newsetcount, oldsetcount) {
+    setcount(newsetcount) {
       if (newsetcount % 2 == 1) {
         this.setname = "设置";
       }
@@ -154,6 +176,7 @@ export default {
       sub-title="1"
       @back="() => $router.go(-1)"
     />
+
     <div class="settings">
       <button class="button" @click="settings">
         <svg
@@ -178,9 +201,14 @@ export default {
     </div>
 
     <div class="info">
-      <div class="touxiang" @click="modavatarpage">
+      <div class="touxiang">
         <div>
-          <img :src="avatar" class="touxiangimg rounded-image" />
+          <img
+            :src="avatar"
+            class="touxiangimg rounded-image"
+            @click="modavatarpage"
+            style="object-fit: cover"
+          />
           <div>
             <text class="name">{{ name }}</text>
           </div>
@@ -206,60 +234,64 @@ export default {
       </div>
     </transition>
     <div class="setpage-flur" v-show="setshow"></div>
-    <div class="avatarpage" v-show="0">
-      <form @submit.prevent="uploadAvatar">
-        <input type="file" ref="avatarInput" @change="onFileChange" />
-        <button type="submit" @click="putavatar">上传头像</button>
-      </form>
-    </div>
 
+    <div class="avatarpage" v-show="showavatarpage">
+      <button @click="modavatarpage">关闭</button>
+      <div class="up">
+        <!--         <form @submit.prevent="uploadAvatar">
+          <input type="file" ref="avatarInput" @change="onFileChange" />
+          <button type="submit" @click="putavatar">上传头像</button>
+        </form> -->
+
+        <form @submit.prevent="uploadAvatar">
+          <input type="file" ref="avatarInput" @change="onFileChange" />
+          <button type="submit" @click="putavatar(file)">上传头像</button>
+        </form>
+        <img v-if="previewImage" :src="previewImage" alt="预览图像" />
+      </div>
+    </div>
+    <div class="avatarpage-flur" v-show="showavatarpage"></div>
     <a-divider orientation="center" class="separate">我的行程</a-divider>
   </div>
 
   <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <div class="bg"></div>
+
+  <!-- <div class="bg"></div> -->
 </template>
 
 <style scoped>
-.avatarpage {
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%; /* 你可以根据需要设置宽度 */
-  position: absolute;
+.touxiangimg {
+  height: 200px;
+  width: 200px;
+
+  margin-block: 0;
+  max-width: 200px;
+}
+.up {
+}
+.avatarpage-flur {
+  opacity: 1;
+  position: fixed;
+  width: 90%;
+  height: 80%;
   top: 50%;
-  transform: translate(50%, 50%);
-  background-color: #5d41de;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050;
+  backdrop-filter: saturate(100%) blur(10px);
+  background: inherit;
+}
+.avatarpage {
+  position: fixed;
+  gap: 10px;
+  width: 90%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+  z-index: 9999;
 }
 .avatarpage form {
   margin-left: auto;

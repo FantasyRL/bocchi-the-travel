@@ -22,10 +22,7 @@
   margin: auto;
   text-align: center;
 }
-.touxiangimg {
-  margin-block: 0;
-  max-width: 200px;
-}
+
 text.name {
   position: relative;
   font-size: 1.5em; /* 设置字体大小为1.5em */
