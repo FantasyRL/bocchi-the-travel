@@ -274,7 +274,8 @@ export default {
       </div>
     </transition>
     <div class="avatarpage-flur" v-show="showavatarpage" @click="modavatarpage"></div>
-    <a-divider orientation="center" class="separate">我的行程</a-divider>
+
+    <a-divider orientation="left" class="separate">评价</a-divider>
   </div>
 
   <br />
