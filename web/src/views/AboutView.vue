@@ -234,23 +234,25 @@ export default {
       </div>
     </transition>
     <div class="setpage-flur" v-show="setshow"></div>
-
-    <div class="avatarpage" v-show="showavatarpage">
-      <button @click="modavatarpage">关闭</button>
-      <div class="up">
-        <!--         <form @submit.prevent="uploadAvatar">
-          <input type="file" ref="avatarInput" @change="onFileChange" />
-          <button type="submit" @click="putavatar">上传头像</button>
-        </form> -->
-
-        <form @submit.prevent="uploadAvatar">
-          <input type="file" ref="avatarInput" @change="onFileChange" />
-          <button type="submit" @click="putavatar(file)">上传头像</button>
-        </form>
-        <img v-if="previewImage" :src="previewImage" alt="预览图像" />
+    <transition name="fade">
+      <div class="avatarpage" v-show="showavatarpage">
+        <div class="up">
+          <img
+            v-if="previewImage"
+            :src="previewImage"
+            alt="预览图像"
+            style="object-fit: cover; border-radius: 20px 20px 0 0"
+          />
+          <form @submit.prevent="uploadAvatar">
+            <a-input type="file" ref="avatarInput" @change="onFileChange">Default Button</a-input>
+          </form>
+          <a-button type="primary submit" @click="putavatar(file)" style="margin-bottom: 20px"
+            >上传头像</a-button
+          >
+        </div>
       </div>
-    </div>
-    <div class="avatarpage-flur" v-show="showavatarpage"></div>
+    </transition>
+    <div class="avatarpage-flur" v-show="showavatarpage" @click="modavatarpage"></div>
     <a-divider orientation="center" class="separate">我的行程</a-divider>
   </div>
 
@@ -267,39 +269,48 @@ export default {
   margin-block: 0;
   max-width: 200px;
 }
-.up {
-}
+
 .avatarpage-flur {
   opacity: 1;
   position: fixed;
-  width: 90%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1050;
-  backdrop-filter: saturate(100%) blur(10px);
+  backdrop-filter: saturate(100%) blur(5px);
   background: inherit;
 }
 .avatarpage {
   position: fixed;
+
   gap: 10px;
   width: 90%;
-  height: 80%;
+  height: auto;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
   z-index: 9999;
+  max-width: 500px;
 }
-.avatarpage form {
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%; /* 你可以根据需要设置宽度 */
-  position: absolute;
-  top: 50%;
-  transform: translate(20%, 50%);
+.up {
+  width: 100%;
+  margin-left: 5%;
+  margin-top: 5%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  margin-bottom: 5%;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  padding: 0;
 }
 .about {
   z-index: 5;
@@ -401,8 +412,8 @@ export default {
 } */
 .settings {
   position: fixed;
-  right: 10px;
-  top: 70px;
+  right: 25px;
+  top: 100px;
 }
 
 .button {
