@@ -1,10 +1,40 @@
-<script setup></script>
+<script setup>
+import axios from "axios";
+import Cookies from "js-cookie";
+</script>
 <script>
 export default {
   data() {
     return {
-      trnumber: 10
+      trnumber: 10,
+      access_token: 0 // 假设您将令牌存储在localStorage中
     };
+  },
+  methods: {
+    applylist() {
+      axios
+        .post(
+          "/bocchi/party/create?title=1&content=1&type=1&province=1&city=1&start_time=2006-01-02&end_time=2006-01-02",
+          {},
+          {
+            headers: {
+              "access-token": this.access_token
+            }
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  },
+  mounted() {
+    this.id = Cookies.get("id");
+    this.access_token = Cookies.get("access_token");
+    this.refresh_token = Cookies.get("refresh_token");
+    this.applylist(); // 调用函数
   }
 };
 </script>
@@ -31,6 +61,8 @@ export default {
       </el-card>
       <br />
     </div>
+    <router-link to="/finish/1">行程结束debug</router-link>
+
     <br />
     <div class="null"></div>
     <br />

@@ -179,7 +179,7 @@ export default {
 
 <template>
   <!--   <a-spin size="large" /> -->
-
+  <!-- 
   <header class="header">
     <div class="menu-container">
       <a-menu mode="horizontal">
@@ -194,7 +194,7 @@ export default {
         </a-menu-item>
       </a-menu>
     </div>
-  </header>
+  </header> -->
 
   <RouterView />
   <div class="overlay" v-show="overlay"></div>
