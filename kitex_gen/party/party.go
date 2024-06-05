@@ -14,7 +14,7 @@ type CreatePartyRequest struct {
 	FounderId int64  `thrift:"founder_id,1" frugal:"1,default,i64" json:"founder_id"`
 	Title     string `thrift:"title,2" frugal:"2,default,string" json:"title"`
 	Content   string `thrift:"content,3" frugal:"3,default,string" json:"content"`
-	Type      int64  `thrift:"type,4" frugal:"4,default,i64" json:"type"`
+	Type      string `thrift:"type,4" frugal:"4,default,string" json:"type"`
 	Province  string `thrift:"province,5" frugal:"5,default,string" json:"province"`
 	City      string `thrift:"city,6" frugal:"6,default,string" json:"city"`
 	StartTime string `thrift:"start_time,7" frugal:"7,default,string" json:"start_time"`
@@ -41,7 +41,7 @@ func (p *CreatePartyRequest) GetContent() (v string) {
 	return p.Content
 }
 
-func (p *CreatePartyRequest) GetType() (v int64) {
+func (p *CreatePartyRequest) GetType() (v string) {
 	return p.Type
 }
 
@@ -69,7 +69,7 @@ func (p *CreatePartyRequest) SetTitle(val string) {
 func (p *CreatePartyRequest) SetContent(val string) {
 	p.Content = val
 }
-func (p *CreatePartyRequest) SetType(val int64) {
+func (p *CreatePartyRequest) SetType(val string) {
 	p.Type = val
 }
 func (p *CreatePartyRequest) SetProvince(val string) {
@@ -140,7 +140,7 @@ func (p *CreatePartyRequest) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 4:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField4(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -237,7 +237,7 @@ func (p *CreatePartyRequest) ReadField3(iprot thrift.TProtocol) error {
 }
 func (p *CreatePartyRequest) ReadField4(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
 		p.Type = v
@@ -389,10 +389,10 @@ WriteFieldEndError:
 }
 
 func (p *CreatePartyRequest) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("type", thrift.I64, 4); err != nil {
+	if err = oprot.WriteFieldBegin("type", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.Type); err != nil {
+	if err := oprot.WriteString(p.Type); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -535,9 +535,9 @@ func (p *CreatePartyRequest) Field3DeepEqual(src string) bool {
 	}
 	return true
 }
-func (p *CreatePartyRequest) Field4DeepEqual(src int64) bool {
+func (p *CreatePartyRequest) Field4DeepEqual(src string) bool {
 
-	if p.Type != src {
+	if strings.Compare(p.Type, src) != 0 {
 		return false
 	}
 	return true
@@ -3201,7 +3201,7 @@ func (p *GetPartyMembersResponse) Field3DeepEqual(src []*base.User) bool {
 
 type SearchPartyRequest struct {
 	Content           *string `thrift:"content,1,optional" frugal:"1,optional,string" json:"content,omitempty"`
-	PartyType         *int64  `thrift:"party_type,2,optional" frugal:"2,optional,i64" json:"party_type,omitempty"`
+	PartyType         *string `thrift:"party_type,2,optional" frugal:"2,optional,string" json:"party_type,omitempty"`
 	Province          *string `thrift:"province,3,optional" frugal:"3,optional,string" json:"province,omitempty"`
 	City              *string `thrift:"city,4,optional" frugal:"4,optional,string" json:"city,omitempty"`
 	StartTimeDuration *int64  `thrift:"start_time_duration,5,optional" frugal:"5,optional,i64" json:"start_time_duration,omitempty"`
@@ -3226,9 +3226,9 @@ func (p *SearchPartyRequest) GetContent() (v string) {
 	return *p.Content
 }
 
-var SearchPartyRequest_PartyType_DEFAULT int64
+var SearchPartyRequest_PartyType_DEFAULT string
 
-func (p *SearchPartyRequest) GetPartyType() (v int64) {
+func (p *SearchPartyRequest) GetPartyType() (v string) {
 	if !p.IsSetPartyType() {
 		return SearchPartyRequest_PartyType_DEFAULT
 	}
@@ -3277,7 +3277,7 @@ func (p *SearchPartyRequest) GetPageNum() (v int64) {
 func (p *SearchPartyRequest) SetContent(val *string) {
 	p.Content = val
 }
-func (p *SearchPartyRequest) SetPartyType(val *int64) {
+func (p *SearchPartyRequest) SetPartyType(val *string) {
 	p.PartyType = val
 }
 func (p *SearchPartyRequest) SetProvince(val *string) {
@@ -3358,7 +3358,7 @@ func (p *SearchPartyRequest) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 2:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -3445,7 +3445,7 @@ func (p *SearchPartyRequest) ReadField1(iprot thrift.TProtocol) error {
 }
 func (p *SearchPartyRequest) ReadField2(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
 		p.PartyType = &v
@@ -3571,10 +3571,10 @@ WriteFieldEndError:
 
 func (p *SearchPartyRequest) writeField2(oprot thrift.TProtocol) (err error) {
 	if p.IsSetPartyType() {
-		if err = oprot.WriteFieldBegin("party_type", thrift.I64, 2); err != nil {
+		if err = oprot.WriteFieldBegin("party_type", thrift.STRING, 2); err != nil {
 			goto WriteFieldBeginError
 		}
-		if err := oprot.WriteI64(*p.PartyType); err != nil {
+		if err := oprot.WriteString(*p.PartyType); err != nil {
 			return err
 		}
 		if err = oprot.WriteFieldEnd(); err != nil {
@@ -3731,14 +3731,14 @@ func (p *SearchPartyRequest) Field1DeepEqual(src *string) bool {
 	}
 	return true
 }
-func (p *SearchPartyRequest) Field2DeepEqual(src *int64) bool {
+func (p *SearchPartyRequest) Field2DeepEqual(src *string) bool {
 
 	if p.PartyType == src {
 		return true
 	} else if p.PartyType == nil || src == nil {
 		return false
 	}
-	if *p.PartyType != *src {
+	if strings.Compare(*p.PartyType, *src) != 0 {
 		return false
 	}
 	return true

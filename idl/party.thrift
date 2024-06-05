@@ -7,7 +7,7 @@ struct CreatePartyRequest{
     1:i64 founder_id,
     2:string title,
     3:string content,
-    4:i64 type,
+    4:string type,
     5: string province,
     6: string city,
     7:string start_time,
@@ -73,7 +73,7 @@ struct GetPartyMembersResponse{
 
 struct SearchPartyRequest{
     1:optional string content,
-    2:optional i64 party_type,
+    2:optional string party_type,
     3:optional string province,
     4:optional string city,
     5:optional i64 start_time_duration,

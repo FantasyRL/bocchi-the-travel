@@ -216,6 +216,13 @@ func GetItineraryInfo(ctx context.Context, c *app.RequestContext) {
 }
 
 // GetMyItineraries .
+// @Summary get_my_itineraries
+// @Description get user's itineraries
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
 // @router /bocchi/party/itinerary/my [GET]
 func GetMyItineraries(ctx context.Context, c *app.RequestContext) {
 	var err error
