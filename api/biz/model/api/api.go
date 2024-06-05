@@ -3678,7 +3678,7 @@ func (p *Party) String() string {
 type CreatePartyRequest struct {
 	Title     string `thrift:"title,1" form:"title" json:"title" query:"title"`
 	Content   string `thrift:"content,2" form:"content" json:"content" query:"content"`
-	Type      int64  `thrift:"type,3" form:"type" json:"type" query:"type"`
+	Type      string `thrift:"type,3" form:"type" json:"type" query:"type"`
 	Province  string `thrift:"province,4" form:"province" json:"province" query:"province"`
 	City      string `thrift:"city,5" form:"city" json:"city" query:"city"`
 	StartTime string `thrift:"start_time,6" form:"start_time" json:"start_time" query:"start_time"`
@@ -3697,7 +3697,7 @@ func (p *CreatePartyRequest) GetContent() (v string) {
 	return p.Content
 }
 
-func (p *CreatePartyRequest) GetType() (v int64) {
+func (p *CreatePartyRequest) GetType() (v string) {
 	return p.Type
 }
 
@@ -3763,7 +3763,7 @@ func (p *CreatePartyRequest) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 3:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -3851,7 +3851,7 @@ func (p *CreatePartyRequest) ReadField2(iprot thrift.TProtocol) error {
 }
 func (p *CreatePartyRequest) ReadField3(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
 		p.Type = v
@@ -3982,10 +3982,10 @@ WriteFieldEndError:
 }
 
 func (p *CreatePartyRequest) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("type", thrift.I64, 3); err != nil {
+	if err = oprot.WriteFieldBegin("type", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.Type); err != nil {
+	if err := oprot.WriteString(p.Type); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -6097,7 +6097,7 @@ func (p *GetPartyMembersResponse) String() string {
 
 type SearchPartyRequest struct {
 	Content           *string `thrift:"content,1,optional" form:"content" json:"content,omitempty" query:"content"`
-	PartyType         *int64  `thrift:"party_type,2,optional" form:"party_type" json:"party_type,omitempty" query:"party_type"`
+	PartyType         *string `thrift:"party_type,2,optional" form:"party_type" json:"party_type,omitempty" query:"party_type"`
 	Province          *string `thrift:"province,3,optional" form:"province" json:"province,omitempty" query:"province"`
 	City              *string `thrift:"city,4,optional" form:"city" json:"city,omitempty" query:"city"`
 	StartTimeDuration *int64  `thrift:"start_time_duration,5,optional" form:"start_time_duration" json:"start_time_duration,omitempty" query:"start_time_duration"`
@@ -6118,9 +6118,9 @@ func (p *SearchPartyRequest) GetContent() (v string) {
 	return *p.Content
 }
 
-var SearchPartyRequest_PartyType_DEFAULT int64
+var SearchPartyRequest_PartyType_DEFAULT string
 
-func (p *SearchPartyRequest) GetPartyType() (v int64) {
+func (p *SearchPartyRequest) GetPartyType() (v string) {
 	if !p.IsSetPartyType() {
 		return SearchPartyRequest_PartyType_DEFAULT
 	}
@@ -6229,7 +6229,7 @@ func (p *SearchPartyRequest) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 2:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -6316,7 +6316,7 @@ func (p *SearchPartyRequest) ReadField1(iprot thrift.TProtocol) error {
 }
 func (p *SearchPartyRequest) ReadField2(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
 		p.PartyType = &v
@@ -6442,10 +6442,10 @@ WriteFieldEndError:
 
 func (p *SearchPartyRequest) writeField2(oprot thrift.TProtocol) (err error) {
 	if p.IsSetPartyType() {
-		if err = oprot.WriteFieldBegin("party_type", thrift.I64, 2); err != nil {
+		if err = oprot.WriteFieldBegin("party_type", thrift.STRING, 2); err != nil {
 			goto WriteFieldBeginError
 		}
-		if err := oprot.WriteI64(*p.PartyType); err != nil {
+		if err := oprot.WriteString(*p.PartyType); err != nil {
 			return err
 		}
 		if err = oprot.WriteFieldEnd(); err != nil {

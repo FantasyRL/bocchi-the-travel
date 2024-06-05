@@ -91,7 +91,7 @@ func (p *CreatePartyRequest) FastRead(buf []byte) (int, error) {
 				}
 			}
 		case 4:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				l, err = p.FastReadField4(buf[offset:])
 				offset += l
 				if err != nil {
@@ -240,7 +240,7 @@ func (p *CreatePartyRequest) FastReadField3(buf []byte) (int, error) {
 func (p *CreatePartyRequest) FastReadField4(buf []byte) (int, error) {
 	offset := 0
 
-	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
 		return offset, err
 	} else {
 		offset += l
@@ -317,9 +317,9 @@ func (p *CreatePartyRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.Bi
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "CreatePartyRequest")
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
-		offset += p.fastWriteField4(buf[offset:], binaryWriter)
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 		offset += p.fastWriteField3(buf[offset:], binaryWriter)
+		offset += p.fastWriteField4(buf[offset:], binaryWriter)
 		offset += p.fastWriteField5(buf[offset:], binaryWriter)
 		offset += p.fastWriteField6(buf[offset:], binaryWriter)
 		offset += p.fastWriteField7(buf[offset:], binaryWriter)
@@ -377,8 +377,8 @@ func (p *CreatePartyRequest) fastWriteField3(buf []byte, binaryWriter bthrift.Bi
 
 func (p *CreatePartyRequest) fastWriteField4(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "type", thrift.I64, 4)
-	offset += bthrift.Binary.WriteI64(buf[offset:], p.Type)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "type", thrift.STRING, 4)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Type)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -449,8 +449,8 @@ func (p *CreatePartyRequest) field3Length() int {
 
 func (p *CreatePartyRequest) field4Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("type", thrift.I64, 4)
-	l += bthrift.Binary.I64Length(p.Type)
+	l += bthrift.Binary.FieldBeginLength("type", thrift.STRING, 4)
+	l += bthrift.Binary.StringLengthNocopy(p.Type)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -2579,7 +2579,7 @@ func (p *SearchPartyRequest) FastRead(buf []byte) (int, error) {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				l, err = p.FastReadField2(buf[offset:])
 				offset += l
 				if err != nil {
@@ -2713,7 +2713,7 @@ func (p *SearchPartyRequest) FastReadField1(buf []byte) (int, error) {
 func (p *SearchPartyRequest) FastReadField2(buf []byte) (int, error) {
 	offset := 0
 
-	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
 		return offset, err
 	} else {
 		offset += l
@@ -2798,11 +2798,11 @@ func (p *SearchPartyRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.Bi
 	offset := 0
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "SearchPartyRequest")
 	if p != nil {
-		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 		offset += p.fastWriteField5(buf[offset:], binaryWriter)
 		offset += p.fastWriteField6(buf[offset:], binaryWriter)
 		offset += p.fastWriteField7(buf[offset:], binaryWriter)
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
+		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 		offset += p.fastWriteField3(buf[offset:], binaryWriter)
 		offset += p.fastWriteField4(buf[offset:], binaryWriter)
 	}
@@ -2842,8 +2842,8 @@ func (p *SearchPartyRequest) fastWriteField1(buf []byte, binaryWriter bthrift.Bi
 func (p *SearchPartyRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	if p.IsSetPartyType() {
-		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "party_type", thrift.I64, 2)
-		offset += bthrift.Binary.WriteI64(buf[offset:], *p.PartyType)
+		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "party_type", thrift.STRING, 2)
+		offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, *p.PartyType)
 
 		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	}
@@ -2917,8 +2917,8 @@ func (p *SearchPartyRequest) field1Length() int {
 func (p *SearchPartyRequest) field2Length() int {
 	l := 0
 	if p.IsSetPartyType() {
-		l += bthrift.Binary.FieldBeginLength("party_type", thrift.I64, 2)
-		l += bthrift.Binary.I64Length(*p.PartyType)
+		l += bthrift.Binary.FieldBeginLength("party_type", thrift.STRING, 2)
+		l += bthrift.Binary.StringLengthNocopy(*p.PartyType)
 
 		l += bthrift.Binary.FieldEndLength()
 	}

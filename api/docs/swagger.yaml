@@ -283,7 +283,28 @@ paths:
       summary: merge_itinerary
   /bocchi/party/itinerary/my:
     get:
+      consumes:
+      - json/form
+      description: get user's itineraries
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
       responses: {}
+      summary: get_my_itineraries
   /bocchi/party/itinerary/sequence/change:
     post:
       consumes:

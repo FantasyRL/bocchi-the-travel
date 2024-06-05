@@ -74,4 +74,5 @@ func (s *ItineraryHandlerImpl) GetMyItineraries(ctx context.Context, req *itiner
 	resp.ItienraryCount = &count
 	resp.ItineraryList = service.BuildItinerariesResp(itineraries)
 	return resp, nil
+
 }

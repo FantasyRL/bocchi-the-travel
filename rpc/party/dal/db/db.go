@@ -15,7 +15,7 @@ type Party struct {
 	FounderId int64
 	Title     string
 	Content   string
-	Type      int64
+	Type      string
 	Province  string
 	City      string
 	StartTime time.Time
