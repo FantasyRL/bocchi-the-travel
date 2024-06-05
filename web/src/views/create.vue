@@ -1,30 +1,14 @@
 <script setup>
 import axios from "axios";
 import Cookies from "js-cookie";
-import { watch, ref } from "vue";
+import { ref } from "vue";
 import cityOptions from "@/city";
 
 const title = ref("");
-const value1 = ref("");
+
 const type = ref("");
 const partytime = ref("");
 const city = ref("");
-const oldday = ref("");
-
-const couter = ref(0);
-
-/* watch(partytime, () => {
-  const dateTimeStr = partytime.value[0];
-  const date = new Date(dateTimeStr);
-  const oldday = date.toISOString().slice(0, 50);
-  console.log(oldday);
-  const dateTimeStr2 = partytime.value[1];
-  const date2 = new Date(dateTimeStr2);
-  const newday = date2.toISOString().slice(0, 50);
-  console.log(newday);
-  Cookies.set("oldday", oldday);
-  Cookies.set("newday", newday);
-}); */
 </script>
 <script>
 export default {
@@ -78,13 +62,9 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          Cookies.remove("oldday");
-          Cookies.remove("newday");
         })
         .catch((error) => {
           console.log(error);
-          Cookies.remove("oldday");
-          Cookies.remove("newday");
         });
     }
   },
