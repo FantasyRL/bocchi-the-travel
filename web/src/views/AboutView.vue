@@ -48,6 +48,14 @@ export default {
         this.warm = 1;
         return;
       }
+      if (!previewImage.type.startsWith("image/")) {
+        alert("请选择图片文件");
+        return;
+      }
+      if (previewImage.size > 4 * 1024 * 1024) {
+        alert("图片大小不能超过4MB");
+        return;
+      }
 
       var currentTime = new Date();
       var seconds = currentTime.getSeconds();
@@ -244,7 +252,14 @@ export default {
             style="object-fit: cover; border-radius: 20px 20px 0 0"
           />
           <form @submit.prevent="uploadAvatar">
-            <a-input type="file" ref="avatarInput" @change="onFileChange">Default Button</a-input>
+            <a-input
+              type="file"
+              ref="avatarInput"
+              @change="onFileChange"
+              style="margin-top: 20px"
+              accept="image/*"
+              >上传文件</a-input
+            >
           </form>
           <a-button type="primary submit" @click="putavatar(file)" style="margin-bottom: 20px"
             >上传头像</a-button
