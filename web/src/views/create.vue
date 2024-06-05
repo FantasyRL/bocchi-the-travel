@@ -115,8 +115,8 @@ export default {
   <div class="travelscard">
     <a-card title="已创建的party活动" style="width: 90%">
       <template #extra><router-link to="/alltravels/">查看详细</router-link></template>
-      <p>这里塞一个显示已经创建的party活动信息</p>
-      <p>
+      <p>这里塞一个最新创建活动</p>
+      <!-- <p>
         <br />
         {{ access_token }}
         <br />
@@ -136,7 +136,7 @@ export default {
         <br />
 
         city:{{ city }}
-      </p>
+      </p> -->
     </a-card>
   </div>
 
