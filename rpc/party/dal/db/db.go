@@ -28,11 +28,11 @@ type Party struct {
 }
 
 func CreateParty(ctx context.Context, partyModel *Party) (*Party, error) {
-	partyResp := new(Party)
-	if err := DBParty.WithContext(ctx).Create(partyModel).First(partyResp).Error; err != nil {
+	//partyResp := new(Party)
+	if err := DBParty.WithContext(ctx).Create(partyModel).Error; err != nil {
 		return nil, err
 	}
-	return partyResp, nil
+	return partyModel, nil
 }
 
 func GetPartyById(ctx context.Context, partyId int64) (*Party, error) {
@@ -96,7 +96,7 @@ func GetFounderIdByPartyId(ctx context.Context, partyId int64) (int64, error) {
 
 func GetPartiesById(ctx context.Context, memberId int64, pageNum int64) (*[]Party, int64, error) {
 	partyIdResp := new([]Member)
-	var count int64
+	var count, count1, count2 int64
 	err := DBMember.WithContext(ctx).Where("member_id = ?", memberId).Order("status DESC").
 		Count(&count).Limit(constants.PageSize).Offset((int(pageNum) - 1) * constants.PageSize).
 		Find(partyIdResp).Error
@@ -114,17 +114,30 @@ func GetPartiesById(ctx context.Context, memberId int64, pageNum int64) (*[]Part
 	partiesResp := make([]Party, 0)
 	partiesResp1 := new([]Party)
 	partiesResp2 := new([]Party)
+	partiesResp3 := new([]Party)
+	partiesResp4 := new([]Party)
+	err = DBParty.WithContext(ctx).Where("founder_id= ? and status = 0", memberId).Order("start_time ASC").
+		Find(partiesResp1).Count(&count1).Error
 	err = DBParty.WithContext(ctx).Where("id IN ? and status = 0", partyIdList).Order("start_time ASC").
-		Find(partiesResp1).Error
-	err = DBParty.WithContext(ctx).Where("id IN ? and status = 1", partyIdList).Order("end_time DESC").
 		Find(partiesResp2).Error
+	err = DBParty.WithContext(ctx).Where("founder_id= ? and status = 1", memberId).Order("end_time DESC").
+		Find(partiesResp3).Count(&count2).Error
+	err = DBParty.WithContext(ctx).Where("id IN ? and status = 1", partyIdList).Order("end_time DESC").
+		Find(partiesResp4).Error
 	for _, p := range *partiesResp1 {
 		partiesResp = append(partiesResp, p)
 	}
 	for _, p := range *partiesResp2 {
 		partiesResp = append(partiesResp, p)
 	}
-	return &partiesResp, count, nil
+	for _, p := range *partiesResp3 {
+		partiesResp = append(partiesResp, p)
+	}
+	for _, p := range *partiesResp4 {
+		partiesResp = append(partiesResp, p)
+	}
+
+	return &partiesResp, count + count1 + count2, nil
 }
 
 type Member struct {

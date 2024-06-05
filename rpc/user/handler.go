@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bocchi/config"
 	"bocchi/kitex_gen/user"
 	"bocchi/kitex_gen/user/userhandler"
 	"bocchi/pkg/constants"
@@ -86,7 +85,10 @@ func (s *UserHandlerImpl) Avatar(ctx context.Context, req *user.AvatarRequest) (
 	//上传url至数据库
 	UserResp := new(db.User)
 	eg.Go(func() error { //Add(1)
-		avatarUrl := fmt.Sprintf("%s/%s/%d", config.OSS.EndPoint, config.OSS.MainDirectory, req.UserId)
+
+		//avatarUrl := fmt.Sprintf("%s/%s/%d", config.OSS.EndPoint, config.OSS.MainDirectory, req.UserId)
+		//https://alist.xiey.work/d/aliyunoss/1.jpg?sign=4h0YK55mMYaP0V1-Re_t9RmfuQibQ1JiQWgZdJgyr20=:0
+		avatarUrl := fmt.Sprintf("%s%d.jpg", "https://alist.xiey.work/d/aliyunoss/", req.UserId)
 		UserResp, err = service.NewAvatarService(ctx).PutAvatar(req.UserId, avatarUrl)
 		if err != nil {
 			return err
