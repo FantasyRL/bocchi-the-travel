@@ -12,23 +12,7 @@ export default {
   },
   methods: {
     applylist() {
-      axios
-        .post(
-          "/bocchi/party/create?title=1&content=1&type=1&province=1&city=1&start_time=2006-01-02&end_time=2006-01-02",
-          {},
-          {
-            headers: {
-              "access-token": this.access_token
-            }
-          }
-        )
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+
   },
   mounted() {
     this.id = Cookies.get("id");
