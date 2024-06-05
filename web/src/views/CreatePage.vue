@@ -8,9 +8,9 @@ const type = ref("");
 const partytime = ref("");
 const city = ref("");
 const options = ref([
-  { value: "Option 1" },
-  { value: "Option 2" },
-  { value: "Option 3" },
+  { value: "放松" },
+  { value: "深度" },
+  { value: "人文" },
 ]);
 </script>
 
@@ -148,7 +148,7 @@ export default {
     />
   </a-form-item>
 
-  <a-divider orientation="left" class="separate">类型</a-divider>
+  <a-divider orientation="left" class="separate">旅行心情</a-divider>
   <div class="input-box">
     <a-select
         v-model:value="type"
@@ -161,7 +161,7 @@ export default {
     />
   </div>
 
-  <a-divider orientation="left" class="separate">活动简介</a-divider>
+  <a-divider orientation="left" class="separate">简介</a-divider>
   <div class="input-box">
     <a-textarea
         v-model:value="content"
@@ -172,7 +172,7 @@ export default {
     />
   </div>
 
-  <a-divider orientation="left" class="separate">活动时间</a-divider>
+  <a-divider orientation="left" class="separate">时间</a-divider>
   <div class="time-box">
     <a-range-picker
         v-model:value="partytime"
