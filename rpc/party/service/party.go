@@ -8,11 +8,11 @@ import (
 )
 
 func (s *PartyService) CreateParty(req *party.CreatePartyRequest) (*db.Party, error) {
-	st, err := time.Parse("2006-01-02", req.StartTime)
+	st, err := time.Parse("2006-01-02T15:04:05.999999999Z", req.StartTime)
 	if err != nil {
 		return nil, errno.ParamError
 	}
-	et, err := time.Parse("2006-01-02", req.EndTime)
+	et, err := time.Parse("2006-01-02T15:04:05.999999999Z", req.EndTime)
 	if err != nil {
 		return nil, errno.ParamError
 	}
