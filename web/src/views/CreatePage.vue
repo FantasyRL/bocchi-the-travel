@@ -3,11 +3,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { ref } from "vue";
 import cityOptions from "@/city";
-const title = ref("");
-const type = ref("");
-const partytime = ref("");
-const city = ref("");
-const options = ref([{ value: "Option 1" }, { value: "Option 2" }, { value: "Option 3" }]);
+const title = ref();
+const type = ref();
+const content = ref();
+const partytime = ref();
+const city = ref();
+const options = ref([{ value: "1" }, { value: "Option 2" }, { value: "Option 3" }]);
 </script>
 
 <script>
