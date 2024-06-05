@@ -24,10 +24,13 @@ import { setColorScheme } from 'mdui/functions/setColorScheme.js';
 setColorScheme('#ffffff');
 
 
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 
 
 
+import './index.css'
 const app = createApp(App)
 
 
