@@ -1163,7 +1163,7 @@ type Party struct {
 	FounderID   int64        `thrift:"founder_id,2" form:"founder_id" json:"founder_id" query:"founder_id"`
 	Title       string       `thrift:"title,3" form:"title" json:"title" query:"title"`
 	Content     string       `thrift:"content,4" form:"content" json:"content" query:"content"`
-	Type        int64        `thrift:"type,5" form:"type" json:"type" query:"type"`
+	Type        string       `thrift:"type,5" form:"type" json:"type" query:"type"`
 	Province    string       `thrift:"province,6" form:"province" json:"province" query:"province"`
 	City        string       `thrift:"city,7" form:"city" json:"city" query:"city"`
 	StartTime   string       `thrift:"start_time,8" form:"start_time" json:"start_time" query:"start_time"`
@@ -1194,7 +1194,7 @@ func (p *Party) GetContent() (v string) {
 	return p.Content
 }
 
-func (p *Party) GetType() (v int64) {
+func (p *Party) GetType() (v string) {
 	return p.Type
 }
 
@@ -1298,7 +1298,7 @@ func (p *Party) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 5:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField5(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -1436,7 +1436,7 @@ func (p *Party) ReadField4(iprot thrift.TProtocol) error {
 }
 func (p *Party) ReadField5(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
 		p.Type = v
@@ -1671,10 +1671,10 @@ WriteFieldEndError:
 }
 
 func (p *Party) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("type", thrift.I64, 5); err != nil {
+	if err = oprot.WriteFieldBegin("type", thrift.STRING, 5); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.Type); err != nil {
+	if err := oprot.WriteString(p.Type); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {

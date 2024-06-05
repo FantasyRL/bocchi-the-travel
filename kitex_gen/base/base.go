@@ -1459,7 +1459,7 @@ type Party struct {
 	FounderId   int64        `thrift:"founder_id,2" frugal:"2,default,i64" json:"founder_id"`
 	Title       string       `thrift:"title,3" frugal:"3,default,string" json:"title"`
 	Content     string       `thrift:"content,4" frugal:"4,default,string" json:"content"`
-	Type        int64        `thrift:"type,5" frugal:"5,default,i64" json:"type"`
+	Type        string       `thrift:"type,5" frugal:"5,default,string" json:"type"`
 	Province    string       `thrift:"province,6" frugal:"6,default,string" json:"province"`
 	City        string       `thrift:"city,7" frugal:"7,default,string" json:"city"`
 	StartTime   string       `thrift:"start_time,8" frugal:"8,default,string" json:"start_time"`
@@ -1494,7 +1494,7 @@ func (p *Party) GetContent() (v string) {
 	return p.Content
 }
 
-func (p *Party) GetType() (v int64) {
+func (p *Party) GetType() (v string) {
 	return p.Type
 }
 
@@ -1541,7 +1541,7 @@ func (p *Party) SetTitle(val string) {
 func (p *Party) SetContent(val string) {
 	p.Content = val
 }
-func (p *Party) SetType(val int64) {
+func (p *Party) SetType(val string) {
 	p.Type = val
 }
 func (p *Party) SetProvince(val string) {
@@ -1637,7 +1637,7 @@ func (p *Party) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 5:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField5(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -1775,7 +1775,7 @@ func (p *Party) ReadField4(iprot thrift.TProtocol) error {
 }
 func (p *Party) ReadField5(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
 		p.Type = v
@@ -2010,10 +2010,10 @@ WriteFieldEndError:
 }
 
 func (p *Party) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("type", thrift.I64, 5); err != nil {
+	if err = oprot.WriteFieldBegin("type", thrift.STRING, 5); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.Type); err != nil {
+	if err := oprot.WriteString(p.Type); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -2254,9 +2254,9 @@ func (p *Party) Field4DeepEqual(src string) bool {
 	}
 	return true
 }
-func (p *Party) Field5DeepEqual(src int64) bool {
+func (p *Party) Field5DeepEqual(src string) bool {
 
-	if p.Type != src {
+	if strings.Compare(p.Type, src) != 0 {
 		return false
 	}
 	return true
