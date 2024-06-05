@@ -113,7 +113,7 @@ struct Party{
     2: i64 founder_id,
     3: string title,
     4: string content,
-    5: i64 type,
+    5: string type,
     6: string province,
     7: string city,
     8:string start_time,
