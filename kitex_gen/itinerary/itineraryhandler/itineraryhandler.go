@@ -48,6 +48,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"GetMyItineraries": kitex.NewMethodInfo(
+		getMyItinerariesHandler,
+		newItineraryHandlerGetMyItinerariesArgs,
+		newItineraryHandlerGetMyItinerariesResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 }
 
 var (
@@ -204,6 +211,24 @@ func newItineraryHandlerMergeItineraryResult() interface{} {
 	return itinerary.NewItineraryHandlerMergeItineraryResult()
 }
 
+func getMyItinerariesHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*itinerary.ItineraryHandlerGetMyItinerariesArgs)
+	realResult := result.(*itinerary.ItineraryHandlerGetMyItinerariesResult)
+	success, err := handler.(itinerary.ItineraryHandler).GetMyItineraries(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newItineraryHandlerGetMyItinerariesArgs() interface{} {
+	return itinerary.NewItineraryHandlerGetMyItinerariesArgs()
+}
+
+func newItineraryHandlerGetMyItinerariesResult() interface{} {
+	return itinerary.NewItineraryHandlerGetMyItinerariesResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -259,6 +284,16 @@ func (p *kClient) MergeItinerary(ctx context.Context, req *itinerary.MergeItiner
 	_args.Req = req
 	var _result itinerary.ItineraryHandlerMergeItineraryResult
 	if err = p.c.Call(ctx, "MergeItinerary", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest) (r *itinerary.GetMyItinerariesResponse, err error) {
+	var _args itinerary.ItineraryHandlerGetMyItinerariesArgs
+	_args.Req = req
+	var _result itinerary.ItineraryHandlerGetMyItinerariesResult
+	if err = p.c.Call(ctx, "GetMyItineraries", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

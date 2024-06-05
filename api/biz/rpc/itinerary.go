@@ -85,3 +85,13 @@ func ItineraryMerge(ctx context.Context, req *itinerary.MergeItineraryRequest) (
 	}
 	return resp, nil
 }
+
+func GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest) (*itinerary.GetMyItinerariesResponse, error) {
+	//rpc client
+	resp, err := itineraryClient.GetMyItineraries(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}

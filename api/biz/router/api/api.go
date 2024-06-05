@@ -39,6 +39,7 @@ func Register(r *server.Hertz) {
 				_itinerary.POST("/create", append(_createitineraryMw(), api.CreateItinerary)...)
 				_itinerary.GET("/info", append(_getitineraryinfoMw(), api.GetItineraryInfo)...)
 				_itinerary.GET("/merge", append(_mergeitineraryMw(), api.MergeItinerary)...)
+				_itinerary.GET("/my", append(_getmyitinerariesMw(), api.GetMyItineraries)...)
 				_itinerary.GET("/show", append(_showpartyitineraryMw(), api.ShowPartyItinerary)...)
 				{
 					_sequence := _itinerary.Group("/sequence", _sequenceMw()...)
