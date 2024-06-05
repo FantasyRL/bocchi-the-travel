@@ -249,7 +249,13 @@ export default {
             v-if="previewImage"
             :src="previewImage"
             alt="预览图像"
-            style="object-fit: cover; border-radius: 20px 20px 0 0"
+            style="
+              object-fit: cover;
+              border-radius: 20px 20px 0 0;
+              object-fit: cover;
+              width: 100%;
+              max-height: 250px;
+            "
           />
           <form @submit.prevent="uploadAvatar">
             <a-input
