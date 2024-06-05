@@ -11,14 +11,30 @@ export default {
     };
   },
   methods: {
-    applylist() {
+    applylist(pagenum) {
+      axios
+        .get(
+          "/bocchi/party/party/my?page_num=" + pagenum,
 
+          {
+            headers: {
+              "access-token": this.access_token
+            }
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
   mounted() {
     this.id = Cookies.get("id");
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
-    this.applylist(); // 调用函数
+    this.applylist(1); // 调用函数
   }
 };
 </script>

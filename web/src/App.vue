@@ -276,13 +276,13 @@ export default {
       >主页</mdui-navigation-bar-item
     >
     <mdui-navigation-bar-item icon="add--outlined" value="item-3" @click="$router.push('/create')"
-      >创建行程</mdui-navigation-bar-item
+      >创建活动</mdui-navigation-bar-item
     >
     <mdui-navigation-bar-item
       icon="format_list_bulleted--outlined"
       value="item-4"
       @click="$router.push('/alltravels/')"
-      >所有行程</mdui-navigation-bar-item
+      >所有活动</mdui-navigation-bar-item
     >
     <mdui-navigation-bar-item
       icon="account_circle--outlined"
