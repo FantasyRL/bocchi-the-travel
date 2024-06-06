@@ -279,7 +279,7 @@ export default {
         :src="avatar"
         class="touxiangimg rounded-image"
         @click="modavatarpage"
-        style="object-fit: cover; width: 50vw; height: 50vw"
+        style="object-fit: cover; width: 50vw; height: 50vw; max-width: 300px; max-height: 300px"
       />
     </div>
     <div class="user_name">

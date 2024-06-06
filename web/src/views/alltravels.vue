@@ -46,6 +46,11 @@ export default {
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
     this.applylist(1); // 调用函数
+  },
+  computed: {
+    sortedItems() {
+      return this.items.sort((a, b) => b.id - a.id);
+    }
   }
 };
 </script>
@@ -60,12 +65,15 @@ export default {
   </div>
 
   <div class="center">
-    <div v-for="item in items" :key="item.id" class="item">
+    <div v-for="item in sortedItems" :key="item.id" class="item">
       <div v-if="item.status">
-        <a-divider orientation="left" class="separate">{{ item.title }}</a-divider>
+        <a-divider orientation="left" class="separate">活动名: {{ item.title }}</a-divider>
         <div style="padding: 20px" class="relative">
           <a-row>
             <a-card class="relative-card" title="活动详情" :bordered="false">
+              <template #extra
+                ><router-link :to="`/partys/${item.id}`"> 查看详细 </router-link></template
+              >
               <router-link :to="`/partys/${item.id}`">
                 <a-row>
                   <!-- <a-col class="inner-img"><img :src="getImgUrl(1)" alt="" /></a-col> -->

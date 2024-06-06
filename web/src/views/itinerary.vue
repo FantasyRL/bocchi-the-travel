@@ -1,6 +1,6 @@
 <script setup>
-import {CheckOutlined} from "@ant-design/icons-vue";
-import {ref} from "vue";
+import { CheckOutlined } from "@ant-design/icons-vue";
+import { ref } from "vue";
 const open = ref(false);
 const confirmLoading = ref(false);
 const showModal = () => {
@@ -11,13 +11,19 @@ const handleOk = () => {
   setTimeout(() => {
     open.value = false;
     confirmLoading.value = false;
-  })
+  });
 };
 </script>
 
 <script>
 import axios from "axios";
-import { HomeOutlined, CoffeeOutlined, EnvironmentOutlined, PlayCircleOutlined, QuestionCircleOutlined} from "@ant-design/icons-vue";
+import {
+  HomeOutlined,
+  CoffeeOutlined,
+  EnvironmentOutlined,
+  PlayCircleOutlined,
+  QuestionCircleOutlined
+} from "@ant-design/icons-vue";
 import "./itinerary.vue";
 export default {
   props: {},
@@ -28,22 +34,21 @@ export default {
         start_time: "2006-01-02",
         end_time: "2006-01-03"
       },
-      data:[
-        {
-          id: 2,
-          title: "1",
-          founder_id: 6,
-          action_type: 2,
-          rectangle: "1",
-          route_json: "1",
-          remark: "1",
-          sequence: 0,
-          schedule_start_time: "2006-01-02 15:40",
-          schedule_end_time: "2006-01-02 15:40",
-          party_id: 5,
-          is_merged: 1
-        } // 假设这是 itinerary 的数据对象
-      ]
+      info: {
+        id: 2,
+        title: "1",
+        founder_id: 6,
+        action_type: 2,
+        rectangle: "1",
+        route_json: "1",
+        remark: "1",
+        sequence: 0,
+        schedule_start_time: "2006-01-02 15:40",
+        schedule_end_time: "2006-01-02 15:40",
+        party_id: 5,
+        is_merged: 1,
+        partynull: 0 // 假设这是 itinerary 的数据对象
+      } // 假设这是 itinerary 的数据对象
     };
   },
   methods: {
@@ -54,7 +59,12 @@ export default {
         .get(url, params)
         .then((res) => {
           console.log(res);
-          this.data = res.data.itinerary; // 假设这是返回的数据对象
+
+          this.info = res.data.itinerary; // 假设这是返回的数据对象
+          if (res.data.base.code === 10007) {
+            this.partynull = 1;
+            console.log(this.partynull);
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -87,82 +97,55 @@ export default {
       return (actionType) => {
         switch (actionType) {
           case 1:
-            return '路线'; // route
+            return "路线"; // route
           case 2:
-            return '活动'; // activity
+            return "活动"; // activity
           case 3:
-            return '住宿'; // accommodation
+            return "住宿"; // accommodation
           case 4:
-            return '餐饮'; // eat
+            return "餐饮"; // eat
           case 5:
-            return '其他'; // other
+            return "其他"; // other
           default:
-            return '未知类型'; // unknown type
+            return "未知类型"; // unknown type
         }
-      }
-    },
-  },
+      };
+    }
+  }
 };
 </script>
 <template>
-
   <div class="travels">
     <a-page-header
-        style="border: 1px solid rgb(235, 237, 240)"
-        title="行程详情"
-        @back="() => $router.go(-1)"
+      style="border: 1px solid rgb(235, 237, 240)"
+      title="计划详情"
+      @back="() => $router.go(-1)"
     />
   </div>
 
-  <br>
-  <div style="justify-content: center">
-    <a-timeline stroke-width="100%" mode="alternate" v-for="item in data" :key="item">
-      <a-timeline-item color="red">
-        <template #dot><component :is="getIcon(item.action_type)" style="font-size: 16px" /></template>
-        {{item.title}}
-        <br>
-        类型：{{getType(item.action_type)}}
-        <br>
-        时间：{{item.schedule_start_time}}
-        <br>
-        地点：{{item.rectangle}}
-        <br>
-        备注：{{item.remark}}
-        <br>
-        <div style="
-            border-radius: 12px;
-            border: 3px solid #f5f5f5;
-            width: fit-content;
-            margin-top: 5px;
-          ">
-          <a-button type="link" @click="showModal">查看线路</a-button>
-        </div>
-        <a-modal v-model:open="open" title="活动线路" :confirm-loading="confirmLoading" @ok="handleOk">
-          // 这里放地图
-        </a-modal>
-      </a-timeline-item>
-      <a-timeline-item color="green">
-        <template #dot><CheckOutlined style="font-size: 16px" /></template>
-        活动结束<br>{{item.schedule_end_time}}
-      </a-timeline-item>
-    </a-timeline>
+  <br />
+  <div style="justify-content: center" v-if="!partynull">
+    <div id="debug" v-if="1">
+      <br />
+      <br />
+      <br />
+      itinerary debug part:
+      <div>itinerary id:{{ id }}</div>
+      <div>原始数据:{{ info }}</div>
+      <div>title:{{ info.title }}</div>
+      <div>founder_id:{{ info.founder_id }}</div>
+      <div>action_type:{{ info.action_type }}</div>
+      <div>rectangle:{{ info.rectangle }}</div>
+      <div>route_json:{{ info.route_json }}</div>
+      <div>remark:{{ info.remark }}</div>
+      <div>sequence:{{ info.sequence }}</div>
+      <div>schedule_start_time:{{ info.schedule_start_time }}</div>
+      <div>schedule_end_time:{{ info.schedule_end_time }}</div>
+      <div>party_id:{{ info.party_id }}</div>
+      <div>is_merged:{{ info.is_merged }}</div>
+    </div>
   </div>
-
-  itinerary debug part:
-  <div>itinerary id:{{ id }}</div>
-  <div>原始数据:{{ data }}</div>
-  <br />
-  <br />
-  <br />
-  <div>tittle:{{ data.title }}</div>
-  <div>founder_id:{{ data.founder_id }}</div>
-  <div>action_type:{{ data.action_type }}</div>
-  <div>rectangle:{{ data.rectangle }}</div>
-  <div>route_json:{{ data.route_json }}</div>
-  <div>remark:{{ data.remark }}</div>
-  <div>sequence:{{ data.sequence }}</div>
-  <div>schedule_start_time:{{ data.schedule_start_time }}</div>
-  <div>schedule_end_time:{{ data.schedule_end_time }}</div>
-  <div>party_id:{{ data.party_id }}</div>
-  <div>is_merged:{{ data.is_merged }}</div>
+  <div v-if="partynull">
+    <a-empty />
+  </div>
 </template>

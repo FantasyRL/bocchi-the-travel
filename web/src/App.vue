@@ -200,7 +200,7 @@ export default {
     </div>
   </header> -->
   <router-view v-slot="{ Component }">
-    <keep-alive>
+    <keep-alive exclude="party,itinerary,finish">
       <component :is="Component" />
     </keep-alive>
   </router-view>

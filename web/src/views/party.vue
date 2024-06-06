@@ -16,7 +16,6 @@ const handleOk = () => {
 import axios from "axios";
 </script>
 <script>
-import axios from "axios";
 import {
   HomeOutlined,
   CoffeeOutlined,
@@ -29,6 +28,7 @@ export default {
   props: {},
   data() {
     return {
+      partynull: 0,
       id: 1, // 假设这是 party 的 id
       infodata: {
         id: 5,
@@ -83,6 +83,10 @@ export default {
         .then((res) => {
           console.log(res);
           this.items = res.data.itineraries;
+          console.log(res.data.itineraries);
+          if (res.data.itineraries === undefined) {
+            this.partynull = 1;
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -149,55 +153,59 @@ export default {
   <div class="travels">
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
-      title="行程详情"
+      title="活动详情"
       @back="() => $router.go(-1)"
     />
   </div>
   <div id="info">
-    <a-timeline stroke-width="99%" mode="alternate" v-for="item in items" :key="id">
-      <a-timeline-item color="red">
-        <template #dot
-          ><component :is="getIcon(item.action_type)" style="font-size: 16px"
-        /></template>
-        <br />
-        <br />
-        计划: {{ item.title }}
-        <br />
-        类型：{{ getType(item.action_type) }}
-        <br />
-        备注：{{ item.remark }}
-        <br />
-        地点：{{ item.rectangle }}
-        <br />
-        时间：{{ item.schedule_start_time }}
-        <br />
-        <div
-          style="
-            border-radius: 12px;
-            border: 3px solid #f5f5f5;
-            width: fit-content;
-            margin-top: 5px;
-          "
-        >
-          <a-button type="link" @click="showModal">查看线路</a-button>
+    <div class="center"><text>所有计划</text></div>
+    <div style="margin-top: 5px">
+      <a-timeline stroke-width="99%" mode="alternate" v-for="item in items" :key="item.id">
+        <a-timeline-item color="red">
+          <template #dot
+            ><component :is="getIcon(item.action_type)" style="font-size: 16px"
+          /></template>
           <br />
-        </div>
-        <a-modal
-          v-model:open="open"
-          title="活动线路"
-          :confirm-loading="confirmLoading"
-          @ok="handleOk"
-        >
-          // 这里放地图
-        </a-modal>
-      </a-timeline-item>
-      <a-timeline-item color="green">
-        <template #dot><CheckOutlined style="font-size: 16px" /></template>
-        预计结束时间↓<br />{{ item.schedule_end_time }}
-      </a-timeline-item>
-    </a-timeline>
+          <br />
+          计划: {{ item.title }}
+          <br />
+          类型：{{ getType(item.action_type) }}
+          <br />
+          备注：{{ item.remark }}
+          <br />
+          地点：{{ item.rectangle }}
+          <br />
+          时间：{{ item.schedule_start_time }}
+          <br />
+          <div
+            style="
+              border-radius: 12px;
+              border: 3px solid #f5f5f5;
+              width: fit-content;
+              margin-top: 5px;
+            "
+          >
+            <a-button type="link" @click="$router.push('/itinerarys/' + item.id)"
+              >查看详细</a-button
+            >
+            <br />
+          </div>
+          <a-modal
+            v-model:open="open"
+            title="活动线路"
+            :confirm-loading="confirmLoading"
+            @ok="handleOk"
+          >
+            // 这里放地图
+          </a-modal>
+        </a-timeline-item>
+        <a-timeline-item color="green">
+          <template #dot><CheckOutlined style="font-size: 16px" /></template>
+          预计结束时间↓<br />{{ item.schedule_end_time }}
+        </a-timeline-item>
+      </a-timeline>
+    </div>
   </div>
-
   <!--   party debug part:
   <div>party id:{{ id }}</div>
   <div>原始数据:</div>
@@ -205,12 +213,23 @@ export default {
   {{ infodata }}
   <div>归属于这个party的itinerary</div>
   {{ items }} -->
+  <div v-show="partynull">
+    <a-empty />
+  </div>
 </template>
 
 <style scoped>
 #info {
+  display: grid;
   justify-content: center;
   margin-top: 5vh;
-  max-width: 95%;
+  max-width: 98%;
+  grid-template-columns: repeat(1, 1fr);
+}
+.center {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
 }
 </style>
