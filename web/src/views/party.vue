@@ -1,7 +1,30 @@
 <script setup>
+import { CheckOutlined } from "@ant-design/icons-vue";
+import { ref } from "vue";
+const open = ref(false);
+const confirmLoading = ref(false);
+const showModal = () => {
+  open.value = true;
+};
+const handleOk = () => {
+  confirmLoading.value = true;
+  setTimeout(() => {
+    open.value = false;
+    confirmLoading.value = false;
+  });
+};
 import axios from "axios";
 </script>
 <script>
+import axios from "axios";
+import {
+  HomeOutlined,
+  CoffeeOutlined,
+  EnvironmentOutlined,
+  PlayCircleOutlined,
+  QuestionCircleOutlined
+} from "@ant-design/icons-vue";
+import "./party.vue";
 export default {
   props: {},
   data() {
@@ -21,10 +44,10 @@ export default {
         status: 0,
         rectangle: ""
       }, // 假设这是 party 的数据对象
-      itinerary: [
+      items: [
         {
           id: 5,
-          title: "1",
+          title: "第一个",
           founder_id: 6,
           action_type: 2,
           rectangle: "1",
@@ -38,7 +61,7 @@ export default {
         },
         {
           id: 6,
-          title: "1",
+          title: "吃饭",
           founder_id: 6,
           action_type: 2,
           rectangle: "1",
@@ -59,7 +82,7 @@ export default {
         .get("/bocchi/party/itinerary/show?party_id=" + this.id)
         .then((res) => {
           console.log(res);
-          this.itinerary = res.data.itineraries;
+          this.items = res.data.itineraries;
         })
         .catch((err) => {
           console.error(err);
@@ -82,16 +105,112 @@ export default {
   mounted() {
     this.id = Number(this.$route.params.id);
     this.partyinit();
-    this.getin();
+    /* this.getin(); */
+  },
+  computed: {
+    getIcon() {
+      return (actionType) => {
+        switch (actionType) {
+          case 1:
+            return EnvironmentOutlined; // route
+          case 2:
+            return PlayCircleOutlined; // activity
+          case 3:
+            return HomeOutlined; // accommodation
+          case 4:
+            return CoffeeOutlined; // eat
+          case 5:
+            return QuestionCircleOutlined; // other
+        }
+      };
+    },
+    getType() {
+      return (actionType) => {
+        switch (actionType) {
+          case 1:
+            return "路线"; // route
+          case 2:
+            return "活动"; // activity
+          case 3:
+            return "住宿"; // accommodation
+          case 4:
+            return "餐饮"; // eat
+          case 5:
+            return "其他"; // other
+          default:
+            return "未知类型"; // unknown type
+        }
+      };
+    }
   }
 };
 </script>
 <template>
-  party debug part:
+  <div class="travels">
+    <a-page-header
+      style="border: 1px solid rgb(235, 237, 240)"
+      title="行程详情"
+      @back="() => $router.go(-1)"
+    />
+  </div>
+  <div id="info">
+    <a-timeline stroke-width="99%" mode="alternate" v-for="item in items" :key="id">
+      <a-timeline-item color="red">
+        <template #dot
+          ><component :is="getIcon(item.action_type)" style="font-size: 16px"
+        /></template>
+        <br />
+        <br />
+        计划: {{ item.title }}
+        <br />
+        类型：{{ getType(item.action_type) }}
+        <br />
+        备注：{{ item.remark }}
+        <br />
+        地点：{{ item.rectangle }}
+        <br />
+        时间：{{ item.schedule_start_time }}
+        <br />
+        <div
+          style="
+            border-radius: 12px;
+            border: 3px solid #f5f5f5;
+            width: fit-content;
+            margin-top: 5px;
+          "
+        >
+          <a-button type="link" @click="showModal">查看线路</a-button>
+          <br />
+        </div>
+        <a-modal
+          v-model:open="open"
+          title="活动线路"
+          :confirm-loading="confirmLoading"
+          @ok="handleOk"
+        >
+          // 这里放地图
+        </a-modal>
+      </a-timeline-item>
+      <a-timeline-item color="green">
+        <template #dot><CheckOutlined style="font-size: 16px" /></template>
+        预计结束时间↓<br />{{ item.schedule_end_time }}
+      </a-timeline-item>
+    </a-timeline>
+  </div>
+
+  <!--   party debug part:
   <div>party id:{{ id }}</div>
   <div>原始数据:</div>
   <div>party info:</div>
   {{ infodata }}
   <div>归属于这个party的itinerary</div>
-  {{ itinerary }}
+  {{ items }} -->
 </template>
+
+<style scoped>
+#info {
+  justify-content: center;
+  margin-top: 5vh;
+  max-width: 95%;
+}
+</style>
