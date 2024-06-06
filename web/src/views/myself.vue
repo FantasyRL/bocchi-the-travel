@@ -273,40 +273,38 @@ export default {
     </transition>
     <div class="avatarpage-flur" v-show="showavatarpage" @click="modavatarpage"></div>
   </div>
-  <div class="about">
-    <div class="avaimg">
+  <div id="about">
+    <div class="user_img">
       <img
         :src="avatar"
         class="touxiangimg rounded-image"
         @click="modavatarpage"
-        style="object-fit: cover; width: 20vh; height: 20vh"
+        style="object-fit: cover; width: 50vw; height: 50vw"
       />
-      <div>
-        <text class="name">{{ name }}</text>
+    </div>
+    <div class="user_name">
+      <text id="name">{{ name }}</text>
+    </div>
+    <input type="text" placeholder="请输入内容" class="input-box" />
+    <text>个人签名</text>
+    <div class="signature">
+      <div v-if="isEditing" class="input" style="z-index: 500">
+        <input
+          type="text"
+          v-model="signature"
+          @blur="savesignature(this.signature)"
+          autofocus
+          style="z-index: 6665"
+        />
+      </div>
+      <div v-else class="sign">
+        <p @click="editsignature()">{{ signature }}</p>
       </div>
     </div>
-    <div class="shejiao" style="z-index: 500">
-      <text>个人签名</text>
-      <div class="signature" style="z-index: 500">
-        <div v-if="isEditing" class="input" style="z-index: 500">
-          <input
-            type="text"
-            v-model="signature"
-            @blur="savesignature(this.signature)"
-            autofocus
-            style="z-index: 6665"
-          />
-        </div>
-        <div v-else class="sign">
-          <p @click="editsignature()">{{ signature }}</p>
-        </div>
-      </div>
-      <br />
-      <div class="sign-flur" v-show="isEditing" @click="savesignature(this.signature)"></div>
-    </div>
+    <div class="sign-flur" v-show="isEditing" @click="savesignature(this.signature)"></div>
+    <text>uid:{{ id }}</text>
+    <text>邮箱:{{ mail }}</text>
   </div>
-  <text>uid:{{ id }}</text>
-  <text>邮箱:{{ mail }}</text>
 
   <a-divider orientation="left" class="separate">评价</a-divider>
 
@@ -316,17 +314,27 @@ export default {
 </template>
 
 <style scoped>
+#name {
+  position: relative;
+  font-size: 2em; /* 设置字体大小为1.5em */
+  font-weight: bold; /* 设置字体粗细为粗体 */
+  margin-block: 0.5em; /* 设置行距为0.5em */
+}
+.rounded-image {
+  border-radius: 50%; /* 半径为50%意味着图片将变成圆形 */
+}
+#about {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px 10px;
+  margin-top: 50px;
+}
 .sign {
   display: inline-block;
   padding: 5px 5px 5px;
   border: 2px dashed #ccc;
   border-radius: 10px;
-}
-.input {
-  display: inline-block;
-  padding: 1px 0px 1px;
-  border: 1px solid #000000;
-  border-radius: 5px;
 }
 
 .avatarpage-flur {

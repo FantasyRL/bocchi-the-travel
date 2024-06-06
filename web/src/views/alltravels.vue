@@ -1,8 +1,8 @@
 <script setup>
-import { h } from 'vue';
+import { h } from "vue";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { CheckOutlined,ReconciliationOutlined,TeamOutlined } from '@ant-design/icons-vue';
+import { CheckOutlined, ReconciliationOutlined, TeamOutlined } from "@ant-design/icons-vue";
 const baseUrl = "https://severj.top/img/";
 const getImgUrl = (i) => {
   return `${baseUrl}background${i}.webp`;
@@ -14,22 +14,7 @@ export default {
     return {
       trnumber: 10,
       access_token: 0, // 假设您将令牌存储在localStorage中
-      items: [
-        {
-          id: 1,
-          founder_id: 1,
-          title: "标题",
-          content: "内容",
-          type: "类型",
-          province: "省份",
-          city: "城市",
-          start_time: "2006-01-02",
-          end_time: "2006-01-03",
-          member_count: 0,
-          status: 0,
-          rectangle: ""
-        }
-      ]
+      items: [{}]
     };
   },
   methods: {
@@ -76,42 +61,46 @@ export default {
 
   <div class="center">
     <div v-for="item in items" :key="item.id" class="item">
-      <a-divider orientation="left" class="separate">{{item.title}}</a-divider>
+      <a-divider orientation="left" class="separate">{{ item.title }}</a-divider>
       <div style="padding: 20px" class="relative">
         <a-row>
           <a-card class="relative-card" title="活动详情" :bordered="false">
-            <router-link :to="`/itinerarys/${item.id}`">
+            <router-link :to="`/partys/${item.id}`">
               <a-row>
-                <a-col class="inner-img"><img :src="getImgUrl(item.id)" alt="" /></a-col>
+                <a-col class="inner-img"><img :src="getImgUrl(1)" alt="" /></a-col>
                 <a-col class="inner-word">
                   <b>行程ID：</b>{{ item.id }}
-                  <br>
+                  <br />
                   <b>创建者ID：</b>{{ item.founder_id }}
-                  <br>
+                  <br />
                   <b>简介：</b> {{ item.content }}
-                  <br>
+                  <br />
                   <b>类型：</b> {{ item.type }}
-                  <br>
+                  <br />
                   <b>城市：</b>{{ item.province }}，{{ item.city }}
-                  <br>
+                  <br />
                   <b>成员人数：</b> {{ item.member_count }}
-                  <br>
+                  <br />
                 </a-col>
               </a-row>
             </router-link>
             <a-divider></a-divider>
             <div class="buttongroup">
-              <a-button style="margin-right: 5%" :icon="h(ReconciliationOutlined)">查看申请</a-button>
+              <a-button style="margin-right: 5%" :icon="h(ReconciliationOutlined)"
+                >查看申请</a-button
+              >
               <a-button style="margin-right: 5%" :icon="h(TeamOutlined)">查看成员</a-button>
-              <a-button @click="ToEnd(item.id)" style="margin-right: 5%" :icon="h(CheckOutlined)">结束行程</a-button>
+              <a-button @click="ToEnd(item.id)" style="margin-right: 5%" :icon="h(CheckOutlined)"
+                >结束行程</a-button
+              >
             </div>
           </a-card>
         </a-row>
       </div>
     </div>
 
-    <br><br><br><br><br>
-    <br>
+    <br /><br /><br /><br /><br />
+    <br />
   </div>
 </template>
 
