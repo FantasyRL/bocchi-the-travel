@@ -67,6 +67,48 @@ export default {
       @back="() => $router.go(-1)"
     />
   </div>
+  <div v-for="item in items" :key="item.id" class="item">
+    <br />
+    <el-card style="min-width: 90vw">
+      <template #header>
+        <div class="card-header">
+          <span>
+            Title: {{ item.title }}
+            <br />
+            ID: {{ item.id }}
+            <br />
+
+            founder_id:{{ item.founder_id }}
+            <br />
+          </span>
+        </div>
+      </template>
+      Content: {{ item.content }}
+      <br />
+      city: {{ item.city }}
+      <br />
+      province: {{ item.province }}
+      <br />
+      Content: {{ item.content }}
+
+      <br />
+      Start Time: {{ item.start_time }}
+      <br />
+      End Time: {{ item.end_time }}
+      <br />
+      member_count: {{ item.member_count }}
+      <br />
+      Type: {{ item.type }}
+      <br />
+      Rectangle: {{ item.rectangle }}
+      <br />
+      <el-button @click="nono">查看申请</el-button>
+      <el-button @click="nono">查看成员</el-button>
+      <el-button @click="nono(item.id)">删除这个活动</el-button>
+      <template #footer>Status: {{ item.status }}</template>
+    </el-card>
+    <br />
+  </div>
   <div class="center">
     <div v-for="item in items" :key="item.id" class="item">
       <br />

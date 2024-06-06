@@ -1,5 +1,4 @@
 <script setup>
-import { stringType } from "ant-design-vue/es/_util/type";
 import axios from "axios";
 import Cookies from "js-cookie";
 </script>
@@ -23,10 +22,38 @@ export default {
       url: "",
       showavatarpage: 0,
       previewImage: null,
-      file: null
+      file: null,
+      isEditing: false
     };
   },
   methods: {
+    savesignature(text) {
+      this.isEditing = false;
+      axios
+        .post(
+          "/bocchi/user/signature",
+          {
+            signature: text
+          },
+          {
+            headers: {
+              "access-token": this.access_token
+            }
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    editsignature() {
+      this.isEditing = true;
+      const input = document.querySelector(".input");
+      input.focus();
+    },
+
     modavatarpage() {
       this.showavatarpage = !this.showavatarpage;
       console.log(this.showavatarpage);
@@ -180,12 +207,12 @@ export default {
   <div class="about">
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240); background-color: #fff"
-      title="Ta的资料"
-      sub-title=""
+      title="个人中心"
+      sub-title="1"
       @back="() => $router.go(-1)"
     />
 
-    <!--     <div class="settings">
+    <div class="settings">
       <button class="button" @click="settings">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +233,7 @@ export default {
         </svg>
         <span class="lable">{{ setname }}</span>
       </button>
-    </div> -->
+    </div>
 
     <div class="info">
       <div class="touxiang">
@@ -224,15 +251,27 @@ export default {
       </div>
 
       <div class="shejiao">
+        <text>个人签名</text>
+        <div class="signature">
+          <div v-if="isEditing" class="input">
+            <input
+              type="text"
+              v-model="signature"
+              @blur="savesignature(this.signature)"
+              autofocus
+            />
+          </div>
+          <div v-else class="sign">
+            <p @click="editsignature()">{{ signature }}</p>
+          </div>
+        </div>
+        <br />
         <text>uid:{{ id }}</text>
         <text>邮箱:{{ mail }}</text>
-        <text>签名:{{ signature }}</text>
       </div>
     </div>
 
-    <div></div>
-
-    <!--     <transition name="fade">
+    <transition name="fade">
       <div class="setpage" v-show="setshow">
         <mdui-list :blur="true">
           <text>设置界面</text>
@@ -273,7 +312,7 @@ export default {
         </div>
       </div>
     </transition>
-    <div class="avatarpage-flur" v-show="showavatarpage" @click="modavatarpage"></div> -->
+    <div class="avatarpage-flur" v-show="showavatarpage" @click="modavatarpage"></div>
 
     <a-divider orientation="left" class="separate">评价</a-divider>
   </div>
@@ -284,6 +323,18 @@ export default {
 </template>
 
 <style scoped>
+.sign {
+  display: inline-block;
+  padding: 5px 5px 5px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+}
+.input {
+  display: inline-block;
+  padding: 1px 0px 1px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
 .touxiangimg {
   height: 200px;
   width: 200px;
