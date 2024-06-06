@@ -3,15 +3,18 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { ref } from "vue";
 import cityOptions from "@/city";
-const title = ref("");
-const type = ref("");
-const partytime = ref("");
-const city = ref("");
+
+const title = ref();
+const type = ref();
+const content = ref();
+const partytime = ref();
+const city = ref();
 const options = ref([
   { value: "放松" },
   { value: "深度" },
   { value: "人文" },
 ]);
+
 </script>
 
 <script>
@@ -87,7 +90,6 @@ export default {
     }
   }
 };
-
 </script>
 
 <template>
@@ -128,60 +130,51 @@ export default {
 
   <a-divider orientation="left" class="separate">名称</a-divider>
   <div class="input-box">
-    <a-input
-        v-model:value="title"
-        :bordered="false"
-        size="large"
-        placeholder="标题"
-    />
+    <a-input v-model:value="title" :bordered="false" size="large" placeholder="标题" />
   </div>
 
   <a-divider orientation="left" class="separate">城市</a-divider>
   <a-form-item class="input-box">
     <a-cascader
-        :options="cityOptions"
-        placeholder="请选择地区"
-        :fieldNames="fieldNames"
-        v-model:value="city"
-        size="large"
-        :bordered="false"
+      :options="cityOptions"
+      placeholder="请选择地区"
+      :fieldNames="fieldNames"
+      v-model:value="city"
+      size="large"
+      :bordered="false"
     />
   </a-form-item>
 
   <a-divider orientation="left" class="separate">旅行心情</a-divider>
   <div class="input-box">
     <a-select
-        v-model:value="type"
-        mode="multiple"
-        size="large"
-        style="width: 100%"
-        :bordered="false"
-        placeholder="请选择你的旅行心情"
-        :options="options"
+      v-model:value="type"
+      mode="multiple"
+      size="large"
+      style="width: 100%"
+      :bordered="false"
+      placeholder="请选择你的旅行心情"
+      :options="options"
     />
   </div>
 
   <a-divider orientation="left" class="separate">简介</a-divider>
   <div class="input-box">
     <a-textarea
-        v-model:value="content"
-        placeholder="请输入活动简介"
-        :rows="4"
-        size="large"
-        :bordered="false"
+      v-model:value="content"
+      placeholder="请输入活动简介"
+      :rows="4"
+      size="large"
+      :bordered="false"
     />
   </div>
 
   <a-divider orientation="left" class="separate">时间</a-divider>
   <div class="time-box">
-    <a-range-picker
-        v-model:value="partytime"
-        size="large"
-        :bordered="false"
-    />
+    <a-range-picker v-model:value="partytime" size="large" :bordered="false" />
   </div>
 
-  <br><br>
+  <br /><br />
 
   <div class="start-button">
     <button class="pushable" @click="partycreate(title, type, content, city, partytime)">
@@ -191,7 +184,7 @@ export default {
     </button>
   </div>
 
-  <br><br><br><br><br>
+  <br /><br /><br /><br /><br />
 </template>
 
 <style scoped>
