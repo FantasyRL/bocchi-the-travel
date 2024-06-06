@@ -308,7 +308,7 @@ export default {
   opacity: 0;
 }
 mdui-navigation-bar {
-  z-index: 1;
+  z-index: 99999;
 }
 
 .menu-container {
