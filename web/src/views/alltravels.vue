@@ -68,7 +68,7 @@ export default {
             <a-card class="relative-card" title="活动详情" :bordered="false">
               <router-link :to="`/partys/${item.id}`">
                 <a-row>
-                  <a-col class="inner-img"><img :src="getImgUrl(1)" alt="" /></a-col>
+                  <!-- <a-col class="inner-img"><img :src="getImgUrl(1)" alt="" /></a-col> -->
                   <a-col class="inner-word">
                     <b>行程ID：</b>{{ item.id }}
                     <br />
