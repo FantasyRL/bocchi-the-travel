@@ -260,7 +260,13 @@ export default {
               v-model="signature"
               @blur="savesignature(this.signature)"
               autofocus
+              style="z-index: 6665"
             />
+            <div
+              class="avatarpage-flur"
+              v-show="isEditing"
+              @click="savesignature(this.signature)"
+            ></div>
           </div>
           <div v-else class="sign">
             <p @click="editsignature()">{{ signature }}</p>
