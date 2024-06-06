@@ -1,6 +1,6 @@
 <script setup>
-import {ref } from 'vue';
-import {RouterLink, useRoute} from "vue-router";
+import { ref } from "vue";
+import { RouterLink, useRoute } from "vue-router";
 const id = useRoute().params.id;
 const getName = (i) => {
   return `name${i}`;
@@ -19,7 +19,7 @@ const getPlacesImg = (i) => {
 };
 const value = ref(4.5);
 
-const CommentText = ref('');
+const CommentText = ref("");
 const open = ref(false);
 const confirmLoading = ref(false);
 
@@ -35,14 +35,23 @@ const handleOk = () => {
   }, 1000);
 };
 </script>
+<script>
+/* export default {
+  data() {
+    return {
+      id: this.$route.params.id
+    };
+  }
+}; */
+</script>
 
 <template>
   <div class="end">
     <a-page-header
-        style="border: 1px solid rgb(235, 237, 240)"
-        title="行程结束"
-        :sub-title="`ID: ${id}`"
-        @back="() => $router.go(-1)"
+      style="border: 1px solid rgb(235, 237, 240)"
+      title="行程结束"
+      :sub-title="`ID: ${id}`"
+      @back="() => $router.go(-1)"
     />
   </div>
 
@@ -58,7 +67,6 @@ const handleOk = () => {
 
   <div class="List" v-for="i in 3" :key="i">
     <a-row class="Card">
-
       <a-col flex="70%">
         <router-link :to="getFriendLink(i)">
           <a-list item-layout="horizontal">
@@ -68,7 +76,11 @@ const handleOk = () => {
                   <a style="font-size: 18px">{{ getName(i) }}</a>
                 </template>
                 <template #avatar>
-                  <a-avatar style="margin-top: 3px" :size="54" src="https://severj.top/img/icon/logo.png" />
+                  <a-avatar
+                    style="margin-top: 3px"
+                    :size="54"
+                    src="https://severj.top/img/icon/logo.png"
+                  />
                 </template>
               </a-list-item-meta>
             </a-list-item>
@@ -78,28 +90,34 @@ const handleOk = () => {
 
       <a-col flex="auto" style="margin-top: 5px">
         <a-rate v-model:value="value" allow-half />
-        <div style="display:flex; justify-content: center">
-          <div style="
-            display: flex;
-            border-radius: 12px;
-            border: 3px solid #f5f5f5;
-            margin: 5% auto auto;
-            text-decoration: none;
-          ">
+        <div style="display: flex; justify-content: center">
+          <div
+            style="
+              display: flex;
+              border-radius: 12px;
+              border: 3px solid #f5f5f5;
+              margin: 5% auto auto;
+              text-decoration: none;
+            "
+          >
             <a-button type="link" @click="showModal">评价</a-button>
           </div>
-          <a-modal v-model:open="open" title="请输入你的评价" :confirm-loading="confirmLoading" @ok="handleOk">
+          <a-modal
+            v-model:open="open"
+            title="请输入你的评价"
+            :confirm-loading="confirmLoading"
+            @ok="handleOk"
+          >
             <a-textarea
-                v-model:value="CommentText"
-                placeholder="请在此输入"
-                :rows="4"
-                size="large"
-                :bordered="false"
+              v-model:value="CommentText"
+              placeholder="请在此输入"
+              :rows="4"
+              size="large"
+              :bordered="false"
             />
           </a-modal>
         </div>
       </a-col>
-
     </a-row>
   </div>
 
@@ -107,7 +125,6 @@ const handleOk = () => {
 
   <div class="List" v-for="i in 3" :key="i">
     <a-row class="Card">
-
       <a-col flex="70%">
         <router-link :to="getPlacesLink(i)">
           <a-list item-layout="horizontal">
@@ -127,32 +144,38 @@ const handleOk = () => {
 
       <a-col flex="auto" style="margin-top: 5px">
         <a-rate v-model:value="value" allow-half />
-        <div style="display:flex; justify-content: center">
-          <div style="
-            display: flex;
-            border-radius: 12px;
-            border: 3px solid #f5f5f5;
-            margin: 5% auto auto;
-            text-decoration: none;
-          ">
+        <div style="display: flex; justify-content: center">
+          <div
+            style="
+              display: flex;
+              border-radius: 12px;
+              border: 3px solid #f5f5f5;
+              margin: 5% auto auto;
+              text-decoration: none;
+            "
+          >
             <a-button type="link" @click="showModal">评价</a-button>
           </div>
-          <a-modal v-model:open="open" title="请输入你的评价" :confirm-loading="confirmLoading" @ok="handleOk">
+          <a-modal
+            v-model:open="open"
+            title="请输入你的评价"
+            :confirm-loading="confirmLoading"
+            @ok="handleOk"
+          >
             <a-textarea
-                v-model:value="CommentText"
-                placeholder="请在此输入"
-                :rows="4"
-                size="large"
-                :bordered="false"
+              v-model:value="CommentText"
+              placeholder="请在此输入"
+              :rows="4"
+              size="large"
+              :bordered="false"
             />
           </a-modal>
         </div>
       </a-col>
-
     </a-row>
   </div>
 
-  <br><br><br>
+  <br /><br /><br />
 </template>
 
 <style scoped>
@@ -178,9 +201,3 @@ const handleOk = () => {
   align-items: center;
 }
 </style>
-
-<script>
-export default {
-  name: 'FinishView',
-}
-</script>

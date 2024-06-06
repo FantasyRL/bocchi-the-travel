@@ -199,8 +199,11 @@ export default {
       </a-menu>
     </div>
   </header> -->
-  <RouterView />
-
+  <router-view v-slot="{ Component }">
+    <keep-alive exclude="party,itinerary,finish">
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
   <div class="overlay" v-show="overlay"></div>
   <div v-show="resgister" class="resgister-container">
     <div class="resgister">
