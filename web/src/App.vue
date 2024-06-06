@@ -183,7 +183,7 @@ export default {
 
 <template>
   <!--   <a-spin size="large" /> -->
-  <!-- 
+  <!--
   <header class="header">
     <div class="menu-container">
       <a-menu mode="horizontal">
@@ -286,7 +286,7 @@ export default {
       icon="format_list_bulleted--outlined"
       value="item-4"
       @click="$router.push('/alltravels/')"
-      >所有活动</mdui-navigation-bar-item
+      >所有行程</mdui-navigation-bar-item
     >
     <mdui-navigation-bar-item
       icon="account_circle--outlined"

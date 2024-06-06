@@ -1,6 +1,12 @@
 <script setup>
+import { h } from 'vue';
 import axios from "axios";
 import Cookies from "js-cookie";
+import { CheckOutlined,ReconciliationOutlined,TeamOutlined } from '@ant-design/icons-vue';
+const baseUrl = "https://severj.top/img/";
+const getImgUrl = (i) => {
+  return `${baseUrl}background${i}.webp`;
+};
 </script>
 <script>
 export default {
@@ -27,8 +33,8 @@ export default {
     };
   },
   methods: {
-    nono() {
-      alert("我还没写");
+    ToEnd(i) {
+      this.$router.push(`/finish/${i}`);
     },
     applylist(pagenum) {
       axios
@@ -63,72 +69,73 @@ export default {
   <div class="travels">
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
-      title="所有活动"
+      title="所有行程"
       @back="() => $router.go(-1)"
     />
   </div>
 
   <div class="center">
     <div v-for="item in items" :key="item.id" class="item">
-      <br />
-      <el-card style="min-width: 90vw">
-        <template #header>
-          <div class="card-header">
-            <span>
-              Title: {{ item.title }}
-              <br />
-              ID: {{ item.id }}
-              <br />
-
-              founder_id:{{ item.founder_id }}
-              <br />
-            </span>
-          </div>
-        </template>
-        Content: {{ item.content }}
-        <br />
-        city: {{ item.city }}
-        <br />
-        province: {{ item.province }}
-        <br />
-        Content: {{ item.content }}
-
-        <br />
-        Start Time: {{ item.start_time }}
-        <br />
-        End Time: {{ item.end_time }}
-        <br />
-        member_count: {{ item.member_count }}
-        <br />
-        Type: {{ item.type }}
-        <br />
-        Rectangle: {{ item.rectangle }}
-        <br />
-        <el-button @click="nono">查看申请</el-button>
-        <el-button @click="nono">查看成员</el-button>
-        <el-button @click="nono(item.id)">删除这个活动</el-button>
-        <template #footer>Status: {{ item.status }}</template>
-      </el-card>
-      <br />
+      <a-divider orientation="left" class="separate">{{item.title}}</a-divider>
+      <div style="padding: 20px" class="relative">
+        <a-row>
+          <a-card class="relative-card" title="活动详情" :bordered="false">
+            <router-link :to="`/itinerarys/${item.id}`">
+              <a-row>
+                <a-col class="inner-img"><img :src="getImgUrl(item.id)" alt="" /></a-col>
+                <a-col class="inner-word">
+                  <b>行程ID：</b>{{ item.id }}
+                  <br>
+                  <b>创建者ID：</b>{{ item.founder_id }}
+                  <br>
+                  <b>简介：</b> {{ item.content }}
+                  <br>
+                  <b>类型：</b> {{ item.type }}
+                  <br>
+                  <b>城市：</b>{{ item.province }}，{{ item.city }}
+                  <br>
+                  <b>成员人数：</b> {{ item.member_count }}
+                  <br>
+                </a-col>
+              </a-row>
+            </router-link>
+            <a-divider></a-divider>
+            <div class="buttongroup">
+              <a-button style="margin-right: 5%" :icon="h(ReconciliationOutlined)">查看申请</a-button>
+              <a-button style="margin-right: 5%" :icon="h(TeamOutlined)">查看成员</a-button>
+              <a-button @click="ToEnd(item.id)" style="margin-right: 5%" :icon="h(CheckOutlined)">结束行程</a-button>
+            </div>
+          </a-card>
+        </a-row>
+      </div>
     </div>
 
-    <div>
-      <!-- 循环项的数组 -->
-    </div>
-    <router-link to="/finish/1">行程结束debug</router-link>
-
-    <br />
-    <div class="null"></div>
-    <br />
+    <br><br><br><br><br>
+    <br>
   </div>
 </template>
 
 <style scoped>
-.center {
-  display: grid;
-  justify-items: center;
+.separate {
+  margin-top: 22px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 0;
 }
-.null {
-  height: 100px;
+.relative-card {
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.inner-img img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+.inner-word {
+  margin-left: 20px;
+  font-size: 15px;
 }
 </style>
