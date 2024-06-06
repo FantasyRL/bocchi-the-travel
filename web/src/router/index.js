@@ -54,6 +54,11 @@ const router = createRouter({
       name: 'itinerary',
       component: () => import('../views/itinerary.vue')
     },
+    {
+      path: '/partys/:id',
+      name: 'party',
+      component: () => import('../views/party.vue')
+    },
   ]
 })
 

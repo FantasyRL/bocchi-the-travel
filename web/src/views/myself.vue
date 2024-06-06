@@ -155,6 +155,7 @@ export default {
             this.avatar = res.data.user.avatar;
             this.mail = res.data.user.email;
             this.signature = res.data.user.signature;
+            this.CookiesSet = Cookies.set("avatar", this.avatar);
           }
           if (res.data.base.code == "10007") {
             console.log("不存在");
