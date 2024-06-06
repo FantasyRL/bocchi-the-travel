@@ -35,6 +35,20 @@ export default {
           schedule_end_time: "2006-01-02 15:40",
           party_id: 5,
           is_merged: 1
+        },
+        {
+          id: 6,
+          title: "1",
+          founder_id: 6,
+          action_type: 2,
+          rectangle: "1",
+          route_json: "1",
+          remark: "1",
+          sequence: 0,
+          schedule_start_time: "2006-01-02 15:40",
+          schedule_end_time: "2006-01-02 15:40",
+          party_id: 5,
+          is_merged: 1
         }
       ]
     };
