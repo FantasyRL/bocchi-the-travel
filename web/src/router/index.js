@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/myself.vue')
     },
     {
       path: '/explore',
@@ -48,6 +48,11 @@ const router = createRouter({
       path: '/about/:id',
       name: 'about-others',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/itinerarys/:id',
+      name: 'itinerary',
+      component: () => import('../views/itinerary.vue')
     },
   ]
 })
