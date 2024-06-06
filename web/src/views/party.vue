@@ -23,7 +23,7 @@ export default {
       }, // 假设这是 party 的数据对象
       itinerary: [
         {
-          id: 2,
+          id: 5,
           title: "1",
           founder_id: 6,
           action_type: 2,
