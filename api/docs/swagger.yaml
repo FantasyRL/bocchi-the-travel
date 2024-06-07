@@ -237,6 +237,30 @@ paths:
       - application/json
       responses: {}
       summary: create_itinerary
+  /bocchi/party/itinerary/delete:
+    get:
+      consumes:
+      - json/form
+      description: delete itinerary
+      parameters:
+      - description: 行程id
+        in: query
+        name: itinerary_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete_itinerary
   /bocchi/party/itinerary/info:
     get:
       consumes:
@@ -373,7 +397,7 @@ paths:
     get:
       consumes:
       - json/form
-      description: get members who have join the party
+      description: get my parties
       parameters:
       - description: 页码
         in: query
@@ -392,7 +416,7 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: get_party_members
+      summary: get_my_parties
   /bocchi/party/search:
     post:
       consumes:
@@ -432,6 +456,35 @@ paths:
       - application/json
       responses: {}
       summary: search_party
+  /bocchi/party/status:
+    get:
+      consumes:
+      - json/form
+      description: delete or finish party
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 1:完成party 2:删除party(未开始的party取消)
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: change_party_status
   /bocchi/poi/comment/create:
     post:
       consumes:

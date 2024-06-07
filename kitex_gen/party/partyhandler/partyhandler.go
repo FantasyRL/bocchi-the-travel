@@ -69,6 +69,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"ChangePartyStatus": kitex.NewMethodInfo(
+		changePartyStatusHandler,
+		newPartyHandlerChangePartyStatusArgs,
+		newPartyHandlerChangePartyStatusResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 }
 
 var (
@@ -279,6 +286,24 @@ func newPartyHandlerGetMyPartiesResult() interface{} {
 	return party.NewPartyHandlerGetMyPartiesResult()
 }
 
+func changePartyStatusHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*party.PartyHandlerChangePartyStatusArgs)
+	realResult := result.(*party.PartyHandlerChangePartyStatusResult)
+	success, err := handler.(party.PartyHandler).ChangePartyStatus(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPartyHandlerChangePartyStatusArgs() interface{} {
+	return party.NewPartyHandlerChangePartyStatusArgs()
+}
+
+func newPartyHandlerChangePartyStatusResult() interface{} {
+	return party.NewPartyHandlerChangePartyStatusResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -364,6 +389,16 @@ func (p *kClient) GetMyParties(ctx context.Context, req *party.GetMyPartiesReque
 	_args.Req = req
 	var _result party.PartyHandlerGetMyPartiesResult
 	if err = p.c.Call(ctx, "GetMyParties", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ChangePartyStatus(ctx context.Context, req *party.ChangePartyStatusRequest) (r *party.ChangePartyStatusResponse, err error) {
+	var _args party.PartyHandlerChangePartyStatusArgs
+	_args.Req = req
+	var _result party.PartyHandlerChangePartyStatusResult
+	if err = p.c.Call(ctx, "ChangePartyStatus", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

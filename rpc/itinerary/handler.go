@@ -76,3 +76,11 @@ func (s *ItineraryHandlerImpl) GetMyItineraries(ctx context.Context, req *itiner
 	return resp, nil
 
 }
+
+// DeleteItinerary implements the ItineraryHandlerImpl interface.
+func (s *ItineraryHandlerImpl) DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest) (resp *itinerary.DeleteItineraryResponse, err error) {
+	resp = new(itinerary.DeleteItineraryResponse)
+	err = service.NewItineraryService(ctx).DeleteItinerary(req)
+	resp.Base = pack.BuildBaseResp(err)
+	return resp, nil
+}

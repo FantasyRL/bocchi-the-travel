@@ -140,6 +140,21 @@ func GetPartiesById(ctx context.Context, memberId int64, pageNum int64) (*[]Part
 	return &partiesResp, count + count1 + count2, nil
 }
 
+func DeleteParty(ctx context.Context, partyId int64) error {
+	return DBParty.WithContext(ctx).Where("id = ?", partyId).Delete(Party{}).Error
+}
+func FinishParty(ctx context.Context, partyId int64) error {
+	partyMid := new(Party)
+	if err := DBParty.WithContext(ctx).Where("id = ?", partyId).First(partyMid).Error; err != nil {
+		return err
+	}
+	if partyMid.Status != 0 {
+		return errno.ParamError
+	}
+
+	return DBParty.WithContext(ctx).Where("id = ?", partyId).Update("status", 1).Error
+}
+
 type Member struct {
 	Id        int64
 	PartyId   int64

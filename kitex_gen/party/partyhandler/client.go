@@ -19,6 +19,7 @@ type Client interface {
 	GetPartyMembers(ctx context.Context, req *party.GetPartyMembersRequest, callOptions ...callopt.Option) (r *party.GetPartyMembersResponse, err error)
 	SearchParty(ctx context.Context, req *party.SearchPartyRequest, callOptions ...callopt.Option) (r *party.SearchPartyResponse, err error)
 	GetMyParties(ctx context.Context, req *party.GetMyPartiesRequest, callOptions ...callopt.Option) (r *party.GetMyPartiesResponse, err error)
+	ChangePartyStatus(ctx context.Context, req *party.ChangePartyStatusRequest, callOptions ...callopt.Option) (r *party.ChangePartyStatusResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -88,4 +89,9 @@ func (p *kPartyHandlerClient) SearchParty(ctx context.Context, req *party.Search
 func (p *kPartyHandlerClient) GetMyParties(ctx context.Context, req *party.GetMyPartiesRequest, callOptions ...callopt.Option) (r *party.GetMyPartiesResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetMyParties(ctx, req)
+}
+
+func (p *kPartyHandlerClient) ChangePartyStatus(ctx context.Context, req *party.ChangePartyStatusRequest, callOptions ...callopt.Option) (r *party.ChangePartyStatusResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ChangePartyStatus(ctx, req)
 }

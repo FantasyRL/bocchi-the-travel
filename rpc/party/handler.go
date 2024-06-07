@@ -133,3 +133,11 @@ func (s *PartyHandlerImpl) GetMyParties(ctx context.Context, req *party.GetMyPar
 	resp.PartyList = service.BuildPartiesResp(parties)
 	return resp, nil
 }
+
+// ChangePartyStatus implements the PartyHandlerImpl interface.
+func (s *PartyHandlerImpl) ChangePartyStatus(ctx context.Context, req *party.ChangePartyStatusRequest) (resp *party.ChangePartyStatusResponse, err error) {
+	resp = new(party.ChangePartyStatusResponse)
+	err = service.NewPartyService(ctx).ChangePartyStatus(req)
+	resp.Base = pack.BuildBaseResp(err)
+	return resp, nil
+}

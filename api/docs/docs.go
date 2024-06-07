@@ -357,6 +357,41 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bocchi/party/itinerary/delete": {
+            "get": {
+                "description": "delete itinerary",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "delete_itinerary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "行程id",
+                        "name": "itinerary_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/party/itinerary/info": {
             "get": {
                 "description": "get itinerary by id",
@@ -551,14 +586,14 @@ const docTemplate = `{
         },
         "/bocchi/party/party/my": {
             "get": {
-                "description": "get members who have join the party",
+                "description": "get my parties",
                 "consumes": [
                     "json/form"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "get_party_members",
+                "summary": "get_my_parties",
                 "parameters": [
                     {
                         "type": "integer",
@@ -637,6 +672,48 @@ const docTemplate = `{
                         "name": "page_num",
                         "in": "query",
                         "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/status": {
+            "get": {
+                "description": "delete or finish party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "change_party_status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "1:完成party 2:删除party(未开始的party取消)",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
                     }
                 ],
                 "responses": {}

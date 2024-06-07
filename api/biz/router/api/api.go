@@ -27,9 +27,10 @@ func Register(r *server.Hertz) {
 		{
 			_party := _bocchi.Group("/party", _partyMw()...)
 			_party.POST("/create", append(_createpartyMw(), api.CreateParty)...)
-			_party.GET("/info", append(_getpartyinfoMw(), api.GetPartyInfo)...)
+			_party.GET("/get", append(_getpartyinfoMw(), api.GetPartyInfo)...)
 			_party.GET("/members", append(_getpartymembersMw(), api.GetPartyMembers)...)
 			_party.POST("/search", append(_searchpartyMw(), api.SearchParty)...)
+			_party.GET("/status", append(_changepartystatusMw(), api.ChangePartyStatus)...)
 			_party.GET("/apply", append(_joinpartyMw(), api.JoinParty)...)
 			_apply := _party.Group("/apply", _applyMw()...)
 			_apply.GET("/list", append(_applylistMw(), api.ApplyList)...)
@@ -37,6 +38,7 @@ func Register(r *server.Hertz) {
 			{
 				_itinerary := _party.Group("/itinerary", _itineraryMw()...)
 				_itinerary.POST("/create", append(_createitineraryMw(), api.CreateItinerary)...)
+				_itinerary.GET("/delete", append(_deleteitineraryMw(), api.DeleteItinerary)...)
 				_itinerary.GET("/info", append(_getitineraryinfoMw(), api.GetItineraryInfo)...)
 				_itinerary.GET("/merge", append(_mergeitineraryMw(), api.MergeItinerary)...)
 				_itinerary.GET("/my", append(_getmyitinerariesMw(), api.GetMyItineraries)...)

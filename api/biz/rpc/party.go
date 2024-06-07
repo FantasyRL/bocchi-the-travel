@@ -115,3 +115,13 @@ func GetMyParties(ctx context.Context, req *party.GetMyPartiesRequest) (*party.G
 	}
 	return resp, nil
 }
+
+func ChangePartyStatus(ctx context.Context, req *party.ChangePartyStatusRequest) (*party.ChangePartyStatusResponse, error) {
+	//rpc client
+	resp, err := partyClient.ChangePartyStatus(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}

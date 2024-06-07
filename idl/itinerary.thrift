@@ -68,6 +68,14 @@ struct GetMyItinerariesResponse{
     3:optional list<base.Itinerary> itinerary_list,
 }
 //todo:delete itinerary
+struct DeleteItineraryRequest{
+    1:i64 itinerary_id,
+    2:i64 user_id,
+}
+
+struct DeleteItineraryResponse{
+    1:base.BaseResp base,
+}
 //todo:itinerary draft
 
 service ItineraryHandler{
@@ -77,4 +85,5 @@ service ItineraryHandler{
     ChangeSequenceResponse ChangeSequence(1:ChangeSequenceRequest req)(api.post="/bocchi/party/itinerary/sequence/change"),
     MergeItineraryResponse MergeItinerary(1:MergeItineraryRequest req)(api.get="/bocchi/party/itinerary/merge"),
     GetMyItinerariesResponse GetMyItineraries(1:GetMyItinerariesRequest req)(api.get="/bocchi/party/itinerary/my"),
+    DeleteItineraryResponse DeleteItinerary(1:DeleteItineraryRequest req)(api.get="/bocchi/party/itinerary/delete"),
 }

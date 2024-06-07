@@ -255,3 +255,38 @@ func GetMyItineraries(ctx context.Context, c *app.RequestContext) {
 	resp.ItineraryList = pack.ConvertToAPIItineraries(rpcResp.ItineraryList)
 	c.JSON(consts.StatusOK, resp)
 }
+
+// DeleteItinerary .
+// @Summary delete_itinerary
+// @Description delete itinerary
+// @Accept json/form
+// @Produce json
+// @Param itinerary_id query int true "行程id"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bocchi/party/itinerary/delete [GET]
+func DeleteItinerary(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.DeleteItineraryRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.DeleteItineraryResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.DeleteItinerary(ctx, &itinerary.DeleteItineraryRequest{
+		ItineraryId: req.ItineraryID,
+		UserId:      id,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	c.JSON(consts.StatusOK, resp)
+}

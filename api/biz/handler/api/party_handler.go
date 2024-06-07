@@ -309,8 +309,8 @@ func GetPartyInfo(ctx context.Context, c *app.RequestContext) {
 }
 
 // GetMyParties .
-// @Summary get_party_members
-// @Description get members who have join the party
+// @Summary get_my_parties
+// @Description get my parties
 // @Accept json/form
 // @Produce json
 // @Param page_num query int true "页码"
@@ -346,5 +346,42 @@ func GetMyParties(ctx context.Context, c *app.RequestContext) {
 	}
 	resp.PartyCount = rpcResp.PartyCount
 	resp.PartyList = pack.ConvertToAPIParties(rpcResp.PartyList)
+	c.JSON(consts.StatusOK, resp)
+}
+
+// ChangePartyStatus .
+// @Summary change_party_status
+// @Description delete or finish party
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @Param action_type query int true "1:完成party 2:删除party(未开始的party取消)"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bocchi/party/status [GET]
+func ChangePartyStatus(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.ChangePartyStatusRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.ChangePartyStatusResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.ChangePartyStatus(ctx, &party.ChangePartyStatusRequest{
+		UserId:     id,
+		PartyId:    req.PartyID,
+		ActionType: req.ActionType,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 	c.JSON(consts.StatusOK, resp)
 }
