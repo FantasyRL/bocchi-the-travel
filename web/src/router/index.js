@@ -61,6 +61,12 @@ const router = createRouter({
       meta: { keepAlive: false }
     },
     {
+      path: '/myitinerarys/:id',
+      name: 'myitinerary',
+      component: () => import('../views/myitinerary.vue'),
+      meta: { keepAlive: false }
+    },
+    {
       path: '/partys/:id',
       name: 'party',
       component: () => import('../views/party.vue'),

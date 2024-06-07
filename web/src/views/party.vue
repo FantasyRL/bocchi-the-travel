@@ -1,4 +1,5 @@
 <script setup>
+import Cookies from "js-cookie";
 import axios from "axios";
 import { CheckOutlined } from "@ant-design/icons-vue";
 /* import { ref } from "vue";
@@ -42,42 +43,17 @@ export default {
         status: 0,
         rectangle: ""
       }, // 假设这是 party 的数据对象
-      items: [
-        {
-          id: 5,
-          title: "第一个",
-          founder_id: 6,
-          action_type: 2,
-          rectangle: "1",
-          route_json: "1",
-          remark: "1hhhhhhhhhhhhhhhhhhhhhhhhhh",
-          sequence: 0,
-          schedule_start_time: "2006-01-02 15:40",
-          schedule_end_time: "2006-01-02 15:40",
-          party_id: 5,
-          is_merged: 1
-        },
-        {
-          id: 6,
-          title: "吃饭",
-          founder_id: 6,
-          action_type: 2,
-          rectangle: "1",
-          route_json: "1",
-          remark: "1",
-          sequence: 0,
-          schedule_start_time: "2006-01-02 15:40",
-          schedule_end_time: "2006-01-02 15:40",
-          party_id: 5,
-          is_merged: 1
-        }
-      ]
+      items: []
     };
   },
   methods: {
     getin() {
       axios
-        .get("/bocchi/party/itinerary/show?party_id=" + this.id)
+        .get("/bocchi/party/itinerary/my?party_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
         .then((res) => {
           console.log(res);
           this.items = res.data.itineraries;
@@ -91,7 +67,7 @@ export default {
         });
     },
     partyinit() {
-      const url = "/bocchi/party/info?party_id=" + this.id;
+      const url = "/bocchi/party/get?party_id=" + this.id;
       const params = {};
       axios
         .get(url, params)
@@ -106,6 +82,7 @@ export default {
   },
   mounted() {
     this.id = Number(this.$route.params.id);
+    this.access_token = Cookies.get("access_token");
     this.partyinit();
     this.getin();
   },
@@ -236,7 +213,10 @@ export default {
   </div>
   <div class="foot">
     <div class="create">
-      <button class="btn" @click="$router.push('/Createplan/' + this.id)">创建计划</button>
+      <button class="btn" @click="$router.push('/Createplan/' + this.id)">创建计划</button><br />
+      <button class="btn" @click="$router.push('/myitinerarys/' + this.id)">
+        查看撰写过的计划
+      </button>
     </div>
   </div>
   <br />
