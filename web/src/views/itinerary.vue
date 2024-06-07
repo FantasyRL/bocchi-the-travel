@@ -34,21 +34,8 @@ export default {
         start_time: "2006-01-02",
         end_time: "2006-01-03"
       },
-      info: {
-        id: 2,
-        title: "1",
-        founder_id: 6,
-        action_type: 2,
-        rectangle: "1",
-        route_json: "1",
-        remark: "1",
-        sequence: 0,
-        schedule_start_time: "2006-01-02 15:40",
-        schedule_end_time: "2006-01-02 15:40",
-        party_id: 5,
-        is_merged: 1,
-        partynull: 0 // 假设这是 itinerary 的数据对象
-      } // 假设这是 itinerary 的数据对象
+      info: {},
+      partynull: false // 假设这是 party 是否为空的标志
     };
   },
   methods: {
@@ -59,10 +46,10 @@ export default {
         .get(url, params)
         .then((res) => {
           console.log(res);
-
+          this.partynull = true;
           this.info = res.data.itinerary; // 假设这是返回的数据对象
-          if (res.data.base.code === 10007) {
-            this.partynull = 1;
+          if (res.data.base.code == 10007) {
+            this.partynull = 0;
             console.log(this.partynull);
           }
         })
@@ -124,7 +111,7 @@ export default {
   </div>
 
   <br />
-  <div style="justify-content: center" v-if="!partynull">
+  <div style="justify-content: center" v-if="partynull">
     <el-timeline style="max-width: 600px; margin-left: 10%">
       <el-timeline-item>计划名:{{ info.title }} </el-timeline-item>
       <el-timeline-item>序列:{{ info.sequence }} </el-timeline-item>
@@ -139,7 +126,7 @@ export default {
       </el-timeline-item>
     </el-timeline>
   </div>
-  <div v-if="partynull">
+  <div v-if="!partynull">
     <a-empty />
   </div>
 
