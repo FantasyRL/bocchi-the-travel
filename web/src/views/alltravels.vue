@@ -3,10 +3,6 @@ import { h } from "vue";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { CheckOutlined, ReconciliationOutlined, TeamOutlined } from "@ant-design/icons-vue";
-const baseUrl = "https://severj.top/img/";
-const getImgUrl = (i) => {
-  return `${baseUrl}background${i}.webp`;
-};
 </script>
 <script>
 export default {
