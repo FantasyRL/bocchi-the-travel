@@ -100,7 +100,11 @@ export default {
                   >查看申请</a-button
                 >
                 <a-button style="margin-right: 5%" :icon="h(TeamOutlined)">查看成员</a-button>
-                <a-button @click="ToEnd(item.id)" style="margin-right: 5%" :icon="h(CheckOutlined)"
+                <a-button
+                  type="primary"
+                  @click="ToEnd(item.id)"
+                  style="margin-right: 5%"
+                  :icon="h(CheckOutlined)"
                   >结束行程</a-button
                 >
               </div>
