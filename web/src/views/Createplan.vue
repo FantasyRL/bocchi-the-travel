@@ -1,32 +1,45 @@
 <script setup>
 import axios from "axios";
 import Cookies from "js-cookie";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-const title = ref();
-const action_type = ref();
-const content = ref();
+const title = ref("");
+const action_type = ref("");
+
 const partytime = ref();
-const party_id = ref();
+
 const rectangle = ref();
 const route_json = ref();
 const remark = ref();
 const options = ref([
-  { value: "路线" },
-  { value: "活动" },
-  { value: "住处" },
-  { value: "吃喝" },
-  { value: "其他" }
+  { value: "1", label: "路线" },
+  { value: "2", label: "活动" },
+  { value: "3", label: "住处" },
+  { value: "4", label: "吃喝" },
+  { value: "5", label: "其他" }
 ]);
 </script>
 
 <script>
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
+import locale from "ant-design-vue/es/date-picker/locale/zh_CN";
+
+dayjs.locale("zh-cn");
 export default {
+  setup() {
+    return {
+      value: dayjs("2015-01-01", "YYYY-MM-DD"),
+      dayjs,
+      locale
+    };
+  },
   data() {
     return {
       trnumber: 10,
       access_token: "", // 假设您将令牌存储在localStorage中
-      refresh_token: ""
+      refresh_token: "",
+      partyid: null
     };
   },
   methods: {
@@ -76,10 +89,11 @@ export default {
     }
   },
   mounted() {
-    this.id = Cookies.get("id");
+    this.partyid = Number(this.$route.params.id);
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
   },
+  computed: {},
   watch: {}
 };
 </script>
@@ -102,7 +116,6 @@ export default {
     <div class="input-box">
       <a-select
         v-model:value="action_type"
-        mode="multiple"
         size="large"
         style="width: 100%"
         :bordered="false"
@@ -110,13 +123,15 @@ export default {
         :options="options"
       />
     </div>
-    <a-divider orientation="left" class="separate">路线</a-divider>
-
+    <a-divider orientation="left" class="separate" v-if="!(action_type - 1)">路线</a-divider>
+    <div v-if="!(action_type - 1)">假装有一个路线图</div>
+    <a-divider orientation="left" class="separate" v-if="action_type - 1">地点</a-divider>
+    <div v-if="action_type - 1">假装有一个地图</div>
     <a-divider orientation="left" class="separate">备注</a-divider>
     <div class="input-box">
       <a-textarea
         v-model:value="remark"
-        placeholder="请输入活动简介"
+        placeholder="备注"
         :rows="4"
         size="large"
         :bordered="false"
@@ -125,7 +140,12 @@ export default {
 
     <a-divider orientation="left" class="separate">起止时间</a-divider>
     <div class="time-box">
-      <a-range-picker v-model:value="partytime" size="large" :bordered="false" />
+      <a-range-picker
+        v-model:value="partytime"
+        size="large"
+        :bordered="false"
+        :show-time="{ format: 'HH:mm' }"
+      />
     </div>
 
     <br /><br />
@@ -133,7 +153,7 @@ export default {
     <div class="start-button">
       <button
         class="pushable"
-        @click="partycreate(title, action_type, party_id, rectangle, route_json, remark, partytime)"
+        @click="partycreate(title, action_type, partyid, rectangle, route_json, remark, partytime)"
       >
         <span class="shadow"></span>
         <span class="edge"></span>

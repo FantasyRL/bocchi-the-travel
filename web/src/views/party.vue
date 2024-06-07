@@ -236,7 +236,7 @@ export default {
   </div>
   <div class="foot">
     <div class="create">
-      <button class="btn" @click="$router.push('/Createplan/')">创建计划</button>
+      <button class="btn" @click="$router.push('/Createplan/' + this.id)">创建计划</button>
     </div>
   </div>
   <br />
