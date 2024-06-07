@@ -170,9 +170,24 @@ export default {
         </div>
       </div>
       <div class="card__content">
-        id: 5, founder_id: 6, title: "1", content: "1", type: "", province: "1", city: "1",
-        start_time: "2006-01-02", end_time: "2006-01-02", member_count: 0, status: 0, rectangle: ""
-        <div></div>
+        <div class="party_info">
+          <div class="title"><text class="info_name">活动名:</text><br />{{ infodata.title }}</div>
+          <div class="title">
+            <text class="info_name">创建者:</text><br />{{ infodata.founder_id }}
+          </div>
+
+          <div class="title">
+            <text class="info_name">成员数:</text><br />{{ infodata.member_count }}
+          </div>
+        </div>
+        <div class="content">
+          <text class="content_text">介绍:</text><br />[本活动于"{{ infodata.province }},{{
+            infodata.city
+          }}"处进行] <br />{{ infodata.content }}
+        </div>
+        <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
+          起止时间:{{ infodata.start_time }} - {{ infodata.end_time }}
+        </div>
       </div>
     </div>
     <div class="center">
@@ -219,10 +234,62 @@ export default {
       <a-empty />
     </div>
   </div>
+  <div class="foot">
+    <div class="create">
+      <button class="btn" @click="$router.push('/Createplan/')">创建计划</button>
+    </div>
+  </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
 </template>
 
 <style scoped>
+.foot {
+  margin-top: 36px;
+  margin-bottom: 36px;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+}
+.create {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  border-radius: 12px;
+}
+.title {
+  font-size: 18px;
+}
+.content_text {
+  font-size: 20px;
+  font-weight: bold;
+}
+.content {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  width: 100%;
+}
+.info_name {
+  font-size: 18px;
+  font-weight: bold;
+}
+.party_info {
+  display: grid;
+  font-size: 20px;
+  justify-content: center;
+  text-align: center;
+  grid-template-columns: repeat(3, 2fr);
+  grid-column-gap: 5px;
+  grid-row-gap: 10px;
+}
 .sty {
+  margin-left: 20vw;
   margin-top: 20px;
 }
 
@@ -282,5 +349,34 @@ export default {
 
 .green {
   background-color: #00ca4e;
+}
+.btn {
+  background-color: #00bfa6;
+  padding: 14px 40px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 2px dashed #00bfa6;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.4s;
+}
+
+.btn span:last-child {
+  display: none;
+}
+
+.btn:hover {
+  transition: 0.4s;
+  border: 2px dashed #00bfa6;
+  background-color: #fff;
+  color: #00bfa6;
+}
+
+.btn:active {
+  background-color: #87dbd0;
 }
 </style>
