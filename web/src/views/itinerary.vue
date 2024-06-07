@@ -1,5 +1,5 @@
 <script setup>
-import { CheckOutlined } from "@ant-design/icons-vue";
+import Cookies from "js-cookie";
 import { ref } from "vue";
 const open = ref(false);
 const confirmLoading = ref(false);
@@ -25,6 +25,7 @@ import {
   QuestionCircleOutlined
 } from "@ant-design/icons-vue";
 import "./itinerary.vue";
+import Cookies from "js-cookie";
 export default {
   props: {},
   data() {
@@ -39,6 +40,22 @@ export default {
     };
   },
   methods: {
+    deleteItinerary() {
+      const url = "/bocchi/party/itinerary/delete?itinerary_id=" + this.id; // 假设这是删除 itinerary 的 API 接口地址
+
+      axios
+        .get(url, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
+        .then((res) => {
+          console.log(res); // 假设这是删除成功的回调函数，可以在这里进行页面跳转等操作
+        })
+        .catch((err) => {
+          console.error(err); // 假设这是删除失败的回调函数，可以在这里进行错误处理
+        });
+    },
     init() {
       const url = "/bocchi/party/itinerary/info?itinerary_id=" + this.id;
       const params = {};
@@ -62,6 +79,7 @@ export default {
   mounted() {
     this.id = Number(this.$route.params.id);
     this.init();
+    this.access_token = Cookies.get("access_token");
   },
   computed: {
     getIcon() {
@@ -111,7 +129,7 @@ export default {
   </div>
 
   <br />
-  <div style="justify-content: center" v-if="partynull">
+  <div v-if="partynull" class="itinerary">
     <el-timeline style="max-width: 600px; margin-left: 10%">
       <el-timeline-item>计划名:{{ info.title }} </el-timeline-item>
       <el-timeline-item>序列:{{ info.sequence }} </el-timeline-item>
@@ -119,34 +137,108 @@ export default {
       <el-timeline-item> 类型：{{ getType(info.action_type) }} </el-timeline-item>
       <el-timeline-item> 备注：{{ info.remark }} </el-timeline-item>
       <el-timeline-item> 地点：{{ info.rectangle }} </el-timeline-item>
+      <el-timeline-item> 路线：{{ info.route_json }} </el-timeline-item>
       <el-timeline-item> 开始时间：{{ info.schedule_start_time }} </el-timeline-item>
       <el-timeline-item>
         结束时间:
         {{ info.schedule_end_time }}
       </el-timeline-item>
     </el-timeline>
+    <button @click="deleteItinerary">
+      <span class="shadow"></span>
+      <span class="edge"></span>
+      <span class="front text"> 删除计划 </span>
+    </button>
   </div>
   <div v-if="!partynull">
     <a-empty />
   </div>
-
-  <div id="debug" v-if="0">
-    <br />
-    <br />
-    <br />
-    itinerary debug part:
-    <div>itinerary id:{{ id }}</div>
-    <div>原始数据:{{ info }}</div>
-    <div>title:{{ info.title }}</div>
-    <div>founder_id:{{ info.founder_id }}</div>
-    <div>action_type:{{ info.action_type }}</div>
-    <div>rectangle:{{ info.rectangle }}</div>
-    <div>route_json:{{ info.route_json }}</div>
-    <div>remark:{{ info.remark }}</div>
-    <div>sequence:{{ info.sequence }}</div>
-    <div>schedule_start_time:{{ info.schedule_start_time }}</div>
-    <div>schedule_end_time:{{ info.schedule_end_time }}</div>
-    <div>party_id:{{ info.party_id }}</div>
-    <div>is_merged:{{ info.is_merged }}</div>
-  </div>
 </template>
+
+<style>
+.itinerary {
+  display: grid;
+  justify-content: center;
+}
+button {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+  transition: filter 250ms;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: hsl(0deg 0% 0% / 0.25);
+  will-change: transform;
+  transform: translateY(2px);
+  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+.edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(
+    to left,
+    hsl(340deg 100% 16%) 0%,
+    hsl(340deg 100% 32%) 8%,
+    hsl(340deg 100% 32%) 92%,
+    hsl(340deg 100% 16%) 100%
+  );
+}
+
+.front {
+  display: block;
+  position: relative;
+  padding: 12px 27px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  color: white;
+  background: hsl(345deg 100% 47%);
+  will-change: transform;
+  transform: translateY(-4px);
+  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+button:hover {
+  filter: brightness(110%);
+}
+
+button:hover .front {
+  transform: translateY(-6px);
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+button:active .front {
+  transform: translateY(-2px);
+  transition: transform 34ms;
+}
+
+button:hover .shadow {
+  transform: translateY(4px);
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+button:active .shadow {
+  transform: translateY(1px);
+  transition: transform 34ms;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+</style>
