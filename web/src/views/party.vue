@@ -177,15 +177,13 @@ export default {
           </div>
 
           <div class="title">
-            <text class="info_name">活动省份:</text><br />{{ infodata.province }}
-          </div>
-          <div class="title"><text class="info_name">活动城市:</text><br />{{ infodata.city }}</div>
-          <div class="title">
             <text class="info_name">成员数:</text><br />{{ infodata.member_count }}
           </div>
         </div>
         <div class="content">
-          <text class="content_text">介绍:</text><br />{{ infodata.content }}
+          <text class="content_text">介绍:</text><br />[本活动于"{{ infodata.province }},{{
+            infodata.city
+          }}"处进行] <br />{{ infodata.content }}
         </div>
         <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
           起止时间:{{ infodata.start_time }} - {{ infodata.end_time }}
@@ -236,6 +234,11 @@ export default {
       <a-empty />
     </div>
   </div>
+  <div class="foot">
+    <div class="create">
+      <button class="btn" @click="$router.push('/Createplan/')">创建计划</button>
+    </div>
+  </div>
   <br />
   <br />
   <br />
@@ -245,6 +248,19 @@ export default {
 </template>
 
 <style scoped>
+.foot {
+  margin-top: 36px;
+  margin-bottom: 36px;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+}
+.create {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  border-radius: 12px;
+}
 .title {
   font-size: 18px;
 }
@@ -333,5 +349,34 @@ export default {
 
 .green {
   background-color: #00ca4e;
+}
+.btn {
+  background-color: #00bfa6;
+  padding: 14px 40px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 2px dashed #00bfa6;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.4s;
+}
+
+.btn span:last-child {
+  display: none;
+}
+
+.btn:hover {
+  transition: 0.4s;
+  border: 2px dashed #00bfa6;
+  background-color: #fff;
+  color: #00bfa6;
+}
+
+.btn:active {
+  background-color: #87dbd0;
 }
 </style>

@@ -2,14 +2,22 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { ref } from "vue";
-import cityOptions from "@/city";
 
 const title = ref();
-const type = ref();
+const action_type = ref();
 const content = ref();
 const partytime = ref();
-const city = ref();
-const options = ref([{ value: "放松" }, { value: "深度" }, { value: "人文" }]);
+const party_id = ref();
+const rectangle = ref();
+const route_json = ref();
+const remark = ref();
+const options = ref([
+  { value: "路线" },
+  { value: "活动" },
+  { value: "住处" },
+  { value: "吃喝" },
+  { value: "其他" }
+]);
 </script>
 
 <script>
@@ -18,13 +26,11 @@ export default {
     return {
       trnumber: 10,
       access_token: "", // 假设您将令牌存储在localStorage中
-      refresh_token: "",
-      fieldNames: { label: "label", value: "label", children: "children" }, //重置默认字段
-      cityOptions: cityOptions //数据
+      refresh_token: ""
     };
   },
   methods: {
-    partycreate(title, type, content, city, time) {
+    partycreate(title, action_type, party_id, rectangle, route_json, remark, time) {
       const dateTimeStr = time[0];
       const date = new Date(dateTimeStr);
       const oldday = date.toISOString().slice(0, 50);
@@ -33,26 +39,23 @@ export default {
       const date2 = new Date(dateTimeStr2);
       const newday = date2.toISOString().slice(0, 50);
       console.log(time);
-      if (city["2"] === undefined) {
-        console.log("未定义");
-        city["2"] = "";
-      }
       axios
         .post(
-          "/bocchi/party/create?title=" +
+          "/bocchi/party/itinerary/create?title=" +
             title +
-            "&content=" +
-            content +
-            "&type=" +
-            type +
-            "&province=" +
-            city["0"] +
-            "&city=" +
-            city["1"] +
-            city["2"] +
-            "&start_time=" +
+            "&action_type=" +
+            action_type +
+            "&party_id=" +
+            party_id +
+            "&rectangle=" +
+            rectangle +
+            "&route_json=" +
+            route_json +
+            "&remark=" +
+            remark +
+            "&schedule_start_time=" +
             oldday +
-            "&end_time=" +
+            "&schedule_end_time=" +
             newday,
           {},
           {
@@ -65,7 +68,6 @@ export default {
           console.log(response.data);
           if (response.data.base.code == 10000) {
             console.log("创建成功");
-            this.$router.push("/partys/" + response.data.party.id);
           }
         })
         .catch((error) => {
@@ -78,15 +80,7 @@ export default {
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
   },
-  watch: {
-    //该方法会在数据变化，触发执行
-    couter(newValue, oldValue) {
-      console.log(`couter changed from ${oldValue} to ${newValue}`); // 打印变化后的值和变化前的值
-    },
-    partytime(newValue, oldValue) {
-      console.log(`couter changed from ${oldValue} to ${newValue}`);
-    }
-  }
+  watch: {}
 };
 </script>
 
@@ -94,51 +88,34 @@ export default {
   <div class="create">
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
-      title="创建活动"
+      title="创建计划"
       @back="() => $router.go(-1)"
     />
   </div>
-  <!--   <div class="travels-card">
-    <a-card title="已创建的活动" style="width: 90%">
-      <template #extra><router-link to="/alltravels/">查看详细</router-link></template>
-      <p>这里塞一个最新创建活动</p>
-    </a-card>
-  </div> -->
+
   <div class="create">
-    <a-divider orientation="left" class="separate">名称</a-divider>
+    <a-divider orientation="left" class="separate">计划名</a-divider>
     <div class="input-box">
       <a-input v-model:value="title" :bordered="false" size="large" placeholder="标题" />
     </div>
-
-    <a-divider orientation="left" class="separate">城市</a-divider>
-    <a-form-item class="input-box">
-      <a-cascader
-        :options="cityOptions"
-        placeholder="请选择地区"
-        :fieldNames="fieldNames"
-        v-model:value="city"
-        size="large"
-        :bordered="false"
-      />
-    </a-form-item>
-
-    <a-divider orientation="left" class="separate">旅行心情</a-divider>
+    <a-divider orientation="left" class="separate">活动类型</a-divider>
     <div class="input-box">
       <a-select
-        v-model:value="type"
+        v-model:value="action_type"
         mode="multiple"
         size="large"
         style="width: 100%"
         :bordered="false"
-        placeholder="请选择你的旅行心情"
+        placeholder="请选择你的活动类型"
         :options="options"
       />
     </div>
+    <a-divider orientation="left" class="separate">路线</a-divider>
 
-    <a-divider orientation="left" class="separate">简介</a-divider>
+    <a-divider orientation="left" class="separate">备注</a-divider>
     <div class="input-box">
       <a-textarea
-        v-model:value="content"
+        v-model:value="remark"
         placeholder="请输入活动简介"
         :rows="4"
         size="large"
@@ -146,7 +123,7 @@ export default {
       />
     </div>
 
-    <a-divider orientation="left" class="separate">时间</a-divider>
+    <a-divider orientation="left" class="separate">起止时间</a-divider>
     <div class="time-box">
       <a-range-picker v-model:value="partytime" size="large" :bordered="false" />
     </div>
@@ -154,10 +131,13 @@ export default {
     <br /><br />
 
     <div class="start-button">
-      <button class="pushable" @click="partycreate(title, type, content, city, partytime)">
+      <button
+        class="pushable"
+        @click="partycreate(title, action_type, party_id, rectangle, route_json, remark, partytime)"
+      >
         <span class="shadow"></span>
         <span class="edge"></span>
-        <span class="front"> 开启旅途 </span>
+        <span class="front"> 创建 </span>
       </button>
     </div>
   </div>
