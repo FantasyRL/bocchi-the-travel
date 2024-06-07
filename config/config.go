@@ -52,6 +52,7 @@ func configMapping(serviceName string) {
 	OSS = &c.OSS
 	Sender = &c.Email
 	ElasticSearch = &c.ElasticSearch
+	Redis = &c.Redis
 
 	addrList := runtimeViper.GetStringSlice("services." + serviceName + ".addr")
 	Service = &service{

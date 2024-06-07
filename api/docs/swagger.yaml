@@ -1,6 +1,87 @@
 info:
   contact: {}
 paths:
+  /bibi/trust/action:
+    post:
+      consumes:
+      - json/form
+      description: trust action
+      parameters:
+      - description: 操作对象id
+        in: query
+        name: object_uid
+        required: true
+        type: integer
+      - description: 0：取消信任;1：信任
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: trust_action
+  /bibi/trust/each:
+    post:
+      consumes:
+      - json/form
+      description: list your friends
+      parameters:
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: friend_list
+  /bibi/trust/follower:
+    get:
+      consumes:
+      - json/form
+      description: list who trust you
+      parameters:
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: follower_list
+  /bibi/trust/following:
+    get:
+      consumes:
+      - json/form
+      description: list who you trusted
+      parameters:
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: following_list
   /bocchi/access_token/get:
     get:
       consumes:
@@ -166,7 +247,7 @@ paths:
       - application/json
       responses: {}
       summary: create_party
-  /bocchi/party/info:
+  /bocchi/party/get:
     get:
       consumes:
       - json/form

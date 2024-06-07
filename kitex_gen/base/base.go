@@ -233,6 +233,7 @@ type User struct {
 	Email     string `thrift:"email,3" frugal:"3,default,string" json:"email"`
 	Avatar    string `thrift:"avatar,4" frugal:"4,default,string" json:"avatar"`
 	Signature string `thrift:"signature,5" frugal:"5,default,string" json:"signature"`
+	IsFollow  bool   `thrift:"is_follow,6" frugal:"6,default,bool" json:"is_follow"`
 }
 
 func NewUser() *User {
@@ -262,6 +263,10 @@ func (p *User) GetAvatar() (v string) {
 func (p *User) GetSignature() (v string) {
 	return p.Signature
 }
+
+func (p *User) GetIsFollow() (v bool) {
+	return p.IsFollow
+}
 func (p *User) SetId(val int64) {
 	p.Id = val
 }
@@ -277,6 +282,9 @@ func (p *User) SetAvatar(val string) {
 func (p *User) SetSignature(val string) {
 	p.Signature = val
 }
+func (p *User) SetIsFollow(val bool) {
+	p.IsFollow = val
+}
 
 var fieldIDToName_User = map[int16]string{
 	1: "id",
@@ -284,6 +292,7 @@ var fieldIDToName_User = map[int16]string{
 	3: "email",
 	4: "avatar",
 	5: "signature",
+	6: "is_follow",
 }
 
 func (p *User) Read(iprot thrift.TProtocol) (err error) {
@@ -340,6 +349,14 @@ func (p *User) Read(iprot thrift.TProtocol) (err error) {
 		case 5:
 			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField5(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 6:
+			if fieldTypeId == thrift.BOOL {
+				if err = p.ReadField6(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -419,6 +436,15 @@ func (p *User) ReadField5(iprot thrift.TProtocol) error {
 	}
 	return nil
 }
+func (p *User) ReadField6(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadBool(); err != nil {
+		return err
+	} else {
+		p.IsFollow = v
+	}
+	return nil
+}
 
 func (p *User) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
@@ -444,6 +470,10 @@ func (p *User) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField5(oprot); err != nil {
 			fieldId = 5
+			goto WriteFieldError
+		}
+		if err = p.writeField6(oprot); err != nil {
+			fieldId = 6
 			goto WriteFieldError
 		}
 	}
@@ -549,6 +579,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
 }
 
+func (p *User) writeField6(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("is_follow", thrift.BOOL, 6); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteBool(p.IsFollow); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 6 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 6 end error: ", p), err)
+}
+
 func (p *User) String() string {
 	if p == nil {
 		return "<nil>"
@@ -576,6 +623,9 @@ func (p *User) DeepEqual(ano *User) bool {
 		return false
 	}
 	if !p.Field5DeepEqual(ano.Signature) {
+		return false
+	}
+	if !p.Field6DeepEqual(ano.IsFollow) {
 		return false
 	}
 	return true
@@ -612,6 +662,13 @@ func (p *User) Field4DeepEqual(src string) bool {
 func (p *User) Field5DeepEqual(src string) bool {
 
 	if strings.Compare(p.Signature, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *User) Field6DeepEqual(src bool) bool {
+
+	if p.IsFollow != src {
 		return false
 	}
 	return true

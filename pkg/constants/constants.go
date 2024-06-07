@@ -9,6 +9,7 @@ const (
 	PartyServiceName       = "party"
 	ItineraryServiceName   = "itinerary"
 	InteractionServiceName = "interaction"
+	TrustServiceName       = "trust"
 
 	// db table name
 	UserTableName      = "user"
@@ -16,6 +17,7 @@ const (
 	MemberTableName    = "member"
 	ItineraryTableName = "itinerary"
 	CommentTableName   = "comment"
+	FollowTableName    = "follow"
 
 	// limit
 	MaxConnections     = 1000
@@ -41,10 +43,14 @@ const (
 	PageSize = 10
 
 	//redis
-	CommentSuffix = ":comment"
-
+	CommentSuffix  = ":comment"
+	FollowerSuffix = ":follower"
+	FollowExpTime  = time.Minute
 	PoiExpTime     = time.Hour * 1 //到期自动移除k-v
 	CommentExpTime = time.Minute * 10
 
 	PoiCommentCountZset = "poi_comment_counts"
+	FollowerCountZset   = "follower_counts"
+	FollowingCountZset  = "following_counts"
+	FriendCountZset     = "friend_counts"
 )

@@ -234,3 +234,30 @@ func _deleteitineraryMw() []app.HandlerFunc {
 		jwt.JwtMiddleware.MiddlewareFunc(),
 	}
 }
+
+func _trustMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _trustactionMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _trusteachlistMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _followerlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _followinglistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

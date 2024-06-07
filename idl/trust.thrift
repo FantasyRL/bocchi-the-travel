@@ -1,4 +1,4 @@
-namespace go score
+namespace go trust
 
 include "base.thrift"
 
@@ -45,7 +45,7 @@ struct FriendListResponse{
     3:optional list<base.User> friend_list,
 }
 
-service FollowHandler{
+service TrustHandler{
     FollowActionResponse TrustAction(1:FollowActionRequest req),
     FollowerListResponse FollowerList(1:FollowerListRequest req),
     FollowingListResponse FollowingList(1:FollowingListRequest req),
