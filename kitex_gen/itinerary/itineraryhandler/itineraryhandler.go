@@ -55,6 +55,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"DeleteItinerary": kitex.NewMethodInfo(
+		deleteItineraryHandler,
+		newItineraryHandlerDeleteItineraryArgs,
+		newItineraryHandlerDeleteItineraryResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 }
 
 var (
@@ -229,6 +236,24 @@ func newItineraryHandlerGetMyItinerariesResult() interface{} {
 	return itinerary.NewItineraryHandlerGetMyItinerariesResult()
 }
 
+func deleteItineraryHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*itinerary.ItineraryHandlerDeleteItineraryArgs)
+	realResult := result.(*itinerary.ItineraryHandlerDeleteItineraryResult)
+	success, err := handler.(itinerary.ItineraryHandler).DeleteItinerary(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newItineraryHandlerDeleteItineraryArgs() interface{} {
+	return itinerary.NewItineraryHandlerDeleteItineraryArgs()
+}
+
+func newItineraryHandlerDeleteItineraryResult() interface{} {
+	return itinerary.NewItineraryHandlerDeleteItineraryResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -294,6 +319,16 @@ func (p *kClient) GetMyItineraries(ctx context.Context, req *itinerary.GetMyItin
 	_args.Req = req
 	var _result itinerary.ItineraryHandlerGetMyItinerariesResult
 	if err = p.c.Call(ctx, "GetMyItineraries", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest) (r *itinerary.DeleteItineraryResponse, err error) {
+	var _args itinerary.ItineraryHandlerDeleteItineraryArgs
+	_args.Req = req
+	var _result itinerary.ItineraryHandlerDeleteItineraryResult
+	if err = p.c.Call(ctx, "DeleteItinerary", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

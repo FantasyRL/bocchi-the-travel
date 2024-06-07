@@ -93,3 +93,7 @@ func GetItinerariesByUidAndPartyId(ctx context.Context, userId int64, partyId in
 	}
 	return itinerariesResp, count, nil
 }
+
+func DeleteItinerary(ctx context.Context, itineraryId int64) error {
+	return DB.WithContext(ctx).Where("id = ?", itineraryId).Delete(Itinerary{}).Error
+}

@@ -40,3 +40,21 @@ func (s *PartyService) GetPartyInfo(req *party.GetPartyInfoRequest) (*db.Party, 
 func (s *PartyService) GetMyParties(req *party.GetMyPartiesRequest) (*[]db.Party, int64, error) {
 	return db.GetPartiesById(s.ctx, req.UserId, req.PageNum)
 }
+
+func (s *PartyService) ChangePartyStatus(req *party.ChangePartyStatusRequest) error {
+	id, err := db.GetFounderIdByPartyId(s.ctx, req.PartyId)
+	if err != nil {
+		return err
+	}
+	if id != req.UserId {
+		return errno.NotFounderError
+	}
+	switch req.ActionType {
+	case 1:
+		return db.FinishParty(s.ctx, req.PartyId)
+	case 2:
+		return db.DeleteParty(s.ctx, req.PartyId)
+	default:
+		return errno.ParamError
+	}
+}

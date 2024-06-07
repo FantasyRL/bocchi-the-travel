@@ -17,6 +17,7 @@ type Client interface {
 	ChangeSequence(ctx context.Context, req *itinerary.ChangeSequenceRequest, callOptions ...callopt.Option) (r *itinerary.ChangeSequenceResponse, err error)
 	MergeItinerary(ctx context.Context, req *itinerary.MergeItineraryRequest, callOptions ...callopt.Option) (r *itinerary.MergeItineraryResponse, err error)
 	GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest, callOptions ...callopt.Option) (r *itinerary.GetMyItinerariesResponse, err error)
+	DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest, callOptions ...callopt.Option) (r *itinerary.DeleteItineraryResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -76,4 +77,9 @@ func (p *kItineraryHandlerClient) MergeItinerary(ctx context.Context, req *itine
 func (p *kItineraryHandlerClient) GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest, callOptions ...callopt.Option) (r *itinerary.GetMyItinerariesResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetMyItineraries(ctx, req)
+}
+
+func (p *kItineraryHandlerClient) DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest, callOptions ...callopt.Option) (r *itinerary.DeleteItineraryResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteItinerary(ctx, req)
 }
