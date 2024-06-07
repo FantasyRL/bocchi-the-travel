@@ -1,6 +1,7 @@
 <script setup>
+import axios from "axios";
 import { CheckOutlined } from "@ant-design/icons-vue";
-import { ref } from "vue";
+/* import { ref } from "vue";
 const open = ref(false);
 const confirmLoading = ref(false);
 const showModal = () => {
@@ -12,10 +13,7 @@ const handleOk = () => {
     open.value = false;
     confirmLoading.value = false;
   });
-};
-import axios from "axios";
-</script>
-<script>
+}; */
 import {
   HomeOutlined,
   CoffeeOutlined,
@@ -23,9 +21,9 @@ import {
   PlayCircleOutlined,
   QuestionCircleOutlined
 } from "@ant-design/icons-vue";
-import "./party.vue";
+</script>
+<script>
 export default {
-  props: {},
   data() {
     return {
       partynull: 0,
@@ -52,7 +50,7 @@ export default {
           action_type: 2,
           rectangle: "1",
           route_json: "1",
-          remark: "1",
+          remark: "1hhhhhhhhhhhhhhhhhhhhhhhhhh",
           sequence: 0,
           schedule_start_time: "2006-01-02 15:40",
           schedule_end_time: "2006-01-02 15:40",
@@ -109,7 +107,7 @@ export default {
   mounted() {
     this.id = Number(this.$route.params.id);
     this.partyinit();
-    /* this.getin(); */
+    this.getin();
   },
   computed: {
     getIcon() {
@@ -157,79 +155,132 @@ export default {
       @back="() => $router.go(-1)"
     />
   </div>
-  <div id="info">
-    <div class="center"><text>所有计划</text></div>
-    <div style="margin-top: 5px">
-      <a-timeline stroke-width="99%" mode="alternate" v-for="item in items" :key="item.id">
-        <a-timeline-item color="red">
-          <template #dot
-            ><component :is="getIcon(item.action_type)" style="font-size: 16px"
-          /></template>
-          <br />
-          <br />
-          计划: {{ item.title }}
-          <br />
-          类型：{{ getType(item.action_type) }}
-          <br />
-          备注：{{ item.remark }}
-          <br />
-          地点：{{ item.rectangle }}
-          <br />
-          时间：{{ item.schedule_start_time }}
-          <br />
-          <div
-            style="
-              border-radius: 12px;
-              border: 3px solid #f5f5f5;
-              width: fit-content;
-              margin-top: 5px;
-            "
-          >
-            <a-button type="link" @click="$router.push('/itinerarys/' + item.id)"
-              >查看详细</a-button
-            >
+
+  <div class="info">
+    <div class="card">
+      <div class="tools">
+        <div class="circle">
+          <span class="red box"></span>
+        </div>
+        <div class="circle">
+          <span class="yellow box"></span>
+        </div>
+        <div class="circle">
+          <span class="green box"></span>
+        </div>
+      </div>
+      <div class="card__content">
+        id: 5, founder_id: 6, title: "1", content: "1", type: "", province: "1", city: "1",
+        start_time: "2006-01-02", end_time: "2006-01-02", member_count: 0, status: 0, rectangle: ""
+        <div></div>
+      </div>
+    </div>
+    <div class="center">
+      <text>所有计划</text>
+    </div>
+    <div class="sty">
+      <a-timeline>
+        <div v-for="item in items" :key="item.id">
+          <a-timeline-item>
+            计划: {{ item.title }}
             <br />
-          </div>
-          <a-modal
-            v-model:open="open"
-            title="活动线路"
-            :confirm-loading="confirmLoading"
-            @ok="handleOk"
-          >
-            // 这里放地图
-          </a-modal>
-        </a-timeline-item>
-        <a-timeline-item color="green">
-          <template #dot><CheckOutlined style="font-size: 16px" /></template>
-          预计结束时间↓<br />{{ item.schedule_end_time }}
-        </a-timeline-item>
+            类型：{{ getType(item.action_type) }}
+            <br />
+            备注：{{ item.remark }}
+            <br />
+            地点：{{ item.rectangle }}
+            <br />
+            时间：{{ item.schedule_start_time }}
+          </a-timeline-item>
+          <a-timeline-item>
+            <template #dot>
+              <CheckOutlined style="font-size: 16px" />
+            </template>
+            结束时间:
+
+            {{ item.schedule_end_time }}
+            <div
+              style="
+                border-radius: 12px;
+                border: 3px solid #f5f5f5;
+                width: fit-content;
+                margin-top: 5px;
+              "
+            >
+              <a-button type="link" @click="$router.push('/itinerarys/' + item.id)">
+                查看详细
+              </a-button>
+            </div>
+          </a-timeline-item>
+        </div>
       </a-timeline>
     </div>
-  </div>
-  <!--   party debug part:
-  <div>party id:{{ id }}</div>
-  <div>原始数据:</div>
-  <div>party info:</div>
-  {{ infodata }}
-  <div>归属于这个party的itinerary</div>
-  {{ items }} -->
-  <div v-show="partynull">
-    <a-empty />
+    <div v-show="partynull">
+      <a-empty />
+    </div>
   </div>
 </template>
 
 <style scoped>
-#info {
+.sty {
+  margin-top: 20px;
+}
+
+.info {
   display: grid;
   justify-content: center;
   margin-top: 5vh;
-  max-width: 98%;
-  grid-template-columns: repeat(1, 1fr);
 }
+
 .center {
   text-align: center;
   margin-bottom: 10px;
   font-size: 20px;
   font-weight: bold;
+}
+
+.card {
+  width: 90vw;
+  height: auto;
+  margin: 0 auto;
+  background-color: #f8fbfe;
+  border-radius: 8px;
+  z-index: 1;
+  box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  outline-width: 3px;
+  outline-style: solid;
+  outline-color: rgba(124, 124, 124, 0.1);
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  padding: 9px;
+}
+
+.circle {
+  padding: 0 4px;
+}
+
+.box {
+  display: inline-block;
+  align-items: center;
+  width: 10px;
+  height: 10px;
+  padding: 1px;
+  border-radius: 50%;
+}
+
+.red {
+  background-color: #ff605c;
+}
+
+.yellow {
+  background-color: #ffbd44;
+}
+
+.green {
+  background-color: #00ca4e;
 }
 </style>

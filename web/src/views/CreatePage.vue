@@ -63,6 +63,10 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
+          if (response.data.base.code == 10000) {
+            console.log("创建成功");
+            this.$router.push("/partys/" + response.data.party.id);
+          }
         })
         .catch((error) => {
           console.log(error);

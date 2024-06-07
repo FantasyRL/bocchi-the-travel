@@ -125,27 +125,41 @@ export default {
 
   <br />
   <div style="justify-content: center" v-if="!partynull">
-    <div id="debug" v-if="1">
-      <br />
-      <br />
-      <br />
-      itinerary debug part:
-      <div>itinerary id:{{ id }}</div>
-      <div>原始数据:{{ info }}</div>
-      <div>title:{{ info.title }}</div>
-      <div>founder_id:{{ info.founder_id }}</div>
-      <div>action_type:{{ info.action_type }}</div>
-      <div>rectangle:{{ info.rectangle }}</div>
-      <div>route_json:{{ info.route_json }}</div>
-      <div>remark:{{ info.remark }}</div>
-      <div>sequence:{{ info.sequence }}</div>
-      <div>schedule_start_time:{{ info.schedule_start_time }}</div>
-      <div>schedule_end_time:{{ info.schedule_end_time }}</div>
-      <div>party_id:{{ info.party_id }}</div>
-      <div>is_merged:{{ info.is_merged }}</div>
-    </div>
+    <el-timeline style="max-width: 600px; margin-left: 10%">
+      <el-timeline-item>计划名:{{ info.title }} </el-timeline-item>
+      <el-timeline-item>序列:{{ info.sequence }} </el-timeline-item>
+      <el-timeline-item> 创建者:{{ info.founder_id }} </el-timeline-item>
+      <el-timeline-item> 类型：{{ getType(info.action_type) }} </el-timeline-item>
+      <el-timeline-item> 备注：{{ info.remark }} </el-timeline-item>
+      <el-timeline-item> 地点：{{ info.rectangle }} </el-timeline-item>
+      <el-timeline-item> 开始时间：{{ info.schedule_start_time }} </el-timeline-item>
+      <el-timeline-item>
+        结束时间:
+        {{ info.schedule_end_time }}
+      </el-timeline-item>
+    </el-timeline>
   </div>
   <div v-if="partynull">
     <a-empty />
+  </div>
+
+  <div id="debug" v-if="0">
+    <br />
+    <br />
+    <br />
+    itinerary debug part:
+    <div>itinerary id:{{ id }}</div>
+    <div>原始数据:{{ info }}</div>
+    <div>title:{{ info.title }}</div>
+    <div>founder_id:{{ info.founder_id }}</div>
+    <div>action_type:{{ info.action_type }}</div>
+    <div>rectangle:{{ info.rectangle }}</div>
+    <div>route_json:{{ info.route_json }}</div>
+    <div>remark:{{ info.remark }}</div>
+    <div>sequence:{{ info.sequence }}</div>
+    <div>schedule_start_time:{{ info.schedule_start_time }}</div>
+    <div>schedule_end_time:{{ info.schedule_end_time }}</div>
+    <div>party_id:{{ info.party_id }}</div>
+    <div>is_merged:{{ info.is_merged }}</div>
   </div>
 </template>
