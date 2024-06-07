@@ -4,6 +4,7 @@ import (
 	"bocchi/kitex_gen/base"
 	"bocchi/rpc/interaction/dal/db"
 	"context"
+	"time"
 )
 
 type InteractionService struct {
@@ -15,12 +16,13 @@ func NewInteractionService(ctx context.Context) *InteractionService {
 }
 
 func BuildCommentResp(comment *db.Comment, commenter *base.User) *base.Comment {
+	cr := comment.CreatedAt.Add(time.Hour * 8)
 	return &base.Comment{
 		Id:          comment.ID,
 		PoiId:       comment.PoiID,
 		User:        commenter,
 		Content:     comment.Content,
-		PublishTime: comment.CreatedAt.Format("2006-01-02 15:01:04"),
+		PublishTime: cr.Format("2006-01-02 15:01:04"),
 	}
 }
 
