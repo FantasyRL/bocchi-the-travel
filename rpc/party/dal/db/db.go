@@ -141,7 +141,7 @@ func GetPartiesById(ctx context.Context, memberId int64, pageNum int64) (*[]Part
 }
 
 func DeleteParty(ctx context.Context, partyId int64) error {
-	return DBParty.WithContext(ctx).Where("id = ?", partyId).Delete(Party{}).Error
+	return DBParty.WithContext(ctx).Delete(Party{Id: partyId}).Error
 }
 func FinishParty(ctx context.Context, partyId int64) error {
 	partyMid := new(Party)
