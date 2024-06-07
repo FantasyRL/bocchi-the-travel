@@ -4,6 +4,7 @@ import (
 	"bocchi/kitex_gen/base"
 	"bocchi/rpc/party/dal/db"
 	"context"
+	"time"
 )
 
 type PartyService struct {
@@ -18,6 +19,8 @@ func NewPartyService(ctx context.Context) *PartyService {
 
 func BuildPartyResp(dbParty *db.Party) *base.Party {
 	_, memberCount, _ := db.GetMemberListByStatus(context.TODO(), dbParty.Id, 0, 1)
+	st := dbParty.StartTime.Add(time.Hour * 8)
+	et := dbParty.EndTime.Add(time.Hour * 8)
 	return &base.Party{
 		Id:          dbParty.Id,
 		FounderId:   dbParty.FounderId,
@@ -26,8 +29,8 @@ func BuildPartyResp(dbParty *db.Party) *base.Party {
 		Type:        dbParty.Type,
 		Province:    dbParty.Province,
 		City:        dbParty.City,
-		StartTime:   dbParty.StartTime.Format("2006-01-02"),
-		EndTime:     dbParty.EndTime.Format("2006-01-02"),
+		StartTime:   st.Format("2006-01-02"),
+		EndTime:     et.Format("2006-01-02"),
 		MemberCount: memberCount,
 		Status:      dbParty.Status,
 		Rectangle:   dbParty.Rectangle,

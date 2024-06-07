@@ -280,7 +280,7 @@ func SearchParty(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param party_id query int true "活动id"
-// @router /bocchi/party/info [GET]
+// @router /bocchi/party/get [GET]
 func GetPartyInfo(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.GetPartyInfoRequest
