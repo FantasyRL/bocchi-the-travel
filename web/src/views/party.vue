@@ -61,7 +61,7 @@ export default {
           id: 6,
           title: "吃饭",
           founder_id: 6,
-          action_type: 2,
+          action_type: 4,
           rectangle: "1",
           route_json: "1",
           remark: "1",
@@ -197,6 +197,9 @@ export default {
       <a-timeline>
         <div v-for="item in items" :key="item.id">
           <a-timeline-item>
+            <template #dot>
+              <component :is="getIcon(item.action_type)" style="font-size: 16px" />
+            </template>
             计划: {{ item.title }}
             <br />
             类型：{{ getType(item.action_type) }}
