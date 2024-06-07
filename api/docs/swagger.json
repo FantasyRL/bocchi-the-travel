@@ -4,6 +4,125 @@
         "contact": {}
     },
     "paths": {
+        "/bibi/trust/action": {
+            "post": {
+                "description": "trust action",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "trust_action",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "操作对象id",
+                        "name": "object_uid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "0：取消信任;1：信任",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bibi/trust/each": {
+            "post": {
+                "description": "list your friends",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "friend_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bibi/trust/follower": {
+            "get": {
+                "description": "list who trust you",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "follower_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bibi/trust/following": {
+            "get": {
+                "description": "list who you trusted",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "following_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/access_token/get": {
             "get": {
                 "description": "get available access-token by refresh-token",
@@ -243,7 +362,7 @@
                 "responses": {}
             }
         },
-        "/bocchi/party/info": {
+        "/bocchi/party/get": {
             "get": {
                 "description": "get party info by id",
                 "consumes": [

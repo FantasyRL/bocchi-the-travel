@@ -18,6 +18,16 @@ func Register(r *server.Hertz) {
 
 	root := r.Group("/", rootMw()...)
 	{
+		_bibi := root.Group("/bibi", _bibiMw()...)
+		{
+			_trust := _bibi.Group("/trust", _trustMw()...)
+			_trust.POST("/action", append(_trustactionMw(), api.TrustAction)...)
+			_trust.POST("/each", append(_trusteachlistMw(), api.TrustEachList)...)
+			_trust.GET("/follower", append(_followerlistMw(), api.FollowerList)...)
+			_trust.GET("/following", append(_followinglistMw(), api.FollowingList)...)
+		}
+	}
+	{
 		_bocchi := root.Group("/bocchi", _bocchiMw()...)
 		{
 			_access_token := _bocchi.Group("/access_token", _access_tokenMw()...)

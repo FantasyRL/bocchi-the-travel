@@ -9,6 +9,7 @@ struct User {
     3: string email,
     4: string avatar,
     5:string signature,
+    6:bool is_follow,
 }
 
 struct RegisterRequest {
@@ -395,7 +396,7 @@ struct FollowingListRequest{
 struct FollowingListResponse{
     1:base.BaseResp base,
     2:optional i64 count,
-    3:optional list<base.User> following_list,
+    3:optional list<User> following_list,
 }
 
 struct FollowerListRequest{
@@ -406,7 +407,7 @@ struct FollowerListRequest{
 struct FollowerListResponse{
     1:base.BaseResp base,
     2:optional i64 count,
-    3:optional list<base.User> follower_list,
+    3:optional list<User> follower_list,
 }
 
 struct FriendListRequest{
@@ -416,12 +417,12 @@ struct FriendListRequest{
 struct FriendListResponse{
     1:base.BaseResp base,
     2:optional i64 count,
-    3:optional list<base.User> friend_list,
+    3:optional list<User> friend_list,
 }
 
 service FollowHandler{
-    FollowActionResponse TrustAction(1:FollowActionRequest req),
-    FollowerListResponse FollowerList(1:FollowerListRequest req),
-    FollowingListResponse FollowingList(1:FollowingListRequest req),
-    FriendListResponse TrustEachList(1:FriendListRequest req),
+    FollowActionResponse TrustAction(1:FollowActionRequest req)(api.post="/bibi/trust/action"),
+    FollowerListResponse FollowerList(1:FollowerListRequest req)(api.get="/bibi/trust/follower"),
+    FollowingListResponse FollowingList(1:FollowingListRequest req)(api.get="/bibi/trust/following"),
+    FriendListResponse TrustEachList(1:FriendListRequest req)(api.post="/bibi/trust/each"),
 }

@@ -18,7 +18,7 @@ env-up:
 env-down:
 	docker-compose down
 
-SERVICES := api user party itinerary
+SERVICES := api user party itinerary trust
 service = $(word 1, $@)
 
 .PHONY: $(SERVICES)
@@ -36,7 +36,7 @@ $(SERVICES):
 start-all:
 	sh start.sh
 
-KSERVICES := user party itinerary interaction
+KSERVICES := user party itinerary interaction trust
 .PHONY: kgen
 kgen:
 	@for kservice in $(KSERVICES); do \

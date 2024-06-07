@@ -31,6 +31,9 @@ const (
 	NotFounderErrCode
 	FounderErrCode
 	CommentIsNotExistErrCode
+	FollowExistErrCode
+	FollowNotExistErrCode
+	FollowMyselfErrCode
 )
 
 const (
@@ -52,6 +55,9 @@ const (
 	NotFounderErrMsg            = "this user have no access to this service"
 	FounderErrMsg               = "you can't join your party"
 	CommentIsNotExistErrMsg     = "Comment is not exist"
+	FollowExistErrMsg           = "You have followed"
+	FollowNotExistErrMsg        = "You haven't followed"
+	FollowMyselfErrMsg          = "You can't follow yourself"
 
 	WebSocketSuccessMsg             = "Connect to server success"
 	WebSocketLogoutSuccessMsg       = "logout success"
@@ -102,6 +108,9 @@ var (
 	NotFounderError            = NewErrNo(NotFounderErrCode, NotFounderErrMsg)
 	FounderError               = NewErrNo(FounderErrCode, FounderErrMsg)
 	CommentIsNotExistError     = NewErrNo(CommentIsNotExistErrCode, CommentIsNotExistErrMsg)
+	FollowExistError           = NewErrNo(FollowExistErrCode, FollowExistErrMsg)
+	FollowNotExistError        = NewErrNo(FollowNotExistErrCode, FollowNotExistErrMsg)
+	FollowMyselfError          = NewErrNo(FollowMyselfErrCode, FollowMyselfErrMsg)
 
 	WebSocketSuccess             = NewErrNo(WebSocketSuccessCode, WebSocketSuccessMsg)
 	WebSocketLogoutSuccess       = NewErrNo(WebSocketLogoutSuccessCode, WebSocketLogoutSuccessMsg)
