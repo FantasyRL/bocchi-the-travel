@@ -170,9 +170,26 @@ export default {
         </div>
       </div>
       <div class="card__content">
-        id: 5, founder_id: 6, title: "1", content: "1", type: "", province: "1", city: "1",
-        start_time: "2006-01-02", end_time: "2006-01-02", member_count: 0, status: 0, rectangle: ""
-        <div></div>
+        <div class="party_info">
+          <div class="title"><text class="info_name">活动名:</text><br />{{ infodata.title }}</div>
+          <div class="title">
+            <text class="info_name">创建者:</text><br />{{ infodata.founder_id }}
+          </div>
+
+          <div class="title">
+            <text class="info_name">活动省份:</text><br />{{ infodata.province }}
+          </div>
+          <div class="title"><text class="info_name">活动城市:</text><br />{{ infodata.city }}</div>
+          <div class="title">
+            <text class="info_name">成员数:</text><br />{{ infodata.member_count }}
+          </div>
+        </div>
+        <div class="content">
+          <text class="content_text">介绍:</text><br />{{ infodata.content }}
+        </div>
+        <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
+          起止时间:{{ infodata.start_time }} - {{ infodata.end_time }}
+        </div>
       </div>
     </div>
     <div class="center">
@@ -222,7 +239,35 @@ export default {
 </template>
 
 <style scoped>
+.title {
+  font-size: 18px;
+}
+.content_text {
+  font-size: 20px;
+  font-weight: bold;
+}
+.content {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  width: 100%;
+}
+.info_name {
+  font-size: 18px;
+  font-weight: bold;
+}
+.party_info {
+  display: grid;
+  font-size: 20px;
+  justify-content: center;
+  text-align: center;
+  grid-template-columns: repeat(3, 2fr);
+  grid-column-gap: 5px;
+  grid-row-gap: 10px;
+}
 .sty {
+  margin-left: 20vw;
   margin-top: 20px;
 }
 
