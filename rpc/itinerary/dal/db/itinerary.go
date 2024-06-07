@@ -29,11 +29,10 @@ type Itinerary struct {
 }
 
 func CreateItinerary(ctx context.Context, itineraryModel *Itinerary) (*Itinerary, error) {
-	itineraryResp := new(Itinerary)
-	if err := DB.WithContext(ctx).Create(itineraryModel).First(itineraryResp).Error; err != nil {
+	if err := DB.WithContext(ctx).Create(itineraryModel).Error; err != nil {
 		return nil, err
 	}
-	return itineraryResp, nil
+	return itineraryModel, nil
 }
 
 func ShowPartyItinerary(ctx context.Context, partyId int64) (*[]Itinerary, int64, error) {
