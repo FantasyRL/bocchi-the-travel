@@ -1,12 +1,10 @@
 namespace go interaction
 include"base.thrift"
 
-//
+
 //struct LikeActionRequest{
-//    1:optional i64 video_id,
-//    2:optional i64 comment_id,
+//    1:i64 user_id,
 //    3:i64 action_type,
-//    4:i64 user_id,
 //}
 //
 //struct LikeActionResponse{
@@ -20,8 +18,8 @@ include"base.thrift"
 //
 //struct LikeListResponse{
 //    1:base.BaseResp base,
-//    2:optional i64 video_count,
-//    3:optional list<base.Video> video_list,
+//    2:optional i64 user_count,
+//    3:optional list<base.User> user_list,
 //}
 
 struct CommentCreateRequest{
@@ -77,8 +75,8 @@ struct CommentListResponse{
 //}
 
 service InteractionHandler{
-//    LikeActionResponse LikeAction(1:LikeActionRequest req),
-//    LikeListResponse LikeList(1:LikeListRequest req),
+//    LikeActionResponse TrustAction(1:LikeActionRequest req),
+//    LikeListResponse TrustList(1:LikeListRequest req),
     CommentCreateResponse CommentCreate(1:CommentCreateRequest req),
     CommentDeleteResponse CommentDelete(1:CommentDeleteRequest req),
 //    GetLikesCountByVideoIdListResponse GetLikesCountByVideoIdList(1:GetLikesCountByVideoIdListRequest req),
