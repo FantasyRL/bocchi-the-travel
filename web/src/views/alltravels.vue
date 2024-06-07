@@ -34,7 +34,8 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          this.items = response.data.party_list; // 假设响应数据中有一个名为"list"的数组包含所有行程对象
+          this.items = response.data.party_list;
+          console.log(this.items);
         })
         .catch((error) => {
           console.log(error);
@@ -66,7 +67,7 @@ export default {
 
   <div class="center">
     <div v-for="item in sortedItems" :key="item.id" class="item">
-      <div v-if="item.status">
+      <div v-if="!item.status">
         <a-divider orientation="left" class="separate">活动名: {{ item.title }}</a-divider>
         <div style="padding: 20px" class="relative">
           <a-row>
