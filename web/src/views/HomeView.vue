@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink } from "vue-router";
-import { PlusOutlined } from "@ant-design/icons-vue";
 import { ref } from "vue";
 
 const current = ref(1);
@@ -8,7 +7,6 @@ const current = ref(1);
 
 <script>
 import { defineComponent } from "vue";
-/* import { useStore } from "vuex"; */
 
 const baseUrl = "//upload.xiey.work/img/";
 /* const baseUrl = "https://loremflickr.com/800/600"; */

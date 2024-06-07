@@ -1,5 +1,4 @@
 <script setup>
-import { stringType } from "ant-design-vue/es/_util/type";
 import axios from "axios";
 import Cookies from "js-cookie";
 </script>
@@ -23,10 +22,38 @@ export default {
       url: "",
       showavatarpage: 0,
       previewImage: null,
-      file: null
+      file: null,
+      isEditing: false
     };
   },
   methods: {
+    savesignature(text) {
+      this.isEditing = false;
+      axios
+        .post(
+          "/bocchi/user/signature",
+          {
+            signature: text
+          },
+          {
+            headers: {
+              "access-token": this.access_token
+            }
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    editsignature() {
+      this.isEditing = true;
+      const input = document.querySelector(".input");
+      input.focus();
+    },
+
     modavatarpage() {
       this.showavatarpage = !this.showavatarpage;
       console.log(this.showavatarpage);
@@ -128,6 +155,7 @@ export default {
             this.avatar = res.data.user.avatar;
             this.mail = res.data.user.email;
             this.signature = res.data.user.signature;
+            this.CookiesSet = Cookies.set("avatar", this.avatar);
           }
           if (res.data.base.code == "10007") {
             console.log("不存在");
@@ -150,14 +178,7 @@ export default {
     this.id = Cookies.get("id");
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
-
-    if (String(this.$route.params.id) == "undefined") {
-      this.id = Cookies.get("id");
-      this.init();
-    } else {
-      this.id = Number(this.$route.params.id);
-      this.init();
-    }
+    this.init();
   },
   components: {},
   computed: {},
@@ -177,62 +198,37 @@ export default {
 };
 </script>
 <template>
-  <div class="about">
-    <a-page-header
-      style="border: 1px solid rgb(235, 237, 240); background-color: #fff"
-      title="Ta的资料"
-      sub-title=""
-      @back="() => $router.go(-1)"
-    />
+  <a-page-header
+    style="border: 1px solid rgb(235, 237, 240); background-color: #fff"
+    title="个人中心"
+    sub-title="1"
+    @back="() => $router.go(-1)"
+  />
 
-    <!--     <div class="settings">
-      <button class="button" @click="settings">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          viewBox="0 0 20 20"
-          height="20"
-          fill="none"
-          class="svg-icon"
-        >
-          <g stroke-width="1.5" stroke-linecap="round" stroke="#5d41de">
-            <circle r="2.5" cy="10" cx="10"></circle>
-            <path
-              fill-rule="evenodd"
-              d="m8.39079 2.80235c.53842-1.51424 2.67991-1.51424 3.21831-.00001.3392.95358 1.4284 1.40477 2.3425.97027 1.4514-.68995 2.9657.82427 2.2758 2.27575-.4345.91407.0166 2.00334.9702 2.34248 1.5143.53842 1.5143 2.67996 0 3.21836-.9536.3391-1.4047 1.4284-.9702 2.3425.6899 1.4514-.8244 2.9656-2.2758 2.2757-.9141-.4345-2.0033.0167-2.3425.9703-.5384 1.5142-2.67989 1.5142-3.21831 0-.33914-.9536-1.4284-1.4048-2.34247-.9703-1.45148.6899-2.96571-.8243-2.27575-2.2757.43449-.9141-.01669-2.0034-.97028-2.3425-1.51422-.5384-1.51422-2.67994.00001-3.21836.95358-.33914 1.40476-1.42841.97027-2.34248-.68996-1.45148.82427-2.9657 2.27575-2.27575.91407.4345 2.00333-.01669 2.34247-.97026z"
-              clip-rule="evenodd"
-            ></path>
-          </g>
-        </svg>
-        <span class="lable">{{ setname }}</span>
-      </button>
-    </div> -->
-
-    <div class="info">
-      <div class="touxiang">
-        <div>
-          <img
-            :src="avatar"
-            class="touxiangimg rounded-image"
-            @click="modavatarpage"
-            style="object-fit: cover"
-          />
-          <div>
-            <text class="name">{{ name }}</text>
-          </div>
-        </div>
-      </div>
-
-      <div class="shejiao">
-        <text>uid:{{ id }}</text>
-        <text>邮箱:{{ mail }}</text>
-        <text>签名:{{ signature }}</text>
-      </div>
-    </div>
-
-    <div></div>
-
-    <!--     <transition name="fade">
+  <div class="settings">
+    <button class="button" @click="settings">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        viewBox="0 0 20 20"
+        height="20"
+        fill="none"
+        class="svg-icon"
+      >
+        <g stroke-width="1.5" stroke-linecap="round" stroke="#5d41de">
+          <circle r="2.5" cy="10" cx="10"></circle>
+          <path
+            fill-rule="evenodd"
+            d="m8.39079 2.80235c.53842-1.51424 2.67991-1.51424 3.21831-.00001.3392.95358 1.4284 1.40477 2.3425.97027 1.4514-.68995 2.9657.82427 2.2758 2.27575-.4345.91407.0166 2.00334.9702 2.34248 1.5143.53842 1.5143 2.67996 0 3.21836-.9536.3391-1.4047 1.4284-.9702 2.3425.6899 1.4514-.8244 2.9656-2.2758 2.2757-.9141-.4345-2.0033.0167-2.3425.9703-.5384 1.5142-2.67989 1.5142-3.21831 0-.33914-.9536-1.4284-1.4048-2.34247-.9703-1.45148.6899-2.96571-.8243-2.27575-2.2757.43449-.9141-.01669-2.0034-.97028-2.3425-1.51422-.5384-1.51422-2.67994.00001-3.21836.95358-.33914 1.40476-1.42841.97027-2.34248-.68996-1.45148.82427-2.9657 2.27575-2.27575.91407.4345 2.00333-.01669 2.34247-.97026z"
+            clip-rule="evenodd"
+          ></path>
+        </g>
+      </svg>
+      <span class="lable">{{ setname }}</span>
+    </button>
+  </div>
+  <div class="settingpage">
+    <transition name="fade">
       <div class="setpage" v-show="setshow">
         <mdui-list :blur="true">
           <text>设置界面</text>
@@ -242,6 +238,8 @@ export default {
       </div>
     </transition>
     <div class="setpage-flur" v-show="setshow"></div>
+  </div>
+  <div class="upload">
     <transition name="fade">
       <div class="avatarpage" v-show="showavatarpage">
         <div class="up">
@@ -273,10 +271,42 @@ export default {
         </div>
       </div>
     </transition>
-    <div class="avatarpage-flur" v-show="showavatarpage" @click="modavatarpage"></div> -->
-
-    <a-divider orientation="left" class="separate">评价</a-divider>
+    <div class="avatarpage-flur" v-show="showavatarpage" @click="modavatarpage"></div>
   </div>
+  <div id="about">
+    <div class="user_img">
+      <img
+        :src="avatar"
+        class="touxiangimg rounded-image"
+        @click="modavatarpage"
+        style="object-fit: cover; width: 50vw; height: 50vw; max-width: 300px; max-height: 300px"
+      />
+    </div>
+    <div class="user_name">
+      <text id="name">{{ name }}</text>
+    </div>
+    <input type="text" placeholder="请输入内容" class="input-box" />
+    <text>个人签名</text>
+    <div class="signature">
+      <div v-if="isEditing" class="input" style="z-index: 500">
+        <input
+          type="text"
+          v-model="signature"
+          @blur="savesignature(this.signature)"
+          autofocus
+          style="z-index: 6665"
+        />
+      </div>
+      <div v-else class="sign">
+        <p @click="editsignature()">{{ signature }}</p>
+      </div>
+    </div>
+    <div class="sign-flur" v-show="isEditing" @click="savesignature(this.signature)"></div>
+    <text>uid:{{ id }}</text>
+    <text>邮箱:{{ mail }}</text>
+  </div>
+
+  <a-divider orientation="left" class="separate">评价</a-divider>
 
   <br />
 
@@ -284,12 +314,27 @@ export default {
 </template>
 
 <style scoped>
-.touxiangimg {
-  height: 200px;
-  width: 200px;
-
-  margin-block: 0;
-  max-width: 200px;
+#name {
+  position: relative;
+  font-size: 2em; /* 设置字体大小为1.5em */
+  font-weight: bold; /* 设置字体粗细为粗体 */
+  margin-block: 0.5em; /* 设置行距为0.5em */
+}
+.rounded-image {
+  border-radius: 50%; /* 半径为50%意味着图片将变成圆形 */
+}
+#about {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px 10px;
+  margin-top: 50px;
+}
+.sign {
+  display: inline-block;
+  padding: 5px 5px 5px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
 }
 
 .avatarpage-flur {
@@ -300,7 +345,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1050;
+  z-index: 100;
   backdrop-filter: saturate(100%) blur(5px);
   background: inherit;
 }
@@ -334,10 +379,7 @@ export default {
   padding-inline: 0;
   padding: 0;
 }
-.about {
-  z-index: 5;
-  position: relative;
-}
+
 .bg {
   background-image: url("https://saas.bk-cdn.com/t/f1e16078-bb12-419d-ad3f-be967f268d40/u/f0896296-9cb3-4e7a-bfaa-44a0c8c681f0/1715359885684/117612906_p0%20%281%29.jpg");
   width: 100%;
@@ -352,27 +394,6 @@ export default {
   pointer-events: none;
   z-index: -1;
   opacity: 0.35;
-}
-.info {
-  z-index: 0;
-}
-.touxiang {
-  z-index: inherit;
-  display: grid;
-  justify-items: center;
-}
-.shejiao {
-  /* 社交账号 */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: 000000;
-  position: relative;
-  height: auto;
-  width: 90%;
-  margin: auto;
-  text-align: center;
-  z-index: 5;
 }
 
 .setpage {
@@ -426,12 +447,7 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
-/* .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to
-  opacity: 0;
-} */
+
 .settings {
   position: fixed;
   right: 25px;

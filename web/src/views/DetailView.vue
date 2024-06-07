@@ -151,10 +151,9 @@ const handleClose = () => {
       </div>
     </div>
 
-    <a-float-button-group>
-
-      <router-link to="/create">
-        <a-float-button tooltip="查看行程" herf="/create" style="margin-bottom: 15px">
+    <a-float-button-group style="margin-bottom: 60px">
+      <router-link to="/alltravels">
+        <a-float-button tooltip="查看行程" herf="/alltravels" style="margin-bottom: 15px">
           <template #icon>
             <ShoppingCartOutlined />
           </template>
@@ -180,7 +179,7 @@ const handleClose = () => {
         :after-close="handleClose"
     />
 
-    <a-back-top />
+    <a-back-top style="margin-bottom: 60px"/>
   </div>
 </template>
 

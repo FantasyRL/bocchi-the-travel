@@ -11,8 +11,8 @@ import "mdui/components/icon.js";
 <script>
 export default {
   components: {
-    "a-menu": Menu,
-    "a-menu-item": Menu.Item
+    /* "a-menu": Menu,
+    "a-menu-item": Menu.Item */
   },
   setup() {
     const store = useStore();
@@ -34,7 +34,9 @@ export default {
       resgister: 1,
       overlay: 1,
       endX: 0,
-      info: 0 // 登录状态
+      info: 0, // 登录状态
+      id: null,
+      avatar: ""
     };
   },
   mounted() {
@@ -45,6 +47,8 @@ export default {
     this.getinfo();
 
     this.access_token = Cookies.get("access_token");
+    this.id = Cookies.get("id");
+    this.avatar = Cookies.get("avatar");
 
     if (this.access_token) {
       // 如果access_token存在，则认为用户已经登录，更新info的值
@@ -179,7 +183,7 @@ export default {
 
 <template>
   <!--   <a-spin size="large" /> -->
-  <!-- 
+  <!--
   <header class="header">
     <div class="menu-container">
       <a-menu mode="horizontal">
@@ -195,8 +199,11 @@ export default {
       </a-menu>
     </div>
   </header> -->
-
-  <RouterView />
+  <router-view v-slot="{ Component }">
+    <keep-alive exclude="party,itinerary,finish">
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
   <div class="overlay" v-show="overlay"></div>
   <div v-show="resgister" class="resgister-container">
     <div class="resgister">
@@ -282,7 +289,7 @@ export default {
       icon="format_list_bulleted--outlined"
       value="item-4"
       @click="$router.push('/alltravels/')"
-      >所有活动</mdui-navigation-bar-item
+      >所有行程</mdui-navigation-bar-item
     >
     <mdui-navigation-bar-item
       icon="account_circle--outlined"
@@ -291,11 +298,20 @@ export default {
       >个人中心</mdui-navigation-bar-item
     >
   </mdui-navigation-bar>
+
+  <div class="cecheimg">
+    <img :src="avatar" alt="ceche" />
+  </div>
 </template>
 
 <style>
+.cecheimg {
+  position: fixed;
+  top: 550%;
+  opacity: 0;
+}
 mdui-navigation-bar {
-  z-index: 1;
+  z-index: 99999;
 }
 
 .menu-container {

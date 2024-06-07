@@ -4,12 +4,14 @@ import Cookies from "js-cookie";
 import { ref } from "vue";
 import cityOptions from "@/city";
 
-const title = ref("");
-
-const type = ref("");
-const partytime = ref("");
-const city = ref("");
+const title = ref();
+const type = ref();
+const content = ref();
+const partytime = ref();
+const city = ref();
+const options = ref([{ value: "放松" }, { value: "深度" }, { value: "人文" }]);
 </script>
+
 <script>
 export default {
   data() {
@@ -31,7 +33,7 @@ export default {
       const date2 = new Date(dateTimeStr2);
       const newday = date2.toISOString().slice(0, 50);
       console.log(time);
-      if (city["2"] == undefined) {
+      if (city["2"] === undefined) {
         console.log("未定义");
         city["2"] = "";
       }
@@ -46,7 +48,6 @@ export default {
             "&province=" +
             city["0"] +
             "&city=" +
-            city["0"] +
             city["1"] +
             city["2"] +
             "&start_time=" +
@@ -62,6 +63,10 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
+          if (response.data.base.code == 10000) {
+            console.log("创建成功");
+            this.$router.push("/partys/" + response.data.party.id);
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -84,99 +89,108 @@ export default {
   }
 };
 </script>
+
 <template>
   <div class="create">
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
-      title="创建party活动"
+      title="创建活动"
       @back="() => $router.go(-1)"
     />
   </div>
-  <div class="travelscard">
-    <a-card title="已创建的party活动" style="width: 90%">
+  <!--   <div class="travels-card">
+    <a-card title="已创建的活动" style="width: 90%">
       <template #extra><router-link to="/alltravels/">查看详细</router-link></template>
       <p>这里塞一个最新创建活动</p>
-      <!-- <p>
-        <br />
-        {{ access_token }}
-        <br />
-        couter:
-        {{ couter }}
-        <br />
-        title:{{ title }}
-        <br />
-        value1:{{ value1 }}
-        <br />
-        type:{{ type }}
-        <br />
-        partytime:{{ partytime }}
-        <br />
-        old:{{ oldday }}
-        <br />
-        <br />
-
-        city:{{ city }}
-      </p> -->
     </a-card>
-  </div>
+  </div> -->
+  <div class="create">
+    <a-divider orientation="left" class="separate">名称</a-divider>
+    <div class="input-box">
+      <a-input v-model:value="title" :bordered="false" size="large" placeholder="标题" />
+    </div>
 
-  <div class="center">
-    <text>party活动的名字</text>
-    <br />
-    <a-input v-model:value="title" placeholder="标题" />
-    <br />
-
-    <text>party活动的类型</text>
-    <br />
-    <a-input v-model:value="type" autofocus placeholder="类型" />
-    <br />
-
-    <text> party活动的介绍</text>
-    <br />
-    <a-textarea v-model:value="content" placeholder="介绍" :rows="4" />
-    <br />
-    <a-range-picker v-model:value="partytime" />
-    <!-- <a-textarea v-model:value="partytime" :rows="4" placeholder="maxlength is 6" :maxlength="6" />
-    <br /> -->
-    <br />
-    <text>活动省份</text>
-    <a-form-item>
+    <a-divider orientation="left" class="separate">城市</a-divider>
+    <a-form-item class="input-box">
       <a-cascader
         :options="cityOptions"
         placeholder="请选择地区"
         :fieldNames="fieldNames"
         v-model:value="city"
+        size="large"
+        :bordered="false"
       />
     </a-form-item>
-    <br />
-    <br />
-    <button class="pushable" @click="partycreate(title, type, content, city, partytime)">
-      <span class="shadow"></span>
-      <span class="edge"></span>
-      <span class="front"> 创建party活动 </span>
-    </button>
+
+    <a-divider orientation="left" class="separate">旅行心情</a-divider>
+    <div class="input-box">
+      <a-select
+        v-model:value="type"
+        mode="multiple"
+        size="large"
+        style="width: 100%"
+        :bordered="false"
+        placeholder="请选择你的旅行心情"
+        :options="options"
+      />
+    </div>
+
+    <a-divider orientation="left" class="separate">简介</a-divider>
+    <div class="input-box">
+      <a-textarea
+        v-model:value="content"
+        placeholder="请输入活动简介"
+        :rows="4"
+        size="large"
+        :bordered="false"
+      />
+    </div>
+
+    <a-divider orientation="left" class="separate">时间</a-divider>
+    <div class="time-box">
+      <a-range-picker v-model:value="partytime" size="large" :bordered="false" />
+    </div>
+
+    <br /><br />
+
+    <div class="start-button">
+      <button class="pushable" @click="partycreate(title, type, content, city, partytime)">
+        <span class="shadow"></span>
+        <span class="edge"></span>
+        <span class="front"> 开启旅途 </span>
+      </button>
+    </div>
   </div>
+  <br /><br /><br /><br /><br />
 </template>
 
 <style scoped>
-.center {
-  display: grid;
-  justify-items: center;
-  margin-left: 5%;
-  margin-right: 5%;
-}
-.travelscard {
+.create {
   position: relative;
-  margin-left: 5%;
+  max-width: 100vw;
 }
+.ant-cascader-menus {
+  max-width: 20px; /* 设置为固定宽度 */
+}
+.travels-card {
+  display: flex;
+  justify-content: center;
+}
+
+.separate {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 0;
+}
+
 .pushable {
   position: relative;
   background: transparent;
-  padding: 0px;
+  padding: 0;
   border: none;
   cursor: pointer;
   outline-offset: 4px;
-  outline-color: deeppink;
   transition: filter 250ms;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   bottom: 15%;
@@ -194,6 +208,28 @@ export default {
   will-change: transform;
   transform: translateY(2px);
   transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+.input-box {
+  font-size: 24px;
+  border-radius: 8px;
+  border: 3px solid #d9d9d9;
+  margin: 5%;
+}
+
+.time-box {
+  display: flex;
+  font-size: 24px;
+  border-radius: 8px;
+  border: 3px solid #d9d9d9;
+  justify-content: center;
+  width: fit-content;
+  margin: 5% auto auto;
+}
+
+.start-button {
+  display: flex;
+  justify-content: center;
 }
 
 .edge {

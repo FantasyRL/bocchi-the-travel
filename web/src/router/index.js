@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/myself.vue')
     },
     {
       path: '/explore',
@@ -22,7 +22,12 @@ const router = createRouter({
     {
       path: '/create',
       name: 'create',
-      component: () => import('../views/create.vue'),
+      component: () => import('../views/CreatePage.vue'),
+    },
+    {
+      path: '/createplan',
+      name: 'createplan',
+      component: () => import('../views/Createplan.vue'),
     },
     {
       path: '/detail/:id',
@@ -48,6 +53,18 @@ const router = createRouter({
       path: '/about/:id',
       name: 'about-others',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/itinerarys/:id',
+      name: 'itinerary',
+      component: () => import('../views/itinerary.vue'),
+      meta: { keepAlive: false }
+    },
+    {
+      path: '/partys/:id',
+      name: 'party',
+      component: () => import('../views/party.vue'),
+      meta: { keepAlive: false }
     },
   ]
 })
