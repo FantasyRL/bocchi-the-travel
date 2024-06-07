@@ -40,8 +40,8 @@ export default {
     };
   },
   methods: {
-    deleteItinerary() {
-      const url = "/bocchi/party/itinerary/delete?itinerary_id=" + this.id; // 假设这是删除 itinerary 的 API 接口地址
+    deleteItinerary(id) {
+      const url = "/bocchi/party/itinerary/delete?itinerary_id=" + id; // 假设这是删除 itinerary 的 API 接口地址
 
       axios
         .get(url, {
@@ -51,22 +51,25 @@ export default {
         })
         .then((res) => {
           console.log(res); // 假设这是删除成功的回调函数，可以在这里进行页面跳转等操作
+          location.reload();
         })
         .catch((err) => {
           console.error(err); // 假设这是删除失败的回调函数，可以在这里进行错误处理
         });
     },
     init() {
-      const url = "/bocchi/party/itinerary/info?itinerary_id=" + this.id;
-      const params = {};
       axios
-        .get(url, params)
+        .get("/bocchi/party/itinerary/my?party_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
         .then((res) => {
           console.log(res);
           this.partynull = true;
-          this.info = res.data.itinerary; // 假设这是返回的数据对象
-          if (res.data.base.code == 10007) {
-            this.partynull = 0;
+          this.info = res.data.itinerary_list;
+          if (res.data.base.code == 10000) {
+            this.partynull = 1;
             console.log(this.partynull);
           }
         })
@@ -78,8 +81,8 @@ export default {
 
   mounted() {
     this.id = Number(this.$route.params.id);
-    this.init();
     this.access_token = Cookies.get("access_token");
+    this.init();
   },
   computed: {
     getIcon() {
@@ -123,39 +126,57 @@ export default {
   <div class="travels">
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
-      title="计划详情"
+      title="我的计划 "
       @back="() => $router.go(-1)"
     />
   </div>
 
   <br />
-  <div v-if="partynull" class="itinerary">
-    <el-timeline style="max-width: 600px; margin-left: 10%">
-      <el-timeline-item>计划名:{{ info.title }} </el-timeline-item>
-      <el-timeline-item>序列:{{ info.sequence }} </el-timeline-item>
-      <el-timeline-item> 创建者:{{ info.founder_id }} </el-timeline-item>
-      <el-timeline-item> 类型：{{ getType(info.action_type) }} </el-timeline-item>
-      <el-timeline-item> 备注：{{ info.remark }} </el-timeline-item>
-      <el-timeline-item> 地点：{{ info.rectangle }} </el-timeline-item>
-      <el-timeline-item> 路线：{{ info.route_json }} </el-timeline-item>
-      <el-timeline-item> 开始时间：{{ info.schedule_start_time }} </el-timeline-item>
-      <el-timeline-item>
-        结束时间:
-        {{ info.schedule_end_time }}
-      </el-timeline-item>
-    </el-timeline>
-    <button @click="deleteItinerary">
-      <span class="shadow"></span>
-      <span class="edge"></span>
-      <span class="front text"> 删除计划 </span>
-    </button>
+
+  <div class="itinerary">
+    <div v-for="item in info" :key="item.id" class="item">
+      <el-card style="width: 90vw">
+        <div class="item-info">
+          <div>ID:{{ item.id }}</div>
+          <div>标题:{{ item.title }}</div>
+          <div>是否通过审核:{{ item.is_merged }}</div>
+          <div>备注:{{ item.remark }}</div>
+          <div>路线:{{ item.route_json }}</div>
+          <div>地址:{{ item.rectangle }}</div>
+          <div>开始时间:{{ item.schedule_start_time }}</div>
+          <div>结束时间:{{ item.schedule_end_time }}</div>
+
+          <button @click="deleteItinerary(item.id)">
+            <span class="shadow"></span>
+            <span class="edge"></span>
+            <span class="front text"> 删除计划 </span>
+          </button>
+        </div>
+      </el-card>
+      <br />
+    </div>
   </div>
+  <div v-if="partynull" class="itinerary"></div>
   <div v-if="!partynull">
     <a-empty />
   </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
 </template>
 
 <style>
+.item-info {
+  display: grid;
+  justify-items: center;
+  row-gap: 10px;
+
+  grid-template-columns: repeat(1, 1fr);
+}
 .itinerary {
   display: grid;
   justify-content: center;

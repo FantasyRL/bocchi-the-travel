@@ -1,4 +1,5 @@
 <script setup>
+import Cookies from "js-cookie";
 import axios from "axios";
 import { CheckOutlined } from "@ant-design/icons-vue";
 /* import { ref } from "vue";
@@ -77,7 +78,11 @@ export default {
   methods: {
     getin() {
       axios
-        .get("/bocchi/party/itinerary/show?party_id=" + this.id)
+        .get("/bocchi/party/itinerary/my?party_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
         .then((res) => {
           console.log(res);
           this.items = res.data.itineraries;
@@ -91,7 +96,7 @@ export default {
         });
     },
     partyinit() {
-      const url = "/bocchi/party/info?party_id=" + this.id;
+      const url = "/bocchi/party/get?party_id=" + this.id;
       const params = {};
       axios
         .get(url, params)
@@ -106,6 +111,7 @@ export default {
   },
   mounted() {
     this.id = Number(this.$route.params.id);
+    this.access_token = Cookies.get("access_token");
     this.partyinit();
     this.getin();
   },
@@ -239,7 +245,10 @@ export default {
   </div>
   <div class="foot">
     <div class="create">
-      <button class="btn" @click="$router.push('/Createplan/' + this.id)">创建计划</button>
+      <button class="btn" @click="$router.push('/Createplan/' + this.id)">创建计划</button><br />
+      <button class="btn" @click="$router.push('/myitinerarys/' + this.id)">
+        查看撰写过的计划
+      </button>
     </div>
   </div>
   <br />
