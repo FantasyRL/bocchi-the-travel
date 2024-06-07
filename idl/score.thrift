@@ -46,8 +46,8 @@ struct FriendListResponse{
 }
 
 service FollowHandler{
-    FollowActionResponse FollowAction(1:FollowActionRequest req),
+    FollowActionResponse TrustAction(1:FollowActionRequest req),
     FollowerListResponse FollowerList(1:FollowerListRequest req),
     FollowingListResponse FollowingList(1:FollowingListRequest req),
-    FriendListResponse FriendList(1:FriendListRequest req),
+    FriendListResponse TrustEachList(1:FriendListRequest req),
 }
