@@ -1437,7 +1437,7 @@ func (p *ChangeSequenceRequest) FastRead(buf []byte) (int, error) {
 		}
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.LIST {
+			if fieldTypeId == thrift.I64 {
 				l, err = p.FastReadField1(buf[offset:])
 				offset += l
 				if err != nil {
@@ -1465,8 +1465,22 @@ func (p *ChangeSequenceRequest) FastRead(buf []byte) (int, error) {
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.LIST {
 				l, err = p.FastReadField3(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 4:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField4(buf[offset:])
 				offset += l
 				if err != nil {
 					goto ReadFieldError
@@ -1516,6 +1530,20 @@ ReadStructEndError:
 func (p *ChangeSequenceRequest) FastReadField1(buf []byte) (int, error) {
 	offset := 0
 
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
+		p.PartyId = v
+
+	}
+	return offset, nil
+}
+
+func (p *ChangeSequenceRequest) FastReadField2(buf []byte) (int, error) {
+	offset := 0
+
 	_, size, l, err := bthrift.Binary.ReadListBegin(buf[offset:])
 	offset += l
 	if err != nil {
@@ -1543,7 +1571,7 @@ func (p *ChangeSequenceRequest) FastReadField1(buf []byte) (int, error) {
 	return offset, nil
 }
 
-func (p *ChangeSequenceRequest) FastReadField2(buf []byte) (int, error) {
+func (p *ChangeSequenceRequest) FastReadField3(buf []byte) (int, error) {
 	offset := 0
 
 	_, size, l, err := bthrift.Binary.ReadListBegin(buf[offset:])
@@ -1573,7 +1601,7 @@ func (p *ChangeSequenceRequest) FastReadField2(buf []byte) (int, error) {
 	return offset, nil
 }
 
-func (p *ChangeSequenceRequest) FastReadField3(buf []byte) (int, error) {
+func (p *ChangeSequenceRequest) FastReadField4(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
@@ -1596,9 +1624,10 @@ func (p *ChangeSequenceRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift
 	offset := 0
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "ChangeSequenceRequest")
 	if p != nil {
-		offset += p.fastWriteField3(buf[offset:], binaryWriter)
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
+		offset += p.fastWriteField4(buf[offset:], binaryWriter)
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
+		offset += p.fastWriteField3(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -1612,6 +1641,7 @@ func (p *ChangeSequenceRequest) BLength() int {
 		l += p.field1Length()
 		l += p.field2Length()
 		l += p.field3Length()
+		l += p.field4Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -1620,7 +1650,16 @@ func (p *ChangeSequenceRequest) BLength() int {
 
 func (p *ChangeSequenceRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "itinerary_id_list", thrift.LIST, 1)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "party_id", thrift.I64, 1)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.PartyId)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
+func (p *ChangeSequenceRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "itinerary_id_list", thrift.LIST, 2)
 	listBeginOffset := offset
 	offset += bthrift.Binary.ListBeginLength(thrift.I64, 0)
 	var length int
@@ -1635,9 +1674,9 @@ func (p *ChangeSequenceRequest) fastWriteField1(buf []byte, binaryWriter bthrift
 	return offset
 }
 
-func (p *ChangeSequenceRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *ChangeSequenceRequest) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "sequence_list", thrift.LIST, 2)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "sequence_list", thrift.LIST, 3)
 	listBeginOffset := offset
 	offset += bthrift.Binary.ListBeginLength(thrift.I64, 0)
 	var length int
@@ -1652,9 +1691,9 @@ func (p *ChangeSequenceRequest) fastWriteField2(buf []byte, binaryWriter bthrift
 	return offset
 }
 
-func (p *ChangeSequenceRequest) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *ChangeSequenceRequest) fastWriteField4(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "user_id", thrift.I64, 3)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "user_id", thrift.I64, 4)
 	offset += bthrift.Binary.WriteI64(buf[offset:], p.UserId)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
@@ -1663,7 +1702,16 @@ func (p *ChangeSequenceRequest) fastWriteField3(buf []byte, binaryWriter bthrift
 
 func (p *ChangeSequenceRequest) field1Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("itinerary_id_list", thrift.LIST, 1)
+	l += bthrift.Binary.FieldBeginLength("party_id", thrift.I64, 1)
+	l += bthrift.Binary.I64Length(p.PartyId)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *ChangeSequenceRequest) field2Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("itinerary_id_list", thrift.LIST, 2)
 	l += bthrift.Binary.ListBeginLength(thrift.I64, len(p.ItineraryIdList))
 	var tmpV int64
 	l += bthrift.Binary.I64Length(int64(tmpV)) * len(p.ItineraryIdList)
@@ -1672,9 +1720,9 @@ func (p *ChangeSequenceRequest) field1Length() int {
 	return l
 }
 
-func (p *ChangeSequenceRequest) field2Length() int {
+func (p *ChangeSequenceRequest) field3Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("sequence_list", thrift.LIST, 2)
+	l += bthrift.Binary.FieldBeginLength("sequence_list", thrift.LIST, 3)
 	l += bthrift.Binary.ListBeginLength(thrift.I64, len(p.SequenceList))
 	var tmpV int64
 	l += bthrift.Binary.I64Length(int64(tmpV)) * len(p.SequenceList)
@@ -1683,9 +1731,9 @@ func (p *ChangeSequenceRequest) field2Length() int {
 	return l
 }
 
-func (p *ChangeSequenceRequest) field3Length() int {
+func (p *ChangeSequenceRequest) field4Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("user_id", thrift.I64, 3)
+	l += bthrift.Binary.FieldBeginLength("user_id", thrift.I64, 4)
 	l += bthrift.Binary.I64Length(p.UserId)
 
 	l += bthrift.Binary.FieldEndLength()

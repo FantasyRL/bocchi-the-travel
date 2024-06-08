@@ -2114,8 +2114,9 @@ func (p *FriendListResponse) Field3DeepEqual(src []*base.User) bool {
 }
 
 type MarkToOtherRequest struct {
-	TargetId int64 `thrift:"target_id,1" frugal:"1,default,i64" json:"target_id"`
-	UserId   int64 `thrift:"user_id,2" frugal:"2,default,i64" json:"user_id"`
+	TargetId int64   `thrift:"target_id,1" frugal:"1,default,i64" json:"target_id"`
+	Score    float64 `thrift:"score,2" frugal:"2,default,double" json:"score"`
+	UserId   int64   `thrift:"user_id,3" frugal:"3,default,i64" json:"user_id"`
 }
 
 func NewMarkToOtherRequest() *MarkToOtherRequest {
@@ -2130,11 +2131,18 @@ func (p *MarkToOtherRequest) GetTargetId() (v int64) {
 	return p.TargetId
 }
 
+func (p *MarkToOtherRequest) GetScore() (v float64) {
+	return p.Score
+}
+
 func (p *MarkToOtherRequest) GetUserId() (v int64) {
 	return p.UserId
 }
 func (p *MarkToOtherRequest) SetTargetId(val int64) {
 	p.TargetId = val
+}
+func (p *MarkToOtherRequest) SetScore(val float64) {
+	p.Score = val
 }
 func (p *MarkToOtherRequest) SetUserId(val int64) {
 	p.UserId = val
@@ -2142,7 +2150,8 @@ func (p *MarkToOtherRequest) SetUserId(val int64) {
 
 var fieldIDToName_MarkToOtherRequest = map[int16]string{
 	1: "target_id",
-	2: "user_id",
+	2: "score",
+	3: "user_id",
 }
 
 func (p *MarkToOtherRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -2173,8 +2182,16 @@ func (p *MarkToOtherRequest) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 2:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.DOUBLE {
 				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 3:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -2220,6 +2237,15 @@ func (p *MarkToOtherRequest) ReadField1(iprot thrift.TProtocol) error {
 }
 func (p *MarkToOtherRequest) ReadField2(iprot thrift.TProtocol) error {
 
+	if v, err := iprot.ReadDouble(); err != nil {
+		return err
+	} else {
+		p.Score = v
+	}
+	return nil
+}
+func (p *MarkToOtherRequest) ReadField3(iprot thrift.TProtocol) error {
+
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -2240,6 +2266,10 @@ func (p *MarkToOtherRequest) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField2(oprot); err != nil {
 			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
 			goto WriteFieldError
 		}
 	}
@@ -2278,10 +2308,10 @@ WriteFieldEndError:
 }
 
 func (p *MarkToOtherRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 2); err != nil {
+	if err = oprot.WriteFieldBegin("score", thrift.DOUBLE, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.UserId); err != nil {
+	if err := oprot.WriteDouble(p.Score); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -2292,6 +2322,23 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *MarkToOtherRequest) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
 }
 
 func (p *MarkToOtherRequest) String() string {
@@ -2311,7 +2358,10 @@ func (p *MarkToOtherRequest) DeepEqual(ano *MarkToOtherRequest) bool {
 	if !p.Field1DeepEqual(ano.TargetId) {
 		return false
 	}
-	if !p.Field2DeepEqual(ano.UserId) {
+	if !p.Field2DeepEqual(ano.Score) {
+		return false
+	}
+	if !p.Field3DeepEqual(ano.UserId) {
 		return false
 	}
 	return true
@@ -2324,7 +2374,14 @@ func (p *MarkToOtherRequest) Field1DeepEqual(src int64) bool {
 	}
 	return true
 }
-func (p *MarkToOtherRequest) Field2DeepEqual(src int64) bool {
+func (p *MarkToOtherRequest) Field2DeepEqual(src float64) bool {
+
+	if p.Score != src {
+		return false
+	}
+	return true
+}
+func (p *MarkToOtherRequest) Field3DeepEqual(src int64) bool {
 
 	if p.UserId != src {
 		return false

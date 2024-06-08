@@ -7,6 +7,7 @@ import (
 	"bocchi/pkg/utils"
 	"bocchi/pkg/utils/eslogrus"
 	"bocchi/rpc/itinerary/dal"
+	"bocchi/rpc/itinerary/rpc"
 	"crypto/tls"
 	"fmt"
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -31,6 +32,7 @@ var (
 
 func Init() {
 	config.Init(constants.ItineraryServiceName)
+	rpc.InitPartyRPC()
 	InitEs()
 	klog.SetLevel(klog.LevelDebug)
 	klog.SetLogger(kitexlogrus.NewLogger(kitexlogrus.WithHook(EsHookLog())))

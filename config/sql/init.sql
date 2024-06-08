@@ -108,3 +108,37 @@ CREATE TABLE `follow`(
                                  REFERENCES user (`id`)
                                  ON DELETE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='关注表';
+
+CREATE TABLE `mark`(
+                         `id` bigint NOT NULL AUTO_INCREMENT ,
+                         `uid` bigint NOT NULL COMMENT 'user_id',
+                         `target_id` bigint NOT NULL COMMENT '被评价者',
+                         `score` double NOT NULL COMMENT '分数',
+                         `created_at` timestamp NOT NULL DEFAULT current_timestamp ,
+                         `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+                         `deleted_at` timestamp NULL DEFAULT NULL,
+                         PRIMARY KEY (`id`),
+                         CONSTRAINT `score_user`
+                             FOREIGN KEY (`uid`)
+                                 REFERENCES user (`id`)
+                                 ON DELETE CASCADE,
+                         CONSTRAINT `score_target`
+                             FOREIGN KEY (`target_id`)
+                                 REFERENCES user (`id`)
+                                 ON DELETE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='打分表';
+
+CREATE TABLE `score`(
+                        `id` bigint NOT NULL AUTO_INCREMENT ,
+                        `uid` bigint NOT NULL COMMENT 'user_id',
+                        `score` double NOT NULL COMMENT '均分',
+                        `count` bigint NOT NULL COMMENT '被评价次数',
+                        `created_at` timestamp NOT NULL DEFAULT current_timestamp ,
+                        `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+                        `deleted_at` timestamp NULL DEFAULT NULL,
+                        PRIMARY KEY (`id`),
+                        CONSTRAINT `score_user0`
+                            FOREIGN KEY (`uid`)
+                                REFERENCES user (`id`)
+                                ON DELETE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='分数表';

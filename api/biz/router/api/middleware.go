@@ -273,6 +273,35 @@ func _showitinerarydraftMw() []app.HandlerFunc {
 }
 
 func _marktootherMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _adminMw() []app.HandlerFunc {
 	// your code...
 	return nil
+}
+
+func _addadminMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _deleteadminMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _memberMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _deletememberMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
 }

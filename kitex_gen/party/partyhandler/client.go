@@ -11,6 +11,11 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
+	DeleteMember(ctx context.Context, req *party.DeleteMemberRequest, callOptions ...callopt.Option) (r *party.DeleteMemberResponse, err error)
+	IsMemberAdmin(ctx context.Context, req *party.IsMemberAdminRequest, callOptions ...callopt.Option) (r *party.IsMemberAdminResponse, err error)
+	IsMemberExist(ctx context.Context, req *party.IsMemberExistRequest, callOptions ...callopt.Option) (r *party.IsMemberExistResponse, err error)
+	AddAdmin(ctx context.Context, req *party.AddAdminRequest, callOptions ...callopt.Option) (r *party.AddAdminResponse, err error)
+	DeleteAdmin(ctx context.Context, req *party.DeleteAdminRequest, callOptions ...callopt.Option) (r *party.DeleteAdminResponse, err error)
 	CreateParty(ctx context.Context, req *party.CreatePartyRequest, callOptions ...callopt.Option) (r *party.CreatePartyResponse, err error)
 	JoinParty(ctx context.Context, req *party.JoinPartyRequest, callOptions ...callopt.Option) (r *party.JoinPartyResponse, err error)
 	ApplyList(ctx context.Context, req *party.ApplyListRequest, callOptions ...callopt.Option) (r *party.ApplyListResponse, err error)
@@ -49,6 +54,31 @@ func MustNewClient(destService string, opts ...client.Option) Client {
 
 type kPartyHandlerClient struct {
 	*kClient
+}
+
+func (p *kPartyHandlerClient) DeleteMember(ctx context.Context, req *party.DeleteMemberRequest, callOptions ...callopt.Option) (r *party.DeleteMemberResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteMember(ctx, req)
+}
+
+func (p *kPartyHandlerClient) IsMemberAdmin(ctx context.Context, req *party.IsMemberAdminRequest, callOptions ...callopt.Option) (r *party.IsMemberAdminResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.IsMemberAdmin(ctx, req)
+}
+
+func (p *kPartyHandlerClient) IsMemberExist(ctx context.Context, req *party.IsMemberExistRequest, callOptions ...callopt.Option) (r *party.IsMemberExistResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.IsMemberExist(ctx, req)
+}
+
+func (p *kPartyHandlerClient) AddAdmin(ctx context.Context, req *party.AddAdminRequest, callOptions ...callopt.Option) (r *party.AddAdminResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.AddAdmin(ctx, req)
+}
+
+func (p *kPartyHandlerClient) DeleteAdmin(ctx context.Context, req *party.DeleteAdminRequest, callOptions ...callopt.Option) (r *party.DeleteAdminResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteAdmin(ctx, req)
 }
 
 func (p *kPartyHandlerClient) CreateParty(ctx context.Context, req *party.CreatePartyRequest, callOptions ...callopt.Option) (r *party.CreatePartyResponse, err error) {

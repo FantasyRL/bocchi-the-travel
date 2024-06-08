@@ -222,7 +222,34 @@ struct ChangePartyStatusRequest{
 struct ChangePartyStatusResponse{
     1:base.BaseResp base,
 }
+
+struct AddAdminRequest{
+    1:i64 party_id,
+    2:i64 target_id,
+}
+struct AddAdminResponse{
+    1:base.BaseResp base,
+}
+
+struct DeleteAdminRequest{
+    1:i64 party_id,
+    2:i64 target_id,
+}
+struct DeleteAdminResponse{
+    1:base.BaseResp base,
+}
+
+struct DeleteMemberRequest{
+    1:i64 party_id,
+    2:i64 target_id,
+}
+struct DeleteMemberResponse{
+    1:base.BaseResp base,
+}
 service PartyHandler{
+    DeleteMemberResponse DeleteMember(1:DeleteMemberRequest req)(api.get="/bocchi/party/member/delete"),
+    AddAdminResponse AddAdmin(1:AddAdminRequest req)(api.get="/bocchi/party/admin/create"),
+    DeleteAdminResponse DeleteAdmin(1:DeleteAdminRequest req)(api.get="/bocchi/party/admin/delete"),
     CreatePartyResponse CreateParty(1:CreatePartyRequest req)(api.post="/bocchi/party/create"),
     JoinPartyResponse JoinParty(1:JoinPartyRequest req)(api.get="/bocchi/party/apply"),
     ApplyListResponse ApplyList(1:ApplyListRequest req)(api.get="/bocchi/party/apply/list"),
@@ -287,8 +314,9 @@ struct ShowPartyItineraryResponse{
 }
 
 struct ChangeSequenceRequest{
-    1:list<i64> itinerary_id_list,
-    2:list<i64> sequence_list,
+    1:i64 party_id,
+    2:list<i64> itinerary_id_list,
+    3:list<i64> sequence_list,
 }
 
 struct ChangeSequenceResponse{
@@ -433,13 +461,14 @@ struct FriendListResponse{
 
 struct MarkToOtherRequest{
     1:i64 target_id,
+    2:double score,
 }
 
 struct MarkToOtherResponse{
     1:base.BaseResp base,
 }
 
-service FollowHandler{
+service TrustHandler{
     FollowActionResponse TrustAction(1:FollowActionRequest req)(api.post="/bibi/trust/action"),
     FollowerListResponse FollowerList(1:FollowerListRequest req)(api.get="/bibi/trust/follower"),
     FollowingListResponse FollowingList(1:FollowingListRequest req)(api.get="/bibi/trust/following"),

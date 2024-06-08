@@ -47,7 +47,8 @@ struct FriendListResponse{
 
 struct MarkToOtherRequest{
     1:i64 target_id,
-    2:i64 user_id,
+    2:double score,
+    3:i64 user_id,
 }
 
 struct MarkToOtherResponse{
