@@ -284,6 +284,9 @@ export default {
 </template>
 
 <style scoped>
+.rounded-image {
+  border-radius: 50%; /* 半径为50%意味着图片将变成圆形 */
+}
 .touxiangimg {
   height: 200px;
   width: 200px;
