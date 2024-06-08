@@ -58,14 +58,14 @@ const docTemplate = `{
         },
         "/bibi/trust/each": {
             "post": {
-                "description": "list your friends",
+                "description": "trust with each other",
                 "consumes": [
                     "json/form"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "friend_list",
+                "summary": "trust_each_list",
                 "parameters": [
                     {
                         "type": "integer",

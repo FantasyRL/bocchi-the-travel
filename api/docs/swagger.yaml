@@ -33,7 +33,7 @@ paths:
     post:
       consumes:
       - json/form
-      description: list your friends
+      description: trust with each other
       parameters:
       - description: 页码
         in: query
@@ -51,7 +51,7 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: friend_list
+      summary: trust_each_list
   /bibi/trust/follower:
     get:
       consumes:

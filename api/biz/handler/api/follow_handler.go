@@ -123,8 +123,8 @@ func FollowingList(ctx context.Context, c *app.RequestContext) {
 }
 
 // TrustEachList .
-// @Summary friend_list
-// @Description list your friends
+// @Summary trust_each_list
+// @Description trust with each other
 // @Accept json/form
 // @Produce json
 // @Param page_num query int64 true "页码"
