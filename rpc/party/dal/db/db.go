@@ -63,7 +63,7 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 		DBParty.WithContext(ctx).Where("start_time > ?", du)
 	} else {
 		du := time.Now()
-		DBParty.WithContext(ctx).Where("end_time > ? AND status = 0", du)
+		DBParty.WithContext(ctx).Where("status = 0", du)
 	}
 	if req.SearchType != nil {
 		switch *req.SearchType {
