@@ -53,12 +53,16 @@ export default {
 <template>
   <div class="end">
     <a-page-header
-      style="border: 1px solid rgb(235, 237, 240)"
+      style="border: 1px solid rgb(235, 237, 240); z-index: 99999"
       title="行程结束"
       :sub-title="`ID: ${id}`"
       @back="() => $router.go(-1)"
     />
   </div>
+
+  <br />
+  <br />
+  <br />
 
   <div class="view-img">
     <img src="@/assets/finish.svg" alt="" />
@@ -185,7 +189,6 @@ export default {
 
 <style scoped>
 .end {
-  position: fixed;
   width: 100vw;
   color: rgb(255, 255, 255);
   background-color: rgb(255, 255, 255);
