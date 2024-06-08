@@ -9,8 +9,8 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      members: [], // 用于存储活动成员信息
-      applylist: [] // 用于存储申请列表信息
+      members: {}, // 用于存储活动成员信息
+      applylist: {} // 用于存储申请列表信息
     };
   },
   methods: {
@@ -20,7 +20,7 @@ export default {
           headers: { "access-token": Cookies.get("access_token") }
         })
         .then((response) => {
-          this.members = response.data;
+          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -75,16 +75,15 @@ export default {
     <div class="member">
       <div style="text-align: center; margin-bottom: 5vw">团队成员</div>
       <div v-for="item in members" :key="item" style="display: grid; justify-content: center">
-        <a-card
-          hoverable
-          style="width: 300px; justify-content: center"
-          v-if="item.id"
-          @click="this.$router.push(`/about/${item.id}`)"
-        >
+        <a-card hoverable style="width: 300px; justify-content: center" v-if="item.id">
           <template #actions>
-            <!-- <div @click="applyuser(item.id)">同意加入</div> -->
+            <!-- <div @click="applyuser()">同意加入</div> -->
           </template>
-          <a-card-meta :title="item.name" :description="item.signature">
+          <a-card-meta
+            :title="item.name"
+            :description="item.signature"
+            @click="this.$router.push(`/about/${item.id}`)"
+          >
             <template #avatar>
               <a-avatar :src="item.avatar" />
             </template>
@@ -94,21 +93,20 @@ export default {
     </div>
     <div class="applylist">
       <div style="text-align: center; margin-bottom: 5vw">申请列表:</div>
-      <div v-for="item in applylist" :key="item" style="display: grid; justify-content: center">
-        <a-card
-          hoverable
-          style="width: 300px"
-          v-if="item.id"
-          @click="this.$router.push(`/about/${item.id}`)"
-        >
+      <div v-for="good in applylist" :key="good" style="display: grid; justify-content: center">
+        <a-card hoverable style="width: 300px" v-if="good.id">
           <template #actions>
             <!-- <setting-outlined key="setting" />
             <edit-outlined key="edit" /> -->
-            <div @click="applyuser(item.id)">同意加入</div>
+            <div @click="applyuser(good.id)">同意加入</div>
           </template>
-          <a-card-meta :title="item.name" :description="item.signature">
+          <a-card-meta
+            :title="good.name"
+            :description="good.signature"
+            @click="this.$router.push(`/about/${good.id}`)"
+          >
             <template #avatar>
-              <a-avatar :src="item.avatar" />
+              <a-avatar :src="good.avatar" />
             </template>
           </a-card-meta>
         </a-card>
