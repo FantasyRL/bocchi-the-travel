@@ -73,7 +73,7 @@ func (s *PartyService) PermitJoin(req *party.PermitJoinRequest) error {
 	memberModel := &db.Member{
 		PartyId:  req.PartyId,
 		MemberId: req.MemberId,
-		Status:   0,
+		Status:   1,
 	}
 	if err = db.CheckMemberStatus(s.ctx, memberModel); err != nil {
 		return err
@@ -96,6 +96,17 @@ func (s *PartyService) DeleteMember(req *party.DeleteMemberRequest) error {
 	}
 	if !is {
 		return errno.NotAdminError
+	}
+	adminModel2 := &db.Member{
+		PartyId:  req.PartyId,
+		MemberId: req.TargetId,
+	}
+	is2, err := db.ISMemberAdmin(s.ctx, adminModel2)
+	if err != nil {
+		return err
+	}
+	if !is2 {
+		return errno.CantKickAdminError
 	}
 
 	return db.DeleteMember(s.ctx, req.TargetId)

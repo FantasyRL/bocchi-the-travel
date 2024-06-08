@@ -76,3 +76,9 @@ func (s *TrustHandlerImpl) MarkToOther(ctx context.Context, req *trust.MarkToOth
 	// TODO: Your code here...
 	return
 }
+
+// GetUserScore implements the TrustHandlerImpl interface.
+func (s *TrustHandlerImpl) GetUserScore(ctx context.Context, req *trust.GetUserScoreRequest) (resp *trust.GetUserScoreResponse, err error) {
+	// TODO: Your code here...
+	return
+}

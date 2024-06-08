@@ -18,6 +18,8 @@ const (
 	ItineraryTableName = "itinerary"
 	CommentTableName   = "comment"
 	FollowTableName    = "follow"
+	MarkTableName      = "mark"
+	ScoreTableName     = "score"
 
 	// limit
 	MaxConnections     = 1000

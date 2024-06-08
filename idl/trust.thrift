@@ -54,11 +54,21 @@ struct MarkToOtherRequest{
 struct MarkToOtherResponse{
     1:base.BaseResp base,
 }
+
+struct GetUserScoreRequest{
+    1:i64 user_id,
+}
+struct GetUserScoreResponse{
+    1:base.BaseResp base,
+    2:double score,
+}
+
 service TrustHandler{
     FollowActionResponse TrustAction(1:FollowActionRequest req),
     FollowerListResponse FollowerList(1:FollowerListRequest req),
     FollowingListResponse FollowingList(1:FollowingListRequest req),
     MarkToOtherResponse MarkToOther(1:MarkToOtherRequest req),
     FriendListResponse TrustEachList(1:FriendListRequest req),
+    GetUserScoreResponse GetUserScore(1:GetUserScoreRequest req)(api.get="/bibi/user/score"),
 
 }

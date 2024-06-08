@@ -35,6 +35,7 @@ const (
 	FollowNotExistErrCode
 	FollowMyselfErrCode
 	NotAdminErrCode
+	CantKickAdminErrCode
 )
 
 const (
@@ -60,6 +61,7 @@ const (
 	FollowNotExistErrMsg        = "You haven't followed"
 	FollowMyselfErrMsg          = "You can't follow yourself"
 	NotAdminErrMsg              = "you are not admin"
+	CantKickAdminErrMsg         = "you can not kick admin,plz block him to user"
 
 	WebSocketSuccessMsg             = "Connect to server success"
 	WebSocketLogoutSuccessMsg       = "logout success"
@@ -114,6 +116,7 @@ var (
 	FollowExistError           = NewErrNo(FollowExistErrCode, FollowExistErrMsg)
 	FollowNotExistError        = NewErrNo(FollowNotExistErrCode, FollowNotExistErrMsg)
 	FollowMyselfError          = NewErrNo(FollowMyselfErrCode, FollowMyselfErrMsg)
+	CantKickAdminError         = NewErrNo(CantKickAdminErrCode, CantKickAdminErrMsg)
 
 	WebSocketSuccess             = NewErrNo(WebSocketSuccessCode, WebSocketSuccessMsg)
 	WebSocketLogoutSuccess       = NewErrNo(WebSocketLogoutSuccessCode, WebSocketLogoutSuccessMsg)

@@ -75,3 +75,11 @@ func MarkToOther(ctx context.Context, req *trust.MarkToOtherRequest) (*trust.Mar
 	}
 	return resp, nil
 }
+
+func GetUserScore(ctx context.Context, req *trust.GetUserScoreRequest) (*trust.GetUserScoreResponse, error) {
+	resp, err := trustClient.GetUserScore(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}

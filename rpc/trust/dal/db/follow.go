@@ -19,7 +19,7 @@ type Follow struct {
 
 func IsFollowExist(ctx context.Context, uid int64, followerId int64) (bool, error) {
 	follow := new(Follow)
-	err := DB.WithContext(ctx).Where("uid = ? AND followed_id = ? ", uid, followerId).First(follow).Error
+	err := DBFollow.WithContext(ctx).Where("uid = ? AND followed_id = ? ", uid, followerId).First(follow).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return false, nil
 	}
@@ -31,7 +31,7 @@ func IsFollowExist(ctx context.Context, uid int64, followerId int64) (bool, erro
 
 func IsFollowStatus(ctx context.Context, uid int64, followerId int64, status int64) (bool, error) {
 	follow := new(Follow)
-	err := DB.WithContext(ctx).Where("uid = ? AND followed_id = ? AND status = ? ", uid, followerId, status).First(follow).Error
+	err := DBFollow.WithContext(ctx).Where("uid = ? AND followed_id = ? AND status = ? ", uid, followerId, status).First(follow).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return false, nil
 	}
@@ -47,11 +47,11 @@ func CreateFollow(ctx context.Context, uid int64, followerId int64, status int64
 		FollowedId: followerId,
 		Status:     status,
 	}
-	return DB.WithContext(ctx).Create(followModel).Error
+	return DBFollow.WithContext(ctx).Create(followModel).Error
 }
 
 func UpdateFollowStatus(ctx context.Context, uid int64, followerId int64, status int64) error {
-	return DB.WithContext(ctx).Where("uid = ? AND followed_id = ? ",
+	return DBFollow.WithContext(ctx).Where("uid = ? AND followed_id = ? ",
 		uid, followerId).Update("status", status).Error
 }
 
@@ -60,7 +60,7 @@ func FollowerAndFriendList(ctx context.Context, followedId int64) (*[]Follow, *[
 	followerList := new([]Follow)
 	friendList := new([]Follow)
 	var count int64
-	if err := DB.WithContext(ctx).Where("followed_id = ? AND status = 1", followedId).Find(followerList).Count(&count).Error; err != nil {
+	if err := DBFollow.WithContext(ctx).Where("followed_id = ? AND status = 1", followedId).Find(followerList).Count(&count).Error; err != nil {
 		return nil, nil, 0, err
 	}
 
@@ -68,7 +68,7 @@ func FollowerAndFriendList(ctx context.Context, followedId int64) (*[]Follow, *[
 	for i, v := range *followerList {
 		isFriendIdList[i] = v.Uid
 	}
-	if err := DB.WithContext(ctx).Where("uid = ? AND followed_id IN ? AND status = 1", followedId, isFriendIdList).Find(friendList).Error; err != nil {
+	if err := DBFollow.WithContext(ctx).Where("uid = ? AND followed_id IN ? AND status = 1", followedId, isFriendIdList).Find(friendList).Error; err != nil {
 		return nil, nil, 0, err
 	}
 	return followerList, friendList, count, nil
@@ -77,7 +77,7 @@ func FollowerAndFriendList(ctx context.Context, followedId int64) (*[]Follow, *[
 func FollowingList(ctx context.Context, uid int64) (*[]Follow, int64, error) {
 	followedList := new([]Follow)
 	var count int64
-	if err := DB.WithContext(ctx).Where("uid = ? AND status = 1", uid).Count(&count).Find(followedList).Error; err != nil {
+	if err := DBFollow.WithContext(ctx).Where("uid = ? AND status = 1", uid).Count(&count).Find(followedList).Error; err != nil {
 		return nil, 0, err
 	}
 	return followedList, count, nil
@@ -85,7 +85,7 @@ func FollowingList(ctx context.Context, uid int64) (*[]Follow, int64, error) {
 
 func IsFollow(ctx context.Context, uid int64, followedId int64) (bool, error) {
 	follow := new(Follow)
-	err := DB.WithContext(ctx).Where("uid = ? AND followed_id = ?", uid, followedId).First(follow).Error
+	err := DBFollow.WithContext(ctx).Where("uid = ? AND followed_id = ?", uid, followedId).First(follow).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return false, nil
 	}

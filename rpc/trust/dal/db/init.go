@@ -11,11 +11,13 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-var DB *gorm.DB
+var (
+	DBFollow, DBMark, DBScore *gorm.DB
+)
 
 func Init() {
 	var err error
-	DB, err = gorm.Open(mysql.Open(utils.InitMysqlDSN()),
+	DBFollow, err = gorm.Open(mysql.Open(utils.InitMysqlDSN()),
 		&gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info),
 			NamingStrategy: schema.NamingStrategy{
@@ -27,10 +29,45 @@ func Init() {
 	} else {
 		klog.Info("mysql connect access")
 	}
-
-	sqlDB, _ := DB.DB()
+	sqlDB, _ := DBFollow.DB()
 	sqlDB.SetMaxIdleConns(constants.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(constants.MaxConnections)
 	sqlDB.SetConnMaxLifetime(constants.ConnMaxLifetime)
-	DB = DB.Table(constants.FollowTableName).WithContext(context.Background())
+	DBFollow = DBFollow.Table(constants.FollowTableName).WithContext(context.Background())
+
+	DBMark, err = gorm.Open(mysql.Open(utils.InitMysqlDSN()),
+		&gorm.Config{
+			Logger: logger.Default.LogMode(logger.Info),
+			NamingStrategy: schema.NamingStrategy{
+				SingularTable: true, //单数表名
+			},
+		})
+	if err != nil {
+		klog.Fatal("mysql mark connect error")
+	} else {
+		klog.Info("mysql mark connect access")
+	}
+	sqlDB, _ = DBMark.DB()
+	sqlDB.SetMaxIdleConns(constants.MaxIdleConns)
+	sqlDB.SetMaxOpenConns(constants.MaxConnections)
+	sqlDB.SetConnMaxLifetime(constants.ConnMaxLifetime)
+	DBMark = DBMark.Table(constants.MarkTableName).WithContext(context.Background())
+
+	DBScore, err = gorm.Open(mysql.Open(utils.InitMysqlDSN()),
+		&gorm.Config{
+			Logger: logger.Default.LogMode(logger.Info),
+			NamingStrategy: schema.NamingStrategy{
+				SingularTable: true, //单数表名
+			},
+		})
+	if err != nil {
+		klog.Fatal("mysql score connect error")
+	} else {
+		klog.Info("mysql score connect access")
+	}
+	sqlDB, _ = DBScore.DB()
+	sqlDB.SetMaxIdleConns(constants.MaxIdleConns)
+	sqlDB.SetMaxOpenConns(constants.MaxConnections)
+	sqlDB.SetConnMaxLifetime(constants.ConnMaxLifetime)
+	DBScore = DBScore.Table(constants.ScoreTableName).WithContext(context.Background())
 }
