@@ -34,6 +34,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"MarkToOther": kitex.NewMethodInfo(
+		markToOtherHandler,
+		newTrustHandlerMarkToOtherArgs,
+		newTrustHandlerMarkToOtherResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"TrustEachList": kitex.NewMethodInfo(
 		trustEachListHandler,
 		newTrustHandlerTrustEachListArgs,
@@ -161,6 +168,24 @@ func newTrustHandlerFollowingListResult() interface{} {
 	return trust.NewTrustHandlerFollowingListResult()
 }
 
+func markToOtherHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*trust.TrustHandlerMarkToOtherArgs)
+	realResult := result.(*trust.TrustHandlerMarkToOtherResult)
+	success, err := handler.(trust.TrustHandler).MarkToOther(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newTrustHandlerMarkToOtherArgs() interface{} {
+	return trust.NewTrustHandlerMarkToOtherArgs()
+}
+
+func newTrustHandlerMarkToOtherResult() interface{} {
+	return trust.NewTrustHandlerMarkToOtherResult()
+}
+
 func trustEachListHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*trust.TrustHandlerTrustEachListArgs)
 	realResult := result.(*trust.TrustHandlerTrustEachListResult)
@@ -214,6 +239,16 @@ func (p *kClient) FollowingList(ctx context.Context, req *trust.FollowingListReq
 	_args.Req = req
 	var _result trust.TrustHandlerFollowingListResult
 	if err = p.c.Call(ctx, "FollowingList", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) MarkToOther(ctx context.Context, req *trust.MarkToOtherRequest) (r *trust.MarkToOtherResponse, err error) {
+	var _args trust.TrustHandlerMarkToOtherArgs
+	_args.Req = req
+	var _result trust.TrustHandlerMarkToOtherResult
+	if err = p.c.Call(ctx, "MarkToOther", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

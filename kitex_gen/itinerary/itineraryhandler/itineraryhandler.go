@@ -34,6 +34,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"ShowItineraryDraft": kitex.NewMethodInfo(
+		showItineraryDraftHandler,
+		newItineraryHandlerShowItineraryDraftArgs,
+		newItineraryHandlerShowItineraryDraftResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"ChangeSequence": kitex.NewMethodInfo(
 		changeSequenceHandler,
 		newItineraryHandlerChangeSequenceArgs,
@@ -182,6 +189,24 @@ func newItineraryHandlerShowPartyItineraryResult() interface{} {
 	return itinerary.NewItineraryHandlerShowPartyItineraryResult()
 }
 
+func showItineraryDraftHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*itinerary.ItineraryHandlerShowItineraryDraftArgs)
+	realResult := result.(*itinerary.ItineraryHandlerShowItineraryDraftResult)
+	success, err := handler.(itinerary.ItineraryHandler).ShowItineraryDraft(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newItineraryHandlerShowItineraryDraftArgs() interface{} {
+	return itinerary.NewItineraryHandlerShowItineraryDraftArgs()
+}
+
+func newItineraryHandlerShowItineraryDraftResult() interface{} {
+	return itinerary.NewItineraryHandlerShowItineraryDraftResult()
+}
+
 func changeSequenceHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*itinerary.ItineraryHandlerChangeSequenceArgs)
 	realResult := result.(*itinerary.ItineraryHandlerChangeSequenceResult)
@@ -289,6 +314,16 @@ func (p *kClient) ShowPartyItinerary(ctx context.Context, req *itinerary.ShowPar
 	_args.Req = req
 	var _result itinerary.ItineraryHandlerShowPartyItineraryResult
 	if err = p.c.Call(ctx, "ShowPartyItinerary", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest) (r *itinerary.ShowItineraryDraftResponse, err error) {
+	var _args itinerary.ItineraryHandlerShowItineraryDraftArgs
+	_args.Req = req
+	var _result itinerary.ItineraryHandlerShowItineraryDraftResult
+	if err = p.c.Call(ctx, "ShowItineraryDraft", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

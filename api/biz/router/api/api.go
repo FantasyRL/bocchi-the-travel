@@ -25,6 +25,7 @@ func Register(r *server.Hertz) {
 			_trust.POST("/each", append(_trusteachlistMw(), api.TrustEachList)...)
 			_trust.GET("/follower", append(_followerlistMw(), api.FollowerList)...)
 			_trust.GET("/following", append(_followinglistMw(), api.FollowingList)...)
+			_trust.GET("/mark", append(_marktootherMw(), api.MarkToOther)...)
 		}
 	}
 	{
@@ -53,6 +54,10 @@ func Register(r *server.Hertz) {
 				_itinerary.GET("/merge", append(_mergeitineraryMw(), api.MergeItinerary)...)
 				_itinerary.GET("/my", append(_getmyitinerariesMw(), api.GetMyItineraries)...)
 				_itinerary.GET("/show", append(_showpartyitineraryMw(), api.ShowPartyItinerary)...)
+				{
+					_draft := _itinerary.Group("/draft", _draftMw()...)
+					_draft.GET("/show", append(_showitinerarydraftMw(), api.ShowItineraryDraft)...)
+				}
 				{
 					_sequence := _itinerary.Group("/sequence", _sequenceMw()...)
 					_sequence.POST("/change", append(_changesequenceMw(), api.ChangeSequence)...)

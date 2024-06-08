@@ -290,3 +290,33 @@ func DeleteItinerary(ctx context.Context, c *app.RequestContext) {
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 	c.JSON(consts.StatusOK, resp)
 }
+
+// ShowItineraryDraft .
+// @Summary show_party_itinerary_draft
+// @Description show party's itineraries draft
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @router /bocchi/party/itinerary/draft/show [GET]
+func ShowItineraryDraft(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.ShowItineraryDraftRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.ShowItineraryDraftResponse)
+
+	rpcResp, err := rpc.ShowItineraryDraft(ctx, &itinerary.ShowItineraryDraftRequest{
+		PartyId: req.PartyID,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	resp.Itineraries = pack.ConvertToAPIItineraries(rpcResp.Itineraries)
+	c.JSON(consts.StatusOK, resp)
+}

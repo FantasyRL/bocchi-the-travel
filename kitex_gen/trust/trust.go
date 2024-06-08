@@ -2113,12 +2113,402 @@ func (p *FriendListResponse) Field3DeepEqual(src []*base.User) bool {
 	return true
 }
 
+type MarkToOtherRequest struct {
+	TargetId int64 `thrift:"target_id,1" frugal:"1,default,i64" json:"target_id"`
+	UserId   int64 `thrift:"user_id,2" frugal:"2,default,i64" json:"user_id"`
+}
+
+func NewMarkToOtherRequest() *MarkToOtherRequest {
+	return &MarkToOtherRequest{}
+}
+
+func (p *MarkToOtherRequest) InitDefault() {
+	*p = MarkToOtherRequest{}
+}
+
+func (p *MarkToOtherRequest) GetTargetId() (v int64) {
+	return p.TargetId
+}
+
+func (p *MarkToOtherRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+func (p *MarkToOtherRequest) SetTargetId(val int64) {
+	p.TargetId = val
+}
+func (p *MarkToOtherRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+
+var fieldIDToName_MarkToOtherRequest = map[int16]string{
+	1: "target_id",
+	2: "user_id",
+}
+
+func (p *MarkToOtherRequest) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MarkToOtherRequest[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *MarkToOtherRequest) ReadField1(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.TargetId = v
+	}
+	return nil
+}
+func (p *MarkToOtherRequest) ReadField2(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.UserId = v
+	}
+	return nil
+}
+
+func (p *MarkToOtherRequest) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("MarkToOtherRequest"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *MarkToOtherRequest) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("target_id", thrift.I64, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.TargetId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *MarkToOtherRequest) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.UserId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *MarkToOtherRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MarkToOtherRequest(%+v)", *p)
+
+}
+
+func (p *MarkToOtherRequest) DeepEqual(ano *MarkToOtherRequest) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.TargetId) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.UserId) {
+		return false
+	}
+	return true
+}
+
+func (p *MarkToOtherRequest) Field1DeepEqual(src int64) bool {
+
+	if p.TargetId != src {
+		return false
+	}
+	return true
+}
+func (p *MarkToOtherRequest) Field2DeepEqual(src int64) bool {
+
+	if p.UserId != src {
+		return false
+	}
+	return true
+}
+
+type MarkToOtherResponse struct {
+	Base *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
+}
+
+func NewMarkToOtherResponse() *MarkToOtherResponse {
+	return &MarkToOtherResponse{}
+}
+
+func (p *MarkToOtherResponse) InitDefault() {
+	*p = MarkToOtherResponse{}
+}
+
+var MarkToOtherResponse_Base_DEFAULT *base.BaseResp
+
+func (p *MarkToOtherResponse) GetBase() (v *base.BaseResp) {
+	if !p.IsSetBase() {
+		return MarkToOtherResponse_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *MarkToOtherResponse) SetBase(val *base.BaseResp) {
+	p.Base = val
+}
+
+var fieldIDToName_MarkToOtherResponse = map[int16]string{
+	1: "base",
+}
+
+func (p *MarkToOtherResponse) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *MarkToOtherResponse) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MarkToOtherResponse[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *MarkToOtherResponse) ReadField1(iprot thrift.TProtocol) error {
+	p.Base = base.NewBaseResp()
+	if err := p.Base.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *MarkToOtherResponse) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("MarkToOtherResponse"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *MarkToOtherResponse) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("base", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Base.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *MarkToOtherResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MarkToOtherResponse(%+v)", *p)
+
+}
+
+func (p *MarkToOtherResponse) DeepEqual(ano *MarkToOtherResponse) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Base) {
+		return false
+	}
+	return true
+}
+
+func (p *MarkToOtherResponse) Field1DeepEqual(src *base.BaseResp) bool {
+
+	if !p.Base.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
 type TrustHandler interface {
 	TrustAction(ctx context.Context, req *FollowActionRequest) (r *FollowActionResponse, err error)
 
 	FollowerList(ctx context.Context, req *FollowerListRequest) (r *FollowerListResponse, err error)
 
 	FollowingList(ctx context.Context, req *FollowingListRequest) (r *FollowingListResponse, err error)
+
+	MarkToOther(ctx context.Context, req *MarkToOtherRequest) (r *MarkToOtherResponse, err error)
 
 	TrustEachList(ctx context.Context, req *FriendListRequest) (r *FriendListResponse, err error)
 }
@@ -2176,6 +2566,15 @@ func (p *TrustHandlerClient) FollowingList(ctx context.Context, req *FollowingLi
 	}
 	return _result.GetSuccess(), nil
 }
+func (p *TrustHandlerClient) MarkToOther(ctx context.Context, req *MarkToOtherRequest) (r *MarkToOtherResponse, err error) {
+	var _args TrustHandlerMarkToOtherArgs
+	_args.Req = req
+	var _result TrustHandlerMarkToOtherResult
+	if err = p.Client_().Call(ctx, "MarkToOther", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
 func (p *TrustHandlerClient) TrustEachList(ctx context.Context, req *FriendListRequest) (r *FriendListResponse, err error) {
 	var _args TrustHandlerTrustEachListArgs
 	_args.Req = req
@@ -2209,6 +2608,7 @@ func NewTrustHandlerProcessor(handler TrustHandler) *TrustHandlerProcessor {
 	self.AddToProcessorMap("TrustAction", &trustHandlerProcessorTrustAction{handler: handler})
 	self.AddToProcessorMap("FollowerList", &trustHandlerProcessorFollowerList{handler: handler})
 	self.AddToProcessorMap("FollowingList", &trustHandlerProcessorFollowingList{handler: handler})
+	self.AddToProcessorMap("MarkToOther", &trustHandlerProcessorMarkToOther{handler: handler})
 	self.AddToProcessorMap("TrustEachList", &trustHandlerProcessorTrustEachList{handler: handler})
 	return self
 }
@@ -2357,6 +2757,54 @@ func (p *trustHandlerProcessorFollowingList) Process(ctx context.Context, seqId 
 		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("FollowingList", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type trustHandlerProcessorMarkToOther struct {
+	handler TrustHandler
+}
+
+func (p *trustHandlerProcessorMarkToOther) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := TrustHandlerMarkToOtherArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("MarkToOther", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := TrustHandlerMarkToOtherResult{}
+	var retval *MarkToOtherResponse
+	if retval, err2 = p.handler.MarkToOther(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing MarkToOther: "+err2.Error())
+		oprot.WriteMessageBegin("MarkToOther", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("MarkToOther", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -3435,6 +3883,346 @@ func (p *TrustHandlerFollowingListResult) DeepEqual(ano *TrustHandlerFollowingLi
 }
 
 func (p *TrustHandlerFollowingListResult) Field0DeepEqual(src *FollowingListResponse) bool {
+
+	if !p.Success.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type TrustHandlerMarkToOtherArgs struct {
+	Req *MarkToOtherRequest `thrift:"req,1" frugal:"1,default,MarkToOtherRequest" json:"req"`
+}
+
+func NewTrustHandlerMarkToOtherArgs() *TrustHandlerMarkToOtherArgs {
+	return &TrustHandlerMarkToOtherArgs{}
+}
+
+func (p *TrustHandlerMarkToOtherArgs) InitDefault() {
+	*p = TrustHandlerMarkToOtherArgs{}
+}
+
+var TrustHandlerMarkToOtherArgs_Req_DEFAULT *MarkToOtherRequest
+
+func (p *TrustHandlerMarkToOtherArgs) GetReq() (v *MarkToOtherRequest) {
+	if !p.IsSetReq() {
+		return TrustHandlerMarkToOtherArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *TrustHandlerMarkToOtherArgs) SetReq(val *MarkToOtherRequest) {
+	p.Req = val
+}
+
+var fieldIDToName_TrustHandlerMarkToOtherArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *TrustHandlerMarkToOtherArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *TrustHandlerMarkToOtherArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_TrustHandlerMarkToOtherArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *TrustHandlerMarkToOtherArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = NewMarkToOtherRequest()
+	if err := p.Req.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *TrustHandlerMarkToOtherArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("MarkToOther_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *TrustHandlerMarkToOtherArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *TrustHandlerMarkToOtherArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("TrustHandlerMarkToOtherArgs(%+v)", *p)
+
+}
+
+func (p *TrustHandlerMarkToOtherArgs) DeepEqual(ano *TrustHandlerMarkToOtherArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Req) {
+		return false
+	}
+	return true
+}
+
+func (p *TrustHandlerMarkToOtherArgs) Field1DeepEqual(src *MarkToOtherRequest) bool {
+
+	if !p.Req.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type TrustHandlerMarkToOtherResult struct {
+	Success *MarkToOtherResponse `thrift:"success,0,optional" frugal:"0,optional,MarkToOtherResponse" json:"success,omitempty"`
+}
+
+func NewTrustHandlerMarkToOtherResult() *TrustHandlerMarkToOtherResult {
+	return &TrustHandlerMarkToOtherResult{}
+}
+
+func (p *TrustHandlerMarkToOtherResult) InitDefault() {
+	*p = TrustHandlerMarkToOtherResult{}
+}
+
+var TrustHandlerMarkToOtherResult_Success_DEFAULT *MarkToOtherResponse
+
+func (p *TrustHandlerMarkToOtherResult) GetSuccess() (v *MarkToOtherResponse) {
+	if !p.IsSetSuccess() {
+		return TrustHandlerMarkToOtherResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *TrustHandlerMarkToOtherResult) SetSuccess(x interface{}) {
+	p.Success = x.(*MarkToOtherResponse)
+}
+
+var fieldIDToName_TrustHandlerMarkToOtherResult = map[int16]string{
+	0: "success",
+}
+
+func (p *TrustHandlerMarkToOtherResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *TrustHandlerMarkToOtherResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_TrustHandlerMarkToOtherResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *TrustHandlerMarkToOtherResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewMarkToOtherResponse()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *TrustHandlerMarkToOtherResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("MarkToOther_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *TrustHandlerMarkToOtherResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *TrustHandlerMarkToOtherResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("TrustHandlerMarkToOtherResult(%+v)", *p)
+
+}
+
+func (p *TrustHandlerMarkToOtherResult) DeepEqual(ano *TrustHandlerMarkToOtherResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *TrustHandlerMarkToOtherResult) Field0DeepEqual(src *MarkToOtherResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false

@@ -47,6 +47,18 @@ func ShowPartyItinerary(ctx context.Context, partyId int64) (*[]Itinerary, int64
 	return itinerariesResp, count, nil
 }
 
+func ShowPartyItineraryDraft(ctx context.Context, partyId int64) (*[]Itinerary, int64, error) {
+	itinerariesResp := new([]Itinerary)
+	var count int64
+	if err := DB.WithContext(ctx).Where("party_id = ? and is_merged = 0", partyId).Count(&count).Find(itinerariesResp).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, 0, nil
+		}
+		return nil, 0, err
+	}
+	return itinerariesResp, count, nil
+}
+
 func ChangeSequence(ctx context.Context, req *itinerary.ChangeSequenceRequest) error {
 	itineraries := make([]Itinerary, len(req.ItineraryIdList))
 	for i := 0; i < len(req.ItineraryIdList); i++ {

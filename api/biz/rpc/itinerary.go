@@ -105,3 +105,13 @@ func DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest)
 	}
 	return resp, nil
 }
+
+func ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest) (*itinerary.ShowItineraryDraftResponse, error) {
+	//rpc client
+	resp, err := itineraryClient.ShowItineraryDraft(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	trust "/home/fanr/projects/SOSD/bocchi-the-travel/kitex_gen/trust"
 	"bocchi/kitex_gen/trust"
 	"bocchi/pkg/errno"
 	"bocchi/pkg/pack"
@@ -68,4 +69,10 @@ func (s *TrustHandlerImpl) TrustEachList(ctx context.Context, req *trust.FriendL
 	resp.Count = &count
 	resp.FriendList = friendResp
 	return resp, nil
+}
+
+// MarkToOther implements the TrustHandlerImpl interface.
+func (s *TrustHandlerImpl) MarkToOther(ctx context.Context, req *trust.MarkToOtherRequest) (resp *trust.MarkToOtherResponse, err error) {
+	// TODO: Your code here...
+	return
 }
