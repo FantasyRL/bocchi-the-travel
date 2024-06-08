@@ -62,3 +62,9 @@ struct Comment {
     6: string publish_time,
 }
 
+struct Score{
+    1:i64 id,
+    2:i64 user_id,
+    3:i64 score,
+    4:i64 count,
+}
