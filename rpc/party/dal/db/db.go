@@ -46,7 +46,7 @@ func GetPartyById(ctx context.Context, partyId int64) (*Party, error) {
 func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]Party, int64, error) {
 	partiesResp := new([]Party)
 	var count int64
-	if req.Content != nil {
+	if req.Content != nil && *req.Content != "nothing" {
 		DBParty.WithContext(ctx).Where("content LIKE ? OR title LIKE ?", "%"+*req.Content+"%", "%"+*req.Content+"%")
 	}
 	if req.PartyType != nil {
@@ -61,6 +61,9 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 	if req.StartTimeDuration != nil {
 		du := time.Now().Add(time.Hour * 24 * time.Duration(*req.StartTimeDuration))
 		DBParty.WithContext(ctx).Where("start_time > ?", du)
+	} else {
+		du := time.Now()
+		DBParty.WithContext(ctx).Where("end_time > ? AND status = 0", du)
 	}
 	if req.SearchType != nil {
 		switch *req.SearchType {
