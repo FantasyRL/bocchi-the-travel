@@ -59,22 +59,22 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 	if req.Content != nil && *req.Content != "nothing" {
 		dbq = dbq.WithContext(ctx).Where("content LIKE ? OR title LIKE ?", "%"+*req.Content+"%", "%"+*req.Content+"%")
 	}
-	if req.PartyType != nil {
+	if req.PartyType != nil && *req.PartyType != "nothing" {
 		dbq = dbq.WithContext(ctx).Where("type = ?", *req.PartyType)
 	}
-	if req.Province != nil {
+	if req.Province != nil && *req.Province != "nothing" {
 		dbq = dbq.WithContext(ctx).Where("province = ?", *req.Province)
 	}
-	if req.Province != nil && req.City != nil {
+	if req.Province != nil && req.City != nil && *req.Province != "nothing" && *req.City != "nothing" {
 		dbq = dbq.WithContext(ctx).Where("city = ?", *req.City)
 	}
-	if req.StartTimeDuration != nil {
+	if req.StartTimeDuration != nil && *req.StartTimeDuration != -1 {
 		du := time.Now().Add(time.Hour * 24 * time.Duration(*req.StartTimeDuration))
 		dbq = dbq.WithContext(ctx).Where("start_time > ?", du)
 	} else {
 		dbq = dbq.WithContext(ctx).Where("status = 0")
 	}
-	if req.SearchType != nil {
+	if req.SearchType != nil && *req.SearchType != -1 {
 		switch *req.SearchType {
 		case 0:
 			//什么都不做
@@ -108,7 +108,7 @@ func GetFounderIdByPartyId(ctx context.Context, partyId int64) (int64, error) {
 
 func GetPartiesById(ctx context.Context, memberId int64, pageNum int64) (*[]Party, int64, error) {
 	partyIdResp := new([]Member)
-	var count, count1, count2 int64
+	var count int64
 	err := DBMember.WithContext(ctx).Where("member_id = ?", memberId).Order("status DESC").
 		Count(&count).Limit(constants.PageSize).Offset((int(pageNum) - 1) * constants.PageSize).
 		Find(partyIdResp).Error
@@ -122,34 +122,21 @@ func GetPartiesById(ctx context.Context, memberId int64, pageNum int64) (*[]Part
 	for i, member := range *partyIdResp {
 		partyIdList[i] = member.PartyId
 	}
-
 	partiesResp := make([]Party, 0)
 	partiesResp1 := new([]Party)
 	partiesResp2 := new([]Party)
-	partiesResp3 := new([]Party)
-	partiesResp4 := new([]Party)
-	err = DBParty.WithContext(ctx).Where("founder_id= ? and status = 0", memberId).Order("start_time ASC").
-		Find(partiesResp1).Count(&count1).Error
 	err = DBParty.WithContext(ctx).Where("id IN ? and status = 0", partyIdList).Order("start_time ASC").
-		Find(partiesResp2).Error
-	err = DBParty.WithContext(ctx).Where("founder_id= ? and status = 1", memberId).Order("end_time DESC").
-		Find(partiesResp3).Count(&count2).Error
+		Find(partiesResp1).Error
 	err = DBParty.WithContext(ctx).Where("id IN ? and status = 1", partyIdList).Order("end_time DESC").
-		Find(partiesResp4).Error
+		Find(partiesResp2).Error
 	for _, p := range *partiesResp1 {
 		partiesResp = append(partiesResp, p)
 	}
 	for _, p := range *partiesResp2 {
 		partiesResp = append(partiesResp, p)
 	}
-	for _, p := range *partiesResp3 {
-		partiesResp = append(partiesResp, p)
-	}
-	for _, p := range *partiesResp4 {
-		partiesResp = append(partiesResp, p)
-	}
 
-	return &partiesResp, count + count1 + count2, nil
+	return &partiesResp, count, nil
 }
 
 func DeleteParty(ctx context.Context, partyId int64) error {
