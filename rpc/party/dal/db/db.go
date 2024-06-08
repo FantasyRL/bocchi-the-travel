@@ -32,6 +32,15 @@ func CreateParty(ctx context.Context, partyModel *Party) (*Party, error) {
 	if err := DBParty.WithContext(ctx).Create(partyModel).Error; err != nil {
 		return nil, err
 	}
+
+	memberModel := &Member{
+		PartyId:  partyModel.Id,
+		MemberId: partyModel.FounderId,
+		Status:   1,
+	}
+	if err := DBMember.WithContext(ctx).Create(memberModel).Error; err != nil {
+		return nil, err
+	}
 	return partyModel, nil
 }
 
@@ -198,7 +207,19 @@ func ISMemberExist(ctx context.Context, memberModel *Member) (bool, error) {
 		return false, errno.MemberNotExistError
 	}
 	if err != nil {
-		return true, err
+		return false, err
+	}
+	return true, nil
+}
+
+func ISMemberAdmin(ctx context.Context, memberModel *Member) (bool, error) {
+	memberResp := new(Member)
+	err := DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ? AND status = 2", memberModel.PartyId, memberModel.MemberId).First(memberResp).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return false, errno.MemberNotExistError
+	}
+	if err != nil {
+		return false, err
 	}
 	return true, nil
 }
@@ -213,4 +234,8 @@ func CheckMemberStatus(ctx context.Context, memberModel *Member) error {
 		return err
 	}
 	return errno.MemberStatusDuplicateError
+}
+
+func DeleteMember(ctx context.Context, memberId int64) error {
+	return DBMember.WithContext(ctx).Delete(&Member{Id: memberId}).Error
 }

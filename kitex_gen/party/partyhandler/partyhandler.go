@@ -13,6 +13,41 @@ import (
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
 
 var serviceMethods = map[string]kitex.MethodInfo{
+	"DeleteMember": kitex.NewMethodInfo(
+		deleteMemberHandler,
+		newPartyHandlerDeleteMemberArgs,
+		newPartyHandlerDeleteMemberResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"IsMemberAdmin": kitex.NewMethodInfo(
+		isMemberAdminHandler,
+		newPartyHandlerIsMemberAdminArgs,
+		newPartyHandlerIsMemberAdminResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"IsMemberExist": kitex.NewMethodInfo(
+		isMemberExistHandler,
+		newPartyHandlerIsMemberExistArgs,
+		newPartyHandlerIsMemberExistResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"AddAdmin": kitex.NewMethodInfo(
+		addAdminHandler,
+		newPartyHandlerAddAdminArgs,
+		newPartyHandlerAddAdminResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"DeleteAdmin": kitex.NewMethodInfo(
+		deleteAdminHandler,
+		newPartyHandlerDeleteAdminArgs,
+		newPartyHandlerDeleteAdminResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"CreateParty": kitex.NewMethodInfo(
 		createPartyHandler,
 		newPartyHandlerCreatePartyArgs,
@@ -140,6 +175,96 @@ func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreami
 		Extra:           extra,
 	}
 	return svcInfo
+}
+
+func deleteMemberHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*party.PartyHandlerDeleteMemberArgs)
+	realResult := result.(*party.PartyHandlerDeleteMemberResult)
+	success, err := handler.(party.PartyHandler).DeleteMember(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPartyHandlerDeleteMemberArgs() interface{} {
+	return party.NewPartyHandlerDeleteMemberArgs()
+}
+
+func newPartyHandlerDeleteMemberResult() interface{} {
+	return party.NewPartyHandlerDeleteMemberResult()
+}
+
+func isMemberAdminHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*party.PartyHandlerIsMemberAdminArgs)
+	realResult := result.(*party.PartyHandlerIsMemberAdminResult)
+	success, err := handler.(party.PartyHandler).IsMemberAdmin(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPartyHandlerIsMemberAdminArgs() interface{} {
+	return party.NewPartyHandlerIsMemberAdminArgs()
+}
+
+func newPartyHandlerIsMemberAdminResult() interface{} {
+	return party.NewPartyHandlerIsMemberAdminResult()
+}
+
+func isMemberExistHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*party.PartyHandlerIsMemberExistArgs)
+	realResult := result.(*party.PartyHandlerIsMemberExistResult)
+	success, err := handler.(party.PartyHandler).IsMemberExist(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPartyHandlerIsMemberExistArgs() interface{} {
+	return party.NewPartyHandlerIsMemberExistArgs()
+}
+
+func newPartyHandlerIsMemberExistResult() interface{} {
+	return party.NewPartyHandlerIsMemberExistResult()
+}
+
+func addAdminHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*party.PartyHandlerAddAdminArgs)
+	realResult := result.(*party.PartyHandlerAddAdminResult)
+	success, err := handler.(party.PartyHandler).AddAdmin(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPartyHandlerAddAdminArgs() interface{} {
+	return party.NewPartyHandlerAddAdminArgs()
+}
+
+func newPartyHandlerAddAdminResult() interface{} {
+	return party.NewPartyHandlerAddAdminResult()
+}
+
+func deleteAdminHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*party.PartyHandlerDeleteAdminArgs)
+	realResult := result.(*party.PartyHandlerDeleteAdminResult)
+	success, err := handler.(party.PartyHandler).DeleteAdmin(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPartyHandlerDeleteAdminArgs() interface{} {
+	return party.NewPartyHandlerDeleteAdminArgs()
+}
+
+func newPartyHandlerDeleteAdminResult() interface{} {
+	return party.NewPartyHandlerDeleteAdminResult()
 }
 
 func createPartyHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -312,6 +437,56 @@ func newServiceClient(c client.Client) *kClient {
 	return &kClient{
 		c: c,
 	}
+}
+
+func (p *kClient) DeleteMember(ctx context.Context, req *party.DeleteMemberRequest) (r *party.DeleteMemberResponse, err error) {
+	var _args party.PartyHandlerDeleteMemberArgs
+	_args.Req = req
+	var _result party.PartyHandlerDeleteMemberResult
+	if err = p.c.Call(ctx, "DeleteMember", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) IsMemberAdmin(ctx context.Context, req *party.IsMemberAdminRequest) (r *party.IsMemberAdminResponse, err error) {
+	var _args party.PartyHandlerIsMemberAdminArgs
+	_args.Req = req
+	var _result party.PartyHandlerIsMemberAdminResult
+	if err = p.c.Call(ctx, "IsMemberAdmin", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) IsMemberExist(ctx context.Context, req *party.IsMemberExistRequest) (r *party.IsMemberExistResponse, err error) {
+	var _args party.PartyHandlerIsMemberExistArgs
+	_args.Req = req
+	var _result party.PartyHandlerIsMemberExistResult
+	if err = p.c.Call(ctx, "IsMemberExist", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) AddAdmin(ctx context.Context, req *party.AddAdminRequest) (r *party.AddAdminResponse, err error) {
+	var _args party.PartyHandlerAddAdminArgs
+	_args.Req = req
+	var _result party.PartyHandlerAddAdminResult
+	if err = p.c.Call(ctx, "AddAdmin", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DeleteAdmin(ctx context.Context, req *party.DeleteAdminRequest) (r *party.DeleteAdminResponse, err error) {
+	var _args party.PartyHandlerDeleteAdminArgs
+	_args.Req = req
+	var _result party.PartyHandlerDeleteAdminResult
+	if err = p.c.Call(ctx, "DeleteAdmin", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
 }
 
 func (p *kClient) CreateParty(ctx context.Context, req *party.CreatePartyRequest) (r *party.CreatePartyResponse, err error) {

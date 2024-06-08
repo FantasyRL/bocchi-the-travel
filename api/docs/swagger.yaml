@@ -84,7 +84,27 @@ paths:
       summary: following_list
   /bibi/trust/mark:
     get:
+      consumes:
+      - json/form
+      description: mark to other after party
+      parameters:
+      - description: 操作对象id
+        in: query
+        name: object_uid
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
       responses: {}
+      summary: mark_to_other
   /bocchi/access_token/get:
     get:
       consumes:
@@ -114,6 +134,38 @@ paths:
       - application/json
       responses: {}
       summary: verify_access-token
+  /bocchi/party/admin/create:
+    get:
+      consumes:
+      - json/form
+      description: delete or finish party
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 1:完成party 2:删除party(未开始的party取消)
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: change_party_status
+  /bocchi/party/admin/delete:
+    get:
+      responses: {}
   /bocchi/party/apply:
     get:
       consumes:
@@ -472,6 +524,9 @@ paths:
       - application/json
       responses: {}
       summary: show_party_itinerary
+  /bocchi/party/member/delete:
+    get:
+      responses: {}
   /bocchi/party/members:
     get:
       consumes:

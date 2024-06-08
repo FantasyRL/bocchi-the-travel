@@ -161,6 +161,13 @@ func TrustEachList(ctx context.Context, c *app.RequestContext) {
 }
 
 // MarkToOther .
+// @Summary mark_to_other
+// @Description mark to other after party
+// @Accept json/form
+// @Produce json
+// @Param object_uid query int true "操作对象id"
+// @Param access-token header string false "access-token"
+// @Param refresh-token header string false "refresh-token"
 // @router /bibi/trust/mark [GET]
 func MarkToOther(ctx context.Context, c *app.RequestContext) {
 	var err error

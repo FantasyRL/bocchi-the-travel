@@ -67,3 +67,11 @@ func FriendList(ctx context.Context, req *trust.FriendListRequest) (*trust.Frien
 	}
 	return resp, nil
 }
+
+func MarkToOther(ctx context.Context, req *trust.MarkToOtherRequest) (*trust.MarkToOtherResponse, error) {
+	resp, err := trustClient.MarkToOther(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}

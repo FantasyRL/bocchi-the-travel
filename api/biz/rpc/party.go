@@ -125,3 +125,33 @@ func ChangePartyStatus(ctx context.Context, req *party.ChangePartyStatusRequest)
 	}
 	return resp, nil
 }
+
+func AddAdmin(ctx context.Context, req *party.AddAdminRequest) (*party.AddAdminResponse, error) {
+	//rpc client
+	resp, err := partyClient.AddAdmin(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func DeleteAdmin(ctx context.Context, req *party.DeleteAdminRequest) (*party.DeleteAdminResponse, error) {
+	//rpc client
+	resp, err := partyClient.DeleteAdmin(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func DeleteMember(ctx context.Context, req *party.DeleteMemberRequest) (*party.DeleteMemberResponse, error) {
+	//rpc client
+	resp, err := partyClient.DeleteMember(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}

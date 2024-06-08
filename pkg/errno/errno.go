@@ -34,6 +34,7 @@ const (
 	FollowExistErrCode
 	FollowNotExistErrCode
 	FollowMyselfErrCode
+	NotAdminErrCode
 )
 
 const (
@@ -58,6 +59,7 @@ const (
 	FollowExistErrMsg           = "You have followed"
 	FollowNotExistErrMsg        = "You haven't followed"
 	FollowMyselfErrMsg          = "You can't follow yourself"
+	NotAdminErrMsg              = "you are not admin"
 
 	WebSocketSuccessMsg             = "Connect to server success"
 	WebSocketLogoutSuccessMsg       = "logout success"
@@ -106,6 +108,7 @@ var (
 	MemberNotExistError        = NewErrNo(MemberNotExistErrCode, MemberNotExistErrMsg)
 	MemberStatusDuplicateError = NewErrNo(MemberStatusDuplicateErrCode, MemberStatusDuplicateErrMsg)
 	NotFounderError            = NewErrNo(NotFounderErrCode, NotFounderErrMsg)
+	NotAdminError              = NewErrNo(NotAdminErrCode, NotAdminErrMsg)
 	FounderError               = NewErrNo(FounderErrCode, FounderErrMsg)
 	CommentIsNotExistError     = NewErrNo(CommentIsNotExistErrCode, CommentIsNotExistErrMsg)
 	FollowExistError           = NewErrNo(FollowExistErrCode, FollowExistErrMsg)

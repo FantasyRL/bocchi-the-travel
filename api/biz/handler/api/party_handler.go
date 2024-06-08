@@ -385,3 +385,115 @@ func ChangePartyStatus(ctx context.Context, c *app.RequestContext) {
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 	c.JSON(consts.StatusOK, resp)
 }
+
+// AddAdmin .
+// @Summary add_admin
+// @Description add admin
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @Param target_id query int true "目标id"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bocchi/party/admin/create [GET]
+func AddAdmin(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.AddAdminRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.AddAdminResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.AddAdmin(ctx, &party.AddAdminRequest{
+		PartyId:  req.PartyID,
+		TargetId: req.TargetID,
+		UserId:   id,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	c.JSON(consts.StatusOK, resp)
+}
+
+// DeleteAdmin .
+// @Summary delete_admin
+// @Description delete admin
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @Param target_id query int true "目标id"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bocchi/party/admin/delete [GET]
+func DeleteAdmin(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.DeleteAdminRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.DeleteAdminResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.DeleteAdmin(ctx, &party.DeleteAdminRequest{
+		PartyId:  req.PartyID,
+		TargetId: req.TargetID,
+		UserId:   id,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	c.JSON(consts.StatusOK, resp)
+
+}
+
+// DeleteMember .
+// @Summary delete_member
+// @Description delete member
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @Param target_id query int true "目标id"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bocchi/party/member/delete [GET]
+func DeleteMember(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.DeleteMemberRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.DeleteMemberResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.DeleteMember(ctx, &party.DeleteMemberRequest{
+		PartyId:  req.PartyID,
+		TargetId: req.TargetID,
+		UserId:   id,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	c.JSON(consts.StatusOK, resp)
+}

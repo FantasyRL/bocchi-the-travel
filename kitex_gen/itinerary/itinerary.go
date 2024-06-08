@@ -1805,9 +1805,10 @@ func (p *ShowPartyItineraryResponse) Field3DeepEqual(src []*base.Itinerary) bool
 }
 
 type ChangeSequenceRequest struct {
-	ItineraryIdList []int64 `thrift:"itinerary_id_list,1" frugal:"1,default,list<i64>" json:"itinerary_id_list"`
-	SequenceList    []int64 `thrift:"sequence_list,2" frugal:"2,default,list<i64>" json:"sequence_list"`
-	UserId          int64   `thrift:"user_id,3" frugal:"3,default,i64" json:"user_id"`
+	PartyId         int64   `thrift:"party_id,1" frugal:"1,default,i64" json:"party_id"`
+	ItineraryIdList []int64 `thrift:"itinerary_id_list,2" frugal:"2,default,list<i64>" json:"itinerary_id_list"`
+	SequenceList    []int64 `thrift:"sequence_list,3" frugal:"3,default,list<i64>" json:"sequence_list"`
+	UserId          int64   `thrift:"user_id,4" frugal:"4,default,i64" json:"user_id"`
 }
 
 func NewChangeSequenceRequest() *ChangeSequenceRequest {
@@ -1816,6 +1817,10 @@ func NewChangeSequenceRequest() *ChangeSequenceRequest {
 
 func (p *ChangeSequenceRequest) InitDefault() {
 	*p = ChangeSequenceRequest{}
+}
+
+func (p *ChangeSequenceRequest) GetPartyId() (v int64) {
+	return p.PartyId
 }
 
 func (p *ChangeSequenceRequest) GetItineraryIdList() (v []int64) {
@@ -1829,6 +1834,9 @@ func (p *ChangeSequenceRequest) GetSequenceList() (v []int64) {
 func (p *ChangeSequenceRequest) GetUserId() (v int64) {
 	return p.UserId
 }
+func (p *ChangeSequenceRequest) SetPartyId(val int64) {
+	p.PartyId = val
+}
 func (p *ChangeSequenceRequest) SetItineraryIdList(val []int64) {
 	p.ItineraryIdList = val
 }
@@ -1840,9 +1848,10 @@ func (p *ChangeSequenceRequest) SetUserId(val int64) {
 }
 
 var fieldIDToName_ChangeSequenceRequest = map[int16]string{
-	1: "itinerary_id_list",
-	2: "sequence_list",
-	3: "user_id",
+	1: "party_id",
+	2: "itinerary_id_list",
+	3: "sequence_list",
+	4: "user_id",
 }
 
 func (p *ChangeSequenceRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -1865,7 +1874,7 @@ func (p *ChangeSequenceRequest) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.LIST {
+			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -1881,8 +1890,16 @@ func (p *ChangeSequenceRequest) Read(iprot thrift.TProtocol) (err error) {
 				goto SkipFieldError
 			}
 		case 3:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.LIST {
 				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 4:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField4(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -1918,6 +1935,15 @@ ReadStructEndError:
 }
 
 func (p *ChangeSequenceRequest) ReadField1(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.PartyId = v
+	}
+	return nil
+}
+func (p *ChangeSequenceRequest) ReadField2(iprot thrift.TProtocol) error {
 	_, size, err := iprot.ReadListBegin()
 	if err != nil {
 		return err
@@ -1939,7 +1965,7 @@ func (p *ChangeSequenceRequest) ReadField1(iprot thrift.TProtocol) error {
 	}
 	return nil
 }
-func (p *ChangeSequenceRequest) ReadField2(iprot thrift.TProtocol) error {
+func (p *ChangeSequenceRequest) ReadField3(iprot thrift.TProtocol) error {
 	_, size, err := iprot.ReadListBegin()
 	if err != nil {
 		return err
@@ -1961,7 +1987,7 @@ func (p *ChangeSequenceRequest) ReadField2(iprot thrift.TProtocol) error {
 	}
 	return nil
 }
-func (p *ChangeSequenceRequest) ReadField3(iprot thrift.TProtocol) error {
+func (p *ChangeSequenceRequest) ReadField4(iprot thrift.TProtocol) error {
 
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
@@ -1989,6 +2015,10 @@ func (p *ChangeSequenceRequest) Write(oprot thrift.TProtocol) (err error) {
 			fieldId = 3
 			goto WriteFieldError
 		}
+		if err = p.writeField4(oprot); err != nil {
+			fieldId = 4
+			goto WriteFieldError
+		}
 	}
 	if err = oprot.WriteFieldStop(); err != nil {
 		goto WriteFieldStopError
@@ -2008,7 +2038,24 @@ WriteStructEndError:
 }
 
 func (p *ChangeSequenceRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("itinerary_id_list", thrift.LIST, 1); err != nil {
+	if err = oprot.WriteFieldBegin("party_id", thrift.I64, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.PartyId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *ChangeSequenceRequest) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("itinerary_id_list", thrift.LIST, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.I64, len(p.ItineraryIdList)); err != nil {
@@ -2027,13 +2074,13 @@ func (p *ChangeSequenceRequest) writeField1(oprot thrift.TProtocol) (err error) 
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
 }
 
-func (p *ChangeSequenceRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("sequence_list", thrift.LIST, 2); err != nil {
+func (p *ChangeSequenceRequest) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("sequence_list", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.I64, len(p.SequenceList)); err != nil {
@@ -2052,13 +2099,13 @@ func (p *ChangeSequenceRequest) writeField2(oprot thrift.TProtocol) (err error) 
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
 }
 
-func (p *ChangeSequenceRequest) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 3); err != nil {
+func (p *ChangeSequenceRequest) writeField4(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 4); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.UserId); err != nil {
@@ -2069,9 +2116,9 @@ func (p *ChangeSequenceRequest) writeField3(oprot thrift.TProtocol) (err error) 
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
 }
 
 func (p *ChangeSequenceRequest) String() string {
@@ -2088,19 +2135,29 @@ func (p *ChangeSequenceRequest) DeepEqual(ano *ChangeSequenceRequest) bool {
 	} else if p == nil || ano == nil {
 		return false
 	}
-	if !p.Field1DeepEqual(ano.ItineraryIdList) {
+	if !p.Field1DeepEqual(ano.PartyId) {
 		return false
 	}
-	if !p.Field2DeepEqual(ano.SequenceList) {
+	if !p.Field2DeepEqual(ano.ItineraryIdList) {
 		return false
 	}
-	if !p.Field3DeepEqual(ano.UserId) {
+	if !p.Field3DeepEqual(ano.SequenceList) {
+		return false
+	}
+	if !p.Field4DeepEqual(ano.UserId) {
 		return false
 	}
 	return true
 }
 
-func (p *ChangeSequenceRequest) Field1DeepEqual(src []int64) bool {
+func (p *ChangeSequenceRequest) Field1DeepEqual(src int64) bool {
+
+	if p.PartyId != src {
+		return false
+	}
+	return true
+}
+func (p *ChangeSequenceRequest) Field2DeepEqual(src []int64) bool {
 
 	if len(p.ItineraryIdList) != len(src) {
 		return false
@@ -2113,7 +2170,7 @@ func (p *ChangeSequenceRequest) Field1DeepEqual(src []int64) bool {
 	}
 	return true
 }
-func (p *ChangeSequenceRequest) Field2DeepEqual(src []int64) bool {
+func (p *ChangeSequenceRequest) Field3DeepEqual(src []int64) bool {
 
 	if len(p.SequenceList) != len(src) {
 		return false
@@ -2126,7 +2183,7 @@ func (p *ChangeSequenceRequest) Field2DeepEqual(src []int64) bool {
 	}
 	return true
 }
-func (p *ChangeSequenceRequest) Field3DeepEqual(src int64) bool {
+func (p *ChangeSequenceRequest) Field4DeepEqual(src int64) bool {
 
 	if p.UserId != src {
 		return false

@@ -141,3 +141,53 @@ func (s *PartyHandlerImpl) ChangePartyStatus(ctx context.Context, req *party.Cha
 	resp.Base = pack.BuildBaseResp(err)
 	return resp, nil
 }
+
+// IsMemberExist implements the PartyHandlerImpl interface.
+func (s *PartyHandlerImpl) IsMemberExist(ctx context.Context, req *party.IsMemberExistRequest) (resp *party.IsMemberExistResponse, err error) {
+	resp = new(party.IsMemberExistResponse)
+	is, err := service.NewPartyService(ctx).IsMemberExist(req)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		resp.IsExist = false
+		return resp, nil
+	}
+	resp.IsExist = is
+	return resp, nil
+}
+
+// DeleteAdmin implements the PartyHandlerImpl interface.
+func (s *PartyHandlerImpl) DeleteAdmin(ctx context.Context, req *party.DeleteAdminRequest) (resp *party.DeleteAdminResponse, err error) {
+	resp = new(party.DeleteAdminResponse)
+	err = service.NewPartyService(ctx).DeleteAdmin(req)
+	resp.Base = pack.BuildBaseResp(err)
+	return resp, nil
+}
+
+// IsMemberAdmin implements the PartyHandlerImpl interface.
+func (s *PartyHandlerImpl) IsMemberAdmin(ctx context.Context, req *party.IsMemberAdminRequest) (resp *party.IsMemberAdminResponse, err error) {
+	resp = new(party.IsMemberAdminResponse)
+	is, err := service.NewPartyService(ctx).IsMemberAdmin(req)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		resp.IsExist = false
+		return resp, nil
+	}
+	resp.IsExist = is
+	return resp, nil
+}
+
+// AddAdmin implements the PartyHandlerImpl interface.
+func (s *PartyHandlerImpl) AddAdmin(ctx context.Context, req *party.AddAdminRequest) (resp *party.AddAdminResponse, err error) {
+	resp = new(party.AddAdminResponse)
+	err = service.NewPartyService(ctx).AddAdmin(req)
+	resp.Base = pack.BuildBaseResp(err)
+	return resp, nil
+}
+
+// DeleteMember implements the PartyHandlerImpl interface.
+func (s *PartyHandlerImpl) DeleteMember(ctx context.Context, req *party.DeleteMemberRequest) (resp *party.DeleteMemberResponse, err error) {
+	resp = new(party.DeleteMemberResponse)
+	err = service.NewPartyService(ctx).DeleteMember(req)
+	resp.Base = pack.BuildBaseResp(err)
+	return resp, nil
+}

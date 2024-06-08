@@ -108,7 +108,59 @@ struct ChangePartyStatusRequest{
 struct ChangePartyStatusResponse{
     1:base.BaseResp base,
 }
+
+struct AddAdminRequest{
+    1:i64 party_id,
+    2:i64 target_id,
+    3:i64 user_id,
+}
+struct AddAdminResponse{
+    1:base.BaseResp base,
+}
+
+struct DeleteAdminRequest{
+    1:i64 party_id,
+    2:i64 target_id,
+    3:i64 user_id,
+}
+struct DeleteAdminResponse{
+    1:base.BaseResp base,
+}
+
+struct DeleteMemberRequest{
+    1:i64 party_id,
+    2:i64 target_id,
+    3:i64 user_id,
+}
+struct DeleteMemberResponse{
+    1:base.BaseResp base,
+}
+
+//rpc
+struct IsMemberExistRequest{
+    1:i64 party_id,
+    2:i64 user_id,
+}
+struct IsMemberExistResponse{
+    1:base.BaseResp base,
+    2:bool is_exist,
+}
+
+struct IsMemberAdminRequest{
+    1:i64 party_id,
+    2:i64 user_id,
+}
+struct IsMemberAdminResponse{
+    1:base.BaseResp base,
+    2:bool is_exist,
+}
+
 service PartyHandler{
+    DeleteMemberResponse DeleteMember(1:DeleteMemberRequest req)(api.get="/bocchi/party/member/delete"),
+    IsMemberAdminResponse IsMemberAdmin(1:IsMemberAdminRequest req)(api.get="/bocchi/party/member/isadmin"),
+    IsMemberExistResponse IsMemberExist(1:IsMemberExistRequest req)(api.get="/bocchi/party/member/isexist"),
+    AddAdminResponse AddAdmin(1:AddAdminRequest req)(api.get="/bocchi/party/admin/create"),
+    DeleteAdminResponse DeleteAdmin(1:DeleteAdminRequest req)(api.get="/bocchi/party/admin/delete"),
     CreatePartyResponse CreateParty(1:CreatePartyRequest req)(api.post="/bocchi/party/create"),
     JoinPartyResponse JoinParty(1:JoinPartyRequest req)(api.get="/bocchi/party/apply"),
     ApplyListResponse ApplyList(1:ApplyListRequest req)(api.get="/bocchi/party/apply/list"),

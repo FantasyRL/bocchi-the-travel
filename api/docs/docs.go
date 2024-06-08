@@ -136,6 +136,35 @@ const docTemplate = `{
         },
         "/bibi/trust/mark": {
             "get": {
+                "description": "mark to other after party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "mark_to_other",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "操作对象id",
+                        "name": "object_uid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -179,6 +208,53 @@ const docTemplate = `{
                         "in": "header"
                     }
                 ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/admin/create": {
+            "get": {
+                "description": "delete or finish party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "change_party_status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "1:完成party 2:删除party(未开始的party取消)",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/admin/delete": {
+            "get": {
                 "responses": {}
             }
         },
@@ -698,6 +774,11 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/member/delete": {
+            "get": {
                 "responses": {}
             }
         },

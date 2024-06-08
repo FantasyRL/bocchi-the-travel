@@ -42,6 +42,11 @@ func Register(r *server.Hertz) {
 			_party.GET("/members", append(_getpartymembersMw(), api.GetPartyMembers)...)
 			_party.POST("/search", append(_searchpartyMw(), api.SearchParty)...)
 			_party.GET("/status", append(_changepartystatusMw(), api.ChangePartyStatus)...)
+			{
+				_admin := _party.Group("/admin", _adminMw()...)
+				_admin.GET("/create", append(_addadminMw(), api.AddAdmin)...)
+				_admin.GET("/delete", append(_deleteadminMw(), api.DeleteAdmin)...)
+			}
 			_party.GET("/apply", append(_joinpartyMw(), api.JoinParty)...)
 			_apply := _party.Group("/apply", _applyMw()...)
 			_apply.GET("/list", append(_applylistMw(), api.ApplyList)...)
@@ -62,6 +67,10 @@ func Register(r *server.Hertz) {
 					_sequence := _itinerary.Group("/sequence", _sequenceMw()...)
 					_sequence.POST("/change", append(_changesequenceMw(), api.ChangeSequence)...)
 				}
+			}
+			{
+				_member := _party.Group("/member", _memberMw()...)
+				_member.GET("/delete", append(_deletememberMw(), api.DeleteMember)...)
 			}
 			{
 				_party0 := _party.Group("/party", _party0Mw()...)
