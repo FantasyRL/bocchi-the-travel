@@ -76,6 +76,12 @@ export default {
     };
   },
   methods: {
+    ToEnd(i) {
+      axios.get("/bocchi/party/status?party_id=" + i + "&action_type=1", {
+        headers: { "access-token": this.access_token }
+      });
+      this.$router.push(`/finish/${i}`);
+    },
     apply_party(id) {
       axios
         .get("/bocchi/party/apply?party_id=" + id, {
@@ -215,7 +221,7 @@ export default {
           <a-button style="margin-left: 10px" @click="this.$router.push(`/member/${this.id}`)"
             >查看成员</a-button
           >
-          <a-button type="primary" @click="ToEnd(item.id)" style="margin-left: 10px"
+          <a-button type="primary" @click="ToEnd(this.id)" style="margin-left: 10px"
             >结束行程</a-button
           >
         </div>
