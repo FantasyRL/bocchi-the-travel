@@ -43,7 +43,36 @@ export default {
         status: 0,
         rectangle: ""
       }, // 假设这是 party 的数据对象
-      items: []
+      items: [
+        {
+          id: 5,
+          title: "第一个",
+          founder_id: 6,
+          action_type: 2,
+          rectangle: "1",
+          route_json: "1",
+          remark: "1hhhhhhhhhhhhhhhhhhhhhhhhhh",
+          sequence: 0,
+          schedule_start_time: "2006-01-02 15:40",
+          schedule_end_time: "2006-01-02 15:40",
+          party_id: 5,
+          is_merged: 1
+        },
+        {
+          id: 6,
+          title: "吃饭",
+          founder_id: 6,
+          action_type: 4,
+          rectangle: "1",
+          route_json: "1",
+          remark: "1",
+          sequence: 0,
+          schedule_start_time: "2006-01-02 15:40",
+          schedule_end_time: "2006-01-02 15:40",
+          party_id: 5,
+          is_merged: 1
+        }
+      ]
     };
   },
   methods: {
@@ -174,6 +203,9 @@ export default {
       <a-timeline>
         <div v-for="item in items" :key="item.id">
           <a-timeline-item>
+            <template #dot>
+              <component :is="getIcon(item.action_type)" style="font-size: 16px" />
+            </template>
             计划: {{ item.title }}
             <br />
             类型：{{ getType(item.action_type) }}
