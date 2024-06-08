@@ -34,3 +34,23 @@ func CreateMark(ctx context.Context, uid int64, targetId int64, score float64) e
 	}
 	return DBMark.WithContext(ctx).Create(markModel).Error
 }
+
+func CreateScore(ctx context.Context, uid int64, score float64) error {
+	scoreModel := &Score{
+		Uid:   uid,
+		Score: score,
+		Count: 1,
+	}
+	return DBScore.WithContext(ctx).Create(scoreModel).Error
+}
+
+func UpdateScore(ctx context.Context, uid int64, score float64) error {
+	scoreModel := new(Score)
+	if err := DBScore.WithContext(ctx).Where("uid = ?", uid).Find(scoreModel).Error; err != nil {
+		return err
+	}
+	newScore := (scoreModel.Score + score) / float64(scoreModel.Count+1)
+	scoreModel.Count++
+	scoreModel.Score = newScore
+	return DBScore.WithContext(ctx).Save(scoreModel).Error
+}

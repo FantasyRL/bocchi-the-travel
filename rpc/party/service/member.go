@@ -82,7 +82,7 @@ func (s *PartyService) PermitJoin(req *party.PermitJoinRequest) error {
 }
 
 func (s *PartyService) GetPartyMembers(req *party.GetPartyMembersRequest) (*[]db.Member, int64, error) {
-	return db.GetMemberListByStatus(s.ctx, req.PartyId, req.PageNum, 1)
+	return db.GetPartyMembers(s.ctx, req.PartyId, req.PageNum)
 }
 
 func (s *PartyService) DeleteMember(req *party.DeleteMemberRequest) error {
