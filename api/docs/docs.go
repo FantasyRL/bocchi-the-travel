@@ -134,6 +134,11 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bibi/trust/mark": {
+            "get": {
+                "responses": {}
+            }
+        },
         "/bocchi/access_token/get": {
             "get": {
                 "description": "get available access-token by refresh-token",
@@ -506,6 +511,28 @@ const docTemplate = `{
                         "description": "refresh-token",
                         "name": "refresh-token",
                         "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/draft/show": {
+            "get": {
+                "description": "show party's itineraries draft",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "show_party_itinerary_draft",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {}

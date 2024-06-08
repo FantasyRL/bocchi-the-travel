@@ -330,7 +330,7 @@ struct ShowItineraryDraftRequest{
 struct ShowItineraryDraftResponse{
     1:base.BaseResp base,
     2:optional i64 count,
-    3:optional list<base.Itinerary> itineraries,
+    3:optional list<Itinerary> itineraries,
 }
 
 service ItineraryHandler{
@@ -431,9 +431,18 @@ struct FriendListResponse{
     3:optional list<User> friend_list,
 }
 
+struct MarkToOtherRequest{
+    1:i64 target_id,
+}
+
+struct MarkToOtherResponse{
+    1:base.BaseResp base,
+}
+
 service FollowHandler{
     FollowActionResponse TrustAction(1:FollowActionRequest req)(api.post="/bibi/trust/action"),
     FollowerListResponse FollowerList(1:FollowerListRequest req)(api.get="/bibi/trust/follower"),
     FollowingListResponse FollowingList(1:FollowingListRequest req)(api.get="/bibi/trust/following"),
+    MarkToOtherResponse MarkToOther(1:MarkToOtherRequest req)(api.get="/bibi/trust/mark"),
     FriendListResponse TrustEachList(1:FriendListRequest req)(api.post="/bibi/trust/each"),
 }

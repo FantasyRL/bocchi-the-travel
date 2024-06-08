@@ -84,3 +84,16 @@ func (s *ItineraryHandlerImpl) DeleteItinerary(ctx context.Context, req *itinera
 	resp.Base = pack.BuildBaseResp(err)
 	return resp, nil
 }
+
+// ShowItineraryDraft implements the ItineraryHandlerImpl interface.
+func (s *ItineraryHandlerImpl) ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest) (resp *itinerary.ShowItineraryDraftResponse, err error) {
+	resp = new(itinerary.ShowItineraryDraftResponse)
+	itineraries, count, err := service.NewItineraryService(ctx).ShowPartyItineraryDraft(req.PartyId)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.Count = &count
+	resp.Itineraries = service.BuildItinerariesResp(itineraries)
+	return resp, nil
+}

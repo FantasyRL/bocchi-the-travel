@@ -14,6 +14,7 @@ type Client interface {
 	CreateItinerary(ctx context.Context, req *itinerary.CreateItineraryRequest, callOptions ...callopt.Option) (r *itinerary.CreateItineraryResponse, err error)
 	GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest, callOptions ...callopt.Option) (r *itinerary.GetItineraryInfoResponse, err error)
 	ShowPartyItinerary(ctx context.Context, req *itinerary.ShowPartyItineraryRequest, callOptions ...callopt.Option) (r *itinerary.ShowPartyItineraryResponse, err error)
+	ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest, callOptions ...callopt.Option) (r *itinerary.ShowItineraryDraftResponse, err error)
 	ChangeSequence(ctx context.Context, req *itinerary.ChangeSequenceRequest, callOptions ...callopt.Option) (r *itinerary.ChangeSequenceResponse, err error)
 	MergeItinerary(ctx context.Context, req *itinerary.MergeItineraryRequest, callOptions ...callopt.Option) (r *itinerary.MergeItineraryResponse, err error)
 	GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest, callOptions ...callopt.Option) (r *itinerary.GetMyItinerariesResponse, err error)
@@ -62,6 +63,11 @@ func (p *kItineraryHandlerClient) GetItineraryInfo(ctx context.Context, req *iti
 func (p *kItineraryHandlerClient) ShowPartyItinerary(ctx context.Context, req *itinerary.ShowPartyItineraryRequest, callOptions ...callopt.Option) (r *itinerary.ShowPartyItineraryResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ShowPartyItinerary(ctx, req)
+}
+
+func (p *kItineraryHandlerClient) ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest, callOptions ...callopt.Option) (r *itinerary.ShowItineraryDraftResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ShowItineraryDraft(ctx, req)
 }
 
 func (p *kItineraryHandlerClient) ChangeSequence(ctx context.Context, req *itinerary.ChangeSequenceRequest, callOptions ...callopt.Option) (r *itinerary.ChangeSequenceResponse, err error) {

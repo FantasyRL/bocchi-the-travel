@@ -261,3 +261,18 @@ func _followinglistMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _draftMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _showitinerarydraftMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _marktootherMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

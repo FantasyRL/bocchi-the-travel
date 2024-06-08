@@ -82,6 +82,9 @@ paths:
       - application/json
       responses: {}
       summary: following_list
+  /bibi/trust/mark:
+    get:
+      responses: {}
   /bocchi/access_token/get:
     get:
       consumes:
@@ -342,6 +345,21 @@ paths:
       - application/json
       responses: {}
       summary: delete_itinerary
+  /bocchi/party/itinerary/draft/show:
+    get:
+      consumes:
+      - json/form
+      description: show party's itineraries draft
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: show_party_itinerary_draft
   /bocchi/party/itinerary/info:
     get:
       consumes:

@@ -159,3 +159,19 @@ func TrustEachList(ctx context.Context, c *app.RequestContext) {
 	resp.FriendList = pack.ConvertToAPIUsers(rpcResp.FriendList)
 	c.JSON(consts.StatusOK, resp)
 }
+
+// MarkToOther .
+// @router /bibi/trust/mark [GET]
+func MarkToOther(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.MarkToOtherRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.MarkToOtherResponse)
+
+	c.JSON(consts.StatusOK, resp)
+}

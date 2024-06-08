@@ -9,6 +9,10 @@ func (s *ItineraryService) ShowPartyItinerary(partyId int64) (*[]db.Itinerary, i
 	return db.ShowPartyItinerary(s.ctx, partyId)
 }
 
+func (s *ItineraryService) ShowPartyItineraryDraft(partyId int64) (*[]db.Itinerary, int64, error) {
+	return db.ShowPartyItineraryDraft(s.ctx, partyId)
+}
+
 func (s *ItineraryService) GetItineraryInfo(itineraryId int64) (*db.Itinerary, error) {
 	return db.GetItineraryById(s.ctx, itineraryId)
 }

@@ -14,6 +14,7 @@ type Client interface {
 	TrustAction(ctx context.Context, req *trust.FollowActionRequest, callOptions ...callopt.Option) (r *trust.FollowActionResponse, err error)
 	FollowerList(ctx context.Context, req *trust.FollowerListRequest, callOptions ...callopt.Option) (r *trust.FollowerListResponse, err error)
 	FollowingList(ctx context.Context, req *trust.FollowingListRequest, callOptions ...callopt.Option) (r *trust.FollowingListResponse, err error)
+	MarkToOther(ctx context.Context, req *trust.MarkToOtherRequest, callOptions ...callopt.Option) (r *trust.MarkToOtherResponse, err error)
 	TrustEachList(ctx context.Context, req *trust.FriendListRequest, callOptions ...callopt.Option) (r *trust.FriendListResponse, err error)
 }
 
@@ -59,6 +60,11 @@ func (p *kTrustHandlerClient) FollowerList(ctx context.Context, req *trust.Follo
 func (p *kTrustHandlerClient) FollowingList(ctx context.Context, req *trust.FollowingListRequest, callOptions ...callopt.Option) (r *trust.FollowingListResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.FollowingList(ctx, req)
+}
+
+func (p *kTrustHandlerClient) MarkToOther(ctx context.Context, req *trust.MarkToOtherRequest, callOptions ...callopt.Option) (r *trust.MarkToOtherResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.MarkToOther(ctx, req)
 }
 
 func (p *kTrustHandlerClient) TrustEachList(ctx context.Context, req *trust.FriendListRequest, callOptions ...callopt.Option) (r *trust.FriendListResponse, err error) {

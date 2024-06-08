@@ -46,16 +46,18 @@ struct FriendListResponse{
 }
 
 struct MarkToOtherRequest{
-
+    1:i64 target_id,
+    2:i64 user_id,
 }
 
 struct MarkToOtherResponse{
-
+    1:base.BaseResp base,
 }
 service TrustHandler{
     FollowActionResponse TrustAction(1:FollowActionRequest req),
     FollowerListResponse FollowerList(1:FollowerListRequest req),
     FollowingListResponse FollowingList(1:FollowingListRequest req),
+    MarkToOtherResponse MarkToOther(1:MarkToOtherRequest req),
     FriendListResponse TrustEachList(1:FriendListRequest req),
 
 }
