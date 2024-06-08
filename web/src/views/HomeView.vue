@@ -68,8 +68,9 @@ export default defineComponent({
         search_type +
         "&page_num=" +
         page_num;
+      const testurl = "/bocchi/party/search?province=" + province;
       axios
-        .post(url)
+        .post(testurl)
         .then((res) => {
           console.log(res);
           this.data = res;
@@ -97,7 +98,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.searchprovince("2", "2", "北京", "2", "99999", "2", "1"); /* 假装是京爷 */
+    this.searchprovince("", "", "北京市", "", "", "2", "1"); /* 假装是京爷 */
   },
   computed: {},
   watch: {}
@@ -138,9 +139,9 @@ export default defineComponent({
 
     <div class="searchcard">
       <div v-for="item in items" :key="item">
-        <div>
+        <div style="justify-content: center; display: grid">
           <router-link :to="`/partys/${item.id}`">
-            <el-card style="max-width: 480px">
+            <el-card style="justify-content: center; min-width: 40vw">
               <p>活动名:{{ item.title }}</p>
               <p>地点:{{ item.province }},{{ item.city }}</p>
               <p>已有{{ item.member_count }}人参加</p>
@@ -191,6 +192,7 @@ export default defineComponent({
   text-align: center;
   grid-gap: 10px 10px; /* 定义网格之间的水平和垂直间距 */
   margin: 10px 10px 10px 10px; /* 定义外边距 */
+  justify-content: center;
 }
 .searchcard {
   display: grid;
