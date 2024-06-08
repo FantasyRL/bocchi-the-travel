@@ -36,13 +36,18 @@ const handleOk = () => {
 };
 </script>
 <script>
-/* export default {
+export default {
   data() {
-    return {
-      id: this.$route.params.id
-    };
+    return {};
+  },
+  methods: {},
+  mounted() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
-}; */
+};
 </script>
 
 <template>
@@ -179,6 +184,12 @@ const handleOk = () => {
 </template>
 
 <style scoped>
+.end {
+  position: fixed;
+  width: 100vw;
+  color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+}
 .view-img {
   display: flex;
   justify-content: center;

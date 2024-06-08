@@ -81,6 +81,7 @@ export default {
           console.log(response.data);
           if (response.data.base.code == 10000) {
             console.log("创建成功");
+            this.$router.go(-1); // 返回上一页
           }
         })
         .catch((error) => {

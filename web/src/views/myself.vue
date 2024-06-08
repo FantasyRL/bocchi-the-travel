@@ -285,7 +285,7 @@ export default {
     <div class="user_name">
       <text id="name">{{ name }}</text>
     </div>
-    <input type="text" placeholder="请输入内容" class="input-box" />
+    <!-- <input type="text" placeholder="请输入内容" class="input-box" /> -->
     <text>个人签名</text>
     <div class="signature">
       <div v-if="isEditing" class="input" style="z-index: 500">

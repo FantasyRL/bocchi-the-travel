@@ -7,6 +7,7 @@ const current = ref(1);
 
 <script>
 import { defineComponent } from "vue";
+import axios from "axios";
 
 const baseUrl = "//upload.xiey.work/img/";
 /* const baseUrl = "https://loremflickr.com/800/600"; */
@@ -15,7 +16,7 @@ export default defineComponent({
     return {
       total: 10, // 假设的总数，实际应从后端获取
       current: 2, // 当前页码，默认为1
-
+      items: {},
       searchText: "",
       images: [
         { id: 1, url: "https://severj.top/img/background1.webp", description: "Image 1" },
@@ -27,6 +28,57 @@ export default defineComponent({
 
   props: {},
   methods: {
+    searchprovince(
+      content,
+      party_type,
+      province,
+      city,
+      start_time_duration,
+      search_type,
+      page_num
+    ) {
+      if (content === "") {
+        content = "nothing";
+      }
+      if (party_type === "") {
+        party_type = "nothing";
+      }
+      if (province === "") {
+        province = "nothing";
+      }
+      if (city === "") {
+        city = "nothing";
+      }
+      if (start_time_duration === "") {
+        start_time_duration = "nothing";
+      }
+
+      const url =
+        "/bocchi/party/search?content=" +
+        content +
+        "&party_type=" +
+        party_type +
+        "&province=" +
+        province +
+        "&city=" +
+        city +
+        "&start_time_duration=" +
+        start_time_duration +
+        "&search_type=" +
+        search_type +
+        "&page_num=" +
+        page_num;
+      axios
+        .post(url)
+        .then((res) => {
+          console.log(res);
+          this.data = res;
+          this.items = res.data.party_list;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     onSearch(value) {
       console.log("Search:", value);
     },
@@ -43,10 +95,12 @@ export default defineComponent({
     getDescription(i) {
       return `description${i}`;
     }
-    /* startLoading() {
-      useStore().commit('setLoading', true);
-    } */
-  }
+  },
+  mounted() {
+    this.searchprovince("2", "2", "北京", "2", "99999", "2", "1"); /* 假装是京爷 */
+  },
+  computed: {},
+  watch: {}
 });
 </script>
 <template>
@@ -80,12 +134,27 @@ export default defineComponent({
       </a-carousel>
     </div>
 
+    <a-divider orientation="center" class="separate">附近活动</a-divider>
+
+    <div class="searchcard">
+      <div v-for="item in items" :key="item">
+        <div>
+          <router-link :to="`/partys/${item.id}`">
+            <el-card style="max-width: 480px">
+              <p>活动名:{{ item.title }}</p>
+              <p>地点:{{ item.province }},{{ item.city }}</p>
+              <p>已有{{ item.member_count }}人参加</p>
+            </el-card>
+          </router-link>
+        </div>
+      </div>
+    </div>
     <a-divider orientation="center" class="separate">发现世界</a-divider>
 
-    <div class="card1">
+    <div class="trcard">
       <div v-for="id in 8" :key="id">
         <router-link :to="getDetailUrl(id)">
-          <a-card hoverable style="width: 210px">
+          <a-card hoverable style="width: auto">
             <template #cover>
               <img :src="getImgUrl(id)" alt="example" />
             </template>
@@ -96,18 +165,6 @@ export default defineComponent({
         </router-link>
       </div>
     </div>
-
-    <!--     <router-link to="/create">
-      <a-float-button tooltip="创建行程" herf="/create" class="custom-button">
-        <template #icon>
-          <div class="icon-1">
-            <PlusOutlined />
-          </div>
-        </template>
-      </a-float-button>
-    </router-link>
- -->
-    <!-- <a-back-top /> -->
 
     <div class="page-switcher">
       <a-pagination :current="current" :total="total">
@@ -122,20 +179,26 @@ export default defineComponent({
 </template>
 
 <style scoped>
-/* .custom-button .anticon {
-  font-size: 30px;
-  position: fixed;
-  bottom: 122.5px;
-  right: 42.5px;
+.ant-card-cover img {
+  width: 100%;
+  height: 10vh; /* 保持图片的宽高比 */
+  object-fit: cover; /* 保持图片的宽高比，并裁剪多余的部分 */
 }
-.custom-button {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  zoom: 1;
-  width: 75px;
-  height: 75px;
-} */
+
+.trcard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  grid-gap: 10px 10px; /* 定义网格之间的水平和垂直间距 */
+  margin: 10px 10px 10px 10px; /* 定义外边距 */
+}
+.searchcard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  grid-gap: 10px 10px; /* 定义网格之间的水平和垂直间距 */
+  margin: 24px 24px 24px 24px; /* 定义外边距 */
+}
 
 .searchbar {
   display: flex;
