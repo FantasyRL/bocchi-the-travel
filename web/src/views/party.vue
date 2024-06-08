@@ -212,6 +212,12 @@ export default {
         </div>
         <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
           <a-button type="dashed" @click="apply_party(this.id)">申请加入</a-button>
+          <a-button style="margin-left: 10px" @click="this.$router.push(`/member/${this.id}`)"
+            >查看成员</a-button
+          >
+          <a-button type="primary" @click="ToEnd(item.id)" style="margin-left: 10px"
+            >结束行程</a-button
+          >
         </div>
       </div>
     </div>
