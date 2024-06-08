@@ -95,14 +95,19 @@ export default {
               </router-link>
               <a-divider></a-divider>
               <div class="buttongroup">
-                <a-button style="margin-right: 5%" :icon="h(ReconciliationOutlined)"
+                <!-- <a-button style="margin-right: 5px" :icon="h(ReconciliationOutlined)"
                   >查看申请</a-button
+                > -->
+                <a-button
+                  style="margin-right: 5px"
+                  :icon="h(TeamOutlined)"
+                  @click="this.$router.push(`/member/${item.id}`)"
+                  >查看成员</a-button
                 >
-                <a-button style="margin-right: 5%" :icon="h(TeamOutlined)">查看成员</a-button>
                 <a-button
                   type="primary"
                   @click="ToEnd(item.id)"
-                  style="margin-right: 5%"
+                  style="margin-right: 5px"
                   :icon="h(CheckOutlined)"
                   >结束行程</a-button
                 >
@@ -144,5 +149,12 @@ export default {
 .inner-word {
   margin-left: 20px;
   font-size: 15px;
+}
+.buttongroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>

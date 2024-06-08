@@ -76,16 +76,31 @@ export default {
     };
   },
   methods: {
-    getin() {
+    apply_party(id) {
       axios
-        .get("/bocchi/party/itinerary/my?party_id=" + this.id, {
+        .get("/bocchi/party/apply?party_id=" + id, {
           headers: {
             "access-token": this.access_token
           }
         })
         .then((res) => {
           console.log(res);
-          this.items = res.data.itinerary_list;
+          alert("申请成功！");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    getin() {
+      axios
+        .get("/bocchi/party/itinerary/show?party_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
+        .then((res) => {
+          console.log(res);
+          this.items = res.data.itineraries;
           console.log(res.data.itineraries);
           if (res.data.itineraries === undefined) {
             this.partynull = 1;
@@ -191,8 +206,12 @@ export default {
             infodata.city
           }}"处进行] <br />{{ infodata.content }}
         </div>
+
         <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
           起止时间:{{ infodata.start_time }} - {{ infodata.end_time }}
+        </div>
+        <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
+          <a-button type="dashed" @click="apply_party(this.id)">申请加入</a-button>
         </div>
       </div>
     </div>
