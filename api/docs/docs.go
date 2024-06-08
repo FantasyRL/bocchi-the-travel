@@ -153,6 +153,13 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "type": "number",
+                        "description": "操作对象id",
+                        "name": "score",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
                         "type": "string",
                         "description": "access-token",
                         "name": "access-token",
@@ -163,6 +170,28 @@ const docTemplate = `{
                         "description": "refresh-token",
                         "name": "refresh-token",
                         "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bibi/user/score": {
+            "get": {
+                "description": "get user's score",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_user_score",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {}
@@ -213,14 +242,14 @@ const docTemplate = `{
         },
         "/bocchi/party/admin/create": {
             "get": {
-                "description": "delete or finish party",
+                "description": "add admin",
                 "consumes": [
                     "json/form"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "change_party_status",
+                "summary": "add_admin",
                 "parameters": [
                     {
                         "type": "integer",
@@ -231,8 +260,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "1:完成party 2:删除party(未开始的party取消)",
-                        "name": "action_type",
+                        "description": "目标id",
+                        "name": "target_id",
                         "in": "query",
                         "required": true
                     },
@@ -255,6 +284,43 @@ const docTemplate = `{
         },
         "/bocchi/party/admin/delete": {
             "get": {
+                "description": "delete admin",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "delete_admin",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "目标id",
+                        "name": "target_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -779,6 +845,43 @@ const docTemplate = `{
         },
         "/bocchi/party/member/delete": {
             "get": {
+                "description": "delete member",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "delete_member",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "目标id",
+                        "name": "target_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
                 "responses": {}
             }
         },

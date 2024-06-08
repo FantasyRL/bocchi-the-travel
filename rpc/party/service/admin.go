@@ -17,7 +17,7 @@ func (s *PartyService) AddAdmin(req *party.AddAdminRequest) error {
 	memberModel := &db.Member{
 		PartyId:  req.PartyId,
 		MemberId: req.TargetId,
-		Status:   1,
+		Status:   2,
 	}
 	return db.ChangeMemberStatus(s.ctx, memberModel)
 }
@@ -33,7 +33,7 @@ func (s *PartyService) DeleteAdmin(req *party.DeleteAdminRequest) error {
 	memberModel := &db.Member{
 		PartyId:  req.PartyId,
 		MemberId: req.TargetId,
-		Status:   0,
+		Status:   1,
 	}
 	return db.ChangeMemberStatus(s.ctx, memberModel)
 }

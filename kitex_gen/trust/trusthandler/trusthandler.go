@@ -48,6 +48,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"GetUserScore": kitex.NewMethodInfo(
+		getUserScoreHandler,
+		newTrustHandlerGetUserScoreArgs,
+		newTrustHandlerGetUserScoreResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 }
 
 var (
@@ -204,6 +211,24 @@ func newTrustHandlerTrustEachListResult() interface{} {
 	return trust.NewTrustHandlerTrustEachListResult()
 }
 
+func getUserScoreHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*trust.TrustHandlerGetUserScoreArgs)
+	realResult := result.(*trust.TrustHandlerGetUserScoreResult)
+	success, err := handler.(trust.TrustHandler).GetUserScore(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newTrustHandlerGetUserScoreArgs() interface{} {
+	return trust.NewTrustHandlerGetUserScoreArgs()
+}
+
+func newTrustHandlerGetUserScoreResult() interface{} {
+	return trust.NewTrustHandlerGetUserScoreResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -259,6 +284,16 @@ func (p *kClient) TrustEachList(ctx context.Context, req *trust.FriendListReques
 	_args.Req = req
 	var _result trust.TrustHandlerTrustEachListResult
 	if err = p.c.Call(ctx, "TrustEachList", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetUserScore(ctx context.Context, req *trust.GetUserScoreRequest) (r *trust.GetUserScoreResponse, err error) {
+	var _args trust.TrustHandlerGetUserScoreArgs
+	_args.Req = req
+	var _result trust.TrustHandlerGetUserScoreResult
+	if err = p.c.Call(ctx, "GetUserScore", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

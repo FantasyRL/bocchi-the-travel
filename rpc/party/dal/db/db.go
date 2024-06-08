@@ -36,7 +36,7 @@ func CreateParty(ctx context.Context, partyModel *Party) (*Party, error) {
 	memberModel := &Member{
 		PartyId:  partyModel.Id,
 		MemberId: partyModel.FounderId,
-		Status:   1,
+		Status:   2,
 	}
 	if err := DBMember.WithContext(ctx).Create(memberModel).Error; err != nil {
 		return nil, err
@@ -201,7 +201,7 @@ func ISMemberExist(ctx context.Context, memberModel *Member) (bool, error) {
 
 func ISMemberAdmin(ctx context.Context, memberModel *Member) (bool, error) {
 	memberResp := new(Member)
-	err := DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ? AND status = 1", memberModel.PartyId, memberModel.MemberId).First(memberResp).Error
+	err := DBMember.WithContext(ctx).Where("party_id = ? AND member_id = ? AND status = 2", memberModel.PartyId, memberModel.MemberId).First(memberResp).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return false, errno.MemberNotExistError
 	}

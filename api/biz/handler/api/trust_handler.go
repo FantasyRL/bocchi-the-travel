@@ -166,6 +166,7 @@ func TrustEachList(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param object_uid query int true "操作对象id"
+// @Param score query float64 true "评分"
 // @Param access-token header string false "access-token"
 // @Param refresh-token header string false "refresh-token"
 // @router /bibi/trust/mark [GET]
@@ -180,5 +181,45 @@ func MarkToOther(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.MarkToOtherResponse)
 
+	v, _ := c.Get("current_user_id")
+	id := v.(int64)
+	rpcResp, err := rpc.MarkToOther(ctx, &trust.MarkToOtherRequest{
+		TargetId: req.TargetID,
+		Score:    req.Score,
+		UserId:   id,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	c.JSON(consts.StatusOK, resp)
+
+}
+
+// GetUserScore .
+// @Summary get_user_score
+// @Description get user's score
+// @Accept json/form
+// @Produce json
+// @Param user_id query int true "user_id"
+// @router /bibi/user/score [GET]
+func GetUserScore(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.GetUserScoreRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.GetUserScoreResponse)
+
+	rpcResp, err := rpc.GetUserScore(ctx, &trust.GetUserScoreRequest{
+		UserId: req.UserID,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 	c.JSON(consts.StatusOK, resp)
 }

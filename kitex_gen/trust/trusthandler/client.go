@@ -16,6 +16,7 @@ type Client interface {
 	FollowingList(ctx context.Context, req *trust.FollowingListRequest, callOptions ...callopt.Option) (r *trust.FollowingListResponse, err error)
 	MarkToOther(ctx context.Context, req *trust.MarkToOtherRequest, callOptions ...callopt.Option) (r *trust.MarkToOtherResponse, err error)
 	TrustEachList(ctx context.Context, req *trust.FriendListRequest, callOptions ...callopt.Option) (r *trust.FriendListResponse, err error)
+	GetUserScore(ctx context.Context, req *trust.GetUserScoreRequest, callOptions ...callopt.Option) (r *trust.GetUserScoreResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -70,4 +71,9 @@ func (p *kTrustHandlerClient) MarkToOther(ctx context.Context, req *trust.MarkTo
 func (p *kTrustHandlerClient) TrustEachList(ctx context.Context, req *trust.FriendListRequest, callOptions ...callopt.Option) (r *trust.FriendListResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.TrustEachList(ctx, req)
+}
+
+func (p *kTrustHandlerClient) GetUserScore(ctx context.Context, req *trust.GetUserScoreRequest, callOptions ...callopt.Option) (r *trust.GetUserScoreResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetUserScore(ctx, req)
 }

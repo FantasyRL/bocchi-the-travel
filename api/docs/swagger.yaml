@@ -93,6 +93,11 @@ paths:
         name: object_uid
         required: true
         type: integer
+      - description: 操作对象id
+        in: query
+        name: score
+        required: true
+        type: number
       - description: access-token
         in: header
         name: access-token
@@ -105,6 +110,21 @@ paths:
       - application/json
       responses: {}
       summary: mark_to_other
+  /bibi/user/score:
+    get:
+      consumes:
+      - json/form
+      description: get user's score
+      parameters:
+      - description: user_id
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: get_user_score
   /bocchi/access_token/get:
     get:
       consumes:
@@ -138,16 +158,16 @@ paths:
     get:
       consumes:
       - json/form
-      description: delete or finish party
+      description: add admin
       parameters:
       - description: 活动id
         in: query
         name: party_id
         required: true
         type: integer
-      - description: 1:完成party 2:删除party(未开始的party取消)
+      - description: 目标id
         in: query
-        name: action_type
+        name: target_id
         required: true
         type: integer
       - description: access-token
@@ -162,10 +182,36 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: change_party_status
+      summary: add_admin
   /bocchi/party/admin/delete:
     get:
+      consumes:
+      - json/form
+      description: delete admin
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 目标id
+        in: query
+        name: target_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
       responses: {}
+      summary: delete_admin
   /bocchi/party/apply:
     get:
       consumes:
@@ -526,7 +572,33 @@ paths:
       summary: show_party_itinerary
   /bocchi/party/member/delete:
     get:
+      consumes:
+      - json/form
+      description: delete member
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 目标id
+        in: query
+        name: target_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
       responses: {}
+      summary: delete_member
   /bocchi/party/members:
     get:
       consumes:
