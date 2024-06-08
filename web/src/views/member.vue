@@ -73,7 +73,7 @@ export default {
 
   <div class="main">
     <div class="member">
-      <div style="text-align: center">团队成员</div>
+      <div style="text-align: center; margin-bottom: 5vw">团队成员</div>
       <div v-for="item in members" :key="item" style="display: grid; justify-content: center">
         <a-card
           hoverable
@@ -93,12 +93,17 @@ export default {
       </div>
     </div>
     <div class="applylist">
-      <div style="text-align: center">申请列表:</div>
+      <div style="text-align: center; margin-bottom: 5vw">申请列表:</div>
       <div v-for="item in applylist" :key="item" style="display: grid; justify-content: center">
-        <a-card hoverable style="width: 300px" v-if="item.id">
+        <a-card
+          hoverable
+          style="width: 300px"
+          v-if="item.id"
+          @click="this.$router.push(`/about/${item.id}`)"
+        >
           <template #actions>
-            <setting-outlined key="setting" />
-            <edit-outlined key="edit" />
+            <!-- <setting-outlined key="setting" />
+            <edit-outlined key="edit" /> -->
             <div @click="applyuser(item.id)">同意加入</div>
           </template>
           <a-card-meta :title="item.name" :description="item.signature">
@@ -117,11 +122,13 @@ export default {
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr; /* 设置两个列，各占1份空间 */
+  margin-top: 5vw;
 }
 .member {
   justify-content: center;
 }
 .applylist {
   justify-content: center;
+  margin-top: 5vw;
 }
 </style>

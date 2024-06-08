@@ -82,7 +82,19 @@ const router = createRouter({
       path: '/member/:id',
       name: 'member',
       component: () => import('../views/member.vue'),
-      meta: { keepAlive: false }
+
+    },
+    {
+      path: '/ifollow/:id',
+      name: 'ifollow',
+      component: () => import('../views/ifollow.vue'),
+
+    },
+    {
+      path: '/followme/:id',
+      name: 'followme',
+      component: () => import('../views/followme.vue'),
+
     },
   ]
 })
