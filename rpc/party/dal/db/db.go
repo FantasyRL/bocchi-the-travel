@@ -46,24 +46,24 @@ func GetPartyById(ctx context.Context, partyId int64) (*Party, error) {
 func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]Party, int64, error) {
 	partiesResp := new([]Party)
 	var count int64
+	dbq := DBParty
 	if req.Content != nil && *req.Content != "nothing" {
-		DBParty.WithContext(ctx).Where("content LIKE ? OR title LIKE ?", "%"+*req.Content+"%", "%"+*req.Content+"%")
+		dbq = dbq.WithContext(ctx).Where("content LIKE ? OR title LIKE ?", "%"+*req.Content+"%", "%"+*req.Content+"%")
 	}
 	if req.PartyType != nil {
-		DBParty.WithContext(ctx).Where("type = ?", *req.PartyType)
+		dbq = dbq.WithContext(ctx).Where("type = ?", *req.PartyType)
 	}
 	if req.Province != nil {
-		DBParty.WithContext(ctx).Where("province = ?", *req.Province)
+		dbq = dbq.WithContext(ctx).Where("province = ?", *req.Province)
 	}
 	if req.Province != nil && req.City != nil {
-		DBParty.WithContext(ctx).Where("city = ?", *req.City)
+		dbq = dbq.WithContext(ctx).Where("city = ?", *req.City)
 	}
 	if req.StartTimeDuration != nil {
 		du := time.Now().Add(time.Hour * 24 * time.Duration(*req.StartTimeDuration))
-		DBParty.WithContext(ctx).Where("start_time > ?", du)
+		dbq = dbq.WithContext(ctx).Where("start_time > ?", du)
 	} else {
-		du := time.Now()
-		DBParty.WithContext(ctx).Where("status = 0", du)
+		dbq = dbq.WithContext(ctx).Where("status = 0")
 	}
 	if req.SearchType != nil {
 		switch *req.SearchType {
@@ -71,12 +71,12 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 			//什么都不做
 		case 1:
 			//开始时间排序
-			DBParty.Order("start_time DESC")
+			dbq = dbq.Order("start_time DESC")
 		case 2:
 			//todo:热门(人多)(redis?)
 		}
 	}
-	err := DBParty.WithContext(ctx).Count(&count).
+	err := dbq.WithContext(ctx).Count(&count).
 		Limit(constants.PageSize).Offset((int(req.PageNum) - 1) * constants.PageSize).
 		Find(partiesResp).Error
 

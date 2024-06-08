@@ -45,9 +45,17 @@ struct FriendListResponse{
     3:optional list<base.User> friend_list,
 }
 
+struct MarkToOtherRequest{
+
+}
+
+struct MarkToOtherResponse{
+
+}
 service TrustHandler{
     FollowActionResponse TrustAction(1:FollowActionRequest req),
     FollowerListResponse FollowerList(1:FollowerListRequest req),
     FollowingListResponse FollowingList(1:FollowingListRequest req),
     FriendListResponse TrustEachList(1:FriendListRequest req),
+
 }
