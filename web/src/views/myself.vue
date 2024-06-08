@@ -201,7 +201,7 @@ export default {
   <a-page-header
     style="border: 1px solid rgb(235, 237, 240); background-color: #fff"
     title="个人中心"
-    sub-title="1"
+    :sub-title="`id:` + id"
     @back="() => $router.go(-1)"
   />
 
@@ -285,8 +285,13 @@ export default {
     <div class="user_name">
       <text id="name">{{ name }}</text>
     </div>
+    <div>
+      <el-button plain @click="this.$router.push(`/ifollow/${id}`)">关注列表</el-button
+      ><el-button plain @click="this.$router.push(`/followme/${id}`)">粉丝列表</el-button>
+    </div>
     <!-- <input type="text" placeholder="请输入内容" class="input-box" /> -->
     <text>个人签名</text>
+
     <div class="signature">
       <div v-if="isEditing" class="input" style="z-index: 500">
         <input
@@ -296,13 +301,14 @@ export default {
           autofocus
           style="z-index: 6665"
         />
+        <el-button plain @click="savesignature(this.signature)">确认</el-button>
       </div>
       <div v-else class="sign">
         <p @click="editsignature()">{{ signature }}</p>
       </div>
     </div>
     <div class="sign-flur" v-show="isEditing" @click="savesignature(this.signature)"></div>
-    <text>uid:{{ id }}</text>
+
     <text>邮箱:{{ mail }}</text>
   </div>
 
