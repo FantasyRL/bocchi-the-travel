@@ -73,7 +73,7 @@ func (s *PartyService) PermitJoin(req *party.PermitJoinRequest) error {
 	memberModel := &db.Member{
 		PartyId:  req.PartyId,
 		MemberId: req.MemberId,
-		Status:   1,
+		Status:   0,
 	}
 	if err = db.CheckMemberStatus(s.ctx, memberModel); err != nil {
 		return err

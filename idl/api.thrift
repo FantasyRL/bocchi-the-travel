@@ -468,6 +468,13 @@ struct MarkToOtherResponse{
     1:base.BaseResp base,
 }
 
+struct GetUserScoreRequest{
+    1:i64 user_id,
+}
+struct GetUserScoreResponse{
+
+}
+
 service TrustHandler{
     FollowActionResponse TrustAction(1:FollowActionRequest req)(api.post="/bibi/trust/action"),
     FollowerListResponse FollowerList(1:FollowerListRequest req)(api.get="/bibi/trust/follower"),
