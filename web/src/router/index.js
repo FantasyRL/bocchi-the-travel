@@ -72,6 +72,12 @@ const router = createRouter({
       component: () => import('../views/party.vue'),
       meta: { keepAlive: false }
     },
+    {
+      path: '/merplan//:id',
+      name: 'merplan',
+      component: () => import('../views/merplan.vue'),
+      meta: { keepAlive: false }
+    },
   ]
 })
 

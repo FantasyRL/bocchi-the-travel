@@ -85,7 +85,7 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          this.items = res.data.itineraries;
+          this.items = res.data.itinerary_list;
           console.log(res.data.itineraries);
           if (res.data.itineraries === undefined) {
             this.partynull = 1;
@@ -214,6 +214,8 @@ export default {
             <br />
             地点：{{ item.rectangle }}
             <br />
+            路线：{{ item.route_json }}
+            <br />
             时间：{{ item.schedule_start_time }}
           </a-timeline-item>
           <a-timeline-item>
@@ -249,6 +251,8 @@ export default {
       <button class="btn" @click="$router.push('/myitinerarys/' + this.id)">
         查看撰写过的计划
       </button>
+      <br />
+      <button class="btn" @click="$router.push('/merplan/' + this.id)">待通过计划</button>
     </div>
   </div>
   <br />
@@ -301,7 +305,7 @@ export default {
   grid-row-gap: 10px;
 }
 .sty {
-  margin-left: 20vw;
+  margin-left: 7vw;
   margin-top: 20px;
 }
 
