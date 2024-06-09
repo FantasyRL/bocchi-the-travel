@@ -30,11 +30,11 @@ export default {
     follow(type) {
       axios
         .post(
-          this.url + "/bibi/trust/action?object_uid=" + this.id + "&action_type=" + type,
+          this.url + "/bocchi/trust/action?object_uid=" + this.id + "&action_type=" + type,
           {},
           {
             headers: {
-              access_token: this.access_token
+              "access-token": this.access_token
             }
           }
         )
@@ -44,7 +44,11 @@ export default {
     },
     init() {
       axios
-        .get(this.url + "/bocchi/user/info?user_id=" + this.id)
+        .get(this.url + "/bocchi/user/info?user_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
         .then((res) => {
           console.log(res);
           if (res.data.base.code == "10000") {

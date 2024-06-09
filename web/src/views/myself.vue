@@ -28,10 +28,10 @@ export default {
   },
   methods: {
     toifollow() {
-      this.$router.push("/ifollow/me");
+      this.$router.push(`/ifollow/${this.id}`);
     },
     tofollowme() {
-      this.$router.push("/followme/me");
+      this.$router.push(`/followme/${this.id}`);
     },
     savesignature(text) {
       this.isEditing = false;
@@ -152,7 +152,11 @@ export default {
     },
     init() {
       axios
-        .get(this.url + "/bocchi/user/info?user_id=" + this.id)
+        .get(this.url + "/bocchi/user/info?user_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
         .then((res) => {
           console.log(res);
           if (res.data.base.code == "10000") {
