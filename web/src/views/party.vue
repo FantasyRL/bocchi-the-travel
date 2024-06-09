@@ -76,27 +76,27 @@ export default {
     };
   },
   methods: {
-    ToEnd(i) {
-      axios.get("/bocchi/party/status?party_id=" + i + "&action_type=1", {
+    ToEnd() {
+      axios.get("/bocchi/party/status?party_id=" + this.id + "&action_type=1", {
         headers: { "access-token": this.access_token }
       });
       this.$router.push(`/finish/${this.id}`);
     },
-    Tomember(i) {
+    Tomember() {
       this.$router.push(`/member/${this.id}`);
     },
-    tomerplan(i) {
+    tomerplan() {
       this.$router.push(`/merplan/${this.id}`);
     },
-    tocreate(i) {
+    tocreate() {
       this.$router.push(`/Createplan/${this.id}`);
     },
-    totomyitinerarys(i) {
+    tomyitinerarys() {
       this.$router.push(`/myitinerarys/${this.id}`);
     },
-    apply_party(id) {
+    apply_party() {
       axios
-        .get("/bocchi/party/apply?party_id=" + id, {
+        .get("/bocchi/party/apply?party_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }
