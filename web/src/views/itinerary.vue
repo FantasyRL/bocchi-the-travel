@@ -172,7 +172,7 @@ export default {
   <br />
 <!--   {{ datadata }}
   {{ datago }} -->
-  <div v-if="1" class="itinerary">
+  <div v-if="partynull" class="itinerary">
     <el-timeline style="max-width: 600px; margin-left: 10%">
       <el-timeline-item>计划名:{{ info.title }} </el-timeline-item>
       <el-timeline-item>序列:{{ info.sequence }} </el-timeline-item>
