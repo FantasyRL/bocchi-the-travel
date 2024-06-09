@@ -77,8 +77,8 @@ func (s *PartyHandlerImpl) GetPartyMembers(ctx context.Context, req *party.GetPa
 	}
 
 	memberIdList := make([]int64, len(*members))
-	for _, member := range *members {
-		memberIdList = append(memberIdList, member.MemberId)
+	for i, member := range *members {
+		memberIdList[i] = member.MemberId
 	}
 	rpcResp, err := rpc.UserGetMembers(ctx, &user.GetUsersRequest{
 		UserIdList: memberIdList,

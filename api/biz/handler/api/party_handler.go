@@ -3,13 +3,12 @@
 package api
 
 import (
+	api "bocchi/api/biz/model/api"
 	"bocchi/api/biz/rpc"
 	"bocchi/kitex_gen/party"
 	"bocchi/pkg/errno"
 	"bocchi/pkg/pack"
 	"context"
-
-	api "bocchi/api/biz/model/api"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
