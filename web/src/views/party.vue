@@ -221,9 +221,11 @@ export default {
           起止时间:{{ infodata.start_time }} - {{ infodata.end_time }}
         </div>
         <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
-          <a-button type="dashed" @click="apply_party(this.id)">申请加入</a-button>
-          <a-button style="margin-left: 10px" @click="Tomember(this.id)">查看成员</a-button>
-          <a-button type="primary" @click="ToEnd(this.id)" style="margin-left: 10px"
+          <a-button type="dashed" @click="apply_party(this.$route.params.id)">申请加入</a-button>
+          <a-button style="margin-left: 10px" @click="Tomember(this.$route.params.id)"
+            >查看成员</a-button
+          >
+          <a-button type="primary" @click="ToEnd(this.$route.params.id)" style="margin-left: 10px"
             >结束行程</a-button
           >
         </div>
@@ -280,12 +282,16 @@ export default {
   </div>
   <div class="foot">
     <div class="create">
-      <button class="btn" @click="$router.push('/Createplan/' + this.id)">创建计划</button><br />
-      <button class="btn" @click="$router.push('/myitinerarys/' + this.id)">
+      <button class="btn" @click="$router.push('/Createplan/' + this.$route.params.id)">
+        创建计划</button
+      ><br />
+      <button class="btn" @click="$router.push('/myitinerarys/' + this.$route.params.id)">
         查看撰写过的计划
       </button>
       <br />
-      <button class="btn" @click="$router.push('/merplan/' + this.id)">待通过计划</button>
+      <button class="btn" @click="$router.push('/merplan/' + this.$route.params.id)">
+        待通过计划
+      </button>
     </div>
   </div>
   <br />
