@@ -23,7 +23,7 @@ import (
 // @Param action_type query int true "0：取消信任;1：信任"
 // @Param access-token header string false "access-token"
 // @Param refresh-token header string false "refresh-token"
-// @router /bibi/trust/action [POST]
+// @router /bocchi/trust/action [POST]
 func TrustAction(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.FollowActionRequest
@@ -60,7 +60,8 @@ func TrustAction(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param page_num query int64 true "页码"
-// @router /bibi/trust/follower [GET]
+// @Param user_id query int64 true "所查询用户的id"
+// @router /bocchi/trust/follower [GET]
 func FollowerList(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.FollowerListRequest
@@ -94,7 +95,8 @@ func FollowerList(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param page_num query int64 true "页码"
-// @router /bibi/trust/following [GET]
+// @Param user_id query int64 true "所查询用户的id"
+// @router /bocchi/trust/following [GET]
 func FollowingList(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.FollowingListRequest
@@ -130,7 +132,7 @@ func FollowingList(ctx context.Context, c *app.RequestContext) {
 // @Param page_num query int64 true "页码"
 // @Param access-token header string false "access-token"
 // @Param refresh-token header string false "refresh-token"
-// @router /bibi/trust/each [POST]
+// @router /bocchi/trust/each [POST]
 func TrustEachList(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.FriendListRequest
@@ -169,7 +171,7 @@ func TrustEachList(ctx context.Context, c *app.RequestContext) {
 // @Param score query float64 true "评分"
 // @Param access-token header string false "access-token"
 // @Param refresh-token header string false "refresh-token"
-// @router /bibi/trust/mark [GET]
+// @router /bocchi/trust/mark [GET]
 func MarkToOther(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.MarkToOtherRequest
@@ -202,7 +204,7 @@ func MarkToOther(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param user_id query int true "user_id"
-// @router /bibi/user/score [GET]
+// @router /bocchi/user/score [GET]
 func GetUserScore(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req api.GetUserScoreRequest

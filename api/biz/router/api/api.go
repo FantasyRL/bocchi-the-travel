@@ -18,21 +18,6 @@ func Register(r *server.Hertz) {
 
 	root := r.Group("/", rootMw()...)
 	{
-		_bibi := root.Group("/bibi", _bibiMw()...)
-		{
-			_trust := _bibi.Group("/trust", _trustMw()...)
-			_trust.POST("/action", append(_trustactionMw(), api.TrustAction)...)
-			_trust.POST("/each", append(_trusteachlistMw(), api.TrustEachList)...)
-			_trust.GET("/follower", append(_followerlistMw(), api.FollowerList)...)
-			_trust.GET("/following", append(_followinglistMw(), api.FollowingList)...)
-			_trust.GET("/mark", append(_marktootherMw(), api.MarkToOther)...)
-		}
-		{
-			_user := _bibi.Group("/user", _userMw()...)
-			_user.GET("/score", append(_getuserscoreMw(), api.GetUserScore)...)
-		}
-	}
-	{
 		_bocchi := root.Group("/bocchi", _bocchiMw()...)
 		{
 			_access_token := _bocchi.Group("/access_token", _access_tokenMw()...)
@@ -91,20 +76,29 @@ func Register(r *server.Hertz) {
 			}
 		}
 		{
-			_user0 := _bocchi.Group("/user", _user0Mw()...)
-			_user0.GET("/info", append(_infoMw(), api.Info)...)
-			_user0.POST("/signature", append(_signatureMw(), api.Signature)...)
-			_user0.POST("/switch2fa", append(_switch2faMw(), api.Switch2FA)...)
+			_trust := _bocchi.Group("/trust", _trustMw()...)
+			_trust.POST("/action", append(_trustactionMw(), api.TrustAction)...)
+			_trust.POST("/each", append(_trusteachlistMw(), api.TrustEachList)...)
+			_trust.GET("/follower", append(_followerlistMw(), api.FollowerList)...)
+			_trust.GET("/following", append(_followinglistMw(), api.FollowingList)...)
+			_trust.GET("/mark", append(_marktootherMw(), api.MarkToOther)...)
+		}
+		{
+			_user := _bocchi.Group("/user", _userMw()...)
+			_user.GET("/info", append(_infoMw(), api.Info)...)
+			_user.GET("/score", append(_getuserscoreMw(), api.GetUserScore)...)
+			_user.POST("/signature", append(_signatureMw(), api.Signature)...)
+			_user.POST("/switch2fa", append(_switch2faMw(), api.Switch2FA)...)
 			{
-				_avatar := _user0.Group("/avatar", _avatarMw()...)
+				_avatar := _user.Group("/avatar", _avatarMw()...)
 				_avatar.PUT("/upload", append(_avatar0Mw(), api.Avatar)...)
 			}
 			{
-				_login := _user0.Group("/login", _loginMw()...)
+				_login := _user.Group("/login", _loginMw()...)
 				_login.POST("/", append(_login0Mw(), api.Login)...)
 			}
 			{
-				_register := _user0.Group("/register", _registerMw()...)
+				_register := _user.Group("/register", _registerMw()...)
 				_register.POST("/", append(_register0Mw(), api.Register)...)
 			}
 		}

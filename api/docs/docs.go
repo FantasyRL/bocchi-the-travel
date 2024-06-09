@@ -15,188 +15,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/bibi/trust/action": {
-            "post": {
-                "description": "trust action",
-                "consumes": [
-                    "json/form"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "trust_action",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "操作对象id",
-                        "name": "object_uid",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "0：取消信任;1：信任",
-                        "name": "action_type",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "access-token",
-                        "name": "access-token",
-                        "in": "header"
-                    },
-                    {
-                        "type": "string",
-                        "description": "refresh-token",
-                        "name": "refresh-token",
-                        "in": "header"
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/bibi/trust/each": {
-            "post": {
-                "description": "trust with each other",
-                "consumes": [
-                    "json/form"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "trust_each_list",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "页码",
-                        "name": "page_num",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "access-token",
-                        "name": "access-token",
-                        "in": "header"
-                    },
-                    {
-                        "type": "string",
-                        "description": "refresh-token",
-                        "name": "refresh-token",
-                        "in": "header"
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/bibi/trust/follower": {
-            "get": {
-                "description": "list who trust you",
-                "consumes": [
-                    "json/form"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "follower_list",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "页码",
-                        "name": "page_num",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/bibi/trust/following": {
-            "get": {
-                "description": "list who you trusted",
-                "consumes": [
-                    "json/form"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "following_list",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "页码",
-                        "name": "page_num",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/bibi/trust/mark": {
-            "get": {
-                "description": "mark to other after party",
-                "consumes": [
-                    "json/form"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "mark_to_other",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "操作对象id",
-                        "name": "object_uid",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "number",
-                        "description": "评分",
-                        "name": "score",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "access-token",
-                        "name": "access-token",
-                        "in": "header"
-                    },
-                    {
-                        "type": "string",
-                        "description": "refresh-token",
-                        "name": "refresh-token",
-                        "in": "header"
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/bibi/user/score": {
-            "get": {
-                "description": "get user's score",
-                "consumes": [
-                    "json/form"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "get_user_score",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "user_id",
-                        "name": "user_id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {}
-            }
-        },
         "/bocchi/access_token/get": {
             "get": {
                 "description": "get available access-token by refresh-token",
@@ -1153,6 +971,180 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bocchi/trust/action": {
+            "post": {
+                "description": "trust action",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "trust_action",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "操作对象id",
+                        "name": "object_uid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "0：取消信任;1：信任",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/each": {
+            "post": {
+                "description": "trust with each other",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "trust_each_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/follower": {
+            "get": {
+                "description": "list who trust you",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "follower_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "所查询用户的id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/following": {
+            "get": {
+                "description": "list who you trusted",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "following_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "所查询用户的id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/mark": {
+            "get": {
+                "description": "mark to other after party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "mark_to_other",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "操作对象id",
+                        "name": "object_uid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "评分",
+                        "name": "score",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/user/avatar/upload": {
             "put": {
                 "description": "revise user's avatar",
@@ -1285,6 +1277,28 @@ const docTemplate = `{
                         "type": "string",
                         "description": "密码",
                         "name": "password",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/user/score": {
+            "get": {
+                "description": "get user's score",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_user_score",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "user_id",
                         "in": "query",
                         "required": true
                     }

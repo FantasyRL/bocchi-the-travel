@@ -1,0 +1,263 @@
+bocchi-the-travel
+├─.dockerignore
+├─Dockerfile
+├─LICENSE
+├─Makefile
+├─README.md
+├─docker-compose.yml
+├─docker-run.sh
+├─go.mod
+├─go.sum
+├─init.sh
+├─kitex_update.sh
+├─project.jpg
+├─start.sh
+├─rpc
+|  ├─user
+|  |  ├─build.sh
+|  |  ├─handler.go
+|  |  ├─kitex_info.yaml
+|  |  ├─main.go
+|  |  ├─service
+|  |  |    ├─2fa.go
+|  |  |    ├─avatar.go
+|  |  |    ├─basic.go
+|  |  |    ├─get_user.go
+|  |  |    └service.go
+|  |  ├─script
+|  |  |   ├─bootstrap.sh
+|  |  |   ├─log
+|  |  |   |  ├─rpc
+|  |  |   |  ├─app
+|  |  ├─rpc
+|  |  |  └user.go
+|  |  ├─dal
+|  |  |  ├─init.go
+|  |  |  ├─db
+|  |  |  | ├─db.go
+|  |  |  | └init.go
+|  |  |  ├─cache
+|  |  |  |   └init.go
+|  ├─trust
+|  |   ├─build.sh
+|  |   ├─handler.go
+|  |   ├─kitex_info.yaml
+|  |   ├─main.go
+|  |   ├─service
+|  |   |    ├─follow.go
+|  |   |    ├─follower_list.go
+|  |   |    ├─following_list.go
+|  |   |    ├─friend_list.go
+|  |   |    ├─model.go
+|  |   |    ├─score.go
+|  |   |    └unfollow.go
+|  |   ├─script
+|  |   |   └bootstrap.sh
+|  |   ├─rpc
+|  |   |  └user.go
+|  |   ├─dal
+|  |   |  ├─init.go
+|  |   |  ├─db
+|  |   |  | ├─follow.go
+|  |   |  | ├─init.go
+|  |   |  | └score.go
+|  |   |  ├─cache
+|  |   |  |   ├─follow.go
+|  |   |  |   └init.go
+|  ├─party
+|  |   ├─build.sh
+|  |   ├─handler.go
+|  |   ├─kitex_info.yaml
+|  |   ├─main.go
+|  |   ├─service
+|  |   |    ├─admin.go
+|  |   |    ├─check_member_status.go
+|  |   |    ├─member.go
+|  |   |    ├─party.go
+|  |   |    └service.go
+|  |   ├─script
+|  |   |   └bootstrap.sh
+|  |   ├─rpc
+|  |   |  └user.go
+|  |   ├─dal
+|  |   |  ├─init.go
+|  |   |  ├─db
+|  |   |  | ├─db.go
+|  |   |  | └init.go
+|  ├─itinerary
+|  |     ├─build.sh
+|  |     ├─handler.go
+|  |     ├─kitex_info.yaml
+|  |     ├─main.go
+|  |     ├─service
+|  |     |    ├─change_sequence.go
+|  |     |    ├─create_itinerary.go
+|  |     |    ├─delete_itinerary.go
+|  |     |    ├─merge_itinerary.go
+|  |     |    ├─service.go
+|  |     |    └show_itineary.go
+|  |     ├─script
+|  |     |   └bootstrap.sh
+|  |     ├─rpc
+|  |     |  └party.go
+|  |     ├─dal
+|  |     |  ├─init.go
+|  |     |  ├─db
+|  |     |  | ├─init.go
+|  |     |  | └itinerary.go
+|  ├─interaction
+|  |      ├─build.sh
+|  |      ├─handler.go
+|  |      ├─kitex_info.yaml
+|  |      ├─main.go
+|  |      ├─service
+|  |      |    ├─comment_action.go
+|  |      |    ├─comment_list.go
+|  |      |    └service.go
+|  |      ├─script
+|  |      |   └bootstrap.sh
+|  |      ├─rpc
+|  |      |  └user.go
+|  |      ├─dal
+|  |      |  ├─init.go
+|  |      |  ├─db
+|  |      |  | ├─comment.go
+|  |      |  | └init.go
+|  |      |  ├─cache
+|  |      |  |   ├─comment.go
+|  |      |  |   └init.go
+├─pkg
+|  ├─utils
+|  |   ├─utils.go
+|  |   ├─sender
+|  |   |   └send.go
+|  |   ├─pwd
+|  |   |  └pwd.go
+|  |   ├─otp2fa
+|  |   |   └totp.go
+|  |   ├─oss
+|  |   |  └oss.go
+|  |   ├─eslogrus
+|  |   |    └eslogrus.go
+|  ├─pack
+|  |  ├─build_api_resp.go
+|  |  └pack.go
+|  ├─errno
+|  |   └errno.go
+|  ├─constants
+|  |     └constants.go
+├─kitex_gen
+|     ├─user
+|     |  ├─k-consts.go
+|     |  ├─k-user.go
+|     |  ├─user.go
+|     |  ├─userhandler
+|     |  |      ├─client.go
+|     |  |      ├─invoker.go
+|     |  |      ├─server.go
+|     |  |      └userhandler.go
+|     ├─trust
+|     |   ├─k-consts.go
+|     |   ├─k-trust.go
+|     |   ├─trust.go
+|     |   ├─trusthandler
+|     |   |      ├─client.go
+|     |   |      ├─invoker.go
+|     |   |      ├─server.go
+|     |   |      └trusthandler.go
+|     |   ├─followhandler
+|     |   |       ├─client.go
+|     |   |       ├─followhandler.go
+|     |   |       ├─invoker.go
+|     |   |       └server.go
+|     ├─party
+|     |   ├─k-consts.go
+|     |   ├─k-party.go
+|     |   ├─party.go
+|     |   ├─partyhandler
+|     |   |      ├─client.go
+|     |   |      ├─invoker.go
+|     |   |      ├─partyhandler.go
+|     |   |      └server.go
+|     ├─itinerary
+|     |     ├─itinerary.go
+|     |     ├─k-consts.go
+|     |     ├─k-itinerary.go
+|     |     ├─itineraryhandler
+|     |     |        ├─client.go
+|     |     |        ├─invoker.go
+|     |     |        ├─itineraryhandler.go
+|     |     |        └server.go
+|     ├─interaction
+|     |      ├─interaction.go
+|     |      ├─k-consts.go
+|     |      ├─k-interaction.go
+|     |      ├─interactionhandler
+|     |      |         ├─client.go
+|     |      |         ├─interactionhandler.go
+|     |      |         ├─invoker.go
+|     |      |         └server.go
+|     ├─base
+|     |  ├─base.go
+|     |  ├─k-base.go
+|     |  └k-consts.go
+├─idl
+|  ├─api.thrift
+|  ├─base.thrift
+|  ├─follow.thrift
+|  ├─interaction.thrift
+|  ├─itinerary.thrift
+|  ├─party.thrift
+|  ├─trust.thrift
+|  └user.thrift
+├─config
+|   ├─config-example.yaml
+|   ├─config.go
+|   ├─config.yaml
+|   ├─types.go
+|   ├─sql
+|   |  └init.sql
+|   ├─redis
+|   |   └redis.conf
+├─api
+|  ├─.hz
+|  ├─build.sh
+|  ├─hz_update.sh
+|  ├─main.go
+|  ├─router.go
+|  ├─router_gen.go
+|  ├─script
+|  |   └bootstrap.sh
+|  ├─docs
+|  |  ├─docs.go
+|  |  ├─swagger.json
+|  |  └swagger.yaml
+|  ├─biz
+|  |  ├─rpc
+|  |  |  ├─init.go
+|  |  |  ├─interaction.go
+|  |  |  ├─itinerary.go
+|  |  |  ├─party.go
+|  |  |  ├─trust.go
+|  |  |  └user.go
+|  |  ├─router
+|  |  |   ├─register.go
+|  |  |   ├─api
+|  |  |   |  ├─api.go
+|  |  |   |  └middleware.go
+|  |  ├─mw
+|  |  | ├─jwt
+|  |  | |  └jwt.go
+|  |  ├─model
+|  |  |   ├─base
+|  |  |   |  └base.go
+|  |  |   ├─api
+|  |  |   |  └api.go
+|  |  ├─handler
+|  |  |    ├─ping.go
+|  |  |    ├─api
+|  |  |    |  ├─interaction_handler.go
+|  |  |    |  ├─itinerary_handler.go
+|  |  |    |  ├─party_handler.go
+|  |  |    |  ├─trust_handler.go
+|  |  |    |  └user_handler.go
