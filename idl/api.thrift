@@ -478,10 +478,10 @@ struct GetUserScoreResponse{
 }
 
 service TrustHandler{
-    FollowActionResponse TrustAction(1:FollowActionRequest req)(api.post="/bibi/trust/action"),
-    FollowerListResponse FollowerList(1:FollowerListRequest req)(api.get="/bibi/trust/follower"),
-    FollowingListResponse FollowingList(1:FollowingListRequest req)(api.get="/bibi/trust/following"),
-    MarkToOtherResponse MarkToOther(1:MarkToOtherRequest req)(api.get="/bibi/trust/mark"),
-    GetUserScoreResponse GetUserScore(1:GetUserScoreRequest req)(api.get="/bibi/user/score"),
-    FriendListResponse TrustEachList(1:FriendListRequest req)(api.post="/bibi/trust/each"),
+    FollowActionResponse TrustAction(1:FollowActionRequest req)(api.post="/bocchi/trust/action"),
+    FollowerListResponse FollowerList(1:FollowerListRequest req)(api.get="/bocchi/trust/follower"),
+    FollowingListResponse FollowingList(1:FollowingListRequest req)(api.get="/bocchi/trust/following"),
+    MarkToOtherResponse MarkToOther(1:MarkToOtherRequest req)(api.get="/bocchi/trust/mark"),
+    GetUserScoreResponse GetUserScore(1:GetUserScoreRequest req)(api.get="/bocchi/user/score"),
+    FriendListResponse TrustEachList(1:FriendListRequest req)(api.post="/bocchi/trust/each"),
 }

@@ -23,3 +23,9 @@ make start-all
 
 ## Page
 https://pr.xiey.work/
+
+## tree
+```bash
+treer -e tree.txt -i "/.idea|.git|data|codeql|(.*)?elasticsearch|(.*)?kibana|web|CNAME/" 
+```
+
