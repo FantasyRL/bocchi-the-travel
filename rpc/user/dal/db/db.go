@@ -83,11 +83,11 @@ func QueryUserByIDList(ctx context.Context, uidList []int64) (*[]User, error) {
 	if err := DB.WithContext(ctx).Where("id IN ?", uidList).Find(dbResp).Error; err != nil {
 		return nil, err
 	}
-	userResp := make([]User, len(uidList))
-	for i, id := range uidList {
+	userResp := make([]User, 0)
+	for _, id := range uidList {
 		for _, v := range *dbResp {
 			if v.ID == id {
-				userResp[i] = v
+				userResp = append(userResp, v)
 			}
 		}
 	}
