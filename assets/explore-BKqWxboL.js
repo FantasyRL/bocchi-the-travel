@@ -1,0 +1,1 @@
+import{_ as o,c as e,o as c,b as s}from"./index-B9IECCCo.js";const t={},_={class:"grid"},a=s("div",{class:"box"},"项目 1",-1),d=s("div",{class:"box"},"项目 2",-1),n=s("div",{class:"box"},"项目 3",-1),i=s("div",{class:"box"},"项目 4",-1),r=[a,d,n,i];function l(x,h){return c(),e("div",_,r)}const b=o(t,[["render",l]]);export{b as default};
