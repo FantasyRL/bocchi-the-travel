@@ -82,6 +82,9 @@ export default {
       });
       this.$router.push(`/finish/${i}`);
     },
+    Tomember(i) {
+      this.$router.push(`/member/${i}`);
+    },
     apply_party(id) {
       axios
         .get("/bocchi/party/apply?party_id=" + id, {
@@ -218,9 +221,7 @@ export default {
         </div>
         <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
           <a-button type="dashed" @click="apply_party(this.id)">申请加入</a-button>
-          <a-button style="margin-left: 10px" @click="this.$router.push(`/member/${this.id}`)"
-            >查看成员</a-button
-          >
+          <a-button style="margin-left: 10px" @click="Tomember(this.id)">查看成员</a-button>
           <a-button type="primary" @click="ToEnd(this.id)" style="margin-left: 10px"
             >结束行程</a-button
           >
