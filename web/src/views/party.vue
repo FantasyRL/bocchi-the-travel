@@ -250,11 +250,8 @@ export default {
             <br />
             类型：{{ getType(item.action_type) }}
             <br />
-            备注：{{ item.remark }}
-            <br />
-            地点：{{ item.rectangle }}
-            <br />
-            路线：{{ item.route_json }}
+            内容：{{ item.remark }}
+
             <br />
             时间：{{ item.schedule_start_time }}
           </a-timeline-item>

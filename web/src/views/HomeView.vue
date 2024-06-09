@@ -31,11 +31,11 @@ export default defineComponent({
   methods: {
     getip() {
       axios
-        .get("https://restapi.amap.com/v3/ip?key=4a456acf68e96cfd42e35d8915c9cee0")
+        .get("https://restapi.amap.com/v3/ip?key=eae4d0491385d75b43d247afaef4247d")
         .then((res) => {
           console.log(res);
           this.ipcity = res.data.city;
-          this.searchprovince("", "", this.ipcity, "", "", "2", "1");
+          this.searchprovince("", "", "", this.ipcity, "", "2", "1");
         })
         .catch((err) => {
           console.error(err);
@@ -111,8 +111,8 @@ export default defineComponent({
     }
   },
   mounted() {
-    /* this.getip(); */
-    this.searchprovince("", "", "北京", "", "", "2", "1");
+    this.getip();
+    /* this.searchprovince("", "", "北京", "", "", "2", "1"); */
     /* if (this.ipcity != "牛逼") {
       this.searchprovince("", "", this.ipcity, "", "", "2", "1");
     } */
