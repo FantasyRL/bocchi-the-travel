@@ -2,13 +2,15 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { ref, watch } from "vue";
-
+import { onMounted, onUnmounted } from "vue";
+import AMapLoader from "@amap/amap-jsapi-loader";
 const title = ref("");
 const action_type = ref("");
 
 const partytime = ref();
 
 const rectangle = ref();
+const rectangletext = ref();
 const route_json = ref();
 const remark = ref();
 const options = ref([
@@ -39,10 +41,44 @@ export default {
       trnumber: 10,
       access_token: "", // 假设您将令牌存储在localStorage中
       refresh_token: "",
-      partyid: null
+      partyid: null,
+      data: [] // 假设您从后端获取了数据并将其存储在这里
     };
   },
   methods: {
+    remap() {
+      map = new AMap.Map("rectangletmap", {
+        // 设置地图容器id
+        viewMode: "2D", // 是否为3D地图模式
+        zoom: 20, // 初始化地图级别
+        center: [116.397428, 39.90923], // 初始化地图中心点位置
+        map: null
+      });
+    },
+
+    savemap(text) {
+      axios
+        .get(
+          "https://restapi.amap.com/v3/geocode/geo?address=" +
+            text +
+            "&key=4a456acf68e96cfd42e35d8915c9cee0"
+        )
+        .then((res) => {
+          console.log(res);
+          this.data = res.data.geocodes[0].location.split(",");
+
+          this.map = new AMap.Map("rectangletmap", {
+            // 设置地图容器id
+            viewMode: "2D", // 是否为3D地图模式
+            zoom: 19, // 初始化地图级别
+            center: this.data,
+            map: null
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     partycreate(title, action_type, party_id, rectangle, route_json, remark, time) {
       const dateTimeStr = time[0];
       const date = new Date(dateTimeStr);
@@ -93,6 +129,25 @@ export default {
     this.partyid = Number(this.$route.params.id);
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
+    window._AMapSecurityConfig = {
+      securityJsCode: "9a9a79b5c5fcc275c47bb5eafde2f7d3"
+    };
+    AMapLoader.load({
+      key: "8c9bb5684ff803ee1c6efecc3ea36578", // 申请好的Web端开发者Key，首次调用 load 时必填
+      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+      plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+    })
+      .then((AMap) => {
+        this.map = new AMap.Map("rectangletmap", {
+          // 设置地图容器id
+          viewMode: "2D", // 是否为3D地图模式
+          zoom: 18, // 初始化地图级别
+          center: [116.397428, 39.90923] // 初始化地图中心点位置
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   },
   computed: {},
   watch: {}
@@ -124,10 +179,26 @@ export default {
         :options="options"
       />
     </div>
-    <a-divider orientation="left" class="separate" v-if="!(action_type - 1)">路线</a-divider>
-    <div v-if="!(action_type - 1)">假装有一个路线图</div>
-    <a-divider orientation="left" class="separate" v-if="action_type - 1">地点</a-divider>
-    <div v-if="action_type - 1">假装有一个地图</div>
+    <a-divider orientation="left" class="separate" v-show="!(action_type - 1)">路线</a-divider>
+    <div v-if="!(action_type - 1)"></div>
+    <a-divider orientation="left" class="separate" v-show="action_type - 1">地点</a-divider>
+    <div v-if="action_type - 1">
+      <!--  {{ data }} -->
+      <div class="rectangle">
+        <p>省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码</p>
+        <div id="rectangletmap">map</div>
+        <div class="input-box">
+          <a-input
+            v-model:value="rectangletext"
+            :bordered="false"
+            size="large"
+            placeholder="输入地点保存后可获取参考地图(可选)"
+          />
+        </div>
+        <button @click="remap">刷新地图</button>
+        <button @click="savemap(rectangletext)">保存地点</button>
+      </div>
+    </div>
     <a-divider orientation="left" class="separate">备注</a-divider>
     <div class="input-box">
       <a-textarea
@@ -154,7 +225,7 @@ export default {
     <div class="start-button">
       <button
         class="pushable"
-        @click="partycreate(title, action_type, partyid, rectangle, route_json, remark, partytime)"
+        @click="partycreate(title, action_type, partyid, this.data, route_json, remark, partytime)"
       >
         <span class="shadow"></span>
         <span class="edge"></span>
@@ -166,6 +237,15 @@ export default {
 </template>
 
 <style scoped>
+#rectangletmap {
+  width: 90%;
+  height: 300px;
+  margin: 5%;
+}
+.rectangle {
+  display: grid;
+  justify-content: center;
+}
 .create {
   position: relative;
   max-width: 100vw;
@@ -215,7 +295,8 @@ export default {
   font-size: 24px;
   border-radius: 8px;
   border: 3px solid #d9d9d9;
-  margin: 5%;
+  margin: 10px;
+  width: 90vw;
 }
 
 .time-box {
