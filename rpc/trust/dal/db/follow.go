@@ -41,18 +41,18 @@ func IsFollowStatus(ctx context.Context, uid int64, followerId int64, status int
 	return true, nil
 }
 
-func CreateFollow(ctx context.Context, uid int64, followerId int64, status int64) error {
+func CreateFollow(ctx context.Context, uid int64, followedId int64, status int64) error {
 	followModel := &Follow{
 		Uid:        uid,
-		FollowedId: followerId,
+		FollowedId: followedId,
 		Status:     status,
 	}
 	return DBFollow.WithContext(ctx).Create(followModel).Error
 }
 
-func UpdateFollowStatus(ctx context.Context, uid int64, followerId int64, status int64) error {
+func UpdateFollowStatus(ctx context.Context, uid int64, followedId int64, status int64) error {
 	return DBFollow.WithContext(ctx).Where("uid = ? AND followed_id = ? ",
-		uid, followerId).Update("status", status).Error
+		uid, followedId).Update("status", status).Error
 }
 
 // FollowerAndFriendList : followerList friendList count error
@@ -83,14 +83,14 @@ func FollowingList(ctx context.Context, uid int64) (*[]Follow, int64, error) {
 	return followedList, count, nil
 }
 
-func IsFollow(ctx context.Context, uid int64, followedId int64) (bool, error) {
-	follow := new(Follow)
-	err := DBFollow.WithContext(ctx).Where("uid = ? AND followed_id = ?", uid, followedId).First(follow).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return false, nil
-	}
-	if err != nil {
-		return false, err
-	}
-	return true, nil
-}
+//func IsFollow(ctx context.Context, uid int64, followedId int64) (bool, error) {
+//	follow := new(Follow)
+//	err := DBFollow.WithContext(ctx).Where("uid = ? AND followed_id = ?", uid, followedId).First(follow).Error
+//	if errors.Is(err, gorm.ErrRecordNotFound) {
+//		return false, nil
+//	}
+//	if err != nil {
+//		return false, err
+//	}
+//	return true, nil
+//}

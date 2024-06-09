@@ -7,7 +7,7 @@ networks:
 services:
   mysql:
     image: mysql:8.0.36
-    container_name: bocchi-the-travel
+    container_name: mysql
     deploy:
       resources:
 #        最高
@@ -28,8 +28,9 @@ services:
       - MYSQL_ROOT_PASSWORD=114514
       - TZ=Asia/Shanghai
     restart: always
-    networks:
-      - bocchi
+#    networks:
+#      - bocchi
+    network_mode: bridge
 
   redis:
     image: redis:6.0.16
@@ -41,8 +42,9 @@ services:
       - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./data/redis/logs:/logs
     restart: always
-    networks:
-      - bocchi
+#    networks:
+#      - bocchi
+    network_mode: bridge
 
 
   etcd:
@@ -65,8 +67,9 @@ services:
       - TZ=Asia/Shanghai
       - ALLOW_NONE_AUTHENTICATION=yes
       - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
-    networks:
-      - bocchi
+#    networks:
+#      - bocchi
+    network_mode: bridge
 
   elasticsearch:
     image: elasticsearch:8.12.2
