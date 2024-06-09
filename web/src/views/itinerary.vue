@@ -89,7 +89,7 @@ export default {
   computed: {
     getlocal() {
       return (i) => {
-        if (i == i) {
+        if (i !== "") {
           const go = `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=`+i
           return go;
         }
@@ -97,7 +97,7 @@ export default {
     },
     getroad() {
       return (i) => {
-        if (i == i) {
+        if (i !== undefined) {
           
           const start = i.split(",")[0];
           const end = i.split(",")[1]; 
@@ -118,7 +118,7 @@ export default {
 
 
 
-          return i;
+          return "从 "+start+" 到 "+end;
           
         }
       };
@@ -170,9 +170,9 @@ export default {
   </div>
   
   <br />
-  {{ datadata }}
-  {{ datago }}
-  <div v-if="partynull" class="itinerary">
+<!--   {{ datadata }}
+  {{ datago }} -->
+  <div v-if="1" class="itinerary">
     <el-timeline style="max-width: 600px; margin-left: 10%">
       <el-timeline-item>计划名:{{ info.title }} </el-timeline-item>
       <el-timeline-item>序列:{{ info.sequence }} </el-timeline-item>
