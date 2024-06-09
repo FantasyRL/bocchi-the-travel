@@ -2722,7 +2722,8 @@ func (p *GetUserScoreRequest) Field1DeepEqual(src int64) bool {
 
 type GetUserScoreResponse struct {
 	Base  *base.BaseResp `thrift:"base,1" frugal:"1,default,base.BaseResp" json:"base"`
-	Score float64        `thrift:"score,2" frugal:"2,default,double" json:"score"`
+	Score *float64       `thrift:"score,2,optional" frugal:"2,optional,double" json:"score,omitempty"`
+	Count *int64         `thrift:"count,3,optional" frugal:"3,optional,i64" json:"count,omitempty"`
 }
 
 func NewGetUserScoreResponse() *GetUserScoreResponse {
@@ -2742,23 +2743,49 @@ func (p *GetUserScoreResponse) GetBase() (v *base.BaseResp) {
 	return p.Base
 }
 
+var GetUserScoreResponse_Score_DEFAULT float64
+
 func (p *GetUserScoreResponse) GetScore() (v float64) {
-	return p.Score
+	if !p.IsSetScore() {
+		return GetUserScoreResponse_Score_DEFAULT
+	}
+	return *p.Score
+}
+
+var GetUserScoreResponse_Count_DEFAULT int64
+
+func (p *GetUserScoreResponse) GetCount() (v int64) {
+	if !p.IsSetCount() {
+		return GetUserScoreResponse_Count_DEFAULT
+	}
+	return *p.Count
 }
 func (p *GetUserScoreResponse) SetBase(val *base.BaseResp) {
 	p.Base = val
 }
-func (p *GetUserScoreResponse) SetScore(val float64) {
+func (p *GetUserScoreResponse) SetScore(val *float64) {
 	p.Score = val
+}
+func (p *GetUserScoreResponse) SetCount(val *int64) {
+	p.Count = val
 }
 
 var fieldIDToName_GetUserScoreResponse = map[int16]string{
 	1: "base",
 	2: "score",
+	3: "count",
 }
 
 func (p *GetUserScoreResponse) IsSetBase() bool {
 	return p.Base != nil
+}
+
+func (p *GetUserScoreResponse) IsSetScore() bool {
+	return p.Score != nil
+}
+
+func (p *GetUserScoreResponse) IsSetCount() bool {
+	return p.Count != nil
 }
 
 func (p *GetUserScoreResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -2791,6 +2818,14 @@ func (p *GetUserScoreResponse) Read(iprot thrift.TProtocol) (err error) {
 		case 2:
 			if fieldTypeId == thrift.DOUBLE {
 				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 3:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -2837,7 +2872,16 @@ func (p *GetUserScoreResponse) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadDouble(); err != nil {
 		return err
 	} else {
-		p.Score = v
+		p.Score = &v
+	}
+	return nil
+}
+func (p *GetUserScoreResponse) ReadField3(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.Count = &v
 	}
 	return nil
 }
@@ -2854,6 +2898,10 @@ func (p *GetUserScoreResponse) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField2(oprot); err != nil {
 			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
 			goto WriteFieldError
 		}
 	}
@@ -2892,20 +2940,41 @@ WriteFieldEndError:
 }
 
 func (p *GetUserScoreResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("score", thrift.DOUBLE, 2); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteDouble(p.Score); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
+	if p.IsSetScore() {
+		if err = oprot.WriteFieldBegin("score", thrift.DOUBLE, 2); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteDouble(*p.Score); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
 	}
 	return nil
 WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *GetUserScoreResponse) writeField3(oprot thrift.TProtocol) (err error) {
+	if p.IsSetCount() {
+		if err = oprot.WriteFieldBegin("count", thrift.I64, 3); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteI64(*p.Count); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
 }
 
 func (p *GetUserScoreResponse) String() string {
@@ -2928,6 +2997,9 @@ func (p *GetUserScoreResponse) DeepEqual(ano *GetUserScoreResponse) bool {
 	if !p.Field2DeepEqual(ano.Score) {
 		return false
 	}
+	if !p.Field3DeepEqual(ano.Count) {
+		return false
+	}
 	return true
 }
 
@@ -2938,9 +3010,26 @@ func (p *GetUserScoreResponse) Field1DeepEqual(src *base.BaseResp) bool {
 	}
 	return true
 }
-func (p *GetUserScoreResponse) Field2DeepEqual(src float64) bool {
+func (p *GetUserScoreResponse) Field2DeepEqual(src *float64) bool {
 
-	if p.Score != src {
+	if p.Score == src {
+		return true
+	} else if p.Score == nil || src == nil {
+		return false
+	}
+	if *p.Score != *src {
+		return false
+	}
+	return true
+}
+func (p *GetUserScoreResponse) Field3DeepEqual(src *int64) bool {
+
+	if p.Count == src {
+		return true
+	} else if p.Count == nil || src == nil {
+		return false
+	}
+	if *p.Count != *src {
 		return false
 	}
 	return true

@@ -1,7 +1,6 @@
 package main
 
 import (
-	trust "/home/fanr/projects/SOSD/bocchi-the-travel/kitex_gen/trust"
 	"bocchi/kitex_gen/trust"
 	"bocchi/pkg/errno"
 	"bocchi/pkg/pack"
@@ -73,12 +72,21 @@ func (s *TrustHandlerImpl) TrustEachList(ctx context.Context, req *trust.FriendL
 
 // MarkToOther implements the TrustHandlerImpl interface.
 func (s *TrustHandlerImpl) MarkToOther(ctx context.Context, req *trust.MarkToOtherRequest) (resp *trust.MarkToOtherResponse, err error) {
-	// TODO: Your code here...
-	return
+	resp = new(trust.MarkToOtherResponse)
+	err = service.NewFollowService(ctx).MarkToOther(req)
+	resp.Base = pack.BuildBaseResp(err)
+	return resp, nil
 }
 
 // GetUserScore implements the TrustHandlerImpl interface.
 func (s *TrustHandlerImpl) GetUserScore(ctx context.Context, req *trust.GetUserScoreRequest) (resp *trust.GetUserScoreResponse, err error) {
-	// TODO: Your code here...
-	return
+	resp = new(trust.GetUserScoreResponse)
+	score, count, err := service.NewFollowService(ctx).GetUserScore(req)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.Score = &score
+	resp.Count = &count
+	return resp, nil
 }

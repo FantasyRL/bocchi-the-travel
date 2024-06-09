@@ -473,7 +473,8 @@ struct GetUserScoreRequest{
 }
 struct GetUserScoreResponse{
     1:base.BaseResp base,
-    2:double score,
+    2:optional double score,
+    3:optional i64 count,
 }
 
 service TrustHandler{
