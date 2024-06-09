@@ -111,8 +111,8 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.getip();
-    /* this.searchprovince("", "", "北京", "", "", "2", "1"); */
+    /* this.getip(); */
+    this.searchprovince("", "", "北京", "", "", "2", "1");
     /* if (this.ipcity != "牛逼") {
       this.searchprovince("", "", this.ipcity, "", "", "2", "1");
     } */
