@@ -10,6 +10,7 @@ const time = ref(``);
 const roadstart = ref("");
 const roadend = ref("");
 const rectangletext = ref();
+const img = ref("https://restapi.amap.com/v3/staticmap?zoom=15&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=119.203480,26.058382");
 
 const ggg = ref();
 const options = ref([
@@ -42,7 +43,7 @@ export default {
   },
   data() {
     return {
-      img:"https://restapi.amap.com/v3/staticmap?zoom=15&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=119.203480,26.058382",
+      
       trnumber: 10,
       access_token: "",
       refresh_token: "",
@@ -57,8 +58,7 @@ export default {
   },
   methods: {
     reremap(i) {
-      this.img = `https://restapi.amap.com/v3/staticmap?zoom=15&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=` +i;
-      console.log(this.img);
+      
     },
     rero() {
       this.map = new AMap.Map("roadmap", {
@@ -306,7 +306,7 @@ export default {
         <div class="nb">
         <p>省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码</p>
         <!-- <div id="rectangletmap"><button @click="remap">刷新地图</button></div> -->
-         <img :src="this.img"></img></div>
+         <img :src="getlocal(this.data)"></img></div>
         <div class="input-box">
           <a-input
             v-model:value="rectangletext"
