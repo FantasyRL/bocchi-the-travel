@@ -70,9 +70,9 @@ func UpdateScore(ctx context.Context, uid int64, score float64) error {
 
 func GetScoreByUId(ctx context.Context, uid int64) (*Score, error) {
 	scoreResp := new(Score)
-	err := DBScore.WithContext(ctx).Where("uid = ?", uid).Find(scoreResp).Error
+	err := DBScore.WithContext(ctx).Where("uid = ?", uid).First(scoreResp).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return &Score{Uid: uid, Score: 0, Count: 0}, nil
+		return &Score{Uid: uid, Score: -1, Count: -1}, nil
 	}
 	if err != nil {
 		return nil, err
