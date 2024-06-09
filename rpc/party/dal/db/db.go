@@ -185,8 +185,11 @@ func GetMemberListByStatus(ctx context.Context, partyId int64, pageNum int64, st
 
 func GetPartyMembers(ctx context.Context, partyId int64, pageNum int64) (*[]Member, int64, error) {
 	memberResp := new([]Member)
+	actionType := make([]int64, 2)
+	actionType[0] = 1
+	actionType[1] = 2
 	var count int64
-	err := DBMember.WithContext(ctx).Where("party_id = ? AND status = 1,2", partyId).
+	err := DBMember.WithContext(ctx).Where("party_id = ? AND status IN ?", partyId, actionType).
 		Count(&count).Limit(constants.PageSize).Offset((int(pageNum) - 1) * constants.PageSize).
 		Find(memberResp).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
