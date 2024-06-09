@@ -65,7 +65,7 @@ func GetPartyByMultiple(ctx context.Context, req *party.SearchPartyRequest) (*[]
 	if req.Province != nil && *req.Province != "nothing" {
 		dbq = dbq.WithContext(ctx).Where("province = ?", *req.Province)
 	}
-	if req.Province != nil && req.City != nil && *req.Province != "nothing" && *req.City != "nothing" {
+	if req.City != nil && *req.City != "nothing" {
 		dbq = dbq.WithContext(ctx).Where("city = ?", *req.City)
 	}
 	if req.StartTimeDuration != nil && *req.StartTimeDuration != -1 {
