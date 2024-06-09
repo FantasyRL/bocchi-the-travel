@@ -76,10 +76,10 @@ export default {
     savero(roadstart, roadend) {
       const road = [{ keyword: roadstart }, { keyword: roadend }];
       window._AMapSecurityConfig = {
-        securityJsCode: "9a9a79b5c5fcc275c47bb5eafde2f7d3"
+        securityJsCode: ""
       };
       AMapLoader.load({
-        key: "8c9bb5684ff803ee1c6efecc3ea36578",
+        key: "",
         version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
         plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
       })
@@ -197,10 +197,10 @@ export default {
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
     window._AMapSecurityConfig = {
-      securityJsCode: "9a9a79b5c5fcc275c47bb5eafde2f7d3"
+      securityJsCode: ""
     };
     AMapLoader.load({
-      key: "8c9bb5684ff803ee1c6efecc3ea36578",
+      key: "",
       version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
       plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
     })
@@ -216,7 +216,7 @@ export default {
         console.log(e);
       });
     AMapLoader.load({
-      key: "8c9bb5684ff803ee1c6efecc3ea36578",
+      key: "",
       version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
       plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
     })
