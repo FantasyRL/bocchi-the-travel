@@ -4,16 +4,14 @@ import Cookies from "js-cookie";
 import { ref, watch } from "vue";
 import { onMounted, onUnmounted } from "vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
-const title = ref("");
+const title = ref("1");
 const action_type = ref("1");
-
-const partytime = ref();
-
-const roadstart = ref();
-const roadend = ref();
+const time = ref(``);
+const roadstart = ref("");
+const roadend = ref("");
 const rectangletext = ref();
-const route_json = ref();
-const remark = ref();
+
+const ggg = ref();
 const options = ref([
   { value: "1", label: "路线" },
   { value: "2", label: "活动" },
@@ -30,6 +28,11 @@ import locale from "ant-design-vue/es/date-picker/locale/zh_CN";
 import AMapLoader from "@amap/amap-jsapi-loader";
 dayjs.locale("zh-cn");
 export default {
+  computed: {
+    discountedPrice(roadstart, roadend) {
+      return [{ keyword: roadstart }, { keyword: roadend }];
+    }
+  },
   setup() {
     return {
       value: dayjs("2015-01-01", "YYYY-MM-DD"),
@@ -42,7 +45,7 @@ export default {
       trnumber: 10,
       access_token: "",
       refresh_token: "",
-      partyid: null,
+      partyid: Number(this.$route.params.id),
       data: [],
       road: [],
       routejson: null,
@@ -53,8 +56,6 @@ export default {
   },
   methods: {
     rero() {
-      this.routejson = "";
-      this.data = "";
       this.map = new AMap.Map("roadmap", {
         // 设置地图容器id
         viewMode: "3D", // 是否为3D地图模式
@@ -64,8 +65,6 @@ export default {
     },
 
     remap() {
-      this.routejson = "";
-      this.data = "";
       this.map = new AMap.Map("rectangletmap", {
         // 设置地图容器id
         viewMode: "2D", // 是否为3D地图模式
@@ -74,13 +73,8 @@ export default {
         map: null
       });
     },
-    savero(start, end) {
-      const road = [
-        { keyword: start }, //起始点坐标
-        { keyword: end } //终点坐标
-      ];
-      this.resultjson = road;
-      console.log(road);
+    savero(roadstart, roadend) {
+      const road = [{ keyword: roadstart }, { keyword: roadend }];
       window._AMapSecurityConfig = {
         securityJsCode: "9a9a79b5c5fcc275c47bb5eafde2f7d3"
       };
@@ -147,15 +141,14 @@ export default {
           console.error(err);
         });
     },
-    partycreate(title, action_type, party_id, rectangle, route_json, remark, time) {
+    partycreate(title, action_type, partyid, rectangle, ps, pe, remark, time) {
       const dateTimeStr = time[0];
       const date = new Date(dateTimeStr);
       const oldday = date.toISOString().slice(0, 50);
-
       const dateTimeStr2 = time[1];
       const date2 = new Date(dateTimeStr2);
       const newday = date2.toISOString().slice(0, 50);
-      console.log(time);
+      console.log(newday);
       axios
         .post(
           "/bocchi/party/itinerary/create?title=" +
@@ -163,17 +156,22 @@ export default {
             "&action_type=" +
             action_type +
             "&party_id=" +
-            party_id +
+            partyid +
             "&rectangle=" +
             rectangle +
             "&route_json=" +
-            route_json +
+            "[{ keyword: " +
+            ps +
+            " }, { keyword: " +
+            pe +
+            " }]" +
             "&remark=" +
             remark +
             "&schedule_start_time=" +
             oldday +
             "&schedule_end_time=" +
             newday,
+
           {},
           {
             headers: {
@@ -190,6 +188,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          alert("创建失败，请检查你的输入！");
         });
     }
   },
@@ -264,9 +263,10 @@ export default {
       />
     </div>
     <a-divider orientation="left" class="separate" v-show="!(action_type - 1)">路线</a-divider>
+    {{ roadstart }}{{ roadend }}
     <div v-if="!(action_type - 1)">
       <div class="road">
-        <!-- {{ resultjson }} -->
+        {{ roadroad }}
         <div id="panel"></div>
         <div id="roadmap"><button @click="rero()">刷新地图</button></div>
         <div class="input-box">
@@ -276,7 +276,7 @@ export default {
           <a-input v-model:value="roadend" :bordered="false" size="large" placeholder="结束点" />
         </div>
         <button @click="rero()">刷新地图</button>
-        <button @click="savero(roadstart, roadend)">保存路线</button>
+        <button @click="savero(roadstart, roadend)">预览路线</button>
       </div>
     </div>
     <a-divider orientation="left" class="separate" v-show="action_type - 1">地点</a-divider>
@@ -299,19 +299,13 @@ export default {
     </div>
     <a-divider orientation="left" class="separate">备注</a-divider>
     <div class="input-box">
-      <a-textarea
-        v-model:value="remark"
-        placeholder="备注"
-        :rows="4"
-        size="large"
-        :bordered="false"
-      />
+      <a-textarea v-model:value="ggg" placeholder="备注" :rows="4" size="large" :bordered="false" />
     </div>
 
     <a-divider orientation="left" class="separate">起止时间</a-divider>
     <div class="time-box">
       <a-range-picker
-        v-model:value="partytime"
+        v-model:value="time"
         size="large"
         :bordered="false"
         :show-time="{ format: 'HH:mm' }"
@@ -323,9 +317,7 @@ export default {
     <div class="start-button">
       <button
         class="pushable"
-        @click="
-          partycreate(title, action_type, partyid, this.data, this.routejson, remark, partytime)
-        "
+        @click="partycreate(title, action_type, partyid, this.data, roadstart, roadend, ggg, time)"
       >
         <span class="shadow"></span>
         <span class="edge"></span>
