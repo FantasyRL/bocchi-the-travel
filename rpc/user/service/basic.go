@@ -51,13 +51,13 @@ func (s *UserService) Info(req *user.InfoRequest) (*db.User, bool, error) {
 	if err != nil {
 		return nil, false, err
 	}
-	rpcResp, err := rpc.IsTrust(s.ctx, &trust.IsTrustRequest{
+	rpcResp, _ := rpc.IsTrust(s.ctx, &trust.IsTrustRequest{
 		UserId:   req.MyId,
 		TargetId: req.UserId,
 	})
-	if err != nil {
-		return nil, false, err
-	}
+	//if err != nil {
+	//	return nil, false, err
+	//}
 	if rpcResp.Base.Code != errno.SuccessCode {
 		return nil, false, errno.NewErrNo(rpcResp.Base.Code, rpcResp.Base.Msg)
 	}
