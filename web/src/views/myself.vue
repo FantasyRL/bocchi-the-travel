@@ -27,6 +27,12 @@ export default {
     };
   },
   methods: {
+    toifollow() {
+      this.$router.push("/ifollow/me");
+    },
+    tofollowme() {
+      this.$router.push("/followme/me");
+    },
     savesignature(text) {
       this.isEditing = false;
       axios
@@ -286,8 +292,8 @@ export default {
       <text id="name">{{ name }}</text>
     </div>
     <div>
-      <el-button plain @click="this.$router.push(`/ifollow/${id}`)">关注列表</el-button
-      ><el-button plain @click="this.$router.push(`/followme/${id}`)">粉丝列表</el-button>
+      <el-button plain @click="toifollow">关注列表</el-button
+      ><el-button plain @click="tofollowme">粉丝列表</el-button>
     </div>
     <!-- <input type="text" placeholder="请输入内容" class="input-box" /> -->
     <text>个人签名</text>

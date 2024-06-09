@@ -14,6 +14,12 @@ export default {
     };
   },
   methods: {
+    tohave() {
+      this.$router.push(`/alltravelshave/`);
+    },
+    tomember(i) {
+      this.$router.push(`/member/${i}`);
+    },
     ToEnd(i) {
       axios.get("/bocchi/party/status?party_id=" + i + "&action_type=1", {
         headers: { "access-token": this.access_token }
@@ -63,7 +69,7 @@ export default {
       @back="() => $router.go(-1)"
     />
   </div>
-  <div class="card-container" @click="this.$router.push(`/alltravelshave/`)">
+  <div class="card-container" @click="tohave">
     <a-card
       title="查看已完成的行程"
       style="width: 90%; margin: 5px 5px 5px; justify-content: center; text-align: center"
@@ -107,7 +113,7 @@ export default {
                 <a-button
                   style="margin-right: 5px"
                   :icon="h(TeamOutlined)"
-                  @click="this.$router.push(`/member/${item.id}`)"
+                  @click="tomember(item.id)"
                   >查看成员</a-button
                 >
                 <a-button
