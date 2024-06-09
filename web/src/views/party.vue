@@ -76,15 +76,27 @@ export default {
     };
   },
   methods: {
-    ToEnd(i) {
-      axios.get("/bocchi/party/status?party_id=" + i + "&action_type=1", {
+    ToEnd() {
+      axios.get("/bocchi/party/status?party_id=" + this.id + "&action_type=1", {
         headers: { "access-token": this.access_token }
       });
-      this.$router.push(`/finish/${i}`);
+      this.$router.push(`/finish/${this.id}`);
     },
-    apply_party(id) {
+    Tomember() {
+      this.$router.push(`/member/${this.id}`);
+    },
+    tomerplan() {
+      this.$router.push(`/merplan/${this.id}`);
+    },
+    tocreate() {
+      this.$router.push(`/Createplan/${this.id}`);
+    },
+    tomyitinerarys() {
+      this.$router.push(`/myitinerarys/${this.id}`);
+    },
+    apply_party() {
       axios
-        .get("/bocchi/party/apply?party_id=" + id, {
+        .get("/bocchi/party/apply?party_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }
@@ -131,7 +143,8 @@ export default {
     }
   },
   mounted() {
-    this.id = Number(this.$route.params.id);
+    console.log(this.$router);
+    this.id = this.$route.params.id;
     this.access_token = Cookies.get("access_token");
     this.partyinit();
     this.getin();
@@ -217,13 +230,9 @@ export default {
           起止时间:{{ infodata.start_time }} - {{ infodata.end_time }}
         </div>
         <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
-          <a-button type="dashed" @click="apply_party(this.id)">申请加入</a-button>
-          <a-button style="margin-left: 10px" @click="this.$router.push(`/member/${this.id}`)"
-            >查看成员</a-button
-          >
-          <a-button type="primary" @click="ToEnd(this.id)" style="margin-left: 10px"
-            >结束行程</a-button
-          >
+          <a-button type="dashed" @click="apply_party()">申请加入</a-button>
+          <a-button style="margin-left: 10px" @click="Tomember()">查看成员</a-button>
+          <a-button type="primary" @click="ToEnd()" style="margin-left: 10px">结束行程</a-button>
         </div>
       </div>
     </div>
@@ -278,12 +287,10 @@ export default {
   </div>
   <div class="foot">
     <div class="create">
-      <button class="btn" @click="$router.push('/Createplan/' + this.id)">创建计划</button><br />
-      <button class="btn" @click="$router.push('/myitinerarys/' + this.id)">
-        查看撰写过的计划
-      </button>
+      <button class="btn" @click="tocreate">创建计划</button><br />
+      <button class="btn" @click="tomyitinerarys">查看撰写过的计划</button>
       <br />
-      <button class="btn" @click="$router.push('/merplan/' + this.id)">待通过计划</button>
+      <button class="btn" @click="tomerplan">待通过计划</button>
     </div>
   </div>
   <br />

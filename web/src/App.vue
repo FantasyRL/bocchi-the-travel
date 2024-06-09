@@ -200,7 +200,9 @@ export default {
     </div>
   </header> -->
   <router-view v-slot="{ Component }">
-    <keep-alive include="about">
+    <keep-alive
+      exclude="alltravels,party,itinerary,myitinerary,merplan,ifollow,followme,finish,member,alltravelshave,createplan"
+    >
       <component :is="Component" />
     </keep-alive>
   </router-view>
