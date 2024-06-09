@@ -266,7 +266,7 @@ export default {
     <a-divider orientation="left" class="separate" v-show="!(action_type - 1)">路线</a-divider>
     <div v-if="!(action_type - 1)">
       <div class="road">
-        {{ resultjson }}
+        <!-- {{ resultjson }} -->
         <div id="panel"></div>
         <div id="roadmap"><button @click="rero()">刷新地图</button></div>
         <div class="input-box">
