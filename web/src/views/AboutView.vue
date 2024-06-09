@@ -40,6 +40,7 @@ export default {
         )
         .then((res) => {
           console.log(res.data.base.code);
+          alert(res.data.base.msg);
         });
     },
     init() {

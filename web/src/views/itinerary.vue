@@ -82,6 +82,14 @@ export default {
     this.access_token = Cookies.get("access_token");
   },
   computed: {
+    getlocal() {
+      return (i) => {
+        if (i == i) {
+          const go = `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=`+i
+          return go;
+        }
+      };
+    },
     getIcon() {
       return (actionType) => {
         switch (actionType) {
@@ -127,7 +135,7 @@ export default {
       @back="() => $router.go(-1)"
     />
   </div>
-
+  
   <br />
   <div v-if="partynull" class="itinerary">
     <el-timeline style="max-width: 600px; margin-left: 10%">
@@ -137,6 +145,9 @@ export default {
       <el-timeline-item> 类型：{{ getType(info.action_type) }} </el-timeline-item>
       <el-timeline-item> 备注：{{ info.remark }} </el-timeline-item>
       <el-timeline-item> 地点：{{ info.rectangle }} </el-timeline-item>
+      <el-timeline-item><div><img :src="getlocal(info.rectangle)"></img></div></el-timeline-item>
+      
+      
       <el-timeline-item> 路线：{{ info.route_json }} </el-timeline-item>
       <el-timeline-item> 开始时间：{{ info.schedule_start_time }} </el-timeline-item>
       <el-timeline-item>

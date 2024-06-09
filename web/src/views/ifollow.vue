@@ -26,6 +26,7 @@ export default {
         )
         .then((res) => {
           console.log(res.data.msg);
+          alert(res.data.base.msg);
           this.initt();
         });
     },
