@@ -2205,6 +2205,20 @@ func (p *GetUserScoreResponse) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
+		case 3:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField3(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
 			offset += l
@@ -2260,8 +2274,20 @@ func (p *GetUserScoreResponse) FastReadField2(buf []byte) (int, error) {
 		return offset, err
 	} else {
 		offset += l
+		p.Score = &v
 
-		p.Score = v
+	}
+	return offset, nil
+}
+
+func (p *GetUserScoreResponse) FastReadField3(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+		p.Count = &v
 
 	}
 	return offset, nil
@@ -2277,6 +2303,7 @@ func (p *GetUserScoreResponse) FastWriteNocopy(buf []byte, binaryWriter bthrift.
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetUserScoreResponse")
 	if p != nil {
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
+		offset += p.fastWriteField3(buf[offset:], binaryWriter)
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
@@ -2290,6 +2317,7 @@ func (p *GetUserScoreResponse) BLength() int {
 	if p != nil {
 		l += p.field1Length()
 		l += p.field2Length()
+		l += p.field3Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -2306,10 +2334,23 @@ func (p *GetUserScoreResponse) fastWriteField1(buf []byte, binaryWriter bthrift.
 
 func (p *GetUserScoreResponse) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "score", thrift.DOUBLE, 2)
-	offset += bthrift.Binary.WriteDouble(buf[offset:], p.Score)
+	if p.IsSetScore() {
+		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "score", thrift.DOUBLE, 2)
+		offset += bthrift.Binary.WriteDouble(buf[offset:], *p.Score)
 
-	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	}
+	return offset
+}
+
+func (p *GetUserScoreResponse) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	if p.IsSetCount() {
+		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "count", thrift.I64, 3)
+		offset += bthrift.Binary.WriteI64(buf[offset:], *p.Count)
+
+		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	}
 	return offset
 }
 
@@ -2323,10 +2364,23 @@ func (p *GetUserScoreResponse) field1Length() int {
 
 func (p *GetUserScoreResponse) field2Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("score", thrift.DOUBLE, 2)
-	l += bthrift.Binary.DoubleLength(p.Score)
+	if p.IsSetScore() {
+		l += bthrift.Binary.FieldBeginLength("score", thrift.DOUBLE, 2)
+		l += bthrift.Binary.DoubleLength(*p.Score)
 
-	l += bthrift.Binary.FieldEndLength()
+		l += bthrift.Binary.FieldEndLength()
+	}
+	return l
+}
+
+func (p *GetUserScoreResponse) field3Length() int {
+	l := 0
+	if p.IsSetCount() {
+		l += bthrift.Binary.FieldBeginLength("count", thrift.I64, 3)
+		l += bthrift.Binary.I64Length(*p.Count)
+
+		l += bthrift.Binary.FieldEndLength()
+	}
 	return l
 }
 

@@ -154,7 +154,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "number",
-                        "description": "操作对象id",
+                        "description": "评分",
                         "name": "score",
                         "in": "query",
                         "required": true
