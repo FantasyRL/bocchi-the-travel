@@ -46,6 +46,7 @@ struct LoginResponse {
 
 struct InfoRequest {
     1:i64 user_id,
+    2:i64 my_id,
 }
 
 struct InfoResponse {

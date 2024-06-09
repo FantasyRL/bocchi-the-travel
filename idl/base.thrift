@@ -11,7 +11,7 @@ struct User {
     3: string email,
     4: string avatar,
     5:string signature,
-    6: bool is_follow,
+    6:optional bool is_trust,
 }
 
 //struct Route{

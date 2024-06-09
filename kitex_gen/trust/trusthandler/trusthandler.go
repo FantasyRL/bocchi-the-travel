@@ -13,6 +13,13 @@ import (
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
 
 var serviceMethods = map[string]kitex.MethodInfo{
+	"IsTrust": kitex.NewMethodInfo(
+		isTrustHandler,
+		newTrustHandlerIsTrustArgs,
+		newTrustHandlerIsTrustResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"TrustAction": kitex.NewMethodInfo(
 		trustActionHandler,
 		newTrustHandlerTrustActionArgs,
@@ -119,6 +126,24 @@ func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreami
 		Extra:           extra,
 	}
 	return svcInfo
+}
+
+func isTrustHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*trust.TrustHandlerIsTrustArgs)
+	realResult := result.(*trust.TrustHandlerIsTrustResult)
+	success, err := handler.(trust.TrustHandler).IsTrust(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newTrustHandlerIsTrustArgs() interface{} {
+	return trust.NewTrustHandlerIsTrustArgs()
+}
+
+func newTrustHandlerIsTrustResult() interface{} {
+	return trust.NewTrustHandlerIsTrustResult()
 }
 
 func trustActionHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -237,6 +262,16 @@ func newServiceClient(c client.Client) *kClient {
 	return &kClient{
 		c: c,
 	}
+}
+
+func (p *kClient) IsTrust(ctx context.Context, req *trust.IsTrustRequest) (r *trust.IsTrustResponse, err error) {
+	var _args trust.TrustHandlerIsTrustArgs
+	_args.Req = req
+	var _result trust.TrustHandlerIsTrustResult
+	if err = p.c.Call(ctx, "IsTrust", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
 }
 
 func (p *kClient) TrustAction(ctx context.Context, req *trust.FollowActionRequest) (r *trust.FollowActionResponse, err error) {

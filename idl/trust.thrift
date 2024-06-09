@@ -64,7 +64,19 @@ struct GetUserScoreResponse{
     3:optional i64 count,
 }
 
+//rpc
+struct IsTrustRequest{
+    1:i64 user_id,
+    2:i64 target_id,
+}
+
+struct IsTrustResponse{
+    1:base.BaseResp base,
+    2:bool is_trust,
+}
+
 service TrustHandler{
+    IsTrustResponse IsTrust(1:IsTrustRequest req),
     FollowActionResponse TrustAction(1:FollowActionRequest req),
     FollowerListResponse FollowerList(1:FollowerListRequest req),
     FollowingListResponse FollowingList(1:FollowingListRequest req),

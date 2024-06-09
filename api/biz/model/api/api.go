@@ -16,7 +16,7 @@ type User struct {
 	Email     string `thrift:"email,3" form:"email" json:"email" query:"email"`
 	Avatar    string `thrift:"avatar,4" form:"avatar" json:"avatar" query:"avatar"`
 	Signature string `thrift:"signature,5" form:"signature" json:"signature" query:"signature"`
-	IsFollow  bool   `thrift:"is_follow,6" form:"is_follow" json:"is_follow" query:"is_follow"`
+	IsTrust   *bool  `thrift:"is_trust,6,optional" form:"is_trust" json:"is_trust,omitempty" query:"is_trust"`
 }
 
 func NewUser() *User {
@@ -43,8 +43,13 @@ func (p *User) GetSignature() (v string) {
 	return p.Signature
 }
 
-func (p *User) GetIsFollow() (v bool) {
-	return p.IsFollow
+var User_IsTrust_DEFAULT bool
+
+func (p *User) GetIsTrust() (v bool) {
+	if !p.IsSetIsTrust() {
+		return User_IsTrust_DEFAULT
+	}
+	return *p.IsTrust
 }
 
 var fieldIDToName_User = map[int16]string{
@@ -53,7 +58,11 @@ var fieldIDToName_User = map[int16]string{
 	3: "email",
 	4: "avatar",
 	5: "signature",
-	6: "is_follow",
+	6: "is_trust",
+}
+
+func (p *User) IsSetIsTrust() bool {
+	return p.IsTrust != nil
 }
 
 func (p *User) Read(iprot thrift.TProtocol) (err error) {
@@ -202,7 +211,7 @@ func (p *User) ReadField6(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadBool(); err != nil {
 		return err
 	} else {
-		p.IsFollow = v
+		p.IsTrust = &v
 	}
 	return nil
 }
@@ -341,14 +350,16 @@ WriteFieldEndError:
 }
 
 func (p *User) writeField6(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("is_follow", thrift.BOOL, 6); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteBool(p.IsFollow); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
+	if p.IsSetIsTrust() {
+		if err = oprot.WriteFieldBegin("is_trust", thrift.BOOL, 6); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteBool(*p.IsTrust); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
 	}
 	return nil
 WriteFieldBeginError:

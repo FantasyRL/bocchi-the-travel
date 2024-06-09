@@ -27,3 +27,7 @@ func (s *FollowService) GetUserScore(req *trust.GetUserScoreRequest) (float64, i
 	}
 	return score.Score, score.Count, nil
 }
+
+func (s *FollowService) IsTrust(req *trust.IsTrustRequest) (bool, error) {
+	return db.IsFollowExist(s.ctx, req.UserId, req.TargetId)
+}

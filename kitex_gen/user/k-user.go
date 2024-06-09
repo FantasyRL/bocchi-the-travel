@@ -1227,6 +1227,20 @@ func (p *InfoRequest) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField2(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
 			offset += l
@@ -1276,6 +1290,20 @@ func (p *InfoRequest) FastReadField1(buf []byte) (int, error) {
 	return offset, nil
 }
 
+func (p *InfoRequest) FastReadField2(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
+		p.MyId = v
+
+	}
+	return offset, nil
+}
+
 // for compatibility
 func (p *InfoRequest) FastWrite(buf []byte) int {
 	return 0
@@ -1286,6 +1314,7 @@ func (p *InfoRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWri
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "InfoRequest")
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
+		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -1297,6 +1326,7 @@ func (p *InfoRequest) BLength() int {
 	l += bthrift.Binary.StructBeginLength("InfoRequest")
 	if p != nil {
 		l += p.field1Length()
+		l += p.field2Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -1312,10 +1342,28 @@ func (p *InfoRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWri
 	return offset
 }
 
+func (p *InfoRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "my_id", thrift.I64, 2)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.MyId)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
 func (p *InfoRequest) field1Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("user_id", thrift.I64, 1)
 	l += bthrift.Binary.I64Length(p.UserId)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *InfoRequest) field2Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("my_id", thrift.I64, 2)
+	l += bthrift.Binary.I64Length(p.MyId)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l

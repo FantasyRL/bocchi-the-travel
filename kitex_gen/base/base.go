@@ -233,7 +233,7 @@ type User struct {
 	Email     string `thrift:"email,3" frugal:"3,default,string" json:"email"`
 	Avatar    string `thrift:"avatar,4" frugal:"4,default,string" json:"avatar"`
 	Signature string `thrift:"signature,5" frugal:"5,default,string" json:"signature"`
-	IsFollow  bool   `thrift:"is_follow,6" frugal:"6,default,bool" json:"is_follow"`
+	IsTrust   *bool  `thrift:"is_trust,6,optional" frugal:"6,optional,bool" json:"is_trust,omitempty"`
 }
 
 func NewUser() *User {
@@ -264,8 +264,13 @@ func (p *User) GetSignature() (v string) {
 	return p.Signature
 }
 
-func (p *User) GetIsFollow() (v bool) {
-	return p.IsFollow
+var User_IsTrust_DEFAULT bool
+
+func (p *User) GetIsTrust() (v bool) {
+	if !p.IsSetIsTrust() {
+		return User_IsTrust_DEFAULT
+	}
+	return *p.IsTrust
 }
 func (p *User) SetId(val int64) {
 	p.Id = val
@@ -282,8 +287,8 @@ func (p *User) SetAvatar(val string) {
 func (p *User) SetSignature(val string) {
 	p.Signature = val
 }
-func (p *User) SetIsFollow(val bool) {
-	p.IsFollow = val
+func (p *User) SetIsTrust(val *bool) {
+	p.IsTrust = val
 }
 
 var fieldIDToName_User = map[int16]string{
@@ -292,7 +297,11 @@ var fieldIDToName_User = map[int16]string{
 	3: "email",
 	4: "avatar",
 	5: "signature",
-	6: "is_follow",
+	6: "is_trust",
+}
+
+func (p *User) IsSetIsTrust() bool {
+	return p.IsTrust != nil
 }
 
 func (p *User) Read(iprot thrift.TProtocol) (err error) {
@@ -441,7 +450,7 @@ func (p *User) ReadField6(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadBool(); err != nil {
 		return err
 	} else {
-		p.IsFollow = v
+		p.IsTrust = &v
 	}
 	return nil
 }
@@ -580,14 +589,16 @@ WriteFieldEndError:
 }
 
 func (p *User) writeField6(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("is_follow", thrift.BOOL, 6); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteBool(p.IsFollow); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
+	if p.IsSetIsTrust() {
+		if err = oprot.WriteFieldBegin("is_trust", thrift.BOOL, 6); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteBool(*p.IsTrust); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
 	}
 	return nil
 WriteFieldBeginError:
@@ -625,7 +636,7 @@ func (p *User) DeepEqual(ano *User) bool {
 	if !p.Field5DeepEqual(ano.Signature) {
 		return false
 	}
-	if !p.Field6DeepEqual(ano.IsFollow) {
+	if !p.Field6DeepEqual(ano.IsTrust) {
 		return false
 	}
 	return true
@@ -666,9 +677,14 @@ func (p *User) Field5DeepEqual(src string) bool {
 	}
 	return true
 }
-func (p *User) Field6DeepEqual(src bool) bool {
+func (p *User) Field6DeepEqual(src *bool) bool {
 
-	if p.IsFollow != src {
+	if p.IsTrust == src {
+		return true
+	} else if p.IsTrust == nil || src == nil {
+		return false
+	}
+	if *p.IsTrust != *src {
 		return false
 	}
 	return true

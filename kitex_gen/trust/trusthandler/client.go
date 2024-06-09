@@ -11,6 +11,7 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
+	IsTrust(ctx context.Context, req *trust.IsTrustRequest, callOptions ...callopt.Option) (r *trust.IsTrustResponse, err error)
 	TrustAction(ctx context.Context, req *trust.FollowActionRequest, callOptions ...callopt.Option) (r *trust.FollowActionResponse, err error)
 	FollowerList(ctx context.Context, req *trust.FollowerListRequest, callOptions ...callopt.Option) (r *trust.FollowerListResponse, err error)
 	FollowingList(ctx context.Context, req *trust.FollowingListRequest, callOptions ...callopt.Option) (r *trust.FollowingListResponse, err error)
@@ -46,6 +47,11 @@ func MustNewClient(destService string, opts ...client.Option) Client {
 
 type kTrustHandlerClient struct {
 	*kClient
+}
+
+func (p *kTrustHandlerClient) IsTrust(ctx context.Context, req *trust.IsTrustRequest, callOptions ...callopt.Option) (r *trust.IsTrustResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.IsTrust(ctx, req)
 }
 
 func (p *kTrustHandlerClient) TrustAction(ctx context.Context, req *trust.FollowActionRequest, callOptions ...callopt.Option) (r *trust.FollowActionResponse, err error) {

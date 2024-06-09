@@ -29,8 +29,9 @@ func (s *FollowService) FriendList(req *trust.FriendListRequest) ([]*base.User, 
 	if err != nil {
 		return nil, 0, err
 	}
+	t := true
 	for i := range rpcResp.UserList {
-		rpcResp.UserList[i].IsFollow = true
+		rpcResp.UserList[i].IsTrust = &t
 	}
 	return rpcResp.UserList, count, nil
 }

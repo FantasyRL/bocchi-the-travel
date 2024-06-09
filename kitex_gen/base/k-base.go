@@ -419,8 +419,7 @@ func (p *User) FastReadField6(buf []byte) (int, error) {
 		return offset, err
 	} else {
 		offset += l
-
-		p.IsFollow = v
+		p.IsTrust = &v
 
 	}
 	return offset, nil
@@ -510,10 +509,12 @@ func (p *User) fastWriteField5(buf []byte, binaryWriter bthrift.BinaryWriter) in
 
 func (p *User) fastWriteField6(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "is_follow", thrift.BOOL, 6)
-	offset += bthrift.Binary.WriteBool(buf[offset:], p.IsFollow)
+	if p.IsSetIsTrust() {
+		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "is_trust", thrift.BOOL, 6)
+		offset += bthrift.Binary.WriteBool(buf[offset:], *p.IsTrust)
 
-	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+		offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	}
 	return offset
 }
 
@@ -564,10 +565,12 @@ func (p *User) field5Length() int {
 
 func (p *User) field6Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("is_follow", thrift.BOOL, 6)
-	l += bthrift.Binary.BoolLength(p.IsFollow)
+	if p.IsSetIsTrust() {
+		l += bthrift.Binary.FieldBeginLength("is_trust", thrift.BOOL, 6)
+		l += bthrift.Binary.BoolLength(*p.IsTrust)
 
-	l += bthrift.Binary.FieldEndLength()
+		l += bthrift.Binary.FieldEndLength()
+	}
 	return l
 }
 

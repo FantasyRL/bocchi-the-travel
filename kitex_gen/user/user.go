@@ -1519,6 +1519,7 @@ func (p *LoginResponse) Field2DeepEqual(src *base.User) bool {
 
 type InfoRequest struct {
 	UserId int64 `thrift:"user_id,1" frugal:"1,default,i64" json:"user_id"`
+	MyId   int64 `thrift:"my_id,2" frugal:"2,default,i64" json:"my_id"`
 }
 
 func NewInfoRequest() *InfoRequest {
@@ -1532,12 +1533,20 @@ func (p *InfoRequest) InitDefault() {
 func (p *InfoRequest) GetUserId() (v int64) {
 	return p.UserId
 }
+
+func (p *InfoRequest) GetMyId() (v int64) {
+	return p.MyId
+}
 func (p *InfoRequest) SetUserId(val int64) {
 	p.UserId = val
+}
+func (p *InfoRequest) SetMyId(val int64) {
+	p.MyId = val
 }
 
 var fieldIDToName_InfoRequest = map[int16]string{
 	1: "user_id",
+	2: "my_id",
 }
 
 func (p *InfoRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -1562,6 +1571,14 @@ func (p *InfoRequest) Read(iprot thrift.TProtocol) (err error) {
 		case 1:
 			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -1605,6 +1622,15 @@ func (p *InfoRequest) ReadField1(iprot thrift.TProtocol) error {
 	}
 	return nil
 }
+func (p *InfoRequest) ReadField2(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.MyId = v
+	}
+	return nil
+}
 
 func (p *InfoRequest) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
@@ -1614,6 +1640,10 @@ func (p *InfoRequest) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
 			goto WriteFieldError
 		}
 	}
@@ -1651,6 +1681,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
+func (p *InfoRequest) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("my_id", thrift.I64, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.MyId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
 func (p *InfoRequest) String() string {
 	if p == nil {
 		return "<nil>"
@@ -1668,12 +1715,22 @@ func (p *InfoRequest) DeepEqual(ano *InfoRequest) bool {
 	if !p.Field1DeepEqual(ano.UserId) {
 		return false
 	}
+	if !p.Field2DeepEqual(ano.MyId) {
+		return false
+	}
 	return true
 }
 
 func (p *InfoRequest) Field1DeepEqual(src int64) bool {
 
 	if p.UserId != src {
+		return false
+	}
+	return true
+}
+func (p *InfoRequest) Field2DeepEqual(src int64) bool {
+
+	if p.MyId != src {
 		return false
 	}
 	return true
