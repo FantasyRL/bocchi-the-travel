@@ -29,6 +29,7 @@ func (s *FollowService) FollowingList(req *trust.FollowingListRequest) ([]*base.
 	rpcResp, err := rpc.UserGetUserList(s.ctx, &user.GetUsersRequest{
 		UserIdList: followerIdList,
 	})
+	t := true
 	if rpcResp.Base.Code != errno.SuccessCode {
 		return nil, 0, errno.NewErrNo(rpcResp.Base.Code, rpcResp.Base.Msg)
 	}
@@ -36,7 +37,7 @@ func (s *FollowService) FollowingList(req *trust.FollowingListRequest) ([]*base.
 		return nil, 0, err
 	}
 	for i := range rpcResp.UserList {
-		rpcResp.UserList[i].IsFollow = true
+		rpcResp.UserList[i].IsTrust = &t
 	}
 	return rpcResp.UserList, count, nil
 }

@@ -45,12 +45,6 @@ func CreateItinerary(ctx context.Context, c *app.RequestContext) {
 	v, _ := c.Get("current_user_id")
 	id, _ := v.(int64)
 
-	if (req.ActionType == 1 && req.Rectangle != nil) || (req.ActionType != 1 && req.Rectangle == nil) {
-		resp.Base = pack.ConvertToAPIBaseResp(pack.BuildBaseResp(errno.ParamError))
-		c.JSON(consts.StatusOK, resp)
-		return
-	}
-
 	rpcResp, err := rpc.ItineraryCreate(ctx, &itinerary.CreateItineraryRequest{
 		FounderId:         id,
 		Title:             req.Title,

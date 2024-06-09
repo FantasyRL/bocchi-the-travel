@@ -97,6 +97,8 @@ func Login(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param user_id query string true "用户id"
+// @Param access-token header string false "access-token"
+// @Param refresh-token header string false "refresh-token"
 // @router /bocchi/user/info [GET]
 func Info(ctx context.Context, c *app.RequestContext) {
 	var err error
@@ -109,8 +111,11 @@ func Info(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.InfoResponse)
 
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
 	rpcResp, err := rpc.UserInfo(ctx, &user.InfoRequest{
 		UserId: req.UserID,
+		MyId:   id,
 	})
 	if err != nil {
 		pack.SendRPCFailResp(c, err)

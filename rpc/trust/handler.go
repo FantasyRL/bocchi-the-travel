@@ -8,7 +8,7 @@ import (
 	"context"
 )
 
-// FollowHandlerImpl implements the last service interface defined in the IDL.
+// TrustHandlerImpl implements the last service interface defined in the IDL.
 type TrustHandlerImpl struct{}
 
 // TrustAction implements the TrustHandlerImpl interface.
@@ -88,5 +88,14 @@ func (s *TrustHandlerImpl) GetUserScore(ctx context.Context, req *trust.GetUserS
 	}
 	resp.Score = &score
 	resp.Count = &count
+	return resp, nil
+}
+
+// IsTrust implements the TrustHandlerImpl interface.
+func (s *TrustHandlerImpl) IsTrust(ctx context.Context, req *trust.IsTrustRequest) (resp *trust.IsTrustResponse, err error) {
+	resp = new(trust.IsTrustResponse)
+	is, err := service.NewFollowService(ctx).IsTrust(req)
+	resp.Base = pack.BuildBaseResp(err)
+	resp.IsTrust = is
 	return resp, nil
 }

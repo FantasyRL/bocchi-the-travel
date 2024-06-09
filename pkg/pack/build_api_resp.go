@@ -48,13 +48,17 @@ func SendRPCFailResp(c *app.RequestContext, err error) {
 }
 
 func ConvertToAPIUser(kitexUser *base.User) *api.User {
-	return &api.User{
+	userResp := &api.User{
 		ID:        kitexUser.Id,
 		Name:      kitexUser.Name,
 		Email:     kitexUser.Email,
 		Avatar:    kitexUser.Avatar,
 		Signature: kitexUser.Signature,
 	}
+	if kitexUser.IsTrust != nil {
+		userResp.IsTrust = kitexUser.IsTrust
+	}
+	return userResp
 }
 
 func ConvertToAPIUsers(kitexUsers []*base.User) []*api.User {

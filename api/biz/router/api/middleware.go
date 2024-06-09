@@ -34,8 +34,9 @@ func _userMw() []app.HandlerFunc {
 }
 
 func _infoMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _switch2faMw() []app.HandlerFunc {

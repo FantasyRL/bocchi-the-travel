@@ -18,12 +18,13 @@ func NewFollowService(ctx context.Context) *FollowService {
 
 func BuildFollowedUsersResp(users []db.User) (usersResp []*base.User) {
 	usersResp = make([]*base.User, 0, len(users))
+	t := true
 	for _, u := range users {
 		usersResp = append(usersResp, &base.User{
-			Id:       u.ID,
-			Name:     u.UserName,
-			Avatar:   u.Avatar,
-			IsFollow: true,
+			Id:      u.ID,
+			Name:    u.UserName,
+			Avatar:  u.Avatar,
+			IsTrust: &t,
 		})
 	}
 	return
@@ -33,10 +34,10 @@ func BuildFollowerUsersResp(uid int64, users []db.User, isFollowList []bool) (us
 	usersResp = make([]*base.User, 0, len(users))
 	for i, u := range users {
 		usersResp = append(usersResp, &base.User{
-			Id:       u.ID,
-			Name:     u.UserName,
-			Avatar:   u.Avatar,
-			IsFollow: isFollowList[i],
+			Id:      u.ID,
+			Name:    u.UserName,
+			Avatar:  u.Avatar,
+			IsTrust: &isFollowList[i],
 		})
 	}
 	return

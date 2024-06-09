@@ -816,6 +816,14 @@ paths:
         name: user_id
         required: true
         type: string
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
       produces:
       - application/json
       responses: {}

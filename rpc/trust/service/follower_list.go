@@ -54,10 +54,11 @@ func (s *FollowService) FollowerList(req *trust.FollowerListRequest) ([]*base.Us
 	if err != nil {
 		return nil, 0, err
 	}
+	t := true
 	for i, v := range rpcResp.UserList {
 		for j := 0; j < len(*friendList); j++ {
 			if v.Id == friendIdList[j] {
-				rpcResp.UserList[i].IsFollow = true
+				rpcResp.UserList[i].IsTrust = &t
 				break
 			}
 		}

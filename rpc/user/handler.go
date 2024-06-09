@@ -57,15 +57,15 @@ func (s *UserHandlerImpl) Login(ctx context.Context, req *user.LoginRequest) (re
 // Info implements the UserHandlerImpl interface.
 func (s *UserHandlerImpl) Info(ctx context.Context, req *user.InfoRequest) (resp *user.InfoResponse, err error) {
 	resp = new(user.InfoResponse)
-
-	userResp, err := service.NewUserService(ctx).Info(req)
+	userResp, isTrust, err := service.NewUserService(ctx).Info(req)
 
 	resp.Base = pack.BuildBaseResp(err)
 	if err != nil {
 		return resp, nil
 	}
 	resp.User = service.BuildUserResp(userResp)
-	return
+	resp.User.IsTrust = &isTrust
+	return resp, nil
 }
 
 // Avatar implements the UserHandlerImpl interface.
