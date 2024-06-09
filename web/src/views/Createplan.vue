@@ -5,12 +5,11 @@ import { ref, watch } from "vue";
 import { onMounted, onUnmounted } from "vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
 const title = ref("");
-const action_type = ref("1");
+const action_type = ref("2");
 const time = ref(``);
 const roadstart = ref("");
 const roadend = ref("");
 const rectangletext = ref();
-
 const ggg = ref();
 const options = ref([
   { value: "1", label: "路线" },
@@ -28,11 +27,6 @@ import locale from "ant-design-vue/es/date-picker/locale/zh_CN";
 import AMapLoader from "@amap/amap-jsapi-loader";
 dayjs.locale("zh-cn");
 export default {
-  computed: {
-    discountedPrice(roadstart, roadend) {
-      return [{ keyword: roadstart }, { keyword: roadend }];
-    }
-  },
   setup() {
     return {
       value: dayjs("2015-01-01", "YYYY-MM-DD"),
@@ -42,7 +36,6 @@ export default {
   },
   data() {
     return {
-      img:null,
       trnumber: 10,
       access_token: "",
       refresh_token: "",
@@ -52,14 +45,13 @@ export default {
       routejson: null,
       map: null,
       map2: null,
-      resultjson: {}
+      resultjson: {},
+      datadata:
+        "https://restapi.amap.com/v3/staticmap?zoom=15&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=119.203480,26.058382"
     };
   },
   methods: {
-    reremap(i) {
-      this.img = `https://restapi.amap.com/v3/staticmap?zoom=15&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=` +i;
-      console.log(this.img);
-    },
+    reremap(i) {},
     rero() {
       this.map = new AMap.Map("roadmap", {
         // 设置地图容器id
@@ -134,14 +126,14 @@ export default {
         .then((res) => {
           console.log(res);
           this.data = res.data.geocodes[0].location.split(",");
-          this.reremap(this.data)
-          this.map = new AMap.Map("rectangletmap", {
+          this.reremap(res.data.geocodes[0].location.split(","));
+          /* this.map = new AMap.Map("rectangletmap", {
             // 设置地图容器id
             viewMode: "2D", // 是否为3D地图模式
             zoom: 19, // 初始化地图级别
             center: this.data,
             map: null
-          });
+          }); */
         })
         .catch((err) => {
           console.error(err);
@@ -200,7 +192,7 @@ export default {
     this.partyid = Number(this.$route.params.id);
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
-    window._AMapSecurityConfig = {
+    /*     window._AMapSecurityConfig = {
       securityJsCode: ""
     };
     AMapLoader.load({
@@ -234,15 +226,16 @@ export default {
       })
       .catch((e) => {
         console.log(e);
-      });
+      }); */
   },
   computed: {
     getlocal() {
       return (i) => {
         if (i == i) {
-          const go =
-            `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=` +
-            i;
+          const  go = `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=`+this.data
+
+          
+
           return go;
         }
       };
@@ -278,10 +271,10 @@ export default {
       />
     </div>
     <a-divider orientation="left" class="separate" v-show="!(action_type - 1)">路线</a-divider>
-    {{ roadstart }}{{ roadend }}
+   <!--  {{ roadstart }}{{ roadend }} -->
     <div v-if="!(action_type - 1)">
       <div class="">
-        {{ roadroad }}
+        <!-- {{ roadroad }} -->
         <!-- <div id="panel"></div>
         <div id="roadmap"><button @click="rero()">刷新地图</button></div> -->
         <div class="input-box">
@@ -304,19 +297,20 @@ export default {
       <!--  {{ data }} -->
       <div class="rectangle">
         <div class="nb">
-        <p>省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码</p>
-        <!-- <div id="rectangletmap"><button @click="remap">刷新地图</button></div> -->
-         <img :src="this.img"></img></div>
-        <div class="input-box">
-          <a-input
-            v-model:value="rectangletext"
-            :bordered="false"
-            size="large"
-            placeholder="输入地点保存后可获取参考地图(可选)"
-          />
+          <p>省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码</p>
+          <!-- <div id="rectangletmap"><button @click="remap">刷新地图</button></div> -->
+          <img :src="getlocal()"></img>
+          <div class="input-box">
+            <a-input
+              v-model:value="rectangletext"
+              :bordered="false"
+              size="large"
+              placeholder="输入地点保存后可获取参考地图(可选)"
+            />
+          </div>
+          <button @click="reremap()">刷新地图</button>
+          <button @click="savemap(rectangletext)">保存地点</button>
         </div>
-        <button @click="reremap(this.data)">刷新地图</button>
-        <button @click="savemap(rectangletext)">保存地点</button>
       </div>
     </div>
     <a-divider orientation="left" class="separate">备注</a-divider>
@@ -351,7 +345,7 @@ export default {
 </template>
 
 <style scoped>
-.nb{
+.nb {
   display: grid;
   justify-content: center;
   font-size: 18px;
