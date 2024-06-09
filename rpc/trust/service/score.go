@@ -23,7 +23,7 @@ func (s *FollowService) MarkToOther(req *trust.MarkToOtherRequest) error {
 func (s *FollowService) GetUserScore(req *trust.GetUserScoreRequest) (float64, int64, error) {
 	score, err := db.GetScoreByUId(s.ctx, req.UserId)
 	if err != nil {
-		return 0, 0, err
+		return -1, -1, err
 	}
 	return score.Score, score.Count, nil
 }

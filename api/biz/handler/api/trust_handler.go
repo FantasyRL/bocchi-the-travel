@@ -221,5 +221,10 @@ func GetUserScore(ctx context.Context, c *app.RequestContext) {
 		pack.SendRPCFailResp(c, err)
 	}
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if rpcResp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+	}
+	resp.Score = rpcResp.Score
+	resp.Count = rpcResp.Count
 	c.JSON(consts.StatusOK, resp)
 }
