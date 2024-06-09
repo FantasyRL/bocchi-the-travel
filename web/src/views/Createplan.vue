@@ -5,11 +5,12 @@ import { ref, watch } from "vue";
 import { onMounted, onUnmounted } from "vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
 const title = ref("");
-const action_type = ref("");
+const action_type = ref("1");
 
 const partytime = ref();
 
-const rectangle = ref();
+const roadstart = ref();
+const roadend = ref();
 const rectangletext = ref();
 const route_json = ref();
 const remark = ref();
@@ -26,7 +27,7 @@ const options = ref([
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import locale from "ant-design-vue/es/date-picker/locale/zh_CN";
-
+import AMapLoader from "@amap/amap-jsapi-loader";
 dayjs.locale("zh-cn");
 export default {
   setup() {
@@ -39,23 +40,90 @@ export default {
   data() {
     return {
       trnumber: 10,
-      access_token: "", // 假设您将令牌存储在localStorage中
+      access_token: "",
       refresh_token: "",
       partyid: null,
-      data: [] // 假设您从后端获取了数据并将其存储在这里
+      data: [],
+      road: [],
+      routejson: null,
+      map: null,
+      map2: null,
+      resultjson: {}
     };
   },
   methods: {
+    rero() {
+      this.routejson = "";
+      this.data = "";
+      this.map = new AMap.Map("roadmap", {
+        // 设置地图容器id
+        viewMode: "3D", // 是否为3D地图模式
+        zoom: 11, // 初始化地图级别
+        center: [116.397428, 39.90923] // 初始化地图中心点位置
+      });
+    },
+
     remap() {
-      map = new AMap.Map("rectangletmap", {
+      this.routejson = "";
+      this.data = "";
+      this.map = new AMap.Map("rectangletmap", {
         // 设置地图容器id
         viewMode: "2D", // 是否为3D地图模式
-        zoom: 20, // 初始化地图级别
+        zoom: 6, // 初始化地图级别
         center: [116.397428, 39.90923], // 初始化地图中心点位置
         map: null
       });
     },
+    savero(start, end) {
+      const road = [
+        { keyword: start }, //起始点坐标
+        { keyword: end } //终点坐标
+      ];
+      this.resultjson = road;
+      console.log(road);
+      window._AMapSecurityConfig = {
+        securityJsCode: "9a9a79b5c5fcc275c47bb5eafde2f7d3"
+      };
+      AMapLoader.load({
+        key: "8c9bb5684ff803ee1c6efecc3ea36578",
+        version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+        plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+      })
+        .then((AMap) => {
+          let map = new AMap.Map("roadmap", {
+            // 设置地图容器id
+            viewMode: "2D", // 是否为3D地图模式
+            zoom: 18, // 初始化地图级别
+            center: [118.397428, 39.90923] // 初始化地图中心点位置
+          });
+          AMap.plugin(
+            ["AMap.ToolBar", "AMap.Driving", "AMap.Polyline", "AMap.Marker"],
+            function () {
+              //异步同时加载多个插件
+              var toolbar = new AMap.ToolBar();
+              map.addControl(toolbar);
 
+              var driving = new AMap.Driving({
+                map: map,
+                panel: "panel"
+              }); //驾车路线规划
+              driving.search(road, function (status, result) {
+                // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
+                if (status === "complete") {
+                  console.log(result);
+
+                  console.log(result.routes);
+                } else {
+                  console.log("获取驾车数据失败：" + result);
+                }
+              });
+            }
+          );
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     savemap(text) {
       axios
         .get(
@@ -133,12 +201,28 @@ export default {
       securityJsCode: "9a9a79b5c5fcc275c47bb5eafde2f7d3"
     };
     AMapLoader.load({
-      key: "8c9bb5684ff803ee1c6efecc3ea36578", // 申请好的Web端开发者Key，首次调用 load 时必填
+      key: "8c9bb5684ff803ee1c6efecc3ea36578",
       version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
       plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
     })
       .then((AMap) => {
         this.map = new AMap.Map("rectangletmap", {
+          // 设置地图容器id
+          viewMode: "2D", // 是否为3D地图模式
+          zoom: 18, // 初始化地图级别
+          center: [116.397428, 39.90923] // 初始化地图中心点位置
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    AMapLoader.load({
+      key: "8c9bb5684ff803ee1c6efecc3ea36578",
+      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+      plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+    })
+      .then((AMap) => {
+        this.map2 = new AMap.Map("roadmap", {
           // 设置地图容器id
           viewMode: "2D", // 是否为3D地图模式
           zoom: 18, // 初始化地图级别
@@ -180,13 +264,27 @@ export default {
       />
     </div>
     <a-divider orientation="left" class="separate" v-show="!(action_type - 1)">路线</a-divider>
-    <div v-if="!(action_type - 1)"></div>
+    <div v-if="!(action_type - 1)">
+      <div class="road">
+        {{ resultjson }}
+        <div id="panel"></div>
+        <div id="roadmap"><button @click="rero()">刷新地图</button></div>
+        <div class="input-box">
+          <a-input v-model:value="roadstart" :bordered="false" size="large" placeholder="出发点" />
+        </div>
+        <div class="input-box">
+          <a-input v-model:value="roadend" :bordered="false" size="large" placeholder="结束点" />
+        </div>
+        <button @click="rero()">刷新地图</button>
+        <button @click="savero(roadstart, roadend)">保存路线</button>
+      </div>
+    </div>
     <a-divider orientation="left" class="separate" v-show="action_type - 1">地点</a-divider>
     <div v-if="action_type - 1">
       <!--  {{ data }} -->
       <div class="rectangle">
         <p>省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码</p>
-        <div id="rectangletmap">map</div>
+        <div id="rectangletmap"><button @click="remap">刷新地图</button></div>
         <div class="input-box">
           <a-input
             v-model:value="rectangletext"
@@ -225,7 +323,9 @@ export default {
     <div class="start-button">
       <button
         class="pushable"
-        @click="partycreate(title, action_type, partyid, this.data, route_json, remark, partytime)"
+        @click="
+          partycreate(title, action_type, partyid, this.data, this.routejson, remark, partytime)
+        "
       >
         <span class="shadow"></span>
         <span class="edge"></span>
@@ -237,6 +337,16 @@ export default {
 </template>
 
 <style scoped>
+.road {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+#roadmap {
+  width: 90%;
+  height: 300px;
+  margin: 5%;
+}
 #rectangletmap {
   width: 90%;
   height: 300px;
