@@ -240,10 +240,17 @@ export default {
     getlocal() {
       return (i) => {
         if (i == i) {
-          const go =
-            `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=` +
-            i;
-          return go;
+          const start = i.split(",")[0];
+          const end = i.split(",")[1]; 
+          
+          axios.get("https://restapi.amap.com/v3/geocode/geo?key=eae4d0491385d75b43d247afaef4247d&address="+start)
+  .then(res => {
+    console.log(res.data.geocodes[0].location)
+    this.datadata = res.data.geocodes[0].location
+    
+  });
+          
+          return i;
         }
       };
     }
@@ -306,7 +313,7 @@ export default {
         <div class="nb">
         <p>省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码</p>
         <!-- <div id="rectangletmap"><button @click="remap">刷新地图</button></div> -->
-         <img :src="getlocal(this.data)"></img></div>
+         <!-- <img :src="getlocal(rectangletext)"></img></div> -->
         <div class="input-box">
           <a-input
             v-model:value="rectangletext"
