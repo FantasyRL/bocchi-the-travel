@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      img:null,
+      img:"https://restapi.amap.com/v3/staticmap?zoom=15&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=119.203480,26.058382",
       trnumber: 10,
       access_token: "",
       refresh_token: "",
