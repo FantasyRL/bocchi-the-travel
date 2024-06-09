@@ -134,6 +134,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$router);
     this.id = Number(this.$route.params.id);
     this.access_token = Cookies.get("access_token");
     this.partyinit();
