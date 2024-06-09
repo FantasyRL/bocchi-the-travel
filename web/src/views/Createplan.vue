@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { ref, watch } from "vue";
 import { onMounted, onUnmounted } from "vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
-const title = ref("1");
+const title = ref("");
 const action_type = ref("1");
 const time = ref(``);
 const roadstart = ref("");
@@ -75,6 +75,7 @@ export default {
     },
     savero(roadstart, roadend) {
       const road = [{ keyword: roadstart }, { keyword: roadend }];
+      const roadgo = [roadstart, roadend];
       window._AMapSecurityConfig = {
         securityJsCode: ""
       };
@@ -160,11 +161,9 @@ export default {
             "&rectangle=" +
             rectangle +
             "&route_json=" +
-            "[{ keyword: " +
             ps +
-            " }, { keyword: " +
+            "," +
             pe +
-            " }]" +
             "&remark=" +
             remark +
             "&schedule_start_time=" +

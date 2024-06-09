@@ -35,7 +35,7 @@ export default defineComponent({
         .then((res) => {
           console.log(res);
           this.ipcity = res.data.city;
-          this.searchprovince("", "", this.ipcity, "", "", "2", "1");
+          this.searchprovince("", "", "", this.ipcity, "", "2", "1");
         })
         .catch((err) => {
           console.error(err);

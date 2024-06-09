@@ -30,6 +30,8 @@ export default {
   props: {},
   data() {
     return {
+      datago:null,
+      datadata:null,
       id: 1, // 假设这是 itinerary 的 id
       party: {
         start_time: "2006-01-02",
@@ -40,6 +42,9 @@ export default {
     };
   },
   methods: {
+    gogogo(){
+      window.location.replace("//uri.amap.com/navigation?from="+this.datadata+",startpoint&to="+this.datago+",endpoint&via=&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0") 
+    },
     deleteItinerary() {
       const url = "/bocchi/party/itinerary/delete?itinerary_id=" + this.id; // 假设这是删除 itinerary 的 API 接口地址
 
@@ -90,6 +95,34 @@ export default {
         }
       };
     },
+    getroad() {
+      return (i) => {
+        if (i == i) {
+          
+          const start = i.split(",")[0];
+          const end = i.split(",")[1]; 
+          
+          axios.get("https://restapi.amap.com/v3/geocode/geo?key=eae4d0491385d75b43d247afaef4247d&address="+start)
+  .then(res => {
+    console.log(res.data.geocodes[0].location)
+    this.datadata = res.data.geocodes[0].location
+    
+  });
+          axios.get("https://restapi.amap.com/v3/geocode/geo?key=eae4d0491385d75b43d247afaef4247d&address="+end)
+  .then(res => {
+    console.log(res.data.geocodes[0].location)
+    this.datago = res.data.geocodes[0].location
+    
+  })
+
+
+
+
+          return i;
+          
+        }
+      };
+    },
     getIcon() {
       return (actionType) => {
         switch (actionType) {
@@ -137,6 +170,8 @@ export default {
   </div>
   
   <br />
+  {{ datadata }}
+  {{ datago }}
   <div v-if="partynull" class="itinerary">
     <el-timeline style="max-width: 600px; margin-left: 10%">
       <el-timeline-item>计划名:{{ info.title }} </el-timeline-item>
@@ -147,8 +182,8 @@ export default {
       <el-timeline-item> 地点：{{ info.rectangle }} </el-timeline-item>
       <el-timeline-item><div><img :src="getlocal(info.rectangle)"></img></div></el-timeline-item>
       
-      
-      <el-timeline-item> 路线：{{ info.route_json }} </el-timeline-item>
+      <el-timeline-item>{{ getroad(info.route_json) }}</el-timeline-item>
+      <el-timeline-item> 路线： <a-button type="primary" @click="gogogo()">点击跳转到大地图</a-button></el-timeline-item>
       <el-timeline-item> 开始时间：{{ info.schedule_start_time }} </el-timeline-item>
       <el-timeline-item>
         结束时间:
