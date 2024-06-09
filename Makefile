@@ -31,6 +31,19 @@ $(SERVICES):
 	@if [ $(service) = $(API) ];then \
 		go run $(API_PATH) ; fi
 
+SERVICES := user party itinerary interaction trust
+.PHONY: build-all
+build-all:
+	@for service in $(SERVICES); do \
+    	cd ${RPC};cd $$service; \
+  		echo "build $$service ..." && sh build.sh; \
+  		cd ${RPC}/$$service/output/bin/ && cp -r . ${DIR}/output; \
+  		echo "done"; \
+  	done ;\
+  	cd ${API_PATH}; \
+    echo "build api" && sh build.sh; \
+    cd ${API_PATH}/output/bin/ && cp -r . ${DIR}/output; \
+    echo "done"; \
 
 .PHONY: start-all
 start-all:

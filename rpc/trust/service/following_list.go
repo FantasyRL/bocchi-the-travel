@@ -21,13 +21,13 @@ func (s *FollowService) FollowingList(req *trust.FollowingListRequest) ([]*base.
 	//	return nil, 0, err
 	//}
 
-	followerIdList := make([]int64, len(*followingList))
+	followedIdList := make([]int64, len(*followingList))
 	for i, v := range *followingList {
-		followerIdList[i] = v.Uid
+		followedIdList[i] = v.FollowedId
 	}
 
 	rpcResp, err := rpc.UserGetUserList(s.ctx, &user.GetUsersRequest{
-		UserIdList: followerIdList,
+		UserIdList: followedIdList,
 	})
 	t := true
 	if rpcResp.Base.Code != errno.SuccessCode {
