@@ -253,7 +253,7 @@ export default {
 </script>
 
 <template>
-  <div class="create">
+  <div>
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
       title="创建计划"
@@ -378,6 +378,8 @@ export default {
 .create {
   position: relative;
   max-width: 100vw;
+  display: grid;
+  justify-content: center;
 }
 .ant-cascader-menus {
   max-width: 20px; /* 设置为固定宽度 */
