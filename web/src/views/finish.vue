@@ -36,24 +36,33 @@ const handleOk = () => {
 };
 </script>
 <script>
-/* export default {
+export default {
   data() {
-    return {
-      id: this.$route.params.id
-    };
+    return {};
+  },
+  methods: {},
+  mounted() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
-}; */
+};
 </script>
 
 <template>
   <div class="end">
     <a-page-header
-      style="border: 1px solid rgb(235, 237, 240)"
+      style="border: 1px solid rgb(235, 237, 240); z-index: 99999"
       title="行程结束"
       :sub-title="`ID: ${id}`"
       @back="() => $router.go(-1)"
     />
   </div>
+
+  <br />
+  <br />
+  <br />
 
   <div class="view-img">
     <img src="@/assets/finish.svg" alt="" />
@@ -179,6 +188,11 @@ const handleOk = () => {
 </template>
 
 <style scoped>
+.end {
+  width: 100vw;
+  color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+}
 .view-img {
   display: flex;
   justify-content: center;

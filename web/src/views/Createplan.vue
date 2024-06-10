@@ -1,44 +1,152 @@
 <script setup>
 import axios from "axios";
 import Cookies from "js-cookie";
-import { ref } from "vue";
-
-const title = ref();
-const action_type = ref();
-const content = ref();
-const partytime = ref();
-const party_id = ref();
-const rectangle = ref();
-const route_json = ref();
-const remark = ref();
+import { ref, watch } from "vue";
+import { onMounted, onUnmounted } from "vue";
+import AMapLoader from "@amap/amap-jsapi-loader";
+const title = ref("");
+const action_type = ref("2");
+const time = ref(``);
+const roadstart = ref("");
+const roadend = ref("");
+const rectangletext = ref();
+const ggg = ref();
 const options = ref([
-  { value: "路线" },
-  { value: "活动" },
-  { value: "住处" },
-  { value: "吃喝" },
-  { value: "其他" }
+  { value: "1", label: "路线" },
+  { value: "2", label: "活动" },
+  { value: "3", label: "住处" },
+  { value: "4", label: "吃喝" },
+  { value: "5", label: "其他" }
 ]);
 </script>
 
 <script>
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
+import locale from "ant-design-vue/es/date-picker/locale/zh_CN";
+import AMapLoader from "@amap/amap-jsapi-loader";
+dayjs.locale("zh-cn");
 export default {
+  setup() {
+    return {
+      value: dayjs("2015-01-01", "YYYY-MM-DD"),
+      dayjs,
+      locale
+    };
+  },
   data() {
     return {
       trnumber: 10,
-      access_token: "", // 假设您将令牌存储在localStorage中
-      refresh_token: ""
+      access_token: "",
+      refresh_token: "",
+      partyid: Number(this.$route.params.id),
+      data: [],
+      road: [],
+      routejson: null,
+      map: null,
+      map2: null,
+      resultjson: {},
+      datadata:
+        "https://restapi.amap.com/v3/staticmap?zoom=15&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=119.203480,26.058382"
     };
   },
   methods: {
-    partycreate(title, action_type, party_id, rectangle, route_json, remark, time) {
+    reremap(i) {},
+    rero() {
+      this.map = new AMap.Map("roadmap", {
+        // 设置地图容器id
+        viewMode: "3D", // 是否为3D地图模式
+        zoom: 11, // 初始化地图级别
+        center: [116.397428, 39.90923] // 初始化地图中心点位置
+      });
+    },
+
+    remap() {
+      this.map = new AMap.Map("rectangletmap", {
+        // 设置地图容器id
+        viewMode: "2D", // 是否为3D地图模式
+        zoom: 6, // 初始化地图级别
+        center: [116.397428, 39.90923], // 初始化地图中心点位置
+        map: null
+      });
+    },
+    savero(roadstart, roadend) {
+      const road = [{ keyword: roadstart }, { keyword: roadend }];
+      const roadgo = [roadstart, roadend];
+      window._AMapSecurityConfig = {
+        securityJsCode: ""
+      };
+      AMapLoader.load({
+        key: "",
+        version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+        plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+      })
+        .then((AMap) => {
+          let map = new AMap.Map("roadmap", {
+            // 设置地图容器id
+            viewMode: "2D", // 是否为3D地图模式
+            zoom: 18, // 初始化地图级别
+            center: [118.397428, 39.90923] // 初始化地图中心点位置
+          });
+          AMap.plugin(
+            ["AMap.ToolBar", "AMap.Driving", "AMap.Polyline", "AMap.Marker"],
+            function () {
+              //异步同时加载多个插件
+              var toolbar = new AMap.ToolBar();
+              map.addControl(toolbar);
+
+              var driving = new AMap.Driving({
+                map: map,
+                panel: "panel"
+              }); //驾车路线规划
+              driving.search(road, function (status, result) {
+                // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
+                if (status === "complete") {
+                  console.log(result);
+
+                  console.log(result.routes);
+                } else {
+                  console.log("获取驾车数据失败：" + result);
+                }
+              });
+            }
+          );
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    savemap(text) {
+      axios
+        .get(
+          "https://restapi.amap.com/v3/geocode/geo?address=" +
+            text +
+            "&key=4a456acf68e96cfd42e35d8915c9cee0"
+        )
+        .then((res) => {
+          console.log(res);
+          this.data = res.data.geocodes[0].location.split(",");
+          this.reremap(res.data.geocodes[0].location.split(","));
+          /* this.map = new AMap.Map("rectangletmap", {
+            // 设置地图容器id
+            viewMode: "2D", // 是否为3D地图模式
+            zoom: 19, // 初始化地图级别
+            center: this.data,
+            map: null
+          }); */
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    partycreate(title, action_type, partyid, rectangle, ps, pe, remark, time) {
       const dateTimeStr = time[0];
       const date = new Date(dateTimeStr);
       const oldday = date.toISOString().slice(0, 50);
-
       const dateTimeStr2 = time[1];
       const date2 = new Date(dateTimeStr2);
       const newday = date2.toISOString().slice(0, 50);
-      console.log(time);
+      console.log(newday);
       axios
         .post(
           "/bocchi/party/itinerary/create?title=" +
@@ -46,17 +154,20 @@ export default {
             "&action_type=" +
             action_type +
             "&party_id=" +
-            party_id +
+            partyid +
             "&rectangle=" +
             rectangle +
             "&route_json=" +
-            route_json +
+            ps +
+            "," +
+            pe +
             "&remark=" +
             remark +
             "&schedule_start_time=" +
             oldday +
             "&schedule_end_time=" +
             newday,
+
           {},
           {
             headers: {
@@ -68,24 +179,74 @@ export default {
           console.log(response.data);
           if (response.data.base.code == 10000) {
             console.log("创建成功");
+            this.$router.go(-1); // 返回上一页
           }
         })
         .catch((error) => {
           console.log(error);
+          alert("创建失败，请检查你的输入！");
         });
     }
   },
   mounted() {
-    this.id = Cookies.get("id");
+    this.partyid = Number(this.$route.params.id);
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
+    /*     window._AMapSecurityConfig = {
+      securityJsCode: ""
+    };
+    AMapLoader.load({
+      key: "",
+      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+      plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+    })
+      .then((AMap) => {
+        this.map = new AMap.Map("rectangletmap", {
+          // 设置地图容器id
+          viewMode: "2D", // 是否为3D地图模式
+          zoom: 18, // 初始化地图级别
+          center: [116.397428, 39.90923] // 初始化地图中心点位置
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    AMapLoader.load({
+      key: "",
+      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+      plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+    })
+      .then((AMap) => {
+        this.map2 = new AMap.Map("roadmap", {
+          // 设置地图容器id
+          viewMode: "2D", // 是否为3D地图模式
+          zoom: 18, // 初始化地图级别
+          center: [116.397428, 39.90923] // 初始化地图中心点位置
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      }); */
+  },
+  computed: {
+    getlocal() {
+      return (i) => {
+        if (i == i) {
+          const  go = `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=`+this.data
+
+          
+
+          return go;
+        }
+      };
+    }
   },
   watch: {}
 };
 </script>
 
 <template>
-  <div class="create">
+  <div>
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
       title="创建计划"
@@ -102,7 +263,6 @@ export default {
     <div class="input-box">
       <a-select
         v-model:value="action_type"
-        mode="multiple"
         size="large"
         style="width: 100%"
         :bordered="false"
@@ -110,22 +270,62 @@ export default {
         :options="options"
       />
     </div>
-    <a-divider orientation="left" class="separate">路线</a-divider>
-
+    <a-divider orientation="left" class="separate" v-show="!(action_type - 1)">路线</a-divider>
+   <!--  {{ roadstart }}{{ roadend }} -->
+    <div v-if="!(action_type - 1)">
+      <div class="">
+        <!-- {{ roadroad }} -->
+        <!-- <div id="panel"></div>
+        <div id="roadmap"><button @click="rero()">刷新地图</button></div> -->
+        <div class="input-box">
+          <a-input
+            v-model:value="roadstart"
+            :bordered="false"
+            size="large"
+            placeholder="出发点(系统会提供路径地图)"
+          />
+        </div>
+        <div class="input-box">
+          <a-input v-model:value="roadend" :bordered="false" size="large" placeholder="结束点" />
+        </div>
+        <!-- <button @click="rero()">刷新地图</button>
+        <button @click="savero(roadstart, roadend)">预览路线</button> -->
+      </div>
+    </div>
+    <a-divider orientation="left" class="separate" v-show="action_type - 1">地点</a-divider>
+    <div v-if="action_type - 1">
+      <!--  {{ data }} -->
+      <div class="rectangle">
+        <div class="nb">
+          <p>省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码</p>
+          <!-- <div id="rectangletmap"><button @click="remap">刷新地图</button></div> -->
+          <img :src="getlocal()"></img>
+          <div class="input-box">
+            <a-input
+              v-model:value="rectangletext"
+              :bordered="false"
+              size="large"
+              placeholder="输入地点保存后可获取参考地图(可选)"
+            />
+          </div>
+          <button @click="reremap()">刷新地图</button>
+          <button @click="savemap(rectangletext)">保存地点</button>
+        </div>
+      </div>
+    </div>
     <a-divider orientation="left" class="separate">备注</a-divider>
     <div class="input-box">
-      <a-textarea
-        v-model:value="remark"
-        placeholder="请输入活动简介"
-        :rows="4"
-        size="large"
-        :bordered="false"
-      />
+      <a-textarea v-model:value="ggg" placeholder="备注" :rows="4" size="large" :bordered="false" />
     </div>
 
     <a-divider orientation="left" class="separate">起止时间</a-divider>
     <div class="time-box">
-      <a-range-picker v-model:value="partytime" size="large" :bordered="false" />
+      <a-range-picker
+        v-model:value="time"
+        size="large"
+        :bordered="false"
+        :show-time="{ format: 'HH:mm' }"
+      />
     </div>
 
     <br /><br />
@@ -133,7 +333,7 @@ export default {
     <div class="start-button">
       <button
         class="pushable"
-        @click="partycreate(title, action_type, party_id, rectangle, route_json, remark, partytime)"
+        @click="partycreate(title, action_type, partyid, this.data, roadstart, roadend, ggg, time)"
       >
         <span class="shadow"></span>
         <span class="edge"></span>
@@ -145,9 +345,35 @@ export default {
 </template>
 
 <style scoped>
+.nb {
+  display: grid;
+  justify-content: center;
+  font-size: 18px;
+}
+.road {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+#roadmap {
+  width: 90%;
+  height: 300px;
+  margin: 5%;
+}
+#rectangletmap {
+  width: 90%;
+  height: 300px;
+  margin: 5%;
+}
+.rectangle {
+  display: grid;
+  justify-content: center;
+}
 .create {
   position: relative;
   max-width: 100vw;
+  display: grid;
+  justify-content: center;
 }
 .ant-cascader-menus {
   max-width: 20px; /* 设置为固定宽度 */
@@ -194,7 +420,8 @@ export default {
   font-size: 24px;
   border-radius: 8px;
   border: 3px solid #d9d9d9;
-  margin: 5%;
+  margin: 10px;
+  width: 90vw;
 }
 
 .time-box {

@@ -1,4 +1,5 @@
 <script setup>
+import Cookies from "js-cookie";
 import axios from "axios";
 import { CheckOutlined } from "@ant-design/icons-vue";
 /* import { ref } from "vue";
@@ -61,7 +62,7 @@ export default {
           id: 6,
           title: "吃饭",
           founder_id: 6,
-          action_type: 2,
+          action_type: 4,
           rectangle: "1",
           route_json: "1",
           remark: "1",
@@ -75,9 +76,46 @@ export default {
     };
   },
   methods: {
+    ToEnd() {
+      axios.get("/bocchi/party/status?party_id=" + this.id + "&action_type=1", {
+        headers: { "access-token": this.access_token }
+      });
+      this.$router.push(`/finish/${this.id}`);
+    },
+    Tomember() {
+      this.$router.push(`/member/${this.id}`);
+    },
+    tomerplan() {
+      this.$router.push(`/merplan/${this.id}`);
+    },
+    tocreate() {
+      this.$router.push(`/Createplan/${this.id}`);
+    },
+    tomyitinerarys() {
+      this.$router.push(`/myitinerarys/${this.id}`);
+    },
+    apply_party() {
+      axios
+        .get("/bocchi/party/apply?party_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
+        .then((res) => {
+          console.log(res);
+          alert("申请成功！");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     getin() {
       axios
-        .get("/bocchi/party/itinerary/show?party_id=" + this.id)
+        .get("/bocchi/party/itinerary/show?party_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
         .then((res) => {
           console.log(res);
           this.items = res.data.itineraries;
@@ -91,7 +129,7 @@ export default {
         });
     },
     partyinit() {
-      const url = "/bocchi/party/info?party_id=" + this.id;
+      const url = "/bocchi/party/get?party_id=" + this.id;
       const params = {};
       axios
         .get(url, params)
@@ -105,7 +143,9 @@ export default {
     }
   },
   mounted() {
-    this.id = Number(this.$route.params.id);
+    console.log(this.$router);
+    this.id = this.$route.params.id;
+    this.access_token = Cookies.get("access_token");
     this.partyinit();
     this.getin();
   },
@@ -185,8 +225,14 @@ export default {
             infodata.city
           }}"处进行] <br />{{ infodata.content }}
         </div>
+
         <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
           起止时间:{{ infodata.start_time }} - {{ infodata.end_time }}
+        </div>
+        <div style="text-align: center; margin-top: 10px; margin-bottom: 10px">
+          <a-button type="dashed" @click="apply_party()">申请加入</a-button>
+          <a-button style="margin-left: 10px" @click="Tomember()">查看成员</a-button>
+          <a-button type="primary" @click="ToEnd()" style="margin-left: 10px">结束行程</a-button>
         </div>
       </div>
     </div>
@@ -197,13 +243,15 @@ export default {
       <a-timeline>
         <div v-for="item in items" :key="item.id">
           <a-timeline-item>
+            <template #dot>
+              <component :is="getIcon(item.action_type)" style="font-size: 16px" />
+            </template>
             计划: {{ item.title }}
             <br />
             类型：{{ getType(item.action_type) }}
             <br />
-            备注：{{ item.remark }}
-            <br />
-            地点：{{ item.rectangle }}
+            内容：{{ item.remark }}
+
             <br />
             时间：{{ item.schedule_start_time }}
           </a-timeline-item>
@@ -236,7 +284,10 @@ export default {
   </div>
   <div class="foot">
     <div class="create">
-      <button class="btn" @click="$router.push('/Createplan/')">创建计划</button>
+      <button class="btn" @click="tocreate">创建计划</button><br />
+      <button class="btn" @click="tomyitinerarys">查看撰写过的计划</button>
+      <br />
+      <button class="btn" @click="tomerplan">待通过计划</button>
     </div>
   </div>
   <br />
@@ -289,7 +340,7 @@ export default {
   grid-row-gap: 10px;
 }
 .sty {
-  margin-left: 20vw;
+  margin-left: 7vw;
   margin-top: 20px;
 }
 

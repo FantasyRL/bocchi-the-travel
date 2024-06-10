@@ -30,8 +30,6 @@ export default {
   props: {},
   data() {
     return {
-      datago:null,
-      datadata:null,
       id: 1, // 假设这是 itinerary 的 id
       party: {
         start_time: "2006-01-02",
@@ -42,12 +40,8 @@ export default {
     };
   },
   methods: {
-    gogogo(){
-      window.location.replace("//uri.amap.com/navigation?from="+this.datadata+",startpoint&to="+this.datago+",endpoint&via=&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0") 
-    },
-    deleteItinerary() {
-      const url = "/bocchi/party/itinerary/delete?itinerary_id=" + this.id; // 假设这是删除 itinerary 的 API 接口地址
-
+    goItinerary(iid) {
+      const url = "/bocchi/party/itinerary/merge?itinerary_id=" + iid + "&party_id=" + this.id;
       axios
         .get(url, {
           headers: {
@@ -56,22 +50,25 @@ export default {
         })
         .then((res) => {
           console.log(res); // 假设这是删除成功的回调函数，可以在这里进行页面跳转等操作
+          location.reload();
         })
         .catch((err) => {
           console.error(err); // 假设这是删除失败的回调函数，可以在这里进行错误处理
         });
     },
     init() {
-      const url = "/bocchi/party/itinerary/info?itinerary_id=" + this.id;
-      const params = {};
       axios
-        .get(url, params)
+        .get("/bocchi/party/itinerary/my?party_id=" + this.id, {
+          headers: {
+            "access-token": this.access_token
+          }
+        })
         .then((res) => {
           console.log(res);
           this.partynull = true;
-          this.info = res.data.itinerary; // 假设这是返回的数据对象
-          if (res.data.base.code == 10007) {
-            this.partynull = 0;
+          this.info = res.data.itinerary_list;
+          if (res.data.base.code == 10000) {
+            this.partynull = 1;
             console.log(this.partynull);
           }
         })
@@ -83,46 +80,10 @@ export default {
 
   mounted() {
     this.id = Number(this.$route.params.id);
-    this.init();
     this.access_token = Cookies.get("access_token");
+    this.init();
   },
   computed: {
-    getlocal() {
-      return (i) => {
-        if (i !== "") {
-          const go = `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=`+i
-          return go;
-        }
-      };
-    },
-    getroad() {
-      return (i) => {
-        if (i !== undefined) {
-          
-          const start = i.split(",")[0];
-          const end = i.split(",")[1]; 
-          
-          axios.get("https://restapi.amap.com/v3/geocode/geo?key=eae4d0491385d75b43d247afaef4247d&address="+start)
-  .then(res => {
-    console.log(res.data.geocodes[0].location)
-    this.datadata = res.data.geocodes[0].location
-    
-  });
-          axios.get("https://restapi.amap.com/v3/geocode/geo?key=eae4d0491385d75b43d247afaef4247d&address="+end)
-  .then(res => {
-    console.log(res.data.geocodes[0].location)
-    this.datago = res.data.geocodes[0].location
-    
-  })
-
-
-
-
-          return "从 "+start+" 到 "+end;
-          
-        }
-      };
-    },
     getIcon() {
       return (actionType) => {
         switch (actionType) {
@@ -164,44 +125,57 @@ export default {
   <div class="travels">
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
-      title="计划详情"
+      title="审核计划 "
       @back="() => $router.go(-1)"
     />
   </div>
-  
+
   <br />
-<!--   {{ datadata }}
-  {{ datago }} -->
-  <div v-if="partynull" class="itinerary">
-    <el-timeline style="max-width: 600px; margin-left: 10%">
-      <el-timeline-item>计划名:{{ info.title }} </el-timeline-item>
-      <el-timeline-item>序列:{{ info.sequence }} </el-timeline-item>
-      <el-timeline-item> 创建者:{{ info.founder_id }} </el-timeline-item>
-      <el-timeline-item> 类型：{{ getType(info.action_type) }} </el-timeline-item>
-      <el-timeline-item> 备注：{{ info.remark }} </el-timeline-item>
-      <el-timeline-item> 地点：{{ info.rectangle }} </el-timeline-item>
-      <el-timeline-item><div><img :src="getlocal(info.rectangle)"></img></div></el-timeline-item>
-      
-      <el-timeline-item>{{ getroad(info.route_json) }}</el-timeline-item>
-      <el-timeline-item> 路线： <a-button type="primary" @click="gogogo()">点击跳转到大地图</a-button></el-timeline-item>
-      <el-timeline-item> 开始时间：{{ info.schedule_start_time }} </el-timeline-item>
-      <el-timeline-item>
-        结束时间:
-        {{ info.schedule_end_time }}
-      </el-timeline-item>
-    </el-timeline>
-    <button @click="deleteItinerary">
-      <span class="shadow"></span>
-      <span class="edge"></span>
-      <span class="front text"> 删除计划 </span>
-    </button>
+
+  <div class="itinerary">
+    <div v-for="item in info" :key="item.id" class="item">
+      <el-card style="width: 90vw">
+        <div class="item-info">
+          <div>ID:{{ item.id }}</div>
+          <div>标题:{{ item.title }}</div>
+          <div>是否通过审核:{{ item.is_merged }}</div>
+          <div>备注:{{ item.remark }}</div>
+          <div>路线:{{ item.route_json }}</div>
+          <div>地址:{{ item.rectangle }}</div>
+          <div>开始时间:{{ item.schedule_start_time }}</div>
+          <div>结束时间:{{ item.schedule_end_time }}</div>
+
+          <button @click="goItinerary(item.id)">
+            <span class="shadow"></span>
+            <span class="edge"></span>
+            <span class="front text"> 通过计划 </span>
+          </button>
+        </div>
+      </el-card>
+      <br />
+    </div>
   </div>
+  <div v-if="partynull" class="itinerary"></div>
   <div v-if="!partynull">
     <a-empty />
   </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
 </template>
 
 <style>
+.item-info {
+  display: grid;
+  justify-items: center;
+  row-gap: 10px;
+
+  grid-template-columns: repeat(1, 1fr);
+}
 .itinerary {
   display: grid;
   justify-content: center;
@@ -240,10 +214,10 @@ button {
   border-radius: 12px;
   background: linear-gradient(
     to left,
-    hsl(340deg 100% 16%) 0%,
-    hsl(340deg 100% 32%) 8%,
-    hsl(340deg 100% 32%) 92%,
-    hsl(340deg 100% 16%) 100%
+    hsl(145, 100%, 70%) 0%,
+    hsl(153, 42%, 56%) 8%,
+    hsl(113, 100%, 72%) 92%,
+    hsl(162, 78%, 64%) 100%
   );
 }
 
@@ -254,7 +228,7 @@ button {
   border-radius: 12px;
   font-size: 1.1rem;
   color: white;
-  background: hsl(345deg 100% 47%);
+  background: hsl(135, 54%, 62%);
   will-change: transform;
   transform: translateY(-4px);
   transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);

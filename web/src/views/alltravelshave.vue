@@ -14,12 +14,6 @@ export default {
     };
   },
   methods: {
-    tohave() {
-      this.$router.push(`/alltravelshave/`);
-    },
-    tomember(i) {
-      this.$router.push(`/member/${i}`);
-    },
     ToEnd(i) {
       axios.get("/bocchi/party/status?party_id=" + i + "&action_type=1", {
         headers: { "access-token": this.access_token }
@@ -65,20 +59,21 @@ export default {
   <div class="travels">
     <a-page-header
       style="border: 1px solid rgb(235, 237, 240)"
-      title="所有行程"
+      title="已完成的行程"
       @back="() => $router.go(-1)"
     />
   </div>
-  <div class="card-container" @click="tohave">
+  <!--   <div class="card-container">
     <a-card
       title="查看已完成的行程"
-      style="width: 90%; margin: 5px 5px 5px; justify-content: center; text-align: center"
+      style="width: 90%; margin: 5px 5px 5px; justify-content: center"
     >
+      <template #extra><a href="#">more</a></template>
     </a-card>
-  </div>
+  </div> -->
   <div class="center">
     <div v-for="item in sortedItems" :key="item.id" class="item">
-      <div v-if="!item.status">
+      <div v-if="item.status">
         <a-divider orientation="left" class="separate">活动名: {{ item.title }}</a-divider>
         <div style="padding: 20px" class="relative">
           <a-row>
@@ -113,7 +108,7 @@ export default {
                 <a-button
                   style="margin-right: 5px"
                   :icon="h(TeamOutlined)"
-                  @click="tomember(item.id)"
+                  @click="this.$router.push(`/member/${item.id}`)"
                   >查看成员</a-button
                 >
                 <a-button
@@ -172,7 +167,5 @@ export default {
 .card-container {
   display: flex;
   justify-content: center;
-  cursor: pointer;
-  margin-top: 10px;
 }
 </style>

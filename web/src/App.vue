@@ -50,7 +50,7 @@ export default {
     this.id = Cookies.get("id");
     this.avatar = Cookies.get("avatar");
 
-    if (this.access_token) {
+    if (this.access_token && this.id) {
       // 如果access_token存在，则认为用户已经登录，更新info的值
       this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
       this.getinfo(); // 更新登录状态
@@ -89,7 +89,7 @@ export default {
             this.cookiesSet = Cookies.set("refresh_token", response.data.refresh_token, {
               expires: 7
             });
-            this.cookiesSet = Cookies.set("id", response.data.user.id, { expires: 1 });
+            this.cookiesSet = Cookies.set("id", response.data.user.id, { expires: 7 });
 
             this.getinfo(); // 更新登录状态
             window.location.reload();
@@ -198,12 +198,15 @@ export default {
         </a-menu-item>
       </a-menu>
     </div>
-  </header> -->
-  <router-view v-slot="{ Component }">
-    <keep-alive exclude="party,itinerary,finish">
+  </header> --><router-view
+  ></router-view>
+  <!--   <router-view v-slot="{ Component }">
+    <keep-alive
+      exclude="alltravels,party,itinerary,myitinerary,merplan,ifollow,followme,finish,member,alltravelshave,createplan"
+    >
       <component :is="Component" />
     </keep-alive>
-  </router-view>
+  </router-view> -->
   <div class="overlay" v-show="overlay"></div>
   <div v-show="resgister" class="resgister-container">
     <div class="resgister">

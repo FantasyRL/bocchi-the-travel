@@ -25,7 +25,7 @@ const router = createRouter({
       component: () => import('../views/CreatePage.vue'),
     },
     {
-      path: '/createplan',
+      path: '/createplan/:id',
       name: 'createplan',
       component: () => import('../views/Createplan.vue'),
     },
@@ -45,6 +45,11 @@ const router = createRouter({
       component: () => import('../views/travels.vue'),
     },
     {
+      path: '/alltravelshave/',
+      name: 'alltravelshave',
+      component: () => import('../views/alltravelshave.vue'),
+    },
+    {
       path: '/alltravels/',
       name: 'alltravels',
       component: () => import('../views/alltravels.vue'),
@@ -61,10 +66,40 @@ const router = createRouter({
       meta: { keepAlive: false }
     },
     {
+      path: '/myitinerarys/:id',
+      name: 'myitinerary',
+      component: () => import('../views/myitinerary.vue'),
+      meta: { keepAlive: false }
+    },
+    {
       path: '/partys/:id',
       name: 'party',
       component: () => import('../views/party.vue'),
       meta: { keepAlive: false }
+    },
+    {
+      path: '/merplan/:id',
+      name: 'merplan',
+      component: () => import('../views/merplan.vue'),
+      meta: { keepAlive: false }
+    },
+    {
+      path: '/member/:id',
+      name: 'member',
+      component: () => import('../views/member.vue'),
+
+    },
+    {
+      path: '/ifollow/:id',
+      name: 'ifollow',
+      component: () => import('../views/ifollow.vue'),
+
+    },
+    {
+      path: '/followme/:id',
+      name: 'followme',
+      component: () => import('../views/followme.vue'),
+
     },
   ]
 })
