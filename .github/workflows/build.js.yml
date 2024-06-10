@@ -23,13 +23,13 @@ jobs:
         path: /root/go/pkg/mod
         key: ${{ hashFiles('**/go.sum') }}    
 
-   # - name: Go build
-     # run: |
-          #go build -o ./build/build-api ./api/ || true
-#go build -o ./build/build-user ./rpc/user/ || true
-          #go build -o ./build/build-interaction ./rpc/interaction/ || true
-          #go build -o ./build/build-party ./rpc/party/ || true
-          #go build -o ./build/build-itinerary ./rpc/itinerary/ || true
+    - name: Go build
+      run: |
+          go build -o ./build/build-api ./api/ || true
+          go build -o ./build/build-user ./rpc/user/ || true
+          go build -o ./build/build-interaction ./rpc/interaction/ || true
+          go build -o ./build/build-party ./rpc/party/ || true
+          go build -o ./build/build-itinerary ./rpc/itinerary/ || true
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
