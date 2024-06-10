@@ -26,10 +26,10 @@ jobs:
     - name: Go build
       run: |
           go build -o ./build/build-api ./api/ || true
-          go build -o ./build/build-user ./rpc/user/ || true
-          go build -o ./build/build-interaction ./rpc/interaction/ || true
-          go build -o ./build/build-party ./rpc/party/ || true
-          go build -o ./build/build-itinerary ./rpc/itinerary/ || true
+#go build -o ./build/build-user ./rpc/user/ || true
+          #go build -o ./build/build-interaction ./rpc/interaction/ || true
+          #go build -o ./build/build-party ./rpc/party/ || true
+          #go build -o ./build/build-itinerary ./rpc/itinerary/ || true
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -37,6 +37,6 @@ jobs:
         server: ftp.xiey.work
         username: bcbc
         password: ${{ secrets.TOKEN }}
-        local-dir: ./build/build-api
+        local-dir: ./build/
         server-dir: ./
         log-level: verbose
