@@ -9,6 +9,7 @@ import (
 	"bocchi/pkg/pack"
 	"context"
 	"path/filepath"
+	"strings"
 
 	api "bocchi/api/biz/model/api"
 	"github.com/cloudwego/hertz/pkg/app"
@@ -34,6 +35,10 @@ func Register(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(api.RegisterResponse)
+
+	if len(req.Username) < 4 || len(req.Username) > 30 || !strings.ContainsAny(req.Username, "* /`'=|&") {
+		resp.Base = pack.ConvertToAPIBaseResp(pack.BuildBaseResp(errno.ParamError))
+	}
 
 	rpcResp, err := rpc.UserRegister(ctx, &user.RegisterRequest{
 		Username: req.Username,
@@ -92,6 +97,8 @@ func Login(ctx context.Context, c *app.RequestContext) {
 // @Accept json/form
 // @Produce json
 // @Param user_id query string true "用户id"
+// @Param access-token header string false "access-token"
+// @Param refresh-token header string false "refresh-token"
 // @router /bocchi/user/info [GET]
 func Info(ctx context.Context, c *app.RequestContext) {
 	var err error
@@ -104,8 +111,11 @@ func Info(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.InfoResponse)
 
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
 	rpcResp, err := rpc.UserInfo(ctx, &user.InfoRequest{
 		UserId: req.UserID,
+		MyId:   id,
 	})
 	if err != nil {
 		pack.SendRPCFailResp(c, err)
@@ -283,5 +293,28 @@ func Signature(ctx context.Context, c *app.RequestContext) {
 
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 
+	c.JSON(consts.StatusOK, resp)
+}
+
+// VerifyAccessToken .
+// @Summary verify_access-token
+// @Description verify access-token if it is expired or not
+// @Accept json/form
+// @Produce json
+// @Param access-token header string false "access-token"
+// @router /bocchi/access_token/verify [GET]
+func VerifyAccessToken(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.VerifyAccessTokenRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.VerifyAccessTokenResponse)
+
+	c.Get("current_user_id")
+	resp.Base = pack.ConvertToAPIBaseResp(pack.BuildBaseResp(nil))
 	c.JSON(consts.StatusOK, resp)
 }

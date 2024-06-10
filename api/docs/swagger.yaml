@@ -16,6 +16,78 @@ paths:
       - application/json
       responses: {}
       summary: get_access-token
+  /bocchi/access_token/verify:
+    get:
+      consumes:
+      - json/form
+      description: verify access-token if it is expired or not
+      parameters:
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: verify_access-token
+  /bocchi/party/admin/create:
+    get:
+      consumes:
+      - json/form
+      description: add admin
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 目标id
+        in: query
+        name: target_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: add_admin
+  /bocchi/party/admin/delete:
+    get:
+      consumes:
+      - json/form
+      description: delete admin
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 目标id
+        in: query
+        name: target_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete_admin
   /bocchi/party/apply:
     get:
       consumes:
@@ -118,7 +190,7 @@ paths:
         in: query
         name: type
         required: true
-        type: integer
+        type: string
       - description: 活动省份
         in: query
         name: province
@@ -152,6 +224,21 @@ paths:
       - application/json
       responses: {}
       summary: create_party
+  /bocchi/party/get:
+    get:
+      consumes:
+      - json/form
+      description: get party info by id
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: get_party_info
   /bocchi/party/itinerary/create:
     post:
       consumes:
@@ -208,6 +295,60 @@ paths:
       - application/json
       responses: {}
       summary: create_itinerary
+  /bocchi/party/itinerary/delete:
+    get:
+      consumes:
+      - json/form
+      description: delete itinerary
+      parameters:
+      - description: 行程id
+        in: query
+        name: itinerary_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete_itinerary
+  /bocchi/party/itinerary/draft/show:
+    get:
+      consumes:
+      - json/form
+      description: show party's itineraries draft
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: show_party_itinerary_draft
+  /bocchi/party/itinerary/info:
+    get:
+      consumes:
+      - json/form
+      description: get itinerary by id
+      parameters:
+      - description: id
+        in: query
+        name: itinerary_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: get_itinerary
   /bocchi/party/itinerary/merge:
     get:
       consumes:
@@ -237,6 +378,30 @@ paths:
       - application/json
       responses: {}
       summary: merge_itinerary
+  /bocchi/party/itinerary/my:
+    get:
+      consumes:
+      - json/form
+      description: get user's itineraries
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: get_my_itineraries
   /bocchi/party/itinerary/sequence/change:
     post:
       consumes:
@@ -281,6 +446,35 @@ paths:
       - application/json
       responses: {}
       summary: show_party_itinerary
+  /bocchi/party/member/delete:
+    get:
+      consumes:
+      - json/form
+      description: delete member
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 目标id
+        in: query
+        name: target_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete_member
   /bocchi/party/members:
     get:
       consumes:
@@ -301,6 +495,30 @@ paths:
       - application/json
       responses: {}
       summary: get_party_members
+  /bocchi/party/party/my:
+    get:
+      consumes:
+      - json/form
+      description: get my parties
+      parameters:
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: get_my_parties
   /bocchi/party/search:
     post:
       consumes:
@@ -340,6 +558,225 @@ paths:
       - application/json
       responses: {}
       summary: search_party
+  /bocchi/party/status:
+    get:
+      consumes:
+      - json/form
+      description: delete or finish party
+      parameters:
+      - description: 活动id
+        in: query
+        name: party_id
+        required: true
+        type: integer
+      - description: 1:完成party 2:删除party(未开始的party取消)
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: change_party_status
+  /bocchi/poi/comment/create:
+    post:
+      consumes:
+      - json/form
+      description: comment poi
+      parameters:
+      - description: poi_id
+        in: query
+        name: poi_id
+        required: true
+        type: integer
+      - description: 正文
+        in: query
+        name: content
+        required: true
+        type: string
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: comment_create
+  /bocchi/poi/comment/delete:
+    get:
+      consumes:
+      - json/form
+      description: delete your comment
+      parameters:
+      - description: 评论id
+        in: query
+        name: comment_id
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: comment_delete
+  /bocchi/poi/comment/list:
+    get:
+      consumes:
+      - json/form
+      description: show poi's comments
+      parameters:
+      - description: poi_id
+        in: query
+        name: poi_id
+        required: true
+        type: integer
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: comment_list
+  /bocchi/trust/action:
+    post:
+      consumes:
+      - json/form
+      description: trust action
+      parameters:
+      - description: 操作对象id
+        in: query
+        name: object_uid
+        required: true
+        type: integer
+      - description: 0：取消信任;1：信任
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: trust_action
+  /bocchi/trust/each:
+    post:
+      consumes:
+      - json/form
+      description: trust with each other
+      parameters:
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: trust_each_list
+  /bocchi/trust/follower:
+    get:
+      consumes:
+      - json/form
+      description: list who trust you
+      parameters:
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: 所查询用户的id
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: follower_list
+  /bocchi/trust/following:
+    get:
+      consumes:
+      - json/form
+      description: list who you trusted
+      parameters:
+      - description: 页码
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: 所查询用户的id
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: following_list
+  /bocchi/trust/mark:
+    get:
+      consumes:
+      - json/form
+      description: mark to other after party
+      parameters:
+      - description: 操作对象id
+        in: query
+        name: object_uid
+        required: true
+        type: integer
+      - description: 评分
+        in: query
+        name: score
+        required: true
+        type: number
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: mark_to_other
   /bocchi/user/avatar/upload:
     put:
       consumes:
@@ -373,6 +810,14 @@ paths:
         in: query
         name: user_id
         required: true
+        type: string
+      - description: access-token
+        in: header
+        name: access-token
+        type: string
+      - description: refresh-token
+        in: header
+        name: refresh-token
         type: string
       produces:
       - application/json
@@ -427,6 +872,21 @@ paths:
       - application/json
       responses: {}
       summary: Register
+  /bocchi/user/score:
+    get:
+      consumes:
+      - json/form
+      description: get user's score
+      parameters:
+      - description: user_id
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: get_user_score
   /bocchi/user/signature:
     post:
       consumes:

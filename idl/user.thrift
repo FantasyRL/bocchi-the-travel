@@ -46,6 +46,7 @@ struct LoginResponse {
 
 struct InfoRequest {
     1:i64 user_id,
+    2:i64 my_id,
 }
 
 struct InfoResponse {
@@ -71,13 +72,15 @@ struct SignatureResponse{
     1: base.BaseResp base,
 }
 
-//party
-struct GetMemberRequest{
-    1:list<i64> member_id_list,
+
+//rpc
+struct GetUsersRequest{
+    1:list<i64> user_id_list,
 }
 
-struct GetMemberResponse{
-    1:list<base.User> member_list,
+struct GetUsersResponse{
+    1:base.BaseResp base,
+    2:list<base.User> user_list,
 }
 
 service UserHandler {
@@ -89,5 +92,5 @@ service UserHandler {
     Switch2FAResponse Switch2FA(1:Switch2FARequest req),
     SignatureResponse Signature(1:SignatureRequest req),
 
-    GetMemberResponse GetMember(1:GetMemberRequest req),
+    GetUsersResponse GetUserList(1:GetUsersRequest req),
 }

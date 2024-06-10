@@ -34,8 +34,9 @@ func _userMw() []app.HandlerFunc {
 }
 
 func _infoMw() []app.HandlerFunc {
-	// your code...
-	return nil
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _switch2faMw() []app.HandlerFunc {
@@ -161,4 +162,157 @@ func _changesequenceMw() []app.HandlerFunc {
 	return []app.HandlerFunc{
 		jwt.JwtMiddleware.MiddlewareFunc(),
 	}
+}
+
+func _poiMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _commentMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _commentcreateMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _commentdeleteMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _commentlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _verifyaccesstokenMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _getpartyinfoMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getitineraryinfoMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _party0Mw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getmypartiesMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _getmyitinerariesMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _changepartystatusMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _deleteitineraryMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _trustMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _trustactionMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _trusteachlistMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _followerlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _followinglistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _draftMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _showitinerarydraftMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _marktootherMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _adminMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _addadminMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _deleteadminMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _memberMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _deletememberMw() []app.HandlerFunc {
+	return []app.HandlerFunc{
+		jwt.JwtMiddleware.MiddlewareFunc(),
+	}
+}
+
+func _getuserscoreMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _user0Mw() []app.HandlerFunc {
+	// your code...
+	return nil
 }

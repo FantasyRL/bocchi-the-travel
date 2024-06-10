@@ -13,5 +13,12 @@ sleep 2s
 printf "\n"
 
 (go run ./rpc/itinerary) &
+sleep 2s
+printf "\n"
 
+(go run ./rpc/interaction) &
+sleep 2s
+printf "\n"
+
+(go run ./rpc/trust) &
 wait

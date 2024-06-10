@@ -28,14 +28,29 @@ type Itinerary struct {
 	DeletedAt         gorm.DeletedAt `gorm:"index"`
 }
 
-func CreateItinerary(ctx context.Context, itineraryModel *Itinerary) error {
-	return DB.WithContext(ctx).Create(itineraryModel).Error
+func CreateItinerary(ctx context.Context, itineraryModel *Itinerary) (*Itinerary, error) {
+	if err := DB.WithContext(ctx).Create(itineraryModel).Error; err != nil {
+		return nil, err
+	}
+	return itineraryModel, nil
 }
 
 func ShowPartyItinerary(ctx context.Context, partyId int64) (*[]Itinerary, int64, error) {
 	itinerariesResp := new([]Itinerary)
 	var count int64
 	if err := DB.WithContext(ctx).Where("party_id = ? and is_merged = 1", partyId).Order("sequence ASC").Count(&count).Find(itinerariesResp).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, 0, nil
+		}
+		return nil, 0, err
+	}
+	return itinerariesResp, count, nil
+}
+
+func ShowPartyItineraryDraft(ctx context.Context, partyId int64) (*[]Itinerary, int64, error) {
+	itinerariesResp := new([]Itinerary)
+	var count int64
+	if err := DB.WithContext(ctx).Where("party_id = ? and is_merged = 0", partyId).Count(&count).Find(itinerariesResp).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, 0, nil
 		}
@@ -68,4 +83,28 @@ func ChangeItineraryStatus(ctx context.Context, partyId int64, itineraryId int64
 		return errno.ParamError
 	}
 	return DB.WithContext(ctx).Model(itineraryResp).Update("is_merged", status).Error
+}
+
+func GetItineraryById(ctx context.Context, itineraryId int64) (*Itinerary, error) {
+	itineraryResp := new(Itinerary)
+	if err := DB.WithContext(ctx).Where("id = ?", itineraryId).First(itineraryResp).Error; err != nil {
+		return nil, err
+	}
+	return itineraryResp, nil
+}
+
+func GetItinerariesByUidAndPartyId(ctx context.Context, userId int64, partyId int64) (*[]Itinerary, int64, error) {
+	itinerariesResp := new([]Itinerary)
+	var count int64
+	if err := DB.WithContext(ctx).Where("founder_id = ? AND party_id = ?", userId, partyId).Order("is_merged ASC").Count(&count).Find(itinerariesResp).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, 0, nil
+		}
+		return nil, 0, err
+	}
+	return itinerariesResp, count, nil
+}
+
+func DeleteItinerary(ctx context.Context, itineraryId int64) error {
+	return DB.WithContext(ctx).Delete(&Itinerary{Id: itineraryId}).Error
 }
