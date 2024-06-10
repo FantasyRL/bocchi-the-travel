@@ -1,4 +1,4 @@
-name: Deploy Vue App to GitHub Pages
+name: Build GO
 
 on:
   push:
