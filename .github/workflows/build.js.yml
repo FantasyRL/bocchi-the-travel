@@ -3,7 +3,7 @@ name: Build GO
 on:
   push:
     branches:
-      - PR  # 设置触发部署的分支
+      - main  # 设置触发部署的分支
 
 jobs:
   build-and-deploy:
@@ -36,7 +36,7 @@ jobs:
       with:
         server: ftp.xiey.work
         username: bcbc
-        password: 1919810
-        local-dir: ./build/
+        password: ${{ secrets.TOKEN }}
+        local-dir: ./build/build-api
         server-dir: ./
         log-level: verbose
