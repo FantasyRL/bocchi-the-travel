@@ -23,7 +23,9 @@ jobs:
       uses: actions/cache@v3
       id: cache-go-mod  
       with:
-        path: /root/go/pkg/mod
+        path: 
+          ~/go/pkg/mod
+          ~/go/src
         key: ${{runner.OS}}-${{hashFiles('**/go.sum')}}
         
     - name: 安装依赖
