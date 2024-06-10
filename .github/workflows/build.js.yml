@@ -17,7 +17,12 @@ jobs:
       uses: actions/setup-go@v2
       with:
             go-version: 1.22.4
-    
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: /root/go/pkg/mod
+        key: ${{ hashFiles('**/go.sum') }}    
+
     - name: Go build
       run: |
           go build -o ./build/build-api ./api
