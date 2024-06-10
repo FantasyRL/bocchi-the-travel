@@ -3,7 +3,7 @@ name: Build GO
 on:
   push:
     branches:
-      - main  # 设置触发部署的分支
+      - PR # 设置触发部署的分支
 
 jobs:
   build-and-deploy:
