@@ -38,8 +38,8 @@ func InitUserRPC() {
 	userClient = c
 }
 
-func UserGetMembers(ctx context.Context, req *user.GetMemberRequest) (*user.GetMemberResponse, error) {
-	resp, err := userClient.GetMember(ctx, req)
+func UserGetMembers(ctx context.Context, req *user.GetUsersRequest) (*user.GetUsersResponse, error) {
+	resp, err := userClient.GetUserList(ctx, req)
 	if err != nil {
 		return nil, err
 	}

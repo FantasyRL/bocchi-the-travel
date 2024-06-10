@@ -46,6 +46,16 @@ func ItineraryCreate(ctx context.Context, req *itinerary.CreateItineraryRequest)
 	return resp, nil
 }
 
+func GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest) (*itinerary.GetItineraryInfoResponse, error) {
+	//rpc client
+	resp, err := itineraryClient.GetItineraryInfo(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
 func ItineraryShow(ctx context.Context, req *itinerary.ShowPartyItineraryRequest) (*itinerary.ShowPartyItineraryResponse, error) {
 	//rpc client
 	resp, err := itineraryClient.ShowPartyItinerary(ctx, req)
@@ -69,6 +79,36 @@ func ItinerarySequenceChange(ctx context.Context, req *itinerary.ChangeSequenceR
 func ItineraryMerge(ctx context.Context, req *itinerary.MergeItineraryRequest) (*itinerary.MergeItineraryResponse, error) {
 	//rpc client
 	resp, err := itineraryClient.MergeItinerary(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest) (*itinerary.GetMyItinerariesResponse, error) {
+	//rpc client
+	resp, err := itineraryClient.GetMyItineraries(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest) (*itinerary.DeleteItineraryResponse, error) {
+	//rpc client
+	resp, err := itineraryClient.DeleteItinerary(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest) (*itinerary.ShowItineraryDraftResponse, error) {
+	//rpc client
+	resp, err := itineraryClient.ShowItineraryDraft(ctx, req)
 	//按照逻辑来讲这个err仅用于client出错
 	if err != nil {
 		return nil, err

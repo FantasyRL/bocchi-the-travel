@@ -24,12 +24,13 @@ CREATE TABLE `party`(
     `founder_id` bigint NOT NULL COMMENT '创建者id',
     `title` varchar(255) NOT NULL COMMENT '活动标题',
     `content` varchar(255) NOT NULL COMMENT '活动介绍',
-    `type` bigint NOT NULL COMMENT '活动类型',
+    `type` varchar(255) NOT NULL COMMENT '活动类型',
     `province` varchar(255) NOT NULL COMMENT '活动省份',
     `city` varchar(255) NOT NULL COMMENT '活动城市',
     `rectangle` varchar(255) NOT NULL COMMENT 'rectangle',
-    `start_time` varchar(20) NOT NULL COMMENT '开始时间',
-    `end_time` varchar(20) NOT NULL COMMENT '结束时间',
+    `start_time` timestamp NOT NULL COMMENT '开始时间',
+    `end_time` timestamp NOT NULL COMMENT '结束时间',
+    `status` bigint NOT NULL DEFAULT 0 COMMENT  '状态',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
     `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
     `deleted_at` timestamp NULL DEFAULT NULL,
@@ -44,7 +45,7 @@ CREATE TABLE `member`(
     `id` bigint NOT NULL AUTO_INCREMENT,
     `party_id` bigint NOT NULL COMMENT '活动id',
     `member_id` bigint NOT NULL COMMENT '成员id',
-    `status` bigint NOT NULL DEFAULT 0 COMMENT '0:未加入,1:已加入',
+    `status` bigint NOT NULL DEFAULT 0 COMMENT '0:未加入,1:已加入,2:admin',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
     `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
     `deleted_at` timestamp NULL DEFAULT NULL,
@@ -62,11 +63,11 @@ CREATE TABLE `itinerary`(
     `party_id` bigint NOT NULL COMMENT '活动id',
     `is_merged` bigint NOT NULL DEFAULT 0 COMMENT 'is_merged',
     `action_type` bigint NOT NULL COMMENT '类型',
-    `rectangle` varchar(255) NULL DEFAULT NULL COMMENT 'rectangle',
-    `route_json` varchar(2000) NULL DEFAULT NULL COMMENT 'route_json',
+    `rectangle` varchar(4096) NULL DEFAULT NULL COMMENT 'rectangle',
+    `route_json` varchar(9192) NULL DEFAULT NULL COMMENT 'route_json',
     `remark` varchar(255) NULL DEFAULT NULL COMMENT '备注',
-    `schedule_start_time` varchar(20) NOT NULL COMMENT '开始时间',
-    `schedule_end_time` varchar(20) NOT NULL COMMENT '结束时间',
+    `schedule_start_time` varchar(255) NOT NULL COMMENT '开始时间',
+    `schedule_end_time` varchar(255) NOT NULL COMMENT '结束时间',
     `sequence` bigint NOT NULL COMMENT 'sequence',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
     `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
@@ -77,3 +78,67 @@ CREATE TABLE `itinerary`(
             references `party`(id)
             on delete cascade
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='行程表';
+
+CREATE TABLE `comment`(
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '评论id' ,
+    `poi_id` bigint NOT NULL COMMENT '被评论poi_id',
+    `uid` bigint NOT NULL COMMENT '评论用户',
+    `content` varchar(2048) NOT NULL COMMENT '评论内容',
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT '评论时间',
+    `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+    `deleted_at` timestamp NULL DEFAULT NULL,
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
+
+CREATE TABLE `follow`(
+                         `id` bigint NOT NULL AUTO_INCREMENT ,
+                         `uid` bigint NOT NULL COMMENT 'user_id',
+                         `followed_id` bigint NOT NULL COMMENT '被关注者',
+                         `status` bigint NOT NULL DEFAULT 1 COMMENT '1:关注;0:取消关注',
+                         `created_at` timestamp NOT NULL DEFAULT current_timestamp ,
+                         `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+                         `deleted_at` timestamp NULL DEFAULT NULL,
+                         PRIMARY KEY (`id`),
+                         CONSTRAINT `follower_user`
+                             FOREIGN KEY (`uid`)
+                                 REFERENCES user (`id`)
+                                 ON DELETE CASCADE,
+                         CONSTRAINT `followed_user`
+                             FOREIGN KEY (`followed_id`)
+                                 REFERENCES user (`id`)
+                                 ON DELETE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='关注表';
+
+CREATE TABLE `mark`(
+                         `id` bigint NOT NULL AUTO_INCREMENT ,
+                         `uid` bigint NOT NULL COMMENT 'user_id',
+                         `target_id` bigint NOT NULL COMMENT '被评价者',
+                         `score` double NOT NULL COMMENT '分数',
+                         `created_at` timestamp NOT NULL DEFAULT current_timestamp ,
+                         `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+                         `deleted_at` timestamp NULL DEFAULT NULL,
+                         PRIMARY KEY (`id`),
+                         CONSTRAINT `score_user`
+                             FOREIGN KEY (`uid`)
+                                 REFERENCES user (`id`)
+                                 ON DELETE CASCADE,
+                         CONSTRAINT `score_target`
+                             FOREIGN KEY (`target_id`)
+                                 REFERENCES user (`id`)
+                                 ON DELETE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='打分表';
+
+CREATE TABLE `score`(
+                        `id` bigint NOT NULL AUTO_INCREMENT ,
+                        `uid` bigint NOT NULL COMMENT 'user_id',
+                        `score` double NOT NULL COMMENT '均分',
+                        `count` bigint NOT NULL COMMENT '被评价次数',
+                        `created_at` timestamp NOT NULL DEFAULT current_timestamp ,
+                        `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+                        `deleted_at` timestamp NULL DEFAULT NULL,
+                        PRIMARY KEY (`id`),
+                        CONSTRAINT `score_user0`
+                            FOREIGN KEY (`uid`)
+                                REFERENCES user (`id`)
+                                ON DELETE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='分数表';

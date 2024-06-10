@@ -5,6 +5,6 @@ import (
 	"bocchi/rpc/user/dal/db"
 )
 
-func (s *UserService) GetMember(req *user.GetMemberRequest) (*[]db.User, error) {
-	return db.QueryUserByIDList(s.ctx, req.MemberIdList)
+func (s *UserService) GetUser(req *user.GetUsersRequest) (*[]db.User, error) {
+	return db.QueryUserByIDList(s.ctx, req.UserIdList)
 }

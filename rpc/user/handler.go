@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bocchi/config"
 	"bocchi/kitex_gen/user"
 	"bocchi/kitex_gen/user/userhandler"
 	"bocchi/pkg/constants"
@@ -58,15 +57,15 @@ func (s *UserHandlerImpl) Login(ctx context.Context, req *user.LoginRequest) (re
 // Info implements the UserHandlerImpl interface.
 func (s *UserHandlerImpl) Info(ctx context.Context, req *user.InfoRequest) (resp *user.InfoResponse, err error) {
 	resp = new(user.InfoResponse)
-
-	userResp, err := service.NewUserService(ctx).Info(req)
+	userResp, isTrust, err := service.NewUserService(ctx).Info(req)
 
 	resp.Base = pack.BuildBaseResp(err)
 	if err != nil {
 		return resp, nil
 	}
 	resp.User = service.BuildUserResp(userResp)
-	return
+	resp.User.IsTrust = &isTrust
+	return resp, nil
 }
 
 // Avatar implements the UserHandlerImpl interface.
@@ -86,7 +85,10 @@ func (s *UserHandlerImpl) Avatar(ctx context.Context, req *user.AvatarRequest) (
 	//上传url至数据库
 	UserResp := new(db.User)
 	eg.Go(func() error { //Add(1)
-		avatarUrl := fmt.Sprintf("%s/%s/%d", config.OSS.EndPoint, config.OSS.MainDirectory, req.UserId)
+
+		//avatarUrl := fmt.Sprintf("%s/%s/%d", config.OSS.EndPoint, config.OSS.MainDirectory, req.UserId)
+		//https://alist.xiey.work/d/aliyunoss/1.jpg?sign=4h0YK55mMYaP0V1-Re_t9RmfuQibQ1JiQWgZdJgyr20=:0
+		avatarUrl := fmt.Sprintf("%s%d.jpg", "https://alist.xiey.work/d/aliyunoss/", req.UserId)
 		UserResp, err = service.NewAvatarService(ctx).PutAvatar(req.UserId, avatarUrl)
 		if err != nil {
 			return err
@@ -127,13 +129,14 @@ func (s *UserHandlerImpl) Signature(ctx context.Context, req *user.SignatureRequ
 	return resp, nil
 }
 
-// GetMember implements the UserHandlerImpl interface.
-func (s *UserHandlerImpl) GetMember(ctx context.Context, req *user.GetMemberRequest) (resp *user.GetMemberResponse, err error) {
-	resp = new(user.GetMemberResponse)
-	memberResp, err := service.NewUserService(ctx).GetMember(req)
+// GetUserList implements the UserHandlerImpl interface.
+func (s *UserHandlerImpl) GetUserList(ctx context.Context, req *user.GetUsersRequest) (resp *user.GetUsersResponse, err error) {
+	resp = new(user.GetUsersResponse)
+	userResp, err := service.NewUserService(ctx).GetUser(req)
+	resp.Base = pack.BuildBaseResp(err)
 	if err != nil {
-		return nil, err
+		return resp, nil
 	}
-	resp.MemberList = service.BuildUsersResp(memberResp)
+	resp.UserList = service.BuildUsersResp(userResp)
 	return resp, nil
 }
