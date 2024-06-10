@@ -1,0 +1,37 @@
+name: Deploy Vue App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - PR  # 设置触发部署的分支
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2  # 检出代码
+
+      
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+            go-version: 1.22.4
+    
+    - name: Go build
+      run: |
+          go build -o ./build/build-api ./api
+          go build -o ./build/build-user ./rpc/user
+          go build -o ./build/build-interaction ./rpc/interaction
+          go build -o ./build/build-party ./rpc/party
+          go build -o ./build/build-itinerary ./rpc/itinerary
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ftp.xiey.work
+        username: bcbc
+        password: ${{ secrets.TOKEN }}
+        local-dir: ./build/
+        server-dir: ./
+        log-level: verbose
