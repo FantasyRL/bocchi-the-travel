@@ -31,7 +31,7 @@ export default {
       axios
         .post(
           this.url +
-            "http://api.xiey.work/bocchi/trust/action?object_uid=" +
+            "https://api.xiey.work/bocchi/trust/action?object_uid=" +
             this.id +
             "&action_type=" +
             type,

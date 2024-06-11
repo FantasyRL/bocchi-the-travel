@@ -16,7 +16,7 @@ export default {
       const token = this.access_token;
       axios
         .post(
-          "http://api.xiey.work/bocchi/trust/action?object_uid=" + i + "&action_type=0",
+          "https://api.xiey.work/bocchi/trust/action?object_uid=" + i + "&action_type=0",
           {},
           {
             headers: {

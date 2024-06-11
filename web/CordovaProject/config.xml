@@ -11,5 +11,7 @@
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#33000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="http://schemas.microsoft.com/windows/apps/2015/index/webview/http" value="true" />
+
 </widget>
 
