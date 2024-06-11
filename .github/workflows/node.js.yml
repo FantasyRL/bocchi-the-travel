@@ -42,9 +42,9 @@ jobs:
           cordova create CordovaProject work.xiey.bocchi bocchi
           cd CordovaProject
           cordova platform add android
-          npm i
           cordova plugin add cordova-plugin-webview
           cordova plugin add cordova-plugin-statusbar
+          npm i
 
     - name: build Blog
       run: | 
@@ -53,7 +53,7 @@ jobs:
 
     - name: 配置设置
       run: |
-          mv /web/config.xml /web/CordovaProject/config.xml
+          mv config.txt web/CordovaProject/config.xml
           cd web/CordovaProject/
           cordova build android
           
