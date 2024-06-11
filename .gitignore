@@ -40,4 +40,9 @@ kitex_update.sh
 /config/config.yaml
 */output
 *.vscode
+
+/web/CordovaProject/www/assets
+web/index.html
+
 /cmd/*/output
+
