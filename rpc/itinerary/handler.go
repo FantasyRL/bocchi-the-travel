@@ -13,8 +13,12 @@ type ItineraryHandlerImpl struct{}
 // CreateItinerary implements the ItineraryHandlerImpl interface.
 func (s *ItineraryHandlerImpl) CreateItinerary(ctx context.Context, req *itinerary.CreateItineraryRequest) (resp *itinerary.CreateItineraryResponse, err error) {
 	resp = new(itinerary.CreateItineraryResponse)
-	err = service.NewItineraryService(ctx).CreateItinerary(req)
+	itineraryResp, err := service.NewItineraryService(ctx).CreateItinerary(req)
 	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.Itinerary = service.BuildItineraryResp(itineraryResp)
 	return resp, nil
 }
 
@@ -44,5 +48,52 @@ func (s *ItineraryHandlerImpl) MergeItinerary(ctx context.Context, req *itinerar
 	resp = new(itinerary.MergeItineraryResponse)
 	err = service.NewItineraryService(ctx).MergeItinerary(req)
 	resp.Base = pack.BuildBaseResp(err)
+	return resp, nil
+}
+
+// GetItineraryInfo implements the ItineraryHandlerImpl interface.
+func (s *ItineraryHandlerImpl) GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest) (resp *itinerary.GetItineraryInfoResponse, err error) {
+	resp = new(itinerary.GetItineraryInfoResponse)
+	itineraryResp, err := service.NewItineraryService(ctx).GetItineraryInfo(req.ItineraryId)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.Itinerary = service.BuildItineraryResp(itineraryResp)
+	return resp, nil
+}
+
+// GetMyItineraries implements the ItineraryHandlerImpl interface.
+func (s *ItineraryHandlerImpl) GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest) (resp *itinerary.GetMyItinerariesResponse, err error) {
+	resp = new(itinerary.GetMyItinerariesResponse)
+	itineraries, count, err := service.NewItineraryService(ctx).GetMyItineraries(req)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.ItienraryCount = &count
+	resp.ItineraryList = service.BuildItinerariesResp(itineraries)
+	return resp, nil
+
+}
+
+// DeleteItinerary implements the ItineraryHandlerImpl interface.
+func (s *ItineraryHandlerImpl) DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest) (resp *itinerary.DeleteItineraryResponse, err error) {
+	resp = new(itinerary.DeleteItineraryResponse)
+	err = service.NewItineraryService(ctx).DeleteItinerary(req)
+	resp.Base = pack.BuildBaseResp(err)
+	return resp, nil
+}
+
+// ShowItineraryDraft implements the ItineraryHandlerImpl interface.
+func (s *ItineraryHandlerImpl) ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest) (resp *itinerary.ShowItineraryDraftResponse, err error) {
+	resp = new(itinerary.ShowItineraryDraftResponse)
+	itineraries, count, err := service.NewItineraryService(ctx).ShowPartyItineraryDraft(req.PartyId)
+	resp.Base = pack.BuildBaseResp(err)
+	if err != nil {
+		return resp, nil
+	}
+	resp.Count = &count
+	resp.Itineraries = service.BuildItinerariesResp(itineraries)
 	return resp, nil
 }

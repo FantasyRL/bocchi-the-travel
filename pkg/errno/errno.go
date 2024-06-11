@@ -30,6 +30,12 @@ const (
 	MemberStatusDuplicateErrCode
 	NotFounderErrCode
 	FounderErrCode
+	CommentIsNotExistErrCode
+	FollowExistErrCode
+	FollowNotExistErrCode
+	FollowMyselfErrCode
+	NotAdminErrCode
+	CantKickAdminErrCode
 )
 
 const (
@@ -48,8 +54,14 @@ const (
 	Verify2FAErrMsg             = "incorrect otp password"
 	MemberNotExistErrMsg        = "member not apply or join this party"
 	MemberStatusDuplicateErrMsg = "member's status is not change"
-	NotFounderErrMsg            = "this user have no access to this party's applicants list"
+	NotFounderErrMsg            = "this user have no access to this service"
 	FounderErrMsg               = "you can't join your party"
+	CommentIsNotExistErrMsg     = "Comment is not exist"
+	FollowExistErrMsg           = "You have followed"
+	FollowNotExistErrMsg        = "You haven't followed"
+	FollowMyselfErrMsg          = "You can't follow yourself"
+	NotAdminErrMsg              = "you are not admin"
+	CantKickAdminErrMsg         = "you can not kick admin,plz block him to user"
 
 	WebSocketSuccessMsg             = "Connect to server success"
 	WebSocketLogoutSuccessMsg       = "logout success"
@@ -98,7 +110,13 @@ var (
 	MemberNotExistError        = NewErrNo(MemberNotExistErrCode, MemberNotExistErrMsg)
 	MemberStatusDuplicateError = NewErrNo(MemberStatusDuplicateErrCode, MemberStatusDuplicateErrMsg)
 	NotFounderError            = NewErrNo(NotFounderErrCode, NotFounderErrMsg)
+	NotAdminError              = NewErrNo(NotAdminErrCode, NotAdminErrMsg)
 	FounderError               = NewErrNo(FounderErrCode, FounderErrMsg)
+	CommentIsNotExistError     = NewErrNo(CommentIsNotExistErrCode, CommentIsNotExistErrMsg)
+	FollowExistError           = NewErrNo(FollowExistErrCode, FollowExistErrMsg)
+	FollowNotExistError        = NewErrNo(FollowNotExistErrCode, FollowNotExistErrMsg)
+	FollowMyselfError          = NewErrNo(FollowMyselfErrCode, FollowMyselfErrMsg)
+	CantKickAdminError         = NewErrNo(CantKickAdminErrCode, CantKickAdminErrMsg)
 
 	WebSocketSuccess             = NewErrNo(WebSocketSuccessCode, WebSocketSuccessMsg)
 	WebSocketLogoutSuccess       = NewErrNo(WebSocketLogoutSuccessCode, WebSocketLogoutSuccessMsg)

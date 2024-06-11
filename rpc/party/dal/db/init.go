@@ -3,6 +3,7 @@ package db
 import (
 	"bocchi/pkg/constants"
 	"bocchi/pkg/utils"
+	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -34,7 +35,7 @@ func Init() {
 	sqlDB.SetMaxIdleConns(constants.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(constants.MaxConnections)
 	sqlDB.SetConnMaxLifetime(constants.ConnMaxLifetime)
-	DBParty = DBParty.Table(constants.PartyTableName)
+	DBParty = DBParty.Table(constants.PartyTableName).WithContext(context.Background())
 
 	DBMember, err = gorm.Open(mysql.Open(utils.InitMysqlDSN()),
 		&gorm.Config{
@@ -52,5 +53,5 @@ func Init() {
 	sqlDB.SetMaxIdleConns(constants.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(constants.MaxConnections)
 	sqlDB.SetConnMaxLifetime(constants.ConnMaxLifetime)
-	DBMember = DBMember.Table(constants.MemberTableName)
+	DBMember = DBMember.Table(constants.MemberTableName).WithContext(context.Background())
 }

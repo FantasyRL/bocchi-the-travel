@@ -46,6 +46,16 @@ func PartyCreate(ctx context.Context, req *party.CreatePartyRequest) (*party.Cre
 	return resp, nil
 }
 
+func GetPartyInfo(ctx context.Context, req *party.GetPartyInfoRequest) (*party.GetPartyInfoResponse, error) {
+	//rpc client
+	resp, err := partyClient.GetPartyInfo(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
 func PartyJoin(ctx context.Context, req *party.JoinPartyRequest) (*party.JoinPartyResponse, error) {
 	//rpc client
 	resp, err := partyClient.JoinParty(ctx, req)
@@ -89,6 +99,56 @@ func PartyMembersList(ctx context.Context, req *party.GetPartyMembersRequest) (*
 func PartySearch(ctx context.Context, req *party.SearchPartyRequest) (*party.SearchPartyResponse, error) {
 	//rpc client
 	resp, err := partyClient.SearchParty(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func GetMyParties(ctx context.Context, req *party.GetMyPartiesRequest) (*party.GetMyPartiesResponse, error) {
+	//rpc client
+	resp, err := partyClient.GetMyParties(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func ChangePartyStatus(ctx context.Context, req *party.ChangePartyStatusRequest) (*party.ChangePartyStatusResponse, error) {
+	//rpc client
+	resp, err := partyClient.ChangePartyStatus(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func AddAdmin(ctx context.Context, req *party.AddAdminRequest) (*party.AddAdminResponse, error) {
+	//rpc client
+	resp, err := partyClient.AddAdmin(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func DeleteAdmin(ctx context.Context, req *party.DeleteAdminRequest) (*party.DeleteAdminResponse, error) {
+	//rpc client
+	resp, err := partyClient.DeleteAdmin(ctx, req)
+	//按照逻辑来讲这个err仅用于client出错
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func DeleteMember(ctx context.Context, req *party.DeleteMemberRequest) (*party.DeleteMemberResponse, error) {
+	//rpc client
+	resp, err := partyClient.DeleteMember(ctx, req)
 	//按照逻辑来讲这个err仅用于client出错
 	if err != nil {
 		return nil, err

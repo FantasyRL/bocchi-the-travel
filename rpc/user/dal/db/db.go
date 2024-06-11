@@ -79,11 +79,19 @@ func QueryUserByID(ctx context.Context, userModel *User) (*User, error) {
 }
 
 func QueryUserByIDList(ctx context.Context, uidList []int64) (*[]User, error) {
-	userResp := new([]User)
-	if err := DB.WithContext(ctx).Where("id IN ?", uidList).Find(userResp).Error; err != nil {
+	dbResp := new([]User)
+	if err := DB.WithContext(ctx).Where("id IN ?", uidList).Find(dbResp).Error; err != nil {
 		return nil, err
 	}
-	return userResp, nil
+	userResp := make([]User, 0)
+	for _, id := range uidList {
+		for _, v := range *dbResp {
+			if v.ID == id {
+				userResp = append(userResp, v)
+			}
+		}
+	}
+	return &userResp, nil
 }
 
 func PutSignature(ctx context.Context, userModel *User) error {

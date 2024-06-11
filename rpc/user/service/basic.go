@@ -1,11 +1,13 @@
 package service
 
 import (
+	"bocchi/kitex_gen/trust"
 	"bocchi/kitex_gen/user"
 	"bocchi/pkg/errno"
 	"bocchi/pkg/utils/otp2fa"
 	"bocchi/pkg/utils/pwd"
 	"bocchi/rpc/user/dal/db"
+	"bocchi/rpc/user/rpc"
 )
 
 func (s *UserService) Register(req *user.RegisterRequest) (*db.User, error) {
@@ -41,11 +43,25 @@ func (s *UserService) Login(req *user.LoginRequest) (*db.User, error) {
 	return userResp, nil
 }
 
-func (s *UserService) Info(req *user.InfoRequest) (*db.User, error) {
+func (s *UserService) Info(req *user.InfoRequest) (*db.User, bool, error) {
 	userModel := &db.User{
 		ID: req.UserId,
 	}
-	return db.QueryUserByID(s.ctx, userModel)
+	userResp, err := db.QueryUserByID(s.ctx, userModel)
+	if err != nil {
+		return nil, false, err
+	}
+	rpcResp, _ := rpc.IsTrust(s.ctx, &trust.IsTrustRequest{
+		UserId:   req.MyId,
+		TargetId: req.UserId,
+	})
+	//if err != nil {
+	//	return nil, false, err
+	//}
+	if rpcResp.Base.Code != errno.SuccessCode {
+		return nil, false, errno.NewErrNo(rpcResp.Base.Code, rpcResp.Base.Msg)
+	}
+	return userResp, rpcResp.IsTrust, nil
 }
 
 func (s *UserService) Signature(req *user.SignatureRequest) error {

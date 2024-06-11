@@ -7,7 +7,7 @@ networks:
 services:
   mysql:
     image: mysql:8.0.36
-    container_name: bocchi-the-travel
+    container_name: mysql
     deploy:
       resources:
 #        最高
@@ -30,19 +30,21 @@ services:
     restart: always
     networks:
       - bocchi
+#    network_mode: host
 
-#  redis:
-#    image: redis:6.0.16
-#    container_name: redis
-#    ports:
-#      - "6399:6379"
-#    volumes:
-#      - ./data/redis/data:/data
-#      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
-#      - ./data/redis/logs:/logs
-#    restart: always
-#    networks:
-#      - bocchi
+  redis:
+    image: redis:6.0.16
+    container_name: redis
+    ports:
+      - "6399:6379"
+    volumes:
+      - ./data/redis/data:/data
+      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./data/redis/logs:/logs
+    restart: always
+    networks:
+      - bocchi
+#    network_mode: host
 
 
   etcd:
@@ -67,6 +69,7 @@ services:
       - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
     networks:
       - bocchi
+#    network_mode: host
 
   elasticsearch:
     image: elasticsearch:8.12.2
