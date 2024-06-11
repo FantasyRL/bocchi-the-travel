@@ -29,7 +29,7 @@ export default {
     applylist(pagenum) {
       axios
         .get(
-          "/bocchi/party/party/my?page_num=" + pagenum,
+          "https://api.xiey.work/bocchi/party/party/my?page_num=" + pagenum,
 
           {
             headers: {
