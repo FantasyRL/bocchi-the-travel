@@ -37,6 +37,111 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bocchi/access_token/verify": {
+            "get": {
+                "description": "verify access-token if it is expired or not",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "verify_access-token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/admin/create": {
+            "get": {
+                "description": "add admin",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "add_admin",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "目标id",
+                        "name": "target_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/admin/delete": {
+            "get": {
+                "description": "delete admin",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "delete_admin",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "目标id",
+                        "name": "target_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/party/apply": {
             "get": {
                 "description": "apply to join the party",
@@ -182,7 +287,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "类型",
                         "name": "type",
                         "in": "query",
@@ -228,6 +333,28 @@ const docTemplate = `{
                         "description": "refresh-token",
                         "name": "refresh-token",
                         "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/get": {
+            "get": {
+                "description": "get party info by id",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_party_info",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {}
@@ -314,6 +441,85 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bocchi/party/itinerary/delete": {
+            "get": {
+                "description": "delete itinerary",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "delete_itinerary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "行程id",
+                        "name": "itinerary_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/draft/show": {
+            "get": {
+                "description": "show party's itineraries draft",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "show_party_itinerary_draft",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/info": {
+            "get": {
+                "description": "get itinerary by id",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_itinerary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "itinerary_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/party/itinerary/merge": {
             "get": {
                 "description": "merge itinerary into party",
@@ -332,6 +538,41 @@ const docTemplate = `{
                         "in": "query",
                         "required": true
                     },
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/itinerary/my": {
+            "get": {
+                "description": "get user's itineraries",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_my_itineraries",
+                "parameters": [
                     {
                         "type": "integer",
                         "description": "活动id",
@@ -420,6 +661,48 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bocchi/party/member/delete": {
+            "get": {
+                "description": "delete member",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "delete_member",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "目标id",
+                        "name": "target_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/party/members": {
             "get": {
                 "description": "get members who have join the party",
@@ -444,6 +727,41 @@ const docTemplate = `{
                         "name": "page_num",
                         "in": "query",
                         "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/party/party/my": {
+            "get": {
+                "description": "get my parties",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_my_parties",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
                     }
                 ],
                 "responses": {}
@@ -507,6 +825,326 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/bocchi/party/status": {
+            "get": {
+                "description": "delete or finish party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "change_party_status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "活动id",
+                        "name": "party_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "1:完成party 2:删除party(未开始的party取消)",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/poi/comment/create": {
+            "post": {
+                "description": "comment poi",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "comment_create",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "poi_id",
+                        "name": "poi_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "正文",
+                        "name": "content",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/poi/comment/delete": {
+            "get": {
+                "description": "delete your comment",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "comment_delete",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "评论id",
+                        "name": "comment_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/poi/comment/list": {
+            "get": {
+                "description": "show poi's comments",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "comment_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "poi_id",
+                        "name": "poi_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/action": {
+            "post": {
+                "description": "trust action",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "trust_action",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "操作对象id",
+                        "name": "object_uid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "0：取消信任;1：信任",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/each": {
+            "post": {
+                "description": "trust with each other",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "trust_each_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/follower": {
+            "get": {
+                "description": "list who trust you",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "follower_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "所查询用户的id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/following": {
+            "get": {
+                "description": "list who you trusted",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "following_list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "所查询用户的id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/trust/mark": {
+            "get": {
+                "description": "mark to other after party",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "mark_to_other",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "操作对象id",
+                        "name": "object_uid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "评分",
+                        "name": "score",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/bocchi/user/avatar/upload": {
             "put": {
                 "description": "revise user's avatar",
@@ -558,6 +1196,18 @@ const docTemplate = `{
                         "name": "user_id",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access-token",
+                        "name": "access-token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "refresh-token",
+                        "name": "refresh-token",
+                        "in": "header"
                     }
                 ],
                 "responses": {}
@@ -627,6 +1277,28 @@ const docTemplate = `{
                         "type": "string",
                         "description": "密码",
                         "name": "password",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/bocchi/user/score": {
+            "get": {
+                "description": "get user's score",
+                "consumes": [
+                    "json/form"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get_user_score",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "user_id",
                         "in": "query",
                         "required": true
                     }

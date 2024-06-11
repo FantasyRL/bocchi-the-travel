@@ -11,6 +11,7 @@ struct User {
     3: string email,
     4: string avatar,
     5:string signature,
+    6:optional bool is_trust,
 }
 
 //struct Route{
@@ -42,7 +43,7 @@ struct Party{
     2: i64 founder_id,
     3: string title,
     4: string content,
-    5: i64 type,
+    5: string type,
     6: string province,
     7: string city,
     8:string start_time,
@@ -51,4 +52,19 @@ struct Party{
     11:i64 status,
     12:string rectangle,
     13:list<Itinerary> itineraries,
+}
+
+struct Comment {
+    1: i64 id,
+    2: i64 poi_id,
+    4: User user,
+    5: string content,
+    6: string publish_time,
+}
+
+struct Score{
+    1:i64 id,
+    2:i64 user_id,
+    3:i64 score,
+    4:i64 count,
 }

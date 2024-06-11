@@ -1,0 +1,53 @@
+name: Build GO
+
+on:
+  push:
+    branches:
+      - main # 设置触发部署的分支
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # 运行在最新的 Ubuntu 系统
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2  # 检出代码
+
+      
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+            go-version: 1.22.4
+
+            
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      id: cache-go-mod  
+      with:
+        path: 
+          ~/go/pkg/mod
+          ~/go/src
+        key: ${{runner.OS}}-${{hashFiles('**/go.sum')}}
+        
+    - name: 安装依赖
+      if: steps.cache-go-mod .outputs.cache-hit != 'true'
+      run: |
+          go mod tidy
+
+
+    - name: Go build
+      run: |
+          go build -o ./build/build-api ./api/ || true
+          go build -o ./build/build-user ./rpc/user/ || true
+          go build -o ./build/build-interaction ./rpc/interaction/ || true
+          go build -o ./build/build-party ./rpc/party/ || true
+          go build -o ./build/build-itinerary ./rpc/itinerary/ || true
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ftp.xiey.work
+        username: bcbc
+        password: ${{ secrets.TOKEN }}
+        local-dir: ./build/
+        server-dir: ./
+        log-level: verbose

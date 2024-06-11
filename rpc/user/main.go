@@ -7,6 +7,7 @@ import (
 	"bocchi/pkg/utils"
 	"bocchi/pkg/utils/eslogrus"
 	"bocchi/rpc/user/dal"
+	"bocchi/rpc/user/rpc"
 	"crypto/tls"
 	"fmt"
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -35,7 +36,7 @@ func Init() {
 	klog.SetLogger(kitexlogrus.NewLogger(kitexlogrus.WithHook(EsHookLog())))
 
 	dal.Init()
-
+	rpc.InitTrustRPC()
 }
 
 func main() {

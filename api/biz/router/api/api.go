@@ -22,12 +22,20 @@ func Register(r *server.Hertz) {
 		{
 			_access_token := _bocchi.Group("/access_token", _access_tokenMw()...)
 			_access_token.GET("/get", append(_getaccesstokenMw(), api.GetAccessToken)...)
+			_access_token.GET("/verify", append(_verifyaccesstokenMw(), api.VerifyAccessToken)...)
 		}
 		{
 			_party := _bocchi.Group("/party", _partyMw()...)
 			_party.POST("/create", append(_createpartyMw(), api.CreateParty)...)
+			_party.GET("/get", append(_getpartyinfoMw(), api.GetPartyInfo)...)
 			_party.GET("/members", append(_getpartymembersMw(), api.GetPartyMembers)...)
 			_party.POST("/search", append(_searchpartyMw(), api.SearchParty)...)
+			_party.GET("/status", append(_changepartystatusMw(), api.ChangePartyStatus)...)
+			{
+				_admin := _party.Group("/admin", _adminMw()...)
+				_admin.GET("/create", append(_addadminMw(), api.AddAdmin)...)
+				_admin.GET("/delete", append(_deleteadminMw(), api.DeleteAdmin)...)
+			}
 			_party.GET("/apply", append(_joinpartyMw(), api.JoinParty)...)
 			_apply := _party.Group("/apply", _applyMw()...)
 			_apply.GET("/list", append(_applylistMw(), api.ApplyList)...)
@@ -35,17 +43,50 @@ func Register(r *server.Hertz) {
 			{
 				_itinerary := _party.Group("/itinerary", _itineraryMw()...)
 				_itinerary.POST("/create", append(_createitineraryMw(), api.CreateItinerary)...)
+				_itinerary.GET("/delete", append(_deleteitineraryMw(), api.DeleteItinerary)...)
+				_itinerary.GET("/info", append(_getitineraryinfoMw(), api.GetItineraryInfo)...)
 				_itinerary.GET("/merge", append(_mergeitineraryMw(), api.MergeItinerary)...)
+				_itinerary.GET("/my", append(_getmyitinerariesMw(), api.GetMyItineraries)...)
 				_itinerary.GET("/show", append(_showpartyitineraryMw(), api.ShowPartyItinerary)...)
+				{
+					_draft := _itinerary.Group("/draft", _draftMw()...)
+					_draft.GET("/show", append(_showitinerarydraftMw(), api.ShowItineraryDraft)...)
+				}
 				{
 					_sequence := _itinerary.Group("/sequence", _sequenceMw()...)
 					_sequence.POST("/change", append(_changesequenceMw(), api.ChangeSequence)...)
 				}
 			}
+			{
+				_member := _party.Group("/member", _memberMw()...)
+				_member.GET("/delete", append(_deletememberMw(), api.DeleteMember)...)
+			}
+			{
+				_party0 := _party.Group("/party", _party0Mw()...)
+				_party0.GET("/my", append(_getmypartiesMw(), api.GetMyParties)...)
+			}
+		}
+		{
+			_poi := _bocchi.Group("/poi", _poiMw()...)
+			{
+				_comment := _poi.Group("/comment", _commentMw()...)
+				_comment.POST("/create", append(_commentcreateMw(), api.CommentCreate)...)
+				_comment.GET("/delete", append(_commentdeleteMw(), api.CommentDelete)...)
+				_comment.GET("/list", append(_commentlistMw(), api.CommentList)...)
+			}
+		}
+		{
+			_trust := _bocchi.Group("/trust", _trustMw()...)
+			_trust.POST("/action", append(_trustactionMw(), api.TrustAction)...)
+			_trust.POST("/each", append(_trusteachlistMw(), api.TrustEachList)...)
+			_trust.GET("/follower", append(_followerlistMw(), api.FollowerList)...)
+			_trust.GET("/following", append(_followinglistMw(), api.FollowingList)...)
+			_trust.GET("/mark", append(_marktootherMw(), api.MarkToOther)...)
 		}
 		{
 			_user := _bocchi.Group("/user", _userMw()...)
 			_user.GET("/info", append(_infoMw(), api.Info)...)
+			_user.GET("/score", append(_getuserscoreMw(), api.GetUserScore)...)
 			_user.POST("/signature", append(_signatureMw(), api.Signature)...)
 			_user.POST("/switch2fa", append(_switch2faMw(), api.Switch2FA)...)
 			{

@@ -12,9 +12,13 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	CreateItinerary(ctx context.Context, req *itinerary.CreateItineraryRequest, callOptions ...callopt.Option) (r *itinerary.CreateItineraryResponse, err error)
+	GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest, callOptions ...callopt.Option) (r *itinerary.GetItineraryInfoResponse, err error)
 	ShowPartyItinerary(ctx context.Context, req *itinerary.ShowPartyItineraryRequest, callOptions ...callopt.Option) (r *itinerary.ShowPartyItineraryResponse, err error)
+	ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest, callOptions ...callopt.Option) (r *itinerary.ShowItineraryDraftResponse, err error)
 	ChangeSequence(ctx context.Context, req *itinerary.ChangeSequenceRequest, callOptions ...callopt.Option) (r *itinerary.ChangeSequenceResponse, err error)
 	MergeItinerary(ctx context.Context, req *itinerary.MergeItineraryRequest, callOptions ...callopt.Option) (r *itinerary.MergeItineraryResponse, err error)
+	GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest, callOptions ...callopt.Option) (r *itinerary.GetMyItinerariesResponse, err error)
+	DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest, callOptions ...callopt.Option) (r *itinerary.DeleteItineraryResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -51,9 +55,19 @@ func (p *kItineraryHandlerClient) CreateItinerary(ctx context.Context, req *itin
 	return p.kClient.CreateItinerary(ctx, req)
 }
 
+func (p *kItineraryHandlerClient) GetItineraryInfo(ctx context.Context, req *itinerary.GetItineraryInfoRequest, callOptions ...callopt.Option) (r *itinerary.GetItineraryInfoResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetItineraryInfo(ctx, req)
+}
+
 func (p *kItineraryHandlerClient) ShowPartyItinerary(ctx context.Context, req *itinerary.ShowPartyItineraryRequest, callOptions ...callopt.Option) (r *itinerary.ShowPartyItineraryResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ShowPartyItinerary(ctx, req)
+}
+
+func (p *kItineraryHandlerClient) ShowItineraryDraft(ctx context.Context, req *itinerary.ShowItineraryDraftRequest, callOptions ...callopt.Option) (r *itinerary.ShowItineraryDraftResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ShowItineraryDraft(ctx, req)
 }
 
 func (p *kItineraryHandlerClient) ChangeSequence(ctx context.Context, req *itinerary.ChangeSequenceRequest, callOptions ...callopt.Option) (r *itinerary.ChangeSequenceResponse, err error) {
@@ -64,4 +78,14 @@ func (p *kItineraryHandlerClient) ChangeSequence(ctx context.Context, req *itine
 func (p *kItineraryHandlerClient) MergeItinerary(ctx context.Context, req *itinerary.MergeItineraryRequest, callOptions ...callopt.Option) (r *itinerary.MergeItineraryResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.MergeItinerary(ctx, req)
+}
+
+func (p *kItineraryHandlerClient) GetMyItineraries(ctx context.Context, req *itinerary.GetMyItinerariesRequest, callOptions ...callopt.Option) (r *itinerary.GetMyItinerariesResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetMyItineraries(ctx, req)
+}
+
+func (p *kItineraryHandlerClient) DeleteItinerary(ctx context.Context, req *itinerary.DeleteItineraryRequest, callOptions ...callopt.Option) (r *itinerary.DeleteItineraryResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteItinerary(ctx, req)
 }

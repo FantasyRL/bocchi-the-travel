@@ -45,12 +45,6 @@ func CreateItinerary(ctx context.Context, c *app.RequestContext) {
 	v, _ := c.Get("current_user_id")
 	id, _ := v.(int64)
 
-	if (req.ActionType == 1 && req.Rectangle != nil) || (req.ActionType != 1 && req.Rectangle == nil) {
-		resp.Base = pack.ConvertToAPIBaseResp(pack.BuildBaseResp(errno.ParamError))
-		c.JSON(consts.StatusOK, resp)
-		return
-	}
-
 	rpcResp, err := rpc.ItineraryCreate(ctx, &itinerary.CreateItineraryRequest{
 		FounderId:         id,
 		Title:             req.Title,
@@ -67,6 +61,11 @@ func CreateItinerary(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.Itinerary = pack.ConvertToAPIItinerary(rpcResp.Itinerary)
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -173,5 +172,145 @@ func MergeItinerary(ctx context.Context, c *app.RequestContext) {
 	}
 	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
 
+	c.JSON(consts.StatusOK, resp)
+}
+
+// GetItineraryInfo .
+// @Summary get_itinerary
+// @Description get itinerary by id
+// @Accept json/form
+// @Produce json
+// @Param itinerary_id query int true "id"
+// @router /bocchi/party/itinerary/info [GET]
+func GetItineraryInfo(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.GetItineraryInfoRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.GetItineraryInfoResponse)
+
+	rpcResp, err := rpc.GetItineraryInfo(ctx, &itinerary.GetItineraryInfoRequest{
+		ItineraryId: req.ItineraryID,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.Itinerary = pack.ConvertToAPIItinerary(rpcResp.Itinerary)
+	c.JSON(consts.StatusOK, resp)
+}
+
+// GetMyItineraries .
+// @Summary get_my_itineraries
+// @Description get user's itineraries
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bocchi/party/itinerary/my [GET]
+func GetMyItineraries(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.GetMyItinerariesRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.GetMyItinerariesResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.GetMyItineraries(ctx, &itinerary.GetMyItinerariesRequest{
+		UserId:  id,
+		PartyId: req.PartyID,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	if resp.Base.Code != errno.SuccessCode {
+		c.JSON(consts.StatusOK, resp)
+		return
+	}
+	resp.ItienraryCount = rpcResp.ItienraryCount
+	resp.ItineraryList = pack.ConvertToAPIItineraries(rpcResp.ItineraryList)
+	c.JSON(consts.StatusOK, resp)
+}
+
+// DeleteItinerary .
+// @Summary delete_itinerary
+// @Description delete itinerary
+// @Accept json/form
+// @Produce json
+// @Param itinerary_id query int true "行程id"
+// @Param access-token header string true "access-token"
+// @Param refresh-token header string false "refresh-token"
+// @router /bocchi/party/itinerary/delete [GET]
+func DeleteItinerary(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.DeleteItineraryRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.DeleteItineraryResponse)
+
+	v, _ := c.Get("current_user_id")
+	id, _ := v.(int64)
+
+	rpcResp, err := rpc.DeleteItinerary(ctx, &itinerary.DeleteItineraryRequest{
+		ItineraryId: req.ItineraryID,
+		UserId:      id,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	c.JSON(consts.StatusOK, resp)
+}
+
+// ShowItineraryDraft .
+// @Summary show_party_itinerary_draft
+// @Description show party's itineraries draft
+// @Accept json/form
+// @Produce json
+// @Param party_id query int true "活动id"
+// @router /bocchi/party/itinerary/draft/show [GET]
+func ShowItineraryDraft(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.ShowItineraryDraftRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(api.ShowItineraryDraftResponse)
+
+	rpcResp, err := rpc.ShowItineraryDraft(ctx, &itinerary.ShowItineraryDraftRequest{
+		PartyId: req.PartyID,
+	})
+	if err != nil {
+		pack.SendRPCFailResp(c, err)
+		return
+	}
+	resp.Base = pack.ConvertToAPIBaseResp(rpcResp.Base)
+	resp.Itineraries = pack.ConvertToAPIItineraries(rpcResp.Itineraries)
 	c.JSON(consts.StatusOK, resp)
 }

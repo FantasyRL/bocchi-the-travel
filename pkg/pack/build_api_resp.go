@@ -48,13 +48,17 @@ func SendRPCFailResp(c *app.RequestContext, err error) {
 }
 
 func ConvertToAPIUser(kitexUser *base.User) *api.User {
-	return &api.User{
+	userResp := &api.User{
 		ID:        kitexUser.Id,
 		Name:      kitexUser.Name,
 		Email:     kitexUser.Email,
 		Avatar:    kitexUser.Avatar,
 		Signature: kitexUser.Signature,
 	}
+	if kitexUser.IsTrust != nil {
+		userResp.IsTrust = kitexUser.IsTrust
+	}
+	return userResp
 }
 
 func ConvertToAPIUsers(kitexUsers []*base.User) []*api.User {
@@ -113,6 +117,24 @@ func ConvertToAPIItineraries(kitexItineraries []*base.Itinerary) []*api.Itinerar
 		ItinerariesResp[i] = ConvertToAPIItinerary(kitexItinerary)
 	}
 	return ItinerariesResp
+}
+
+func ConvertToAPIComment(kitexComment *base.Comment) *api.Comment {
+	return &api.Comment{
+		ID:          kitexComment.Id,
+		PoiID:       kitexComment.PoiId,
+		User:        ConvertToAPIUser(kitexComment.User),
+		Content:     kitexComment.Content,
+		PublishTime: kitexComment.PublishTime,
+	}
+}
+
+func ConvertToAPIComments(kitexComments []*base.Comment) []*api.Comment {
+	commentsResp := make([]*api.Comment, len(kitexComments))
+	for i, v := range kitexComments {
+		commentsResp[i] = ConvertToAPIComment(v)
+	}
+	return commentsResp
 }
 
 func ToUserResp(_user interface{}) *api.User {
