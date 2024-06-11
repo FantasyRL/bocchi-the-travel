@@ -96,7 +96,7 @@ export default {
       console.log(seconds);
       axios
         .put(
-          this.url + "/bocchi/user/avatar/upload",
+          "http://api.xiey.work/bocchi/user/avatar/upload",
           {
             avatar_file: previewImage
           },
@@ -124,7 +124,7 @@ export default {
     },
     refreshtoken() {
       axios
-        .get(this.url + "/bocchi/access_token/get", {
+        .get("http://api.xiey.work/bocchi/access_token/get", {
           headers: {
             "refresh-token": this.refresh_token,
             Accept: "*/*"
@@ -152,7 +152,7 @@ export default {
     },
     init() {
       axios
-        .get(this.url + "/bocchi/user/info?user_id=" + this.id, {
+        .get("http://api.xiey.work/bocchi/user/info?user_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }
