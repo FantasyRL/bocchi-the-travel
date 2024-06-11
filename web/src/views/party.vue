@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     ToEnd() {
-      axios.get("/bocchi/party/status?party_id=" + this.id + "&action_type=1", {
+      axios.get("http://api.xiey.work/bocchi/party/status?party_id=" + this.id + "&action_type=1", {
         headers: { "access-token": this.access_token }
       });
       this.$router.push(`/finish/${this.id}`);
@@ -111,7 +111,7 @@ export default {
     },
     getin() {
       axios
-        .get("/bocchi/party/itinerary/show?party_id=" + this.id, {
+        .get("http://api.xiey.work/bocchi/party/itinerary/show?party_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }
@@ -129,7 +129,7 @@ export default {
         });
     },
     partyinit() {
-      const url = "/bocchi/party/get?party_id=" + this.id;
+      const url = "http://api.xiey.work/bocchi/party/get?party_id=" + this.id;
       const params = {};
       axios
         .get(url, params)

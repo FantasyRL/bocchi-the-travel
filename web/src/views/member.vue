@@ -16,9 +16,15 @@ export default {
   methods: {
     applyuser(userid) {
       axios
-        .get("/bocchi/party/apply/permit?party_id=" + this.id + "&member_id=" + userid, {
-          headers: { "access-token": Cookies.get("access_token") }
-        })
+        .get(
+          "http://api.xiey.work/bocchi/party/apply/permit?party_id=" +
+            this.id +
+            "&member_id=" +
+            userid,
+          {
+            headers: { "access-token": Cookies.get("access_token") }
+          }
+        )
         .then((response) => {
           console.log(response.data);
         })
@@ -28,9 +34,15 @@ export default {
     },
     get_party_members(party_id, page_num) {
       axios
-        .get("/bocchi/party/members?party_id=" + party_id + "&page_num=" + page_num, {
-          headers: {}
-        })
+        .get(
+          "http://api.xiey.work/bocchi/party/members?party_id=" +
+            party_id +
+            "&page_num=" +
+            page_num,
+          {
+            headers: {}
+          }
+        )
         .then((response) => {
           console.log(response);
           this.members = response.data.member_list;
@@ -41,11 +53,17 @@ export default {
     },
     apply_list(party_id, page_num) {
       axios
-        .get("/bocchi/party/apply/list?party_id=" + party_id + "&page_num=" + page_num, {
-          headers: {
-            "access-token": Cookies.get("access_token")
+        .get(
+          "http://api.xiey.work/bocchi/party/apply/list?party_id=" +
+            party_id +
+            "&page_num=" +
+            page_num,
+          {
+            headers: {
+              "access-token": Cookies.get("access_token")
+            }
           }
-        })
+        )
         .then((response) => {
           console.log(response.data); // 打印返回的数据
           this.applylist = response.data.applicant_list;

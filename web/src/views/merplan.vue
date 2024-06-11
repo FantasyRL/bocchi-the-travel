@@ -41,7 +41,11 @@ export default {
   },
   methods: {
     goItinerary(iid) {
-      const url = "/bocchi/party/itinerary/merge?itinerary_id=" + iid + "&party_id=" + this.id;
+      const url =
+        "http://api.xiey.work/bocchi/party/itinerary/merge?itinerary_id=" +
+        iid +
+        "&party_id=" +
+        this.id;
       axios
         .get(url, {
           headers: {
@@ -58,7 +62,7 @@ export default {
     },
     init() {
       axios
-        .get("/bocchi/party/itinerary/my?party_id=" + this.id, {
+        .get("http://api.xiey.work/bocchi/party/itinerary/my?party_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }

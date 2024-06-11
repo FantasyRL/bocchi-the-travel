@@ -67,7 +67,7 @@ export default defineComponent({
       }
 
       const url =
-        "/bocchi/party/search?content=" +
+        "http://api.xiey.work/bocchi/party/search?content=" +
         content +
         "&party_type=" +
         party_type +
@@ -81,7 +81,7 @@ export default defineComponent({
         search_type +
         "&page_num=" +
         page_num;
-      const testurl = "/bocchi/party/search?content=" + content;
+      const testurl = "http://api.xiey.work/bocchi/party/search?content=" + content;
       axios
         .post(url)
         .then((res) => {
@@ -152,7 +152,7 @@ export default defineComponent({
       </a-carousel>
     </div>
     <!--  {{ ipcity }} -->
-    <a-divider orientation="center" class="separate">附近活动</a-divider>
+    <a-divider orientation="center" class="separate">{{ this.ipcity }} 附近活动</a-divider>
 
     <div class="searchcard">
       <div v-for="item in items" :key="item">

@@ -21,7 +21,6 @@ export default {
   },
   data() {
     return {
-      url: "",
       access_token: "",
       msg: "",
       username: "",
@@ -69,8 +68,7 @@ export default {
       // 登录函数，需要根据后端接口进行调整
       axios
         .post(
-          this.url +
-            "/bocchi/user/login/?username=" +
+          "http://api.xiey.work/bocchi/user/login/?username=" +
             this.username +
             "&password=" +
             this.password +
@@ -102,8 +100,7 @@ export default {
         console.log("电子邮件格式正确");
         axios
           .post(
-            this.url +
-              "/bocchi/user/register/?username=" +
+            "http://api.xiey.work/bocchi/user/register/?username=" +
               this.username +
               "&email=" +
               this.email +
@@ -182,7 +179,7 @@ export default {
 </script>
 
 <template>
-  <div style="width: 100%; height: 32px; background-color: aliceblue"></div>
+  <div style="width: 100%; height: 32px"></div>
   <!--   <a-spin size="large" /> -->
   <!--
   <header class="header">
