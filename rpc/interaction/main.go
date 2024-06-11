@@ -16,7 +16,6 @@ import (
 	"github.com/cloudwego/kitex/server"
 	"github.com/cloudwego/netpoll"
 	elastic "github.com/elastic/go-elasticsearch/v8"
-	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
 	etcd "github.com/kitex-contrib/registry-etcd"
 	"github.com/sirupsen/logrus"
 	"net"
@@ -33,9 +32,9 @@ func Init() {
 	config.Init(constants.InteractionServiceName)
 	dal.Init()
 
-	InitEs()
+	//InitEs()
 	klog.SetLevel(klog.LevelDebug)
-	klog.SetLogger(kitexlogrus.NewLogger(kitexlogrus.WithHook(EsHookLog())))
+	//klog.SetLogger(kitexlogrus.NewLogger(kitexlogrus.WithHook(EsHookLog())))
 
 	rpc.InitUserRPC()
 }
