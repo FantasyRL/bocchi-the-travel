@@ -35,13 +35,14 @@ jobs:
       run: | 
         cd web
         npm run build
-        
+
     - name: Install Cordova
       run: npm install -g cordova
 
     - name: Build Android Dev APK
       run: |
           cd web/CordovaProject/
+          npm i
           cordova build android
 
     - name: Upload dev APK
