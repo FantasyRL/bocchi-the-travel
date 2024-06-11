@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
             java-version: 1.8    
-              
+
     - name: 缓存 VUE
       uses: actions/cache@v3
       id: cache
@@ -43,7 +43,7 @@ jobs:
     - name: 构建Cordova项目
       run: |
           cd web
-          cordova create CordovaProject work.xiey.bocchi bocchi
+          cordova create CordovaProject work.xiey.build bcbcbc
           cd CordovaProject
           cordova platform add android
           cordova plugin add cordova-plugin-webview
@@ -59,7 +59,7 @@ jobs:
 
     - name: 配置设置
       run: |
-          mv config.txt web/CordovaProject/config.xml
+          mv config.xml web/CordovaProject/config.xml
           cd web/CordovaProject/
           cordova build android
           
