@@ -41,3 +41,4 @@ kitex_update.sh
 */output
 *.vscode
 /web/CordovaProject/www/assets
+web/index.html
