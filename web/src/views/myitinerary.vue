@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     deleteItinerary(id) {
-      const url = "/bocchi/party/itinerary/delete?itinerary_id=" + id; // 假设这是删除 itinerary 的 API 接口地址
+      const url = "http://api.xiey.work/bocchi/party/itinerary/delete?itinerary_id=" + id; // 假设这是删除 itinerary 的 API 接口地址
 
       axios
         .get(url, {
@@ -59,7 +59,7 @@ export default {
     },
     init() {
       axios
-        .get("/bocchi/party/itinerary/my?party_id=" + this.id, {
+        .get("http://api.xiey.work/bocchi/party/itinerary/my?party_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }

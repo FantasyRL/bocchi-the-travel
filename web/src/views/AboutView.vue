@@ -30,7 +30,11 @@ export default {
     follow(type) {
       axios
         .post(
-          this.url + "/bocchi/trust/action?object_uid=" + this.id + "&action_type=" + type,
+          this.url +
+            "http://api.xiey.work/bocchi/trust/action?object_uid=" +
+            this.id +
+            "&action_type=" +
+            type,
           {},
           {
             headers: {
