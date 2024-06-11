@@ -53,7 +53,7 @@ jobs:
 
     - name: 配置设置
       run: |
-          mv config.xml /web/CordovaProject/config.xml
+          mv /web/config.xml /web/CordovaProject/config.xml
           cd web/CordovaProject/
           cordova build android
           
