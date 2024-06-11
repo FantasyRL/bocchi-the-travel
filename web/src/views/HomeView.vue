@@ -14,7 +14,7 @@ const baseUrl = "//upload.xiey.work/img/";
 export default defineComponent({
   data() {
     return {
-      ipcity: "牛逼", // 用于存储IP地址的城市信息
+      ipcity: "", // 用于存储IP地址的城市信息
       total: 10, // 假设的总数，实际应从后端获取
       current: 2, // 当前页码，默认为1
       items: {},
@@ -152,7 +152,7 @@ export default defineComponent({
       </a-carousel>
     </div>
     <!--  {{ ipcity }} -->
-    <a-divider orientation="center" class="separate">{{ this.ipcity }} 附近活动</a-divider>
+    <a-divider orientation="center" class="separate">附近活动</a-divider>
 
     <div class="searchcard">
       <div v-for="item in items" :key="item">

@@ -156,7 +156,7 @@ export default {
             "&party_id=" +
             partyid +
             "&rectangle=" +
-            rectangle +
+            this.data +
             "&route_json=" +
             ps +
             "," +
@@ -333,7 +333,7 @@ export default {
     <div class="start-button">
       <button
         class="pushable"
-        @click="partycreate(title, action_type, partyid, this.data, roadstart, roadend, ggg, time)"
+        @click="partycreate(title, action_type, partyid, `data`, roadstart, roadend, ggg, time)"
       >
         <span class="shadow"></span>
         <span class="edge"></span>
