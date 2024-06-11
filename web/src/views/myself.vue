@@ -33,13 +33,13 @@ export default {
     tofollowme() {
       this.$router.push(`/followme/${this.id}`);
     },
-    savesignature(text) {
+    savesignature() {
       this.isEditing = false;
       axios
         .post(
-          "/bocchi/user/signature",
+          "https://api.xiey.work/bocchi/user/signature",
           {
-            signature: text
+            signature: this.signature
           },
           {
             headers: {
@@ -307,17 +307,17 @@ export default {
         <input
           type="text"
           v-model="signature"
-          @blur="savesignature(this.signature)"
+          @blur="savesignature()"
           autofocus
           style="z-index: 6665"
         />
-        <el-button plain @click="savesignature(this.signature)">确认</el-button>
+        <el-button plain @click="savesignature()">确认</el-button>
       </div>
       <div v-else class="sign">
         <p @click="editsignature()">{{ signature }}</p>
       </div>
     </div>
-    <div class="sign-flur" v-show="isEditing" @click="savesignature(this.signature)"></div>
+    <div class="sign-flur" v-show="isEditing" @click="savesignature()"></div>
 
     <text>邮箱:{{ mail }}</text>
   </div>
