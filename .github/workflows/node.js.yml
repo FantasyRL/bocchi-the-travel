@@ -35,7 +35,20 @@ jobs:
       run: | 
         cd web
         npm run build
+        
+    - name: Install Cordova
+      run: npm install -g cordova
 
+    - name: Build Android Dev APK
+      run: |
+          cd web/CordovaProject/
+          cordova build android
+
+    - name: Upload dev APK
+      uses: actions/upload-artifact@v1
+      with:
+          name: app-dev
+          path: web/CordovaProject/platforms/android/app/build/outputs/apk/debug/app-debug.apk
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.2
       with:
