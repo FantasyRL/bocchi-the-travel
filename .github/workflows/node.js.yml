@@ -31,19 +31,31 @@ jobs:
         cd web
         npm install
 
-    - name: Deploy Blog
-      run: | 
-        cd web
-        npm run build
+
 
     - name: Install Cordova
       run: npm install -g cordova
 
-    - name: Build Android Dev APK
+    - name: 构建Cordova项目
       run: |
-          cd web/CordovaProject/
+          cd web
+          cordova create CordovaProject work.xiey.bocchi bocchi
+          cordova platform add android
           npm i
+          cordova plugin add cordova-plugin-webview
+          cordova plugin add cordova-plugin-statusbar
+
+    - name: build Blog
+      run: | 
+            cd web
+            npm run build
+
+    - name: 配置设置
+      run: |
+          mv config.xml /web/CordovaProject/config.xml
+          cd web/CordovaProject/
           cordova build android
+          
 
     - name: Upload dev APK
       uses: actions/upload-artifact@v1
