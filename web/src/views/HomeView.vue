@@ -67,7 +67,7 @@ export default defineComponent({
       }
 
       const url =
-        "http://api.xiey.work/bocchi/party/search?content=" +
+        "https://api.xiey.work/bocchi/party/search?content=" +
         content +
         "&party_type=" +
         party_type +
@@ -81,7 +81,7 @@ export default defineComponent({
         search_type +
         "&page_num=" +
         page_num;
-      const testurl = "http://api.xiey.work/bocchi/party/search?content=" + content;
+      const testurl = "https://api.xiey.work/bocchi/party/search?content=" + content;
       axios
         .post(url)
         .then((res) => {

@@ -68,7 +68,7 @@ export default {
       // 登录函数，需要根据后端接口进行调整
       axios
         .post(
-          "http://api.xiey.work/bocchi/user/login/?username=" +
+          "https://api.xiey.work/bocchi/user/login/?username=" +
             this.username +
             "&password=" +
             this.password +
@@ -100,7 +100,7 @@ export default {
         console.log("电子邮件格式正确");
         axios
           .post(
-            "http://api.xiey.work/bocchi/user/register/?username=" +
+            "https://api.xiey.work/bocchi/user/register/?username=" +
               this.username +
               "&email=" +
               this.email +

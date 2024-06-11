@@ -149,7 +149,7 @@ export default {
       console.log(newday);
       axios
         .post(
-          "http://api.xiey.work/bocchi/party/itinerary/create?title=" +
+          "https://api.xiey.work/bocchi/party/itinerary/create?title=" +
             title +
             "&action_type=" +
             action_type +

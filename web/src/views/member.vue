@@ -17,7 +17,7 @@ export default {
     applyuser(userid) {
       axios
         .get(
-          "http://api.xiey.work/bocchi/party/apply/permit?party_id=" +
+          "https://api.xiey.work/bocchi/party/apply/permit?party_id=" +
             this.id +
             "&member_id=" +
             userid,
@@ -35,7 +35,7 @@ export default {
     get_party_members(party_id, page_num) {
       axios
         .get(
-          "http://api.xiey.work/bocchi/party/members?party_id=" +
+          "https://api.xiey.work/bocchi/party/members?party_id=" +
             party_id +
             "&page_num=" +
             page_num,
@@ -54,7 +54,7 @@ export default {
     apply_list(party_id, page_num) {
       axios
         .get(
-          "http://api.xiey.work/bocchi/party/apply/list?party_id=" +
+          "https://api.xiey.work/bocchi/party/apply/list?party_id=" +
             party_id +
             "&page_num=" +
             page_num,

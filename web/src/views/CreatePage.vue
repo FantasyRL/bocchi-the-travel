@@ -39,7 +39,7 @@ export default {
       }
       axios
         .post(
-          "http://api.xiey.work/bocchi/party/create?title=" +
+          "https://api.xiey.work/bocchi/party/create?title=" +
             title +
             "&content=" +
             content +

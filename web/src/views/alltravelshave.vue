@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     ToEnd(i) {
-      axios.get("/bocchi/party/status?party_id=" + i + "&action_type=1", {
+      axios.get("https://api.xiey.work/bocchi/party/status?party_id=" + i + "&action_type=1", {
         headers: { "access-token": this.access_token }
       });
       this.$router.push(`/finish/${i}`);
@@ -23,7 +23,7 @@ export default {
     applylist(pagenum) {
       axios
         .get(
-          "http://api.xiey.work/bocchi/party/party/my?page_num=" + pagenum,
+          "https://api.xiey.work/bocchi/party/party/my?page_num=" + pagenum,
 
           {
             headers: {
