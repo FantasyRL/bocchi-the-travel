@@ -182,6 +182,7 @@ export default {
 </script>
 
 <template>
+  <div style="width: 100%; height: 32px; background-color: aliceblue"></div>
   <!--   <a-spin size="large" /> -->
   <!--
   <header class="header">
