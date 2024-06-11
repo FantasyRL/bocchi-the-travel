@@ -37,7 +37,7 @@ export default {
       this.isEditing = false;
       axios
         .post(
-          "/bocchi/user/signature",
+          "https://api.xiey.work/bocchi/user/signature",
           {
             signature: this.signature
           },
