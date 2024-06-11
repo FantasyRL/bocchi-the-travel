@@ -9,9 +9,9 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  /*  build: {
-     outDir: 'CordovaProject/www', 
-   }, */
+  build: {
+    outDir: 'CordovaProject/www',
+  },
   server: {
     proxy: {
       '/bocchi': {
