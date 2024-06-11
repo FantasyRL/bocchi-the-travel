@@ -41,6 +41,7 @@ jobs:
           go build -o ./build/build-interaction ./rpc/interaction/ || true
           go build -o ./build/build-party ./rpc/party/ || true
           go build -o ./build/build-itinerary ./rpc/itinerary/ || true
+          go build -o ./build/build-trust ./rpc/trust/ || true
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
