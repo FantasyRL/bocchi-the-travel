@@ -17,10 +17,10 @@ export default {
   data() {
     return {
       trnumber: 10,
-      access_token: "", // 假设您将令牌存储在localStorage中
+      access_token: "",
       refresh_token: "",
-      fieldNames: { label: "label", value: "label", children: "children" }, //重置默认字段
-      cityOptions: cityOptions //数据
+      fieldNames: { label: "label", value: "label", children: "children" },
+      cityOptions: cityOptions
     };
   },
   methods: {
@@ -78,15 +78,7 @@ export default {
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
   },
-  watch: {
-    //该方法会在数据变化，触发执行
-    couter(newValue, oldValue) {
-      console.log(`couter changed from ${oldValue} to ${newValue}`); // 打印变化后的值和变化前的值
-    },
-    partytime(newValue, oldValue) {
-      console.log(`couter changed from ${oldValue} to ${newValue}`);
-    }
-  }
+  watch: {}
 };
 </script>
 
@@ -98,12 +90,6 @@ export default {
       @back="() => $router.go(-1)"
     />
   </div>
-  <!--   <div class="travels-card">
-    <a-card title="已创建的活动" style="width: 90%">
-      <template #extra><router-link to="/alltravels/">查看详细</router-link></template>
-      <p>这里塞一个最新创建活动</p>
-    </a-card>
-  </div> -->
   <div class="create">
     <a-divider orientation="left" class="separate">名称</a-divider>
     <div class="input-box">
@@ -170,7 +156,7 @@ export default {
   max-width: 100vw;
 }
 .ant-cascader-menus {
-  max-width: 20px; /* 设置为固定宽度 */
+  max-width: 20px;
 }
 .travels-card {
   display: flex;

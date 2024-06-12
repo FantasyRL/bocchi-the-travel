@@ -9,7 +9,7 @@ export default {
   data() {
     return {
       trnumber: 10,
-      access_token: 0, // 假设您将令牌存储在localStorage中
+      access_token: 0,
       items: [{}]
     };
   },
@@ -51,7 +51,7 @@ export default {
     this.id = Cookies.get("id");
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
-    this.applylist(1); // 调用函数
+    this.applylist(1);
   },
   computed: {
     sortedItems() {
@@ -60,7 +60,7 @@ export default {
   }
 };
 </script>
-<!-- 我的行程页面  -->
+
 <template>
   <div class="travels">
     <a-page-header
@@ -107,9 +107,6 @@ export default {
               </router-link>
               <a-divider></a-divider>
               <div class="buttongroup">
-                <!-- <a-button style="margin-right: 5px" :icon="h(ReconciliationOutlined)"
-                  >查看申请</a-button
-                > -->
                 <a-button
                   style="margin-right: 5px"
                   :icon="h(TeamOutlined)"
