@@ -1,5 +1,4 @@
 <script setup>
-import { stringType } from "ant-design-vue/es/_util/type";
 import axios from "axios";
 import Cookies from "js-cookie";
 </script>
@@ -31,7 +30,7 @@ export default {
       axios
         .post(
           this.url +
-            "http://api.xiey.work/bocchi/trust/action?object_uid=" +
+            "https://api.xiey.work/bocchi/trust/action?object_uid=" +
             this.id +
             "&action_type=" +
             type,

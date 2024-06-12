@@ -42,7 +42,7 @@ export default {
   methods: {
     goItinerary(iid) {
       const url =
-        "http://api.xiey.work/bocchi/party/itinerary/merge?itinerary_id=" +
+        "https://api.xiey.work/bocchi/party/itinerary/merge?itinerary_id=" +
         iid +
         "&party_id=" +
         this.id;
@@ -62,7 +62,7 @@ export default {
     },
     init() {
       axios
-        .get("http://api.xiey.work/bocchi/party/itinerary/my?party_id=" + this.id, {
+        .get("https://api.xiey.work/bocchi/party/itinerary/my?party_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }
@@ -138,7 +138,7 @@ export default {
 
   <div class="itinerary">
     <div v-for="item in info" :key="item.id" class="item">
-      <el-card style="width: 90vw">
+      <el-card style="width: 90vw" v-if="item.is_merged">
         <div class="item-info">
           <div>ID:{{ item.id }}</div>
           <div>标题:{{ item.title }}</div>

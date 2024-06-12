@@ -33,20 +33,17 @@ export default {
       datago:null,
       datadata:null,
       id: 1, // 假设这是 itinerary 的 id
-      party: {
-        start_time: "2006-01-02",
-        end_time: "2006-01-03"
-      },
+      party: {},
       info: {},
       partynull: false // 假设这是 party 是否为空的标志
     };
   },
   methods: {
     gogogo(){
-      window.location.replace("//uri.amap.com/navigation?from="+this.datadata+",startpoint&to="+this.datago+",endpoint&via=&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0") 
+      window.location.replace("https://uri.amap.com/navigation?from="+this.datadata+",startpoint&to="+this.datago+",endpoint&via=&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0") 
     },
     deleteItinerary() {
-      const url = "http://api.xiey.work/bocchi/party/itinerary/delete?itinerary_id=" + this.id; // 假设这是删除 itinerary 的 API 接口地址
+      const url = "https://api.xiey.work/bocchi/party/itinerary/delete?itinerary_id=" + this.id; // 假设这是删除 itinerary 的 API 接口地址
 
       axios
         .get(url, {
@@ -62,7 +59,7 @@ export default {
         });
     },
     init() {
-      const url = "http://api.xiey.work/bocchi/party/itinerary/info?itinerary_id=" + this.id;
+      const url = "https://api.xiey.work/bocchi/party/itinerary/info?itinerary_id=" + this.id;
       const params = {};
       axios
         .get(url, params)

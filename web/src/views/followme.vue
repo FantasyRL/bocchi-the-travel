@@ -12,7 +12,7 @@ export default {
       const token = this.access_token;
       axios
         .post(
-          "http://api.xiey.work/bocchi/trust/action?object_uid=" + i + "&action_type=1",
+          "https://api.xiey.work/bocchi/trust/action?object_uid=" + i + "&action_type=1",
           {},
           {
             headers: {
@@ -32,7 +32,7 @@ export default {
     init() {
       axios
         .get(
-          "http://api.xiey.work/bocchi/trust/follower?page_num=1&user_id=" +
+          "https://api.xiey.work/bocchi/trust/follower?page_num=1&user_id=" +
             Number(this.$route.params.id)
         )
         .then((res) => {
