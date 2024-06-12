@@ -2,7 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { ref } from "vue";
-import AMapLoader from "@amap/amap-jsapi-loader";
+
 const title = ref("");
 const action_type = ref("2");
 const time = ref(``);
@@ -23,7 +23,6 @@ const options = ref([
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import locale from "ant-design-vue/es/date-picker/locale/zh_CN";
-import AMapLoader from "@amap/amap-jsapi-loader";
 dayjs.locale("zh-cn");
 export default {
   setup() {
