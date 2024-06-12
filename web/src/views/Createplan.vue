@@ -1,8 +1,7 @@
 <script setup>
 import axios from "axios";
 import Cookies from "js-cookie";
-import { ref, watch } from "vue";
-import { onMounted, onUnmounted } from "vue";
+import { ref } from "vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
 const title = ref("");
 const action_type = ref("2");
