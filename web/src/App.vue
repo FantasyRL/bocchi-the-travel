@@ -2,23 +2,13 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { RouterLink, RouterView } from "vue-router";
-import { computed } from "vue";
-import { useStore } from "vuex";
-import { Menu } from "ant-design-vue";
 import "mdui/components/icon.js";
 </script>
 
 <script>
 export default {
-  components: {
-    /* "a-menu": Menu,
-    "a-menu-item": Menu.Item */
-  },
-  setup() {
-    const store = useStore();
-    const isLoading = computed(() => store.state.isLoading);
-    return { isLoading };
-  },
+  components: {},
+  setup() {},
   data() {
     return {
       access_token: "",
@@ -39,10 +29,6 @@ export default {
     };
   },
   mounted() {
-    /*     window.addEventListener("touchstart", this.touchStart);
-
-    window.addEventListener("touchend", this.touchEnd);
- */
     this.getinfo();
 
     this.access_token = Cookies.get("access_token");
@@ -58,10 +44,7 @@ export default {
       this.getinfo(); // 更新登录状态
     }
   },
-  beforeUnmount() {
-    /*   window.removeEventListener("touchstart", this.touchStart);
-    window.removeEventListener("touchend", this.touchEnd); */
-  },
+
   methods: {
     info1() {},
     loginto() {
@@ -152,59 +135,13 @@ export default {
       this.info = 1; // 假设登录成功后，将info设置为1表示已登录状态
       this.getinfo(); // 更新登录状态
     }
-
-    /* 左右滑动 */
-    /*     touchStart(e) {
-      this.startX = e.touches[0].clientX;
-    },
-    touchEnd(e) {
-      this.endX = e.changedTouches[0].clientX;
-      this.handleSwipe();
-    },
-    handleSwipe() {
-      const diffX = this.startX - this.endX;
-      if (Math.abs(diffX) > 100) {
-        // 阈值可以根据需要调整
-        if (diffX > 0) {
-          // 向左滑动
-          this.$router.push("/explore");
-        } else {
-          // 向右滑动
-          this.$router.push("/about");
-        }
-      }
-    } */
   }
 };
 </script>
 
 <template>
   <div style="width: 100%; height: 32px"></div>
-  <!--   <a-spin size="large" /> -->
-  <!--
-  <header class="header">
-    <div class="menu-container">
-      <a-menu mode="horizontal">
-        <a-menu-item key="explore">
-          <router-link to="/explore" active-class="active-link"> 探索 </router-link>
-        </a-menu-item>
-        <a-menu-item key="home">
-          <router-link to="/" active-class="active-link"> 主页 </router-link>
-        </a-menu-item>
-        <a-menu-item key="about">
-          <router-link to="/about" active-class="active-link"> 我的 </router-link>
-        </a-menu-item>
-      </a-menu>
-    </div>
-  </header> --><router-view
-  ></router-view>
-  <!--   <router-view v-slot="{ Component }">
-    <keep-alive
-      exclude="alltravels,party,itinerary,myitinerary,merplan,ifollow,followme,finish,member,alltravelshave,createplan"
-    >
-      <component :is="Component" />
-    </keep-alive>
-  </router-view> -->
+  <router-view></router-view>
   <div class="overlay" v-show="overlay"></div>
   <div v-show="resgister" class="resgister-container">
     <div class="resgister">
@@ -269,10 +206,6 @@ export default {
     </div>
   </div>
 
-  <!--   <div class="toolbox">
-    access_token:
-    <text>{{ access_token }}</text>
-  </div> -->
   <mdui-navigation-bar value="" label-visibility="labeled">
     <mdui-navigation-bar-item
       icon="place--outlined"
