@@ -33,7 +33,7 @@ setColorScheme('#ffffff');
 const app = createApp(App)
 
 
-app.use(store)
+
 
 app.use(createPinia())
 app.use(router)
