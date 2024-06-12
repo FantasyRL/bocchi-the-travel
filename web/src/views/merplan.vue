@@ -138,7 +138,7 @@ export default {
 
   <div class="itinerary">
     <div v-for="item in info" :key="item.id" class="item">
-      <el-card style="width: 90vw">
+      <el-card style="width: 90vw" v-if="item.is_merged">
         <div class="item-info">
           <div>ID:{{ item.id }}</div>
           <div>标题:{{ item.title }}</div>
