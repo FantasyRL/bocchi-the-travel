@@ -1,9 +1,8 @@
 <script setup>
 import axios from "axios";
 import Cookies from "js-cookie";
-import { ref, watch } from "vue";
-import { onMounted, onUnmounted } from "vue";
-import AMapLoader from "@amap/amap-jsapi-loader";
+import { ref } from "vue";
+
 const title = ref("");
 const action_type = ref("2");
 const time = ref(``);
@@ -24,7 +23,6 @@ const options = ref([
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import locale from "ant-design-vue/es/date-picker/locale/zh_CN";
-import AMapLoader from "@amap/amap-jsapi-loader";
 dayjs.locale("zh-cn");
 export default {
   setup() {
@@ -51,71 +49,7 @@ export default {
     };
   },
   methods: {
-    reremap(i) {},
-    rero() {
-      this.map = new AMap.Map("roadmap", {
-        // 设置地图容器id
-        viewMode: "3D", // 是否为3D地图模式
-        zoom: 11, // 初始化地图级别
-        center: [116.397428, 39.90923] // 初始化地图中心点位置
-      });
-    },
 
-    remap() {
-      this.map = new AMap.Map("rectangletmap", {
-        // 设置地图容器id
-        viewMode: "2D", // 是否为3D地图模式
-        zoom: 6, // 初始化地图级别
-        center: [116.397428, 39.90923], // 初始化地图中心点位置
-        map: null
-      });
-    },
-    savero(roadstart, roadend) {
-      const road = [{ keyword: roadstart }, { keyword: roadend }];
-      const roadgo = [roadstart, roadend];
-      window._AMapSecurityConfig = {
-        securityJsCode: ""
-      };
-      AMapLoader.load({
-        key: "",
-        version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
-      })
-        .then((AMap) => {
-          let map = new AMap.Map("roadmap", {
-            // 设置地图容器id
-            viewMode: "2D", // 是否为3D地图模式
-            zoom: 18, // 初始化地图级别
-            center: [118.397428, 39.90923] // 初始化地图中心点位置
-          });
-          AMap.plugin(
-            ["AMap.ToolBar", "AMap.Driving", "AMap.Polyline", "AMap.Marker"],
-            function () {
-              //异步同时加载多个插件
-              var toolbar = new AMap.ToolBar();
-              map.addControl(toolbar);
-
-              var driving = new AMap.Driving({
-                map: map,
-                panel: "panel"
-              }); //驾车路线规划
-              driving.search(road, function (status, result) {
-                // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
-                if (status === "complete") {
-                  console.log(result);
-
-                  console.log(result.routes);
-                } else {
-                  console.log("获取驾车数据失败：" + result);
-                }
-              });
-            }
-          );
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
     savemap(text) {
       axios
         .get(
@@ -127,13 +61,6 @@ export default {
           console.log(res);
           this.data = res.data.geocodes[0].location.split(",");
           this.reremap(res.data.geocodes[0].location.split(","));
-          /* this.map = new AMap.Map("rectangletmap", {
-            // 设置地图容器id
-            viewMode: "2D", // 是否为3D地图模式
-            zoom: 19, // 初始化地图级别
-            center: this.data,
-            map: null
-          }); */
         })
         .catch((err) => {
           console.error(err);
@@ -192,50 +119,12 @@ export default {
     this.partyid = Number(this.$route.params.id);
     this.access_token = Cookies.get("access_token");
     this.refresh_token = Cookies.get("refresh_token");
-    /*     window._AMapSecurityConfig = {
-      securityJsCode: ""
-    };
-    AMapLoader.load({
-      key: "",
-      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-      plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
-    })
-      .then((AMap) => {
-        this.map = new AMap.Map("rectangletmap", {
-          // 设置地图容器id
-          viewMode: "2D", // 是否为3D地图模式
-          zoom: 18, // 初始化地图级别
-          center: [116.397428, 39.90923] // 初始化地图中心点位置
-        });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    AMapLoader.load({
-      key: "",
-      version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-      plugins: ["AMap.Scale"] //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
-    })
-      .then((AMap) => {
-        this.map2 = new AMap.Map("roadmap", {
-          // 设置地图容器id
-          viewMode: "2D", // 是否为3D地图模式
-          zoom: 18, // 初始化地图级别
-          center: [116.397428, 39.90923] // 初始化地图中心点位置
-        });
-      })
-      .catch((e) => {
-        console.log(e);
-      }); */
   },
   computed: {
     getlocal() {
       return (i) => {
         if (i == i) {
           const  go = `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=`+this.data
-
-          
-
           return go;
         }
       };
@@ -271,12 +160,8 @@ export default {
       />
     </div>
     <a-divider orientation="left" class="separate" v-show="!(action_type - 1)">路线</a-divider>
-   <!--  {{ roadstart }}{{ roadend }} -->
     <div v-if="!(action_type - 1)">
       <div class="">
-        <!-- {{ roadroad }} -->
-        <!-- <div id="panel"></div>
-        <div id="roadmap"><button @click="rero()">刷新地图</button></div> -->
         <div class="input-box">
           <a-input
             v-model:value="roadstart"
@@ -288,17 +173,14 @@ export default {
         <div class="input-box">
           <a-input v-model:value="roadend" :bordered="false" size="large" placeholder="结束点" />
         </div>
-        <!-- <button @click="rero()">刷新地图</button>
-        <button @click="savero(roadstart, roadend)">预览路线</button> -->
       </div>
     </div>
     <a-divider orientation="left" class="separate" v-show="action_type - 1">地点</a-divider>
     <div v-if="action_type - 1">
-      <!--  {{ data }} -->
+
       <div class="rectangle">
         <div class="nb">
           <p>省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码</p>
-          <!-- <div id="rectangletmap"><button @click="remap">刷新地图</button></div> -->
           <img :src="getlocal()"></img>
           <div class="input-box">
             <a-input
@@ -308,7 +190,6 @@ export default {
               placeholder="输入地点保存后可获取参考地图(可选)"
             />
           </div>
-          <button @click="reremap()">刷新地图</button>
           <button @click="savemap(rectangletext)">保存地点</button>
         </div>
       </div>

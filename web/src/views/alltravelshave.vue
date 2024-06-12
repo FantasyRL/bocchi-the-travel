@@ -2,7 +2,7 @@
 import { h } from "vue";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { CheckOutlined, ReconciliationOutlined, TeamOutlined } from "@ant-design/icons-vue";
+import { CheckOutlined, TeamOutlined } from "@ant-design/icons-vue";
 </script>
 <script>
 export default {

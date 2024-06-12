@@ -1,5 +1,4 @@
 <script setup>
-import { stringType } from "ant-design-vue/es/_util/type";
 import axios from "axios";
 import Cookies from "js-cookie";
 </script>

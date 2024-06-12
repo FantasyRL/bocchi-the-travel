@@ -1,8 +1,6 @@
 <script setup>
 import Cookies from "js-cookie";
 import axios from "axios";
-import { ref } from "vue";
-import { SettingOutlined, EditOutlined, EllipsisOutlined } from "@ant-design/icons-vue";
 </script>
 <script>
 export default {
