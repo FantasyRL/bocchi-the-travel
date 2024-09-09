@@ -1,0 +1,6 @@
+[submodule "front"]
+	path = front
+	url = https://github.com/huntersxy/bocchi_travel_frontend-reborn.git
+[submodule "web"]
+	path = web
+	url = https://github.com/huntersxy/bocchi_travel_frontend-reborn.git
