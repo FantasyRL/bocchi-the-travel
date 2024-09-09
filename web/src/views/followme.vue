@@ -1,8 +1,10 @@
 <script setup>
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useCounterStore } from "@/stores/api";
 </script>
 <script>
+const setapiurl = useCounterStore();
 export default {
   data() {
     return { items: [], token: null, access_token: Cookies.get("access_token") };
@@ -12,7 +14,7 @@ export default {
       const token = this.access_token;
       axios
         .post(
-          "https://api.xiey.work/bocchi/trust/action?object_uid=" + i + "&action_type=1",
+          setapiurl.apiurl + "/trust/action?object_uid=" + i + "&action_type=1",
           {},
           {
             headers: {
@@ -32,8 +34,7 @@ export default {
     init() {
       axios
         .get(
-          "https://api.xiey.work/bocchi/trust/follower?page_num=1&user_id=" +
-            Number(this.$route.params.id)
+          setapiurl.apiurl + "/trust/follower?page_num=1&user_id=" + Number(this.$route.params.id)
         )
         .then((res) => {
           console.log(res);
@@ -59,8 +60,6 @@ export default {
     <div v-for="item in items" :key="item" style="display: grid; justify-content: center">
       <a-card hoverable style="width: 300px">
         <template #actions>
-          <!-- <setting-outlined key="setting" />
-        <edit-outlined key="edit" /> -->
           <div @click="applyuser(item.id)">回关</div>
         </template>
         <a-card-meta :title="item.name" :description="item.signature" @click="toinfo(item.id)">

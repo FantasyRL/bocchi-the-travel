@@ -57,7 +57,7 @@ const router = createRouter({
     {
       path: '/about/:id',
       name: 'about-others',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/userpage.vue')
     },
     {
       path: '/itinerarys/:id',

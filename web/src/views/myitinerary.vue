@@ -1,18 +1,6 @@
 <script setup>
 import Cookies from "js-cookie";
-import { ref } from "vue";
-const open = ref(false);
-const confirmLoading = ref(false);
-const showModal = () => {
-  open.value = true;
-};
-const handleOk = () => {
-  confirmLoading.value = true;
-  setTimeout(() => {
-    open.value = false;
-    confirmLoading.value = false;
-  });
-};
+import { useCounterStore } from "@/stores/api";
 </script>
 
 <script>
@@ -26,6 +14,7 @@ import {
 } from "@ant-design/icons-vue";
 import "./itinerary.vue";
 import Cookies from "js-cookie";
+const setapiurl = useCounterStore();
 export default {
   props: {},
   data() {
@@ -41,7 +30,7 @@ export default {
   },
   methods: {
     deleteItinerary(id) {
-      const url = "https://api.xiey.work/bocchi/party/itinerary/delete?itinerary_id=" + id; // 假设这是删除 itinerary 的 API 接口地址
+      const url = setapiurl.apiurl + "/party/itinerary/delete?itinerary_id=" + id; // 假设这是删除 itinerary 的 API 接口地址
 
       axios
         .get(url, {
@@ -59,7 +48,7 @@ export default {
     },
     init() {
       axios
-        .get("https://api.xiey.work/bocchi/party/itinerary/my?party_id=" + this.id, {
+        .get(setapiurl.apiurl + "/party/itinerary/my?party_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }

@@ -1,6 +1,7 @@
 <script setup>
 import Cookies from "js-cookie";
 import { ref } from "vue";
+import { useCounterStore } from "@/stores/api";
 const open = ref(false);
 const confirmLoading = ref(false);
 const showModal = () => {
@@ -26,6 +27,7 @@ import {
 } from "@ant-design/icons-vue";
 import "./itinerary.vue";
 import Cookies from "js-cookie";
+const setapiurl = useCounterStore();
 export default {
   props: {},
   data() {
@@ -43,7 +45,7 @@ export default {
       window.location.replace("https://uri.amap.com/navigation?from="+this.datadata+",startpoint&to="+this.datago+",endpoint&via=&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0") 
     },
     deleteItinerary() {
-      const url = "https://api.xiey.work/bocchi/party/itinerary/delete?itinerary_id=" + this.id; // 假设这是删除 itinerary 的 API 接口地址
+      const url = setapiurl.apiurl+"/party/itinerary/delete?itinerary_id=" + this.id; // 假设这是删除 itinerary 的 API 接口地址
 
       axios
         .get(url, {
@@ -59,7 +61,7 @@ export default {
         });
     },
     init() {
-      const url = "https://api.xiey.work/bocchi/party/itinerary/info?itinerary_id=" + this.id;
+      const url = setapiurl.apiurl+"/party/itinerary/info?itinerary_id=" + this.id;
       const params = {};
       axios
         .get(url, params)

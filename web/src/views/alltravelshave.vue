@@ -3,8 +3,10 @@ import { h } from "vue";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { CheckOutlined, TeamOutlined } from "@ant-design/icons-vue";
+import { useCounterStore } from "@/stores/api";
 </script>
 <script>
+const setapiurl = useCounterStore();
 export default {
   data() {
     return {
@@ -15,7 +17,7 @@ export default {
   },
   methods: {
     ToEnd(i) {
-      axios.get("https://api.xiey.work/bocchi/party/status?party_id=" + i + "&action_type=1", {
+      axios.get(setapiurl.apiurl + "/party/status?party_id=" + i + "&action_type=1", {
         headers: { "access-token": this.access_token }
       });
       this.$router.push(`/finish/${i}`);
@@ -23,7 +25,7 @@ export default {
     applylist(pagenum) {
       axios
         .get(
-          "https://api.xiey.work/bocchi/party/party/my?page_num=" + pagenum,
+          setapiurl.apiurl + "/party/party/my?page_num=" + pagenum,
 
           {
             headers: {

@@ -45,19 +45,3 @@
   border-radius: 8px; /* 圆角 */
   margin-bottom: 10px; /* 图片之间的间距 */
 }
-
-/* @media (max-width: 480px) {
-  .ant-card {
-    margin-bottom: 20px;
-    margin-right: 8px;
-    margin-left: 8px; 
-    position: relative;
-    min-width: 90vw;
-  }
-  .ant-card-cover img {
-    width: auto;
-    height: 50vw; 
-    object-fit: cover; 
-  }
-}
- */

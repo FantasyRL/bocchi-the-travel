@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { ref } from "vue";
 import cityOptions from "@/city";
-
+import { useCounterStore } from "@/stores/api";
 const title = ref();
 const type = ref();
 const content = ref();
@@ -13,6 +13,7 @@ const options = ref([{ value: "放松" }, { value: "深度" }, { value: "人文"
 </script>
 
 <script>
+const setapiurl = useCounterStore();
 export default {
   data() {
     return {
@@ -39,7 +40,8 @@ export default {
       }
       axios
         .post(
-          "https://api.xiey.work/bocchi/party/create?title=" +
+          setapiurl.apiurl +
+            "/party/create?title=" +
             title +
             "&content=" +
             content +

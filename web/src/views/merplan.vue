@@ -1,6 +1,7 @@
 <script setup>
 import Cookies from "js-cookie";
 import { ref } from "vue";
+import { useCounterStore } from "@/stores/api";
 const open = ref(false);
 const confirmLoading = ref(false);
 const showModal = () => {
@@ -26,6 +27,7 @@ import {
 } from "@ant-design/icons-vue";
 import "./itinerary.vue";
 import Cookies from "js-cookie";
+const setapiurl = useCounterStore();
 export default {
   props: {},
   data() {
@@ -42,10 +44,7 @@ export default {
   methods: {
     goItinerary(iid) {
       const url =
-        "https://api.xiey.work/bocchi/party/itinerary/merge?itinerary_id=" +
-        iid +
-        "&party_id=" +
-        this.id;
+        setapiurl.apiurl + "/party/itinerary/merge?itinerary_id=" + iid + "&party_id=" + this.id;
       axios
         .get(url, {
           headers: {
@@ -62,7 +61,7 @@ export default {
     },
     init() {
       axios
-        .get("https://api.xiey.work/bocchi/party/itinerary/my?party_id=" + this.id, {
+        .get(setapiurl.apiurl + "/party/itinerary/my?party_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }

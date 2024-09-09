@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { ref } from "vue";
-
+import { useCounterStore } from "@/stores/api";
 const current = ref(1);
 </script>
 
@@ -11,6 +11,7 @@ import axios from "axios";
 
 const baseUrl = "//upload.xiey.work/img/";
 /* const baseUrl = "https://loremflickr.com/800/600"; */
+
 export default defineComponent({
   data() {
     return {
@@ -65,9 +66,10 @@ export default defineComponent({
       if (start_time_duration === "") {
         start_time_duration = "-1";
       }
-
+      const setapiurl = useCounterStore();
       const url =
-        "https://api.xiey.work/bocchi/party/search?content=" +
+        setapiurl.apiurl +
+        "/party/search?content=" +
         content +
         "&party_type=" +
         party_type +
@@ -81,7 +83,7 @@ export default defineComponent({
         search_type +
         "&page_num=" +
         page_num;
-      const testurl = "https://api.xiey.work/bocchi/party/search?content=" + content;
+      const testurl = setapiurl.apiurl + "/party/search?content=" + content;
       axios
         .post(url)
         .then((res) => {
@@ -152,7 +154,7 @@ export default defineComponent({
       </a-carousel>
     </div>
     <!--  {{ ipcity }} -->
-    <a-divider orientation="center" class="separate">附近活动</a-divider>
+    <a-divider orientation="center" class="separate">{{ this.ipcity }}-附近活动</a-divider>
 
     <div class="searchcard">
       <div v-for="item in items" :key="item">

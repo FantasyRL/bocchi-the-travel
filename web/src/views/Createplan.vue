@@ -2,7 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { ref } from "vue";
-
+import { useCounterStore } from "@/stores/api";
 const title = ref("");
 const action_type = ref("2");
 const time = ref(``);
@@ -20,10 +20,12 @@ const options = ref([
 </script>
 
 <script>
+
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import locale from "ant-design-vue/es/date-picker/locale/zh_CN";
 dayjs.locale("zh-cn");
+const setapiurl = useCounterStore();
 export default {
   setup() {
     return {
@@ -45,7 +47,7 @@ export default {
       map2: null,
       resultjson: {},
       datadata:
-        "https://restapi.amap.com/v3/staticmap?zoom=15&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=119.203480,26.058382"
+        ""
     };
   },
   methods: {
@@ -55,7 +57,7 @@ export default {
         .get(
           "https://restapi.amap.com/v3/geocode/geo?address=" +
             text +
-            "&key=4a456acf68e96cfd42e35d8915c9cee0"
+            "&key="
         )
         .then((res) => {
           console.log(res);
@@ -76,7 +78,7 @@ export default {
       console.log(newday);
       axios
         .post(
-          "https://api.xiey.work/bocchi/party/itinerary/create?title=" +
+          setapiurl.apiurl+"/party/itinerary/create?title=" +
             title +
             "&action_type=" +
             action_type +
@@ -124,7 +126,7 @@ export default {
     getlocal() {
       return (i) => {
         if (i == i) {
-          const  go = `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=eae4d0491385d75b43d247afaef4247d&location=`+this.data
+          const  go = `https://restapi.amap.com/v3/staticmap?zoom=17&size=250*250&key=&location=`+this.data
           return go;
         }
       };

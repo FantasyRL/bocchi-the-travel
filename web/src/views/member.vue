@@ -1,8 +1,10 @@
 <script setup>
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useCounterStore } from "@/stores/api";
 </script>
 <script>
+const setapiurl = useCounterStore();
 export default {
   data() {
     return {
@@ -15,10 +17,7 @@ export default {
     applyuser(userid) {
       axios
         .get(
-          "https://api.xiey.work/bocchi/party/apply/permit?party_id=" +
-            this.id +
-            "&member_id=" +
-            userid,
+          setapiurl.apiurl + "/party/apply/permit?party_id=" + this.id + "&member_id=" + userid,
           {
             headers: { "access-token": Cookies.get("access_token") }
           }
@@ -32,15 +31,9 @@ export default {
     },
     get_party_members(party_id, page_num) {
       axios
-        .get(
-          "https://api.xiey.work/bocchi/party/members?party_id=" +
-            party_id +
-            "&page_num=" +
-            page_num,
-          {
-            headers: {}
-          }
-        )
+        .get(setapiurl.apiurl + "/party/members?party_id=" + party_id + "&page_num=" + page_num, {
+          headers: {}
+        })
         .then((response) => {
           console.log(response);
           this.members = response.data.member_list;
@@ -52,10 +45,7 @@ export default {
     apply_list(party_id, page_num) {
       axios
         .get(
-          "https://api.xiey.work/bocchi/party/apply/list?party_id=" +
-            party_id +
-            "&page_num=" +
-            page_num,
+          setapiurl.apiurl + "/party/apply/list?party_id=" + party_id + "&page_num=" + page_num,
           {
             headers: {
               "access-token": Cookies.get("access_token")

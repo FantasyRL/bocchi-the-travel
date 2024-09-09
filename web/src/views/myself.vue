@@ -1,6 +1,8 @@
 <script setup>
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useCounterStore } from "@/stores/api";
+const setapiurl = useCounterStore();
 </script>
 
 <script>
@@ -37,7 +39,7 @@ export default {
       this.isEditing = false;
       axios
         .post(
-          "https://api.xiey.work/bocchi/user/signature",
+          setapiurl.apiurl + "/user/signature",
           {
             signature: this.signature
           },
@@ -96,7 +98,7 @@ export default {
       console.log(seconds);
       axios
         .put(
-          "https://api.xiey.work/bocchi/user/avatar/upload",
+          setapiurl.apiurl + "/user/avatar/upload",
           {
             avatar_file: previewImage
           },
@@ -123,8 +125,9 @@ export default {
       this.setcount++; // 假设返回的数据中有一个名为name的字段，表示用户名。
     },
     refreshtoken() {
+      const setapiurl = useCounterStore();
       axios
-        .get("https://api.xiey.work/bocchi/access_token/get", {
+        .get(setapiurl.apiurl + "/access_token/get", {
           headers: {
             "refresh-token": this.refresh_token,
             Accept: "*/*"
@@ -151,8 +154,10 @@ export default {
       window.location.href = "/";
     },
     init() {
+      const setapiurl = useCounterStore();
+      setapiurl.increment;
       axios
-        .get("https://api.xiey.work/bocchi/user/info?user_id=" + this.id, {
+        .get(setapiurl.apiurl + "/user/info?user_id=" + this.id, {
           headers: {
             "access-token": this.access_token
           }
@@ -467,7 +472,7 @@ export default {
 .settings {
   position: fixed;
   right: 25px;
-  top: 100px;
+  top: 55px;
 }
 
 .button {
